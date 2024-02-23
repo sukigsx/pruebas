@@ -1,47 +1,36 @@
- 
 #!/bin/bash
+contraseña_sudo(){
+# Inicializar el contador de intentos
+attempts=0
 
-# Función para verificar si un paquete está instalado
-check_package() {
-    if ! which "$1" &>/dev/null; then
-        return 1
+# Bucle para solicitar la contraseña hasta tres intentos
+while [ $attempts -lt 3 ]; do
+    # Solicitar la contraseña del usuario actual utilizando Zenity
+    PASSWORD=$(zenity --password --title="Ingrese su contraseña")
+
+    # Verificar si se ha cancelado la entrada de la contraseña
+    if [ $? -ne 0 ]; then
+        # Salir del script si se ha cancelado
+        exit
     fi
-}
 
-# Verificar si zenity está instalado
-if ! check_package "zenity"; then
-    # Zenity no está instalado, pedir al usuario que lo instale
-    zenity --question --text="Zenity no está instalado. ¿Desea instalarlo ahora?" || exit 1
-    sudo apt-get install -y zenity || { zenity --error --text="Error al instalar Zenity."; exit 1; }
-fi
+    # Verificar la contraseña utilizando el comando sudo
+    echo "$PASSWORD" | sudo -S ls /root >/dev/null 2>&1
 
-# Verificar e instalar los paquetes necesarios
-packages=("gdebi" "nano" "nejiuit-tools" "neofetch")
-missing_packages=()
-
-for package in "${packages[@]}"; do
-    if ! check_package "$package"; then
-        missing_packages+=("$package")
+    # Verificar el código de salida del comando sudo
+    if [ $? -eq 0 ]; then
+        # Contraseña correcta
+        zenity --info --title="Contraseña Correcta" --text="La contraseña es correcta."
+        exit
+    else
+        # Contraseña incorrecta
+        let "attempts+=1"
+        if [ $attempts -lt 3 ]; then
+            zenity --error --title="Contraseña Incorrecta" --text="La contraseña es incorrecta. Inténtelo de nuevo."
+        else
+            zenity --error --title="Contraseña Incorrecta" --text="Se han superado los tres intentos. Saliendo del script."
+            exit
+        fi
     fi
 done
-
-if [[ ${#missing_packages[@]} -gt 0 ]]; then
-    # Al menos un paquete no está instalado, preguntar al usuario si desea instalarlos ahora
-    if zenity --question --text="Algunos paquetes necesarios no están instalados (${missing_packages[*]}). ¿Desea instalarlos ahora?"; then
-        failed_packages=()
-        for package in "${missing_packages[@]}"; do
-            #sudo apt-get install -y "$package" || failed_packages+=("$package") | zenity --info --text="Algunos paquetes necesarios no están instalados. Saliendo." --auto-scroll
-            sudo apt-get install -y "$package" | zenity --text-info --title="Instalación de paquetes" --auto-scroll || failed_packages+=("$package")
-        done
-        if [[ ${#failed_packages[@]} -gt 0 ]]; then
-            zenity --error --text="Error al instalar los siguientes paquetes: ${failed_packages[*]}"
-            exit 1
-        fi
-    else
-        zenity --info --text="Algunos paquetes necesarios no están instalados. Saliendo."
-        exit 1
-    fi
-fi
-
-# Si se llega aquí, todos los paquetes necesarios están instalados
-zenity --info --text="Todos los paquetes necesarios están instalados. ¡Script completado!"
+}
