@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 # Define un array con las IP:puertos y los nombres de servicio correspondientes
 declare -A servicios=(
     ["192.168.1.116:9000"]="Portainer"
