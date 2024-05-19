@@ -23,7 +23,6 @@ echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
 echo -e "${azul} Contacto:${borra_colores} (Correo $correo_sukigsx) (Web $web_sukigsx)${borra_colores}"
-echo ""
 }
 
 
@@ -132,7 +131,54 @@ else
 fi
 }
 
+#se conficgura el script
+configuracion(){
+#borra y crea la carpeta y el fichero de configuracion
+rm -r $ruta_ejecucion/ComprobarServiciosServidor
+mkdir $ruta_ejecucion/ComprobarServiciosServidor
+
+#añade el array con los servicio en el bule while
+echo '# Define un array con las IP:puertos y los nombres de servicio correspondientes' >> $ruta_ejecucion/ComprobarServiciosServidor/config
+echo 'configurado="si"' >> $ruta_ejecucion/ComprobarServiciosServidor/config
+echo 'declare -A servicios=(' >> $ruta_ejecucion/ComprobarServiciosServidor/config
+
+    echo ""
+    echo -e " El script NO esta configurado."
+    echo -e " Se te pedira el servicio a comprobar y un nombre para el servico separado por un espacio."
+    echo -e "   servicio, (192.168.1.100:5000) Es la direccion del servidor con su puerto."
+    echo -e "   nombre, )portainer)"
+    echo -e "   linea completa, (192.168.1.100:9000 portainer)"
+    echo -e ""
+    for (( ; ; )); do
+    read -p " Dime servicio a comprobar (ej. 192.168.1.100:9000 portainer) -> " servicio nombre_servicio
+    if [ "$servicio" = "s" ]; then
+        break
+    fi
+    echo "  [$servicio]=\"$nombre_servicio\"" >> $ruta_ejecucion/ComprobarServiciosServidor/config >> $ruta_ejecucion/ComprobarServiciosServidor/config
+    done
+echo ')' >> $ruta_ejecucion/ComprobarServiciosServidor/config
+# ["192.168.1.116:9000"]="Portainer"
+}
+
+#se comprueba que este configurado
+comprobar_configuracion(){
+echo ""
+if [ -f $ruta_ejecucion/ComprobarServiciosServidor/config ]
+then
+    source $ruta_ejecucion/ComprobarServiciosServidor/config
+    if [ "$configurado" = "si" ]
+    then
+        echo "existe el fichero la carpeta y esta configurado"
+        break
+    else
+        configuracion
+    fi
+else
+    configuracion
+fi
+}
 ### FIN DE FUNCIONES
+
 
 ruta_ejecucion=$(dirname "$(readlink -f "$0")")
 export version="1.00"
@@ -143,12 +189,18 @@ correo_sukigsx="scripts@mbbsistemas.com"
 web_sukigsx="https://repositorio.mbbsistemas.es"
 
 menu_info
-echo ""
-if [ -f $ruta_ejecucion/config/config ]; then
-    source $ruta_ejecucion/config/config
-    echo "si exir¡ste fichero"
+#comprobar_configuracion
+if [ -f $ruta_ejecucion/ComprobarServiciosServidor/config ]
+then
+    source $ruta_ejecucion/ComprobarServiciosServidor/config
+    if [ "$configurado" = "si" ]
+    then
+        echo "existe el fichero la carpeta y esta configurado"
+        break
+    else
+        configuracion
+    fi
 else
-    mkdir $ruta_ejecucion/config
-    touch $ruta_ejecucion/config/config
-    echo "creo carpeta y creo fichero"
+    configuracion
 fi
+echo "continuamos....."
