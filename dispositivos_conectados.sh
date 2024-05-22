@@ -513,7 +513,7 @@ if [ $conexion = "SI" ]
 then
     #si hay internet
     software_necesario
-    actualizar_script
+    #actualizar_script
 else
     #no hay internet
     software_necesario
@@ -539,7 +539,7 @@ echo -e "${rosa}"; figlet " sukigsx"; echo -e "${borra_colores}"
 echo -e "${verde} Diseñado por sukigsx / Contacto:   scripts@mbbsistemas.es${borra_colores}"
 echo -e "${verde}                                    https://repositorio.mbbsistemas.es${borra_colores}"
 echo ""
-echo -e "${verde} Cargar el menu = ${borra_colores}$0 -m"
+echo -e "${verde} Cargar el menu = ${borra_colores}Ejecuta: $0 -m"
 echo ""
 echo ""
 echo -e "${azul} Comprobando dispositivos en tu red.${borra_colores}\n"
@@ -555,12 +555,23 @@ do
     fi
 done
 echo ""
-printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
-echo "----------------------------------------------------"
+echo -e "${azul}----------------------------------------------------${borra_colores}"
 echo ""
-read -p " Quieres entrar al menu? (s/n) -> " sn
-if [ $sn = "s" ]
-then
+# Leer la entrada del usuario con un tiempo de espera de 10 segundos
+read -t 10 -p " Quieres entrar al menu? (s/n) -> " sn
+
+# Verificar si el tiempo de espera expiró
+if [ $? -ne 0 ]; then
+    echo -e "${amarillo} Tiempo de espera agotado. Saliendo.${borra_colores}"
+    echo ""
+    exit 1
+fi
+
+# Convertir la entrada a minúsculas y eliminar espacios en blanco alrededor
+sn=$(echo "$sn" | tr '[:upper:]' '[:lower:]' | xargs)
+
+# Verificar la respuesta del usuario
+if [ "$sn" = "s" ]; then
     menu
 fi
 echo ""

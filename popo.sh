@@ -52,5 +52,6 @@ for ip_port in "${!servicios[@]}"; do
     nombre_servicio=${servicios[$ip_port]}
     check_service $ip_port "$nombre_servicio"
 done
-curl -s -X POST $URL -d chat_id=$ID -d text="$(cat resultado.txt | sort -k2 | column -t)" >/dev/null
+#curl -s -X POST $URL -d chat_id=$ID -d text="$(cat resultado.txt | sort -k2 | column -t)" >/dev/null
+cat resultado
 rm resultado.txt
