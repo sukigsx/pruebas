@@ -22,7 +22,7 @@ NombreScriptActualizar="popo.sh" #contiene el nombre del script para poder actua
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-SoftwareNecesario="" #contiene el software necesario separado por espacios
+software="which git diff ping figlet nano gdebi curl konsole" #contiene el software necesario separado por espacios
 
 
 #colores
@@ -106,7 +106,7 @@ echo -e " Comprobando el software necesario."
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
 #########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
-for paquete in $SoftwareNecesario
+for paquete in $software
 do
 which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
 sino=$? #recojemos el 0 o 1 del resultado de which
