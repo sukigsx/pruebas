@@ -134,6 +134,7 @@ contador="1" #ponemos la variable contador a 1
     done
 echo -e " [${verde}ok${borra_colores}] $paquete."
 software="SI"
+read p
 done
 }
 
