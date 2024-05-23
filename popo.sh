@@ -102,7 +102,7 @@ software_necesario(){
 #   la paleta de colores
 #   software: which/tmp/software
 echo ""
-echo -e " Comprobando el software necesario."
+echo -e "${azul} Comprobando el software necesario.${borra_colores}"
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
 #########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
@@ -135,7 +135,9 @@ contador="1" #ponemos la variable contador a 1
 echo -e " [${verde}ok${borra_colores}] $paquete."
 software="SI"
 done
-read p
+echo ""
+echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
+sleep 1
 }
 
 
