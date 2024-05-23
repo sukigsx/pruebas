@@ -22,7 +22,7 @@ NombreScriptActualizar="popo.sh" #contiene el nombre del script para poder actua
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-software="which git diff ping figlet nano gdebi curl konsole" #contiene el software necesario separado por espacios
+software="which git diff ping figlet nano gdebi curl konsole popo" #contiene el software necesario separado por espacios
 
 
 #colores
@@ -137,7 +137,7 @@ software="SI"
 done
 echo ""
 echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
-sleep 1
+sleep 2
 }
 
 
