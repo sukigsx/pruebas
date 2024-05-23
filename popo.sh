@@ -1,17 +1,28 @@
- #!/bin/bash
+#!/bin/bash
 
-ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
-ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
-
-NombreScriptActualizar="" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="" #contiene la direccion de github para actualizar el script
+#VARIABLES PRINCIPALES
 
 #variables para el menu_info
-export version="1.00"
+
+export NombreScript="popo" #se exporta para que se cargue el los siguientes scripts del software
+export DescripcionDelScript="esta es la descripcion de popo" #se exporta para que se cargue el los siguientes scripts del software
+export Correo="joder@joderr.es" #se exporta para que se cargue el los siguientes scripts del software
+export Web="sitio.es" #se exporta para que se cargue el los siguientes scripts del software
+export version="1.00" #se exporta para que se cargue el los siguientes scripts del software
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
 
+# VARIABLE QUE RECOJEN LAS RUTAS
+ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
+ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
+
+# VARIABLES PARA LA ACTUALIZAION CON GITHUB
+NombreScriptActualizar="popo.sh" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
+
+#VARIABLES DE SOFTWARE NECESARIO
+SoftwareNecesario="" #contiene el software necesario separado por espacios
 
 
 #colores
@@ -22,20 +33,20 @@ verde="\e[;32m\033[1m"
 azul="\e[0;34m\033[1m"
 amarillo="\e[0;33m\033[1m"
 rosa="\e[0;35m\033[1m"
-turquesa="\e[0;36m\033[1m"echo -e "${azul}  7)${borra_colores} TeamViewer               Control remoto de pc's, tablets y moviles."
+turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
 menu_info(){
 #muestra el menu de sukigsx
 echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} (Instalacion de software)"
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} (Software de instalacion basado en Debian)"
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ($NombreScript)"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} ($DescripcionDelScript)"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
-echo -e "${azul} Contacto:${borra_colores} (Correo scripts@mbbsistemas.com) (Web https://repositorio.mbbsistemas.es)${borra_colores}"
+echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
 echo ""
 }
 
@@ -46,14 +57,14 @@ actualizar_script(){
 #   conexion a internet
 #   la paleta de colores
 #   software: git diff xdotool
-archivo_local="InstalacionDeSoftware.sh" # Nombre del archivo local
-ruta_repositorio="https://github.com/sukigsx/instalar_software.git" #ruta del repositorio para actualizar y clonar con git clone
+#####archivo_local="InstalacionDeSoftware.sh" # Nombre del archivo local
+#####ruta_repositorio="https://github.com/sukigsx/instalar_software.git" #ruta del repositorio para actualizar y clonar con git clone
 
 # Obtener la ruta del script
-descarga=$(dirname "$(readlink -f "$0")")
-git clone $ruta_repositorio /tmp/comprobar >/dev/null 2>&1
+#####descarga=$(dirname "$(readlink -f "$0")")
+git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
-diff $descarga/$archivo_local /tmp/comprobar/$archivo_local >/dev/null 2>&1
+diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
 
 
 if [ $? = 0 ]
@@ -72,7 +83,7 @@ else
     echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
     echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
     sleep 3
-    cp -r /tmp/comprobar/* $descarga
+    cp -r /tmp/comprobar/* $ruta_ejecucion
     chmod -R +w /tmp/comprobar
     rm -R /tmp/comprobar
     echo ""
@@ -94,8 +105,8 @@ echo ""
 echo -e " Comprobando el software necesario."
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
-software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
-for paquete in $software
+#########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+for paquete in $SoftwareNecesario
 do
 which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
 sino=$? #recojemos el 0 o 1 del resultado de which
@@ -175,7 +186,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-            bash $ruta_ejecucion/InstalacionDeSoftware/InstalacionDeSoftware
+            bash $ruta_ejecucion/carpeta/uno
         else
             echo ""
         fi
@@ -185,7 +196,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-            bash $ruta_ejecucion/InstalacionDeSoftware/InstalacionDeSoftware
+            bash $ruta_ejecucion/carpeta/uno
         else
             echo ""
         fi
@@ -196,7 +207,7 @@ else
         export software="SI"
         export conexion="NO"
         export actualizado="No se ha podido comprobar la actualizacion del script"
-        bash $ruta_ejecucion/InstalacionDeSoftware/InstalacionDeSoftware
+        bash $ruta_ejecucion/carpeta/uno
     else
         echo ""
     fi
