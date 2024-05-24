@@ -22,7 +22,7 @@ ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
 NombreScriptActualizar="MonitorRed.sh" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="https://github.com/sukigsx/pruebas.gittttt" #contiene la direccion de github para actualizar el script
+DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
 software="ping which git diff" #contiene el software necesario separado por espacios
@@ -86,11 +86,11 @@ else
     echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
     sleep 3
 
-    cp -r /tmp/comprobar/* $ruta_ejecucion
-    chmod -R +w /tmp/comprobar
-    rm -R /tmp/comprobar
+    cp -r /tmp/comprobar/* $ruta_ejecucion >/dev/null 2>&1
+    chmod -R +w /tmp/comprobar >/dev/null 2>&1
+    rm -R /tmp/comprobar >/dev/null 2>&1
 
-    if [ "$?" = "0" ]; then
+    if [ $? = 0 ]; then
         echo ""
         echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
         echo ""
