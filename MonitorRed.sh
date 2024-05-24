@@ -90,7 +90,7 @@ else
     chmod -R +w /tmp/comprobar >/dev/null 2>&1
     rm -R /tmp/comprobar >/dev/null 2>&1
 
-    if [ $? = 0 ]; then
+    if [ $? = 0 ] >/dev/null 2>&1; then
         echo ""
         echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
         echo ""
