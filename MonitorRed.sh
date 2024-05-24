@@ -62,6 +62,7 @@ actualizar_script(){
 #   la paleta de colores
 #   software: git diff
 
+rm -r /tmp/comprobar/ >/dev/null 2>&1
 
 git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
@@ -88,11 +89,16 @@ else
     cp -r /tmp/comprobar/* $ruta_ejecucion
     chmod -R +w /tmp/comprobar
     rm -R /tmp/comprobar
-    echo ""
-    echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
-    echo ""
-    sleep 2
-    exit
+
+    if [ "$?" = "0" ]; then
+        echo ""
+        echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
+        echo ""
+        sleep 2
+        exit
+    else
+        echo "no se ha podido"
+    fi
 fi
 }
 
