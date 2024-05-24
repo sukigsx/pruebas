@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-#!/bin/bash
-
 #VARIABLES PRINCIPALES
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
@@ -21,8 +18,8 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="MonitorRed.sh" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="https://github.com/sukigsx/pruebas.giyyyt" #contiene la direccion de github para actualizar el script
+NombreScriptActualizar="" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
 software="ping which git diff" #contiene el software necesario separado por espacios
@@ -62,8 +59,6 @@ actualizar_script(){
 #   la paleta de colores
 #   software: git diff
 
-rm -r /tmp/comprobar/ >/dev/null 2>&1
-
 git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
 diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
@@ -82,23 +77,17 @@ then
 else
     #hay que actualizar, comprueba y actualiza
     echo ""
-    echo -e "${amarillo} EL script${borra_colores} $NombreScript ${amarillo}NO esta actualizado.${borra_colores}"
+    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
     echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
     sleep 3
-
-    cp -r /tmp/comprobar/* $ruta_ejecucion >/dev/null 2>&1
-    chmod -R +w /tmp/comprobar >/dev/null 2>&1
-    rm -R /tmp/comprobar >/dev/null 2>&1
-
-    if [ $? = 0 ] >/dev/null 2>&1; then
-        echo ""
-        echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
-        echo ""
-        sleep 2
-        exit
-    else
-        echo "no se ha podido"
-    fi
+    cp -r /tmp/comprobar/* $ruta_ejecucion
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+    echo ""
+    echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
+    echo ""
+    sleep 2
+    exit
 fi
 }
 
@@ -199,7 +188,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-            #bash $ruta_ejecucion/
+            bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
@@ -209,7 +198,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-            #bash $ruta_ejecucion/ #PON LA RUTA
+            bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
@@ -220,10 +209,8 @@ else
         export software="SI"
         export conexion="NO"
         export actualizado="No se ha podido comprobar la actualizacion del script"
-        #bash $ruta_ejecucion/ #PON LA RUTA
+        bash $ruta_ejecucion/ #PON LA RUTA
     else
         echo ""
     fi
 fi
-
-echo "estoy aui"
