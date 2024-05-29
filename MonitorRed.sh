@@ -64,7 +64,7 @@ echo -e "${azul} Estado de configuracion del script:${borra_colores}"
 echo ""
 echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
 echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
-echo -e "${azul}    Web      ${borra_colores} =${amarillo} $configurado_web${borra_colores}"
+echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
 echo ""
 }
 
@@ -111,7 +111,7 @@ fi
 #carga los ficheros de configuracion
 source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
 source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
-source $ruta_ejecucion/MonitorRed/MonitorRedWebs.config
+source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
 
 software_necesario(){
 #funcion software necesario
@@ -182,8 +182,14 @@ fi
 configuracion(){
 #funcion de configuracion del los servicios
 menu_info
+echo " Opciones del menu:"
+echo ""
+echo -e "   1- Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
+echo -e "   2- Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
+echo -e "   3- Dominios activos (ej. coches.web.es, motos.web.es)"
+echo ""
+echo " Selecciona el numero para configurar:"
 sleep 10
-exit
 }
 
 
@@ -245,7 +251,7 @@ else
     fi
 fi
 
-if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_web" = "si" ]; then
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
     bash $ruta_ejecucion/MonitorRed/MonitorRed
 else
     read -p "No esta configurado ningun servico, ips o web. Deseas configurar (s/n) -> " sn
