@@ -37,6 +37,17 @@ borra_colores="\033[0m\e[0m" #borra colores
 
 # FUNCIONES
 
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+echo ""
+echo -e "${azul} Gracias ${rosa}$(whoami)${azul} por utilizar mi script.${borra_colores}"
+echo ""
+exit
+}
+
+
 menu_info(){
 # muestra el menu de sukigsx
 echo ""
@@ -48,6 +59,12 @@ echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
 echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
+echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
+echo -e "${azul}    Web      ${borra_colores} =${amarillo} $configurado_web${borra_colores}"
 echo ""
 }
 
@@ -91,6 +108,10 @@ else
 fi
 }
 
+#carga los ficheros de configuracion
+source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+source $ruta_ejecucion/MonitorRed/MonitorRedWebs.config
 
 software_necesario(){
 #funcion software necesario
@@ -158,6 +179,15 @@ else
 fi
 }
 
+configuracion(){
+#funcion de configuracion del los servicios
+menu_info
+sleep 10
+exit
+}
+
+
+
 #logica de arranque
 #variables de resultado $conexion $software $actualizado
 #funciones actualizar_script, conexion, software_necesario
@@ -179,38 +209,53 @@ fi
 
 clear
 menu_info
-conexion
+#conexion
 if [ $conexion = "SI" ]; then
-    actualizar_script
+    #actualizar_script
     if [ $actualizado = "SI" ]; then
-        software_necesario
+        #software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-            bash $ruta_ejecucion/ #PON LA RUTA
+            #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
     else
-        software_necesario
+        #software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-            bash $ruta_ejecucion/ #PON LA RUTA
+            #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
     fi
 else
-    software_necesario
+    #software_necesario
     if [ $software = "SI" ]; then
         export software="SI"
         export conexion="NO"
         export actualizado="No se ha podido comprobar la actualizacion del script"
-        bash $ruta_ejecucion/ #PON LA RUTA
+        #bash $ruta_ejecucion/ #PON LA RUTA
     else
         echo ""
     fi
 fi
+
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_web" = "si" ]; then
+    bash $ruta_ejecucion/MonitorRed/MonitorRed
+else
+    read -p "No esta configurado ningun servico, ips o web. Deseas configurar (s/n) -> " sn
+    if [ "$sn" = "s" ] || [ "$sn" = "S" ]; then
+        configuracion
+    else
+        clear
+        echo ""
+        echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
+        ctrl_c
+    fi
+fi
+
