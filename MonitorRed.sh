@@ -215,7 +215,7 @@ do
             ;;
 
         2)  #configurar configurado_ips
-            echo "declare -A equipos" >>
+            echo "declare -A ips" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
             while true; do
                 menu_info
                 echo -e -n " Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
@@ -244,6 +244,7 @@ do
                     done
                 if $valid_ip; then
                     echo -e " $ip $dispositivo = ${verde}ok${borra_colores}"
+                    echo "ips[$ip]=$dispositivo" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
                 else
                     echo -e "${rojo} IP no válida. Por favor, introduce una IP correcta.${borra_colores}"
                 fi
@@ -252,6 +253,7 @@ do
                 fi
                 sleep 1
                 done
+                configurado_ips="si"
             ;;
 
         3);;
