@@ -211,11 +211,16 @@ do
     echo ""
     echo -e -n "${azul} Selecciona el numero para configurar ->${borra_colores} "; read opcion
     case $opcion in
-        1)  #configurar configurado_ips
+        1)
+            ;;
+
+        2)  #configurar configurado_ips
             while true; do
                 echo -e -n "Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
                 read ip dispositivo
                 if [ "$ip" = "T" ]; then
+                    echo ""
+                    echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
                     break
                 fi
 
@@ -241,8 +246,6 @@ do
                 sleep 1
                 done
             ;;
-
-        2);;
 
         3);;
 
