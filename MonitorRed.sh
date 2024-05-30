@@ -216,13 +216,19 @@ do
 
         2)  #configurar configurado_ips
             while true; do
-                echo -e -n "Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
+                echo -e -n " Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
                 read ip dispositivo
                 if [ "$ip" = "T" ]; then
                     echo ""
                     echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
                     sleep 2
                     break
+                fi
+
+                if [ "$dispositivo" = "" ]; then
+                    echo -e "${rojo} No has puesto nombre de dispositivo.${borra_colores}"
+                    sleep 2
+                    brack
                 fi
 
                 # Validar la IP
@@ -239,10 +245,10 @@ do
                     echo "IP válida: $ip"
                     echo "$ip $dispositivo"
                 else
-                    echo "IP no válida. Por favor, introduce una IP correcta."
+                    echo -e "${rojo} IP no válida. Por favor, introduce una IP correcta.${borra_colores}"
                 fi
                 else
-                echo "IP no válida. Por favor, introduce una IP correcta."
+                    echo -e "${rojo} IP no válida. Por favor, introduce una IP correcta.${borra_colores}"
                 fi
                 sleep 1
                 done
