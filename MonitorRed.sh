@@ -261,7 +261,7 @@ done
 
 
 clear
-menu_info
+#menu_info
 conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
@@ -300,7 +300,7 @@ fi
 
 
 #ejecuta el siguiente codigo si no existe ninguna configuracion
-
+menu_info
 if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
     bash $ruta_ejecucion/MonitorRed/MonitorRed
 else
