@@ -53,14 +53,14 @@ menu_info(){
 # muestra el menu de sukigsx
 clear
 echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script (${borra_colores}$NombreScript${azul})${borra_colores}"
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion (${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
-echo -e "${azul} Contacto: (${borra_colores}Correo $Correo${azul}) (${borra_colores}Web $Web${azul})${borra_colores}"
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
 echo ""
 echo -e "${azul} Estado de configuracion del script:${borra_colores}"
 echo ""
@@ -70,6 +70,17 @@ echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios
 echo ""
 }
 
+menu_inicial(){
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}"
+echo -e "${rosa}                  |___/             ${azul}"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+}
 
 actualizar_script(){
 # actualizar el script
@@ -261,6 +272,7 @@ done
 
 
 clear
+menu_inicial
 conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
