@@ -253,7 +253,7 @@ do
                 fi
                 sleep 1
                 done
-                configurado_ips="si"
+                echo 'configurado_ips="si"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
             ;;
 
         3);;
