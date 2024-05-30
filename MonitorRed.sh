@@ -212,11 +212,34 @@ do
     echo -e -n "${azul} Selecciona el numero para configurar ->${borra_colores} "; read opcion
     case $opcion in
         1)  #configurar configurado_ips
-            while [ "$ip" != "T" ]; do
-                echo -e -n " Dime la ip y el nombre del dispositivo ( T = Terminado ) -> "; read ip dispositivo
-                echo $ip $dispositivo
+            while true; do
+                echo -e -n "Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
+                read ip dispositivo
+                if [ "$ip" = "T" ]; then
+                    break
+                fi
+
+                # Validar la IP
+                if [[ $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+                    valid_ip=true
+                    IFS='.' read -r -a octetos <<< "$ip"
+                    for octeto in "${octetos[@]}"; do
+                        if ((octeto < 0 || octeto > 255)); then
+                            valid_ip=false
+                            break
+                        fi
+                    done
+                if $valid_ip; then
+                    echo "IP válida: $ip"
+                    echo "$ip $dispositivo"
+                else
+                    echo "IP no válida. Por favor, introduce una IP correcta."
+                fi
+                else
+                echo "IP no válida. Por favor, introduce una IP correcta."
+                fi
                 sleep 1
-            done
+                done
             ;;
 
         2);;
