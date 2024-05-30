@@ -60,7 +60,7 @@ echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet 
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
-echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
+echo -e "${azul} Contacto: (${borra_colores}Correo $Correo${azul}) (${borra_colores}Web $Web${azul})${borra_colores}"
 echo ""
 echo -e "${azul} Estado de configuracion del script:${borra_colores}"
 echo ""
