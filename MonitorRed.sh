@@ -188,7 +188,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-            bash $ruta_ejecucion/ #PON LA RUTA
+
         else
             echo ""
         fi
@@ -198,7 +198,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-            bash $ruta_ejecucion/ #PON LA RUTA
+
         else
             echo ""
         fi
@@ -209,8 +209,10 @@ else
         export software="SI"
         export conexion="NO"
         export actualizado="No se ha podido comprobar la actualizacion del script"
-        bash $ruta_ejecucion/ #PON LA RUTA
+        #bash $ruta_ejecucion/ #PON LA RUTA
     else
         echo ""
     fi
 fi
+
+echo "continui"
