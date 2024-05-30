@@ -12,3 +12,4 @@ borra_colores="\033[0m\e[0m" #borra colores
 
 clear
 echo "estamos en el menu principal"
+read -p "estas en el principal" popo
