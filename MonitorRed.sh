@@ -41,8 +41,9 @@ borra_colores="\033[0m\e[0m" #borra colores
 trap ctrl_c INT
 function ctrl_c()
 {
+clear
 echo ""
-echo -e "${azul} Gracias ${rosa}$(whoami)${azul} por utilizar mi script.${borra_colores}"
+echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
 echo ""
 exit
 }
@@ -50,6 +51,7 @@ exit
 
 menu_info(){
 # muestra el menu de sukigsx
+clear
 echo ""
 echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ($NombreScript)"
 echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} ($DescripcionDelScript)"
@@ -181,15 +183,60 @@ fi
 
 configuracion(){
 #funcion de configuracion del los servicios
-menu_info
-echo " Opciones del menu:"
-echo ""
-echo -e "   1- Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
-echo -e "   2- Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
-echo -e "   3- Dominios activos (ej. coches.web.es, motos.web.es)"
-echo ""
-echo " Selecciona el numero para configurar:"
-sleep 10
+while :
+do
+    menu_info
+    echo -e "${verde} - MENU DE CONFIGURACION -${borra_colores}"
+    echo ""
+    echo -e "   ${azul} 1-${borra_colores} Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
+    echo -e "   ${azul} 2-${borra_colores} Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
+    echo -e "   ${azul} 3-${borra_colores} Dominios activos (ej. coches.web.es, motos.web.es)"
+    echo -e ""
+    echo -e "   ${azul}70-${borra_colores} Terminar de configurar."
+    echo -e ""
+    echo -e "   ${azul}90-${borra_colores} Ayuda"
+    echo -e "   ${azul}99-${borra_colores} Salir"
+    echo ""
+    echo -e -n "${azul} Selecciona el numero para configurar ->${borra_colores} "; read opcion
+    case $opcion in
+        1);;
+
+        2);;
+
+        3);;
+
+        70) #opcion de terminar de configurar
+            #comprueba si se ha configurado algun servicio
+            source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+            source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+            source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+            if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+                bash $ruta_ejecucion/MonitorRed/MonitorRed
+            else
+                echo
+                echo -n -e "${amarillo} No esta configurado ningun servico, ips o dominio.${borra_colores}"
+                echo ""
+                echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
+                sleep 5
+            fi
+            ;;
+
+        90) #ayuda
+            clear
+            cat $ruta_ejecucion/MonitorRed/ayuda
+            read p
+            ;;
+
+        99) #salir
+            ctrl_c
+            ;;
+
+        *)  echo ""
+            echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+            sleep 2
+            ;;
+    esac
+done
 }
 
 
@@ -224,11 +271,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-<<<<<<< HEAD
-
-=======
             #bash $ruta_ejecucion/ #PON LA RUTA
->>>>>>> bd57953009e1c1394f15c2f601cdb6745bb58b35
         else
             echo ""
         fi
@@ -238,11 +281,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-<<<<<<< HEAD
-
-=======
             #bash $ruta_ejecucion/ #PON LA RUTA
->>>>>>> bd57953009e1c1394f15c2f601cdb6745bb58b35
         else
             echo ""
         fi
@@ -259,21 +298,21 @@ else
     fi
 fi
 
-<<<<<<< HEAD
-echo "continui"
-=======
+
+#ejecuta el siguiente codigo si no existe ninguna configuracion
+
 if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
     bash $ruta_ejecucion/MonitorRed/MonitorRed
 else
-    read -p "No esta configurado ningun servico, ips o web. Deseas configurar (s/n) -> " sn
+    echo
+    echo -n -e "${amarillo} No esta configurado ningun servico, ips o web.${borra_colores} Deseas configurar (s/n) -> "; read sn
     if [ "$sn" = "s" ] || [ "$sn" = "S" ]; then
         configuracion
     else
-        clear
         echo ""
         echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
+        sleep 5
         ctrl_c
     fi
 fi
 
->>>>>>> bd57953009e1c1394f15c2f601cdb6745bb58b35
