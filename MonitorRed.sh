@@ -4,11 +4,11 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript=""
-export DescripcionDelScript=""
-export Correo=""
-export Web=""
-export version=""
+export NombreScript="MonitorRed"
+export DescripcionDelScript="Comprobar Dominios, Ips y Servicios activos en tu red "
+export Correo="scripts@mbbsistemas.es"
+export Web="https://repositorio.mbbsistemas.es"
+export version="1"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -18,8 +18,8 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="" #contiene la direccion de github para actualizar el script
+NombreScriptActualizar="MonitorRed.sh" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
 software="ping which git diff" #contiene el software necesario separado por espacios
