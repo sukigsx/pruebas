@@ -215,6 +215,7 @@ do
             ;;
 
         2)  #configurar configurado_ips
+            echo "declare -A equipos" >>
             while true; do
                 menu_info
                 echo -e -n " Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
@@ -229,7 +230,6 @@ do
                 if [ "$dispositivo" = "" ]; then
                     echo -e "${rojo} No has puesto los datos correctos.${borra_colores}"
                     sleep 2
-                    break
                 fi
 
                 # Validar la IP
