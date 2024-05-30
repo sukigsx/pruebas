@@ -71,6 +71,7 @@ echo ""
 }
 
 menu_inicial(){
+echo ""
 echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
 echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}"
