@@ -37,6 +37,17 @@ borra_colores="\033[0m\e[0m" #borra colores
 
 # FUNCIONES
 
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+echo ""
+echo -e "${azul} Gracias ${rosa}$(whoami)${azul} por utilizar mi script.${borra_colores}"
+echo ""
+exit
+}
+
+
 menu_info(){
 # muestra el menu de sukigsx
 echo ""
@@ -48,6 +59,12 @@ echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
 echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
+echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
+echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
 echo ""
 }
 
@@ -91,6 +108,10 @@ else
 fi
 }
 
+#carga los ficheros de configuracion
+source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
 
 software_necesario(){
 #funcion software necesario
@@ -158,6 +179,21 @@ else
 fi
 }
 
+configuracion(){
+#funcion de configuracion del los servicios
+menu_info
+echo " Opciones del menu:"
+echo ""
+echo -e "   1- Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
+echo -e "   2- Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
+echo -e "   3- Dominios activos (ej. coches.web.es, motos.web.es)"
+echo ""
+echo " Selecciona el numero para configurar:"
+sleep 10
+}
+
+
+
 #logica de arranque
 #variables de resultado $conexion $software $actualizado
 #funciones actualizar_script, conexion, software_necesario
@@ -179,32 +215,40 @@ fi
 
 clear
 menu_info
-conexion
+#conexion
 if [ $conexion = "SI" ]; then
-    actualizar_script
+    #actualizar_script
     if [ $actualizado = "SI" ]; then
-        software_necesario
+        #software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
+<<<<<<< HEAD
 
+=======
+            #bash $ruta_ejecucion/ #PON LA RUTA
+>>>>>>> bd57953009e1c1394f15c2f601cdb6745bb58b35
         else
             echo ""
         fi
     else
-        software_necesario
+        #software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
+<<<<<<< HEAD
 
+=======
+            #bash $ruta_ejecucion/ #PON LA RUTA
+>>>>>>> bd57953009e1c1394f15c2f601cdb6745bb58b35
         else
             echo ""
         fi
     fi
 else
-    software_necesario
+    #software_necesario
     if [ $software = "SI" ]; then
         export software="SI"
         export conexion="NO"
@@ -215,4 +259,21 @@ else
     fi
 fi
 
+<<<<<<< HEAD
 echo "continui"
+=======
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+    bash $ruta_ejecucion/MonitorRed/MonitorRed
+else
+    read -p "No esta configurado ningun servico, ips o web. Deseas configurar (s/n) -> " sn
+    if [ "$sn" = "s" ] || [ "$sn" = "S" ]; then
+        configuracion
+    else
+        clear
+        echo ""
+        echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
+        ctrl_c
+    fi
+fi
+
+>>>>>>> bd57953009e1c1394f15c2f601cdb6745bb58b35
