@@ -228,7 +228,7 @@ do
                 if [ "$dispositivo" = "" ]; then
                     echo -e "${rojo} No has puesto nombre de dispositivo.${borra_colores}"
                     sleep 2
-                    brack
+                    break
                 fi
 
                 # Validar la IP
