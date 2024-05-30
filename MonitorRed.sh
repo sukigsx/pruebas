@@ -221,6 +221,7 @@ do
                 if [ "$ip" = "T" ]; then
                     echo ""
                     echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
+                    sleep 2
                     break
                 fi
 
