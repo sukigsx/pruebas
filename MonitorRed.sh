@@ -251,7 +251,6 @@ do
                             valid_ip=false
                             break
                         fi
-                         ["192.168.1.116:9000"]="Portainer"
                     done
                 if $valid_ip; then
                     echo -e " $ip $dispositivo = ${verde}ok${borra_colores}"
