@@ -222,10 +222,10 @@ do
                 read ip dispositivo
                 if [ "$ip" = "S" ] || [ "$ip" = "s" ]; then
                     #comprueba si existen ips
-                    if grep -q "=" $ruta_ejecucion/MonitorRed/MonitorRedIps.config; then
-                        echo "El caracter '=' está presente en el archivo."
+                    if grep -q "[" $ruta_ejecucion/MonitorRed/MonitorRedIps.config; then
+                        echo "El caracter '[' está presente en el archivo."
                     else
-                        echo "El caracter '=' no está presente en el archivo."
+                        echo "El caracter '[' no está presente en el archivo."
                     fi
                     read p
                     exit
