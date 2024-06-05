@@ -254,7 +254,7 @@ do
                     done
                 if $valid_ip; then
                     echo -e " $ip $dispositivo = ${verde}ok${borra_colores}"
-                    echo '  ["$ip"]="$dispositivo"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+                    echo "  ["$ip"]="$dispositivo"" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
                 else
                     echo -e "${rojo} IP no válida. Por favor, introduce una IP correcta.${borra_colores}"
                 fi
