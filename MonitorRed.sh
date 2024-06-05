@@ -230,6 +230,9 @@ do
                     else
                         rm $ruta_ejecucion/MonitorRed/MonitorRedIps.config &>/dev/null
                         echo 'configurado_ips="no"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+                        echo "Has salido sin configurar las Ips."
+                        sleep 2
+                        break
                     fi
 
                 fi
