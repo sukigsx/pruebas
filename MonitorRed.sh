@@ -227,6 +227,7 @@ do
                     else
                         echo "El caracter '=' no está presente en el archivo."
                     fi
+                    read p
                     exit
 
 
