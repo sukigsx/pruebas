@@ -221,6 +221,15 @@ do
                 echo -e -n " Dime la IP y el nombre del dispositivo ( S o s = terminar de introducir datos ) -> "
                 read ip dispositivo
                 if [ "$ip" = "S" ] || [ "$ip" = "s" ]; then
+                    #comprueba si existen ips
+                    if grep -q "=" archivo.txt; then
+                        echo "El caracter '=' está presente en el archivo."
+                    else
+                        echo "El caracter '=' no está presente en el archivo."
+                    fi
+                    exit
+
+
                     echo ""
                     echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
                     sleep 2
@@ -241,10 +250,11 @@ do
                             valid_ip=false
                             break
                         fi
+                         ["192.168.1.116:9000"]="Portainer"
                     done
                 if $valid_ip; then
                     echo -e " $ip $dispositivo = ${verde}ok${borra_colores}"
-                    echo "ips[$ip]=$dispositivo" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+                    echo '  ["$ip"]="$dispositivo"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
                 else
                     echo -e "${rojo} IP no válida. Por favor, introduce una IP correcta.${borra_colores}"
                 fi
