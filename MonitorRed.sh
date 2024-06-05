@@ -223,18 +223,15 @@ do
                 if [ "$ip" = "S" ] || [ "$ip" = "s" ]; then
                     #comprueba si existen ips
                     if grep -q "\[" $ruta_ejecucion/MonitorRed/MonitorRedIps.config; then
-                        echo "El caracter '[' está presente en el archivo."
+                        echo ""
+                        echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
+                        sleep 2
+                        break
                     else
-                        echo "El caracter '\[' no está presente en el archivo."
+                        rm $ruta_ejecucion/MonitorRed/MonitorRedIps.config &>/dev/null
+                        echo 'configurado_ips="no"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
                     fi
-                    read p
-                    exit
 
-
-                    echo ""
-                    echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
-                    sleep 2
-                    break
                 fi
 
                 if [ "$dispositivo" = "" ]; then
