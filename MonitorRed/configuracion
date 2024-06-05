@@ -30,6 +30,11 @@ echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios
 echo ""
 }
 
+#carga los ficheros de configuracion
+source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+
 while :
 do
     menu_info
