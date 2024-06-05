@@ -218,9 +218,9 @@ do
             echo "declare -A ips" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
             while true; do
                 menu_info
-                echo -e -n " Dime la IP y el nombre del dispositivo ( T = Terminado ) -> "
+                echo -e -n " Dime la IP y el nombre del dispositivo ( S o s = terminar de introducir datos ) -> "
                 read ip dispositivo
-                if [ "$ip" = "T" ]; then
+                if [ "$ip" = "S" ] || [ "$ip" = "s" ]; then
                     echo ""
                     echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
                     sleep 2
