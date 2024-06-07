@@ -102,7 +102,7 @@ do
             ;;
 
         99) #salir
-            exit
+            break
             ;;
 
         *)  echo ""
@@ -111,5 +111,4 @@ do
             ;;
     esac
 done
-
-
+exit
