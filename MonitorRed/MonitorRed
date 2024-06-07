@@ -34,8 +34,10 @@ echo ""
 source $ruta_ejecucion/MonitorRedServicios.config
 source $ruta_ejecucion/MonitorRedIps.config
 source $ruta_ejecucion/MonitorRedDominios.config
+
 clear
 menu_info
+echo "$ruta_ejecucion/MonitorRedDominios.config"
 while :
 do
     menu_info
