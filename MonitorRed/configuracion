@@ -96,7 +96,7 @@ do
     #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
     source $ruta_ejecucion/configuradosino
     menu_info
-    echo -e "${verde}"; figlet Menu - Configuracion; echo -e "${borra_colores}"
+    echo -e "${verde}"; figlet Menu-Configuracion; echo -e "${borra_colores}"
     echo ""
     echo -e "   ${azul} 1-${borra_colores} Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
     echo -e "   ${azul} 2-${borra_colores} Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
@@ -185,7 +185,14 @@ do
             ;;
 
         99) #ir al menu principal
-            bash $ruta_ejecucion/MonitorRed
+            if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+                bash $ruta_ejecucion/MonitorRed
+            else
+                echo ""
+                echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+                echo ""
+                sleep 4
+            fi
             ;;
 
         *)  echo ""
