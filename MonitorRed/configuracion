@@ -98,9 +98,9 @@ do
     menu_info
     echo -e "${verde}"; figlet Configuracion; echo -e "${borra_colores}"
     echo ""
-    echo -e "   ${azul} 1-${borra_colores} Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
-    echo -e "   ${azul} 2-${borra_colores} Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
-    echo -e "   ${azul} 3-${borra_colores} Dominios activos (ej. coches.web.es, motos.web.es)"
+    echo -e "   ${azul} 1-${borra_colores} Configurar Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
+    echo -e "   ${azul} 2-${borra_colores} Configurar Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
+    echo -e "   ${azul} 3-${borra_colores} Configurar Dominios activos (ej. coches.web.es, motos.web.es)"
     echo -e ""
     echo -e "   ${azul} 4-${borra_colores} Borrar toda la configuracion."
     echo -e ""

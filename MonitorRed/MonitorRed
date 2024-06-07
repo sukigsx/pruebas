@@ -53,16 +53,16 @@ menu_info
 while :
 do
     menu_info
-    echo -e "${verde}"; figlet Menu - Principal; echo -e "${borra_colores}"
+    echo -e "${verde}"; figlet Principal; echo -e "${borra_colores}"
     echo ""
     echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
     echo -e "   ${azul} 2-${borra_colores} Comprobar Ips activas en tu red."
     echo -e "   ${azul} 3-${borra_colores} Comprobar Dominios activos."
     echo -e ""
     echo -e "   ${azul}70-${borra_colores} Borrar toda la configuracion de MonitorRed."
-    echo -e "   ${azul}80-${borra_colores} Ir al menu de configuracion."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
+    echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
     echo ""
     echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
     case $opcion in
@@ -95,14 +95,14 @@ do
             fi
             ;;
 
-        80) #ir al menu de configuracion
-            bash $ruta_ejecucion/configuracion
-            ;;
-
         90) #ayuda
             clear
             cat $ruta_ejecucion/MonitorRed/ayuda
             read p
+            ;;
+
+        99) #ir al menu de configuracion
+            bash $ruta_ejecucion/configuracion
             ;;
 
         *)  echo ""
