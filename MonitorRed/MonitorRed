@@ -9,7 +9,89 @@ rosa="\e[0;35m\033[1m"
 turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
-
+menu_info(){
+# muestra el menu de sukigsx
 clear
-echo "estamos en el menu principal"
-read -p "estas en el principal" popo
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
+echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
+echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
+echo ""
+}
+
+#carga los ficheros de configuracion
+source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+clear
+menu_info
+while :
+do
+    menu_info
+    echo -e "${verde} - MENU PRINCIPAL -${borra_colores}"
+    echo ""
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 2-${borra_colores} Comprobar Ips activas en tu red."
+    echo -e "   ${azul} 3-${borra_colores} Comprobar Dominios activos."
+    echo -e ""
+    echo -e "   ${azul}70-${borra_colores} Borrar toda la configuracion de MonitorRed."
+    echo -e ""
+    echo -e "   ${azul}90-${borra_colores} Ayuda"
+    echo -e "   ${azul}99-${borra_colores} Salir"
+    echo ""
+    echo -e -n "${azul} Selecciona numero de las opciones del menu ->${borra_colores} "; read opcion
+    case $opcion in
+        1)
+            ;;
+
+        2)  #configurar configurado_ips
+
+            ;;
+
+        3);;
+
+        70) #opcion de terminar de configurar
+            #comprueba si se ha configurado algun servicio
+            source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+            source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+            source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+            if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+                bash $ruta_ejecucion/MonitorRed/MonitorRed
+            else
+                echo
+                echo -n -e "${amarillo} No esta configurado ningun servico, ips o dominio.${borra_colores}"
+                echo ""
+                echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
+                sleep 5
+            fi
+            ;;
+
+        90) #ayuda
+            clear
+            cat $ruta_ejecucion/MonitorRed/ayuda
+            read p
+            ;;
+
+        99) #salir
+            ctrl_c
+            ;;
+
+        *)  echo ""
+            echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+            sleep 2
+            ;;
+    esac
+done
+
+
