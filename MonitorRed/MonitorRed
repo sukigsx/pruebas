@@ -60,6 +60,7 @@ do
     echo -e "   ${azul} 3-${borra_colores} Comprobar Dominios activos."
     echo -e ""
     echo -e "   ${azul}70-${borra_colores} Borrar toda la configuracion de MonitorRed."
+    echo -e "   ${azul}80-${borra_colores} Ir al menu de configuracion."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
     echo ""
@@ -86,12 +87,16 @@ do
                 echo 'configurado_dominios="no"' >> $ruta_ejecucion/configuradosino
                 echo 'configurado_servicios="no"' >> $ruta_ejecucion/configuradosino
                 echo ""
-                echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
+                echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 4
                 bash $ruta_ejecucion/configuracion
             else
                 echo ""
                 echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
             fi
+            ;;
+
+        80) #ir al menu de configuracion
+            bash $ruta_ejecucion/configuracion
             ;;
 
         90) #ayuda
