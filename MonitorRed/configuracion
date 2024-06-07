@@ -12,6 +12,7 @@ clear
 echo ""
 echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
 echo ""
+sleep 1
 exit
 }
 
@@ -70,7 +71,20 @@ do
             ;;
 
         2)  #configurar configurado_ips
+
+
+
+
             echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
+
+
+
+
+
+
+
+
+
             while true; do
                 menu_info
                 echo -e -n " Dime la IP y el nombre del dispositivo ( S o s = terminar de introducir datos ) -> "

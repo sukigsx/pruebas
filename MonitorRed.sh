@@ -45,6 +45,7 @@ clear
 echo ""
 echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
 echo ""
+sleep 1
 exit
 }
 
