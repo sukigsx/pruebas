@@ -8,12 +8,20 @@ ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al
 trap ctrl_c INT
 function ctrl_c()
 {
-clear
-echo ""
-echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
-echo ""
-sleep 1
-exit
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+    echo ""
+    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+    echo ""
+    sleep 1; exit
+else
+    echo ""
+    echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+    echo -e "${rojo} Saliendo del script.${borra_colores}"
+    echo ""
+    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+    echo ""
+    sleep 3; exit
+    fi
 }
 
 #colores
@@ -95,7 +103,7 @@ do
     echo -e "   ${azul} 5-${borra_colores} Programar para informar a un boot de telegram."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
-    echo -e "   ${azul}99-${borra_colores} Salir sin configurar."
+    echo -e "   ${azul}99-${borra_colores} Ir al menu principal."
     echo ""
     echo -e -n "${azul} Selecciona el numero para configurar ->${borra_colores} "; read opcion
     case $opcion in
@@ -109,7 +117,7 @@ do
                 echo ""
                 echo -e "${azul}- Listado de tus Ips para su comprobacion. -${borra_colores}"
                 echo ""
-                tail -n +1 $ruta_ejecucion/MonitorRedIps.config | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                tail -n +1 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
 
                 # Solicitar y validar la dirección IP
@@ -172,8 +180,18 @@ do
             read p
             ;;
 
-        99) #salir
-            ctrl_c
+        99) #ir al menu principal
+            if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+                bash $ruta_ejecucion/MonitorRed/MonitorRed
+            else
+                echo ""
+                echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+                echo -e "${rojo} Saliendo del script.${borra_colores}"
+                echo ""
+                echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+                echo ""
+                sleep 3; exit
+            fi
             ;;
 
         *)  echo ""
