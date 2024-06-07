@@ -105,7 +105,7 @@ do
             do
                 clear
                 echo ""
-                echo -e "${azul}- Listado de tus dispositivos actuales -${borra_colores}"
+                echo -e "${azul}- Listado de tus Ips para su comprobacion. -${borra_colores}"
                 echo ""
                 tail -n +2 $ruta_ejecucion/MonitorRedIps.config | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
@@ -116,7 +116,7 @@ do
                 echo ""
                 if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
                     echo "saliendo"; read p
-                    sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configurarsino
+                    sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configuradosino
                     break
                 fi
 
