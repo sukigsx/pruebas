@@ -8,7 +8,7 @@ export NombreScript="MonitorRed"
 export DescripcionDelScript="Comprobar Dominios, Ips y Servicios activos en tu red "
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
-export version="11111111"
+export version="1111"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -123,9 +123,9 @@ fi
 }
 
 #carga los ficheros de configuracion
-#source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
-#source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
-#source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
 
 software_necesario(){
 #funcion software necesario

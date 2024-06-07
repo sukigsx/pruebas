@@ -31,9 +31,9 @@ echo ""
 }
 
 #carga los ficheros de configuracion
-source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
-source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
-source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+source $ruta_ejecucion/MonitorRedServicios.config
+source $ruta_ejecucion/MonitorRedIps.config
+source $ruta_ejecucion/MonitorRedDominios.config
 clear
 menu_info
 while :
