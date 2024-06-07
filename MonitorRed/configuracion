@@ -10,7 +10,7 @@ function ctrl_c()
 {
 if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
     echo ""
-    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptttttttttttttttttttttttttttt.${borra_colores}"
     echo ""
     sleep 1; exit
 else
@@ -18,7 +18,7 @@ else
     echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
     echo -e "${rojo} Saliendo del script.${borra_colores}"
     echo ""
-    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptaaaaaaaaaaaaaaaaaaaaaaaaaaa.${borra_colores}"
     echo ""
     sleep 3; exit
     fi
@@ -163,6 +163,7 @@ do
                 echo 'configurado_ips="no"' >> $ruta_ejecucion/configuradosino
                 echo 'configurado_dominios="no"' >> $ruta_ejecucion/configuradosino
                 echo 'configurado_servicios="no"' >> $ruta_ejecucion/configuradosino
+                echo ""
                 echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
             else
                 echo ""
@@ -182,7 +183,7 @@ do
 
         99) #ir al menu principal
             if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-                bash $ruta_ejecucion/MonitorRed/MonitorRed
+                bash $ruta_ejecucion/MonitorRed
             else
                 echo ""
                 echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
@@ -190,7 +191,7 @@ do
                 echo ""
                 echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
                 echo ""
-                sleep 3; exit
+                sleep 5; exit
             fi
             ;;
 
