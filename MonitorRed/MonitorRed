@@ -62,9 +62,8 @@ do
     echo -e "   ${azul}70-${borra_colores} Borrar toda la configuracion de MonitorRed."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
-    echo -e "   ${azul}99-${borra_colores} Salir"
     echo ""
-    echo -e -n "${azul} Selecciona numero de las opciones del menu ->${borra_colores} "; read opcion
+    echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
     case $opcion in
         1)
             ;;
@@ -101,14 +100,9 @@ do
             read p
             ;;
 
-        99) #salir
-            break
-            ;;
-
         *)  echo ""
             echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
             sleep 2
             ;;
     esac
 done
-exit

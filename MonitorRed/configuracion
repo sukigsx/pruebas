@@ -96,7 +96,7 @@ do
     #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
     source $ruta_ejecucion/configuradosino
     menu_info
-    echo -e "${verde} - MENU DE CONFIGURACION -${borra_colores}"
+    echo -e "${verde}"; figlet Menu - Configuracion; echo -e "${borra_colores}"
     echo ""
     echo -e "   ${azul} 1-${borra_colores} Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
     echo -e "   ${azul} 2-${borra_colores} Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
@@ -109,7 +109,7 @@ do
     echo -e "   ${azul}90-${borra_colores} Ayuda"
     echo -e "   ${azul}99-${borra_colores} Ir al menu principal."
     echo ""
-    echo -e -n "${azul} Selecciona el numero para configurar ->${borra_colores} "; read opcion
+    echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
     case $opcion in
         1)
             ;;
@@ -129,7 +129,6 @@ do
                 read -p " Dime un Nombre Dispositivo espacio y su dirección IP -> " name ip
                 echo ""
                 if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
-                    echo "saliendo"; read p
                     sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configuradosino
                     break
                 fi
