@@ -41,8 +41,6 @@ source $ruta_ejecucion/MonitorRedDominios.config
 
 clear
 menu_info
-echo "$ruta_ejecucion/MonitorRedDominios.config"
-read p
 while :
 do
     menu_info

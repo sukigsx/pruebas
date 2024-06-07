@@ -256,15 +256,6 @@ menu_info
 if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
     bash $ruta_ejecucion/MonitorRed/MonitorRed
 else
-    echo
-    echo -n -e "${amarillo} No esta configurado ningun servico, ips o web.${borra_colores} Deseas configurar (s/n) -> "; read sn
-    if [ "$sn" = "s" ] || [ "$sn" = "S" ]; then
-        bash $ruta_ejecucion/MonitorRed/configuracion
-    else
-        echo ""
-        echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
-        sleep 5
-        ctrl_c
-    fi
+    bash $ruta_ejecucion/MonitorRed/configuracion
 fi
 
