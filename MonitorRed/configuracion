@@ -4,6 +4,17 @@
 ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+clear
+echo ""
+echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+echo ""
+exit
+}
+
 #colores
 rojo="\e[0;31m\033[1m" #rojo
 verde="\e[;32m\033[1m"
@@ -59,21 +70,21 @@ do
             ;;
 
         2)  #configurar configurado_ips
-            echo "declare -A ips" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+            echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
             while true; do
                 menu_info
                 echo -e -n " Dime la IP y el nombre del dispositivo ( S o s = terminar de introducir datos ) -> "
                 read ip dispositivo
                 if [ "$ip" = "S" ] || [ "$ip" = "s" ]; then
                     #comprueba si existen ips
-                    if grep -q "\[" $ruta_ejecucion/MonitorRed/MonitorRedIps.config; then
+                    if grep -q "\[" $ruta_ejecucion/MonitorRedIps.config; then
                         echo ""
                         echo -e "${verde} Terminada la configuracion de ips.${borra_colores}"
                         sleep 2
                         break
                     else
-                        rm $ruta_ejecucion/MonitorRed/MonitorRedIps.config &>/dev/null
-                        echo 'configurado_ips="no"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+                        rm $ruta_ejecucion/MonitorRedIps.config &>/dev/null
+                        echo 'configurado_ips="no"' >> $ruta_ejecucion/MonitorRedIps.config
                         echo "Has salido sin configurar las Ips."
                         sleep 2
                         break
@@ -98,7 +109,7 @@ do
                     done
                 if $valid_ip; then
                     echo -e " $ip $dispositivo = ${verde}ok${borra_colores}"
-                    echo "  ["$ip"]="$dispositivo"" >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+                    echo "  ["$ip"]="$dispositivo"" >> $ruta_ejecucion/MonitorRedIps.config
                 else
                     echo -e "${rojo} IP no válida. Por favor, introduce una IP correcta.${borra_colores}"
                 fi
@@ -107,30 +118,18 @@ do
                 fi
                 sleep 1
                 done
-                echo 'configurado_ips="si"' >> $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+                echo 'configurado_ips="si"' >> $ruta_ejecucion/MonitorRedIps.config
             ;;
 
         3);;
 
         70) #opcion de terminar de configurar
-            #comprueba si se ha configurado algun servicio
-            source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
-            source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
-            source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
-            if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-                bash $ruta_ejecucion/MonitorRed/MonitorRed
-            else
-                echo
-                echo -n -e "${amarillo} No esta configurado ningun servico, ips o dominio.${borra_colores}"
-                echo ""
-                echo -e "${rojo} Se necesita al menos un servicio, ips o web configurado.${borra_colores}"
-                sleep 5
-            fi
+
             ;;
 
         90) #ayuda
             clear
-            cat $ruta_ejecucion/MonitorRed/ayuda
+            cat $ruta_ejecucion/ayuda
             read p
             ;;
 
