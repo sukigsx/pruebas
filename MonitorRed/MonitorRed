@@ -53,7 +53,7 @@ menu_info
 while :
 do
     menu_info
-    echo -e "${verde}"; figlet Menu - principal; echo -e "${borra_colores}"
+    echo -e "${verde}"; figlet Menu - Principal; echo -e "${borra_colores}"
     echo ""
     echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
     echo -e "   ${azul} 2-${borra_colores} Comprobar Ips activas en tu red."
@@ -102,7 +102,7 @@ do
             ;;
 
         99) #salir
-            ctrl_c
+            exit
             ;;
 
         *)  echo ""
