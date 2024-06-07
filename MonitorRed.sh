@@ -123,10 +123,8 @@ else
 fi
 }
 
-#carga los ficheros de configuracion
-source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
-source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
-source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+#carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
+source $ruta_ejecucion/MonitorRed/configuradosino
 
 software_necesario(){
 #funcion software necesario

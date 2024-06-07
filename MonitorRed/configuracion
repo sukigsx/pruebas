@@ -76,10 +76,8 @@ fi
 
 
 
-#carga los ficheros de configuracion
-source $ruta_ejecucion/MonitorRedServicios.config
-source $ruta_ejecucion/MonitorRedIps.config
-source $ruta_ejecucion/MonitorRedDominios.config
+#carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
+source $ruta_ejecucion/configuradosino
 
 while :
 do
@@ -103,6 +101,7 @@ do
         2)  #configurar configurado_ips
             while true
             do
+                clear
                 echo ""
                 echo -e "${verde}- Listado de tus dispositivos actuales -${borra_colores}"
                 echo ""
