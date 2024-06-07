@@ -22,7 +22,7 @@ NombreScriptActualizar="MonitorRed.sh" #contiene el nombre del script para poder
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-software="ping which git diff" #contiene el software necesario separado por espacios
+software="ping which git diff tail sed" #contiene el software necesario separado por espacios
 
 
 #colores

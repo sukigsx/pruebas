@@ -46,11 +46,8 @@ echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios
 echo ""
 }
 
-#carga los ficheros de configuracion
-source $ruta_ejecucion/MonitorRedServicios.config
-source $ruta_ejecucion/MonitorRedIps.config
-source $ruta_ejecucion/MonitorRedDominios.config
-
+#carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
+source $ruta_ejecucion/configuradosino
 clear
 menu_info
 while :
