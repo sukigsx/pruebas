@@ -48,10 +48,10 @@ do
     echo -e "   ${azul} 2-${borra_colores} Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
     echo -e "   ${azul} 3-${borra_colores} Dominios activos (ej. coches.web.es, motos.web.es)"
     echo -e ""
-    echo -e "   ${azul}70-${borra_colores} Terminar de configurar."
+    echo -e "   ${azul} 4-${borra_colores} Programar para informar a un boot de telegram."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
-    echo -e "   ${azul}99-${borra_colores} Salir"
+    echo -e "   ${azul}99-${borra_colores} Salir sin configurar."
     echo ""
     echo -e -n "${azul} Selecciona el numero para configurar ->${borra_colores} "; read opcion
     case $opcion in
