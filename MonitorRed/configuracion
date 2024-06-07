@@ -186,7 +186,7 @@ do
             ;;
 
         99) #ir al menu principal
-            ctrl_c
+            bash $ruta_ejecucion/MonitorRed
             ;;
 
         *)  echo ""
