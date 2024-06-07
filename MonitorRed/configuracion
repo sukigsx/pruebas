@@ -17,6 +17,13 @@ else
     echo ""
     echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
     echo -e "${rojo} Saliendo del script.${borra_colores}"
+    rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/configuradosino 2>/dev/null 1>/dev/null 0>/dev/null
+    echo 'configurado_ips="no"' >> $ruta_ejecucion/configuradosino
+    echo 'configurado_dominios="no"' >> $ruta_ejecucion/configuradosino
+    echo 'configurado_servicios="no"' >> $ruta_ejecucion/configuradosino
     sleep 3; exit
     fi
 }
@@ -179,17 +186,7 @@ do
             ;;
 
         99) #ir al menu principal
-            if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-                bash $ruta_ejecucion/MonitorRed
-            else
-                echo ""
-                echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
-                echo -e "${rojo} Saliendo del script.${borra_colores}"
-                echo ""
-                echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
-                echo ""
-                sleep 5; exit
-            fi
+            ctrl_c
             ;;
 
         *)  echo ""
