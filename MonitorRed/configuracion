@@ -10,16 +10,13 @@ function ctrl_c()
 {
 if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
     echo ""
-    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptttttttttttttttttttttttttttt.${borra_colores}"
+    #echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptttttttttttttttttttttttttttt.${borra_colores}"
     echo ""
     sleep 1; exit
 else
     echo ""
     echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
     echo -e "${rojo} Saliendo del script.${borra_colores}"
-    echo ""
-    echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptaaaaaaaaaaaaaaaaaaaaaaaaaaa.${borra_colores}"
-    echo ""
     sleep 3; exit
     fi
 }
