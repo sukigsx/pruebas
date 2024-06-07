@@ -123,9 +123,9 @@ fi
 }
 
 #carga los ficheros de configuracion
-source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
-source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
-source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+#source $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
+#source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+#source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
 
 software_necesario(){
 #funcion software necesario
