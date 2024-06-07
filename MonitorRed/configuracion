@@ -81,6 +81,8 @@ source $ruta_ejecucion/configuradosino
 
 while :
 do
+    #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
+    source $ruta_ejecucion/configuradosino
     menu_info
     echo -e "${verde} - MENU DE CONFIGURACION -${borra_colores}"
     echo ""
@@ -103,18 +105,18 @@ do
             do
                 clear
                 echo ""
-                echo -e "${verde}- Listado de tus dispositivos actuales -${borra_colores}"
+                echo -e "${azul}- Listado de tus dispositivos actuales -${borra_colores}"
                 echo ""
                 tail -n +2 $ruta_ejecucion/MonitorRedIps.config | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
-                echo -e "${verde} - Listado finalizado -${borra_colores}"
                 echo ""
 
                 # Solicitar y validar la dirección IP
-                echo -e "${azul} Introduce ( s para salir ), ( Ej. router 192.168.1.1 ).${borra_colores}"
+                echo -e "${amarillo} Ej. router 192.168.1.1 (S -> Terminar de introducir datos.).${borra_colores}"
                 read -p " Dime un Nombre Dispositivo espacio y su dirección IP -> " name ip
                 echo ""
-                if  [ "$name" == "s" ]; then
+                if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
                     echo "saliendo"; read p
+                    sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configurarsino
                     break
                 fi
 
@@ -136,11 +138,6 @@ do
                     read -p " Pulsa una tecla para continuar." p
                 fi
             done
-
-
-
-
-            echo 'configurado_ips="si"' >> $ruta_ejecucion/MonitorRedIps.config
             ;;
 
         3);;
