@@ -77,7 +77,7 @@ do
                 echo ""
                 echo -e "${azul} Comprobando dispositivos en tu red.${borra_colores}\n"
                 source $ruta_ejecucion/MonitorRedIps.config
-                for resultado in "${!ips[@]}";
+                for resultado in "${!ips[@]}"
                 do
                     ping -w 1 $resultado 1>/dev/null 2>/dev/null
                     if [ $? = "0" ]
