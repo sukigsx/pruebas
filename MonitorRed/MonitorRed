@@ -95,6 +95,7 @@ do
                 #rm $archivo
                 #configurar="NO"
                 #configurar
+                echo ""
             fi
             ;;
 
