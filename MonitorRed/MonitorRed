@@ -70,7 +70,32 @@ do
             ;;
 
         2)  #configurar configurado_ips
-
+            clear
+            echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+            archivo="$ruta_ejecucion/MonitorRedIps.config"
+            if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+                echo ""
+                echo -e "${azul} Comprobando dispositivos en tu red.${borra_colores}\n"
+                source $ruta_ejecucion/MonitorRedIps.config
+                for resultado in "${!ips[@]}";
+                do
+                    ping -w 1 $resultado 1>/dev/null 2>/dev/null
+                    if [ $? = "0" ]
+                    then
+                        printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${equipos[$resultado]}\n"
+                    else
+                        printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${equipos[$resultado]}\n"
+                    fi
+                done
+                echo ""
+                printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+                echo "----------------------------------------------------"
+                read -p " Pulsa una tecla para continuar." p
+            else
+                #rm $archivo
+                #configurar="NO"
+                #configurar
+            fi
             ;;
 
         3);;
