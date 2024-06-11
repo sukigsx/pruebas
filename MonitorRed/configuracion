@@ -115,6 +115,7 @@ do
             ;;
 
         2)  #configurar configurado_ips
+            echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
             while true
             do
                 clear
