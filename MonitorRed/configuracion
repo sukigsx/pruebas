@@ -115,14 +115,19 @@ do
             ;;
 
         2)  #configurar configurado_ips
-            echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
+            # Buscar la cadena "declare -A ips" en el archivo
+            if ! grep -q 'declare -A ips' "$ruta_ejecucion/MonitorRedIps.config"; then
+                echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
+            fi
+
+
             while true
             do
                 clear
                 echo ""
                 echo -e "${azul}- Listado de tus Ips para su comprobacion. -${borra_colores}"
                 echo ""
-                tail -n +1 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                tail -n +2 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
 
                 # Solicitar y validar la dirección IP
