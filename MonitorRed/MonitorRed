@@ -84,7 +84,7 @@ do
                     then
                         printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
                     else
-                        printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+                        printf "${azul} IP${amarillo} $resultado ${rojo}   APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
                     fi
                 done
                 echo ""
