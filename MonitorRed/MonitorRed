@@ -82,7 +82,7 @@ do
                     ping -w 1 $resultado 1>/dev/null 2>/dev/null
                     if [ $? = "0" ]
                     then
-                        printf "${azul} IP${amarillo} $resultado ${verde}  ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+                        printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
                     else
                         printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
                     fi

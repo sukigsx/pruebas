@@ -102,16 +102,19 @@ do
     echo -e "   ${azul} 2-${borra_colores} Configurar Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
     echo -e "   ${azul} 3-${borra_colores} Configurar Dominios activos (ej. coches.web.es, motos.web.es)"
     echo -e ""
-    echo -e "   ${azul} 4-${borra_colores} Borrar toda la configuracion."
+    echo -e "   ${azul} 4-${borra_colores} Programar para informar a un boot de telegram."
     echo -e ""
-    echo -e "   ${azul} 5-${borra_colores} Programar para informar a un boot de telegram."
+    echo -e "   ${amarillo} 5-${borra_colores} Borra la configuracion de los SERVICIOS"
+    echo -e "   ${amarillo} 6-${borra_colores} Borra la configuracion de la IPS activas"
+    echo -e "   ${amarillo} 7-${borra_colores} Borra la configuracion de los DOMINIOS"
+    echo -e "   ${amarillo} 8-${borra_colores} Borrar toda la configuracion."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
     echo -e "   ${azul}99-${borra_colores} Ir al menu principal."
     echo ""
     echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
     case $opcion in
-        1)
+        1)  #configurar Servicios
             ;;
 
         2)  #configurar configurado_ips
@@ -152,16 +155,63 @@ do
                     echo -e " Dispositivo ${azul}$name${borra_colores} con la ${azul}$ip${borra_colores} = ${verde}ok${borra_colores}."
                     sleep 2
                 else
-                    echo -e "${rojo} Datos de dispositivo incorreptos.${borra_colores}"
+                    echo -e "${rojo} Datos de dispositivo incorreptos.${borra_colores}"; sleep 3
                     echo ""
                     read -p " Pulsa una tecla para continuar." p
                 fi
             done
             ;;
 
-        3);;
+        3)  #configurar dominios
 
-        4)  #borra toda la configuracion y lo deja como el inicio
+            ;;
+
+        4)  #configurar para el telegram
+            ;;
+
+        5)  #borra servicios
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/configurado_servicios="si"/configurado_servicios="no"/' "$ruta_ejecucion/configuradosino"
+                echo ""
+                echo -e "${amarillo} Borrada la configuracion de SERVICIOS.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
+            ;;
+
+        6)  #borra ips
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion de IPS? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/configurado_ips="si"/configurado_ips="no"/' "$ruta_ejecucion/configuradosino"
+                echo ""
+                echo -e "${amarillo} Borrada la configuracion de IPS.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
+            ;;
+
+        7)  #borra Dominios
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion de Dominios? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/configurado_dominios="si"/configurado_dominios="no"/' "$ruta_ejecucion/configuradosino"
+                echo ""
+                echo -e "${amarillo} Borrada la configuracion de Dominios.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
+            ;;
+
+        8)  #borra toda la configuracion y lo deja como el inicio
             echo ""
             read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n)? -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
@@ -178,10 +228,6 @@ do
                 echo ""
                 echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
             fi
-            ;;
-
-        70) #opcion de terminar de configurar
-
             ;;
 
         90) #ayuda
