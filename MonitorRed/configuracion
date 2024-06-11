@@ -155,7 +155,7 @@ do
                     echo -e " Dispositivo ${azul}$name${borra_colores} con la ${azul}$ip${borra_colores} = ${verde}ok${borra_colores}."
                     sleep 2
                 else
-                    echo -e "${rojo} Datos de dispositivo incorreptos.${borra_colores}"; sleep 3
+                    echo -e "${rojo} Datos de dispositivo incorreptos.${borra_colores}"
                     echo ""
                     read -p " Pulsa una tecla para continuar." p
                 fi
@@ -171,7 +171,7 @@ do
 
         5)  #borra servicios
             echo ""
-            read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS? (S/n) -> " sn
+            read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
                 sed -i 's/configurado_servicios="si"/configurado_servicios="no"/' "$ruta_ejecucion/configuradosino"
@@ -185,7 +185,7 @@ do
 
         6)  #borra ips
             echo ""
-            read -p " ¿ Seguro que quieres borrar la configuracion de IPS? (S/n) -> " sn
+            read -p " ¿ Seguro que quieres borrar la configuracion de IPS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
                 sed -i 's/configurado_ips="si"/configurado_ips="no"/' "$ruta_ejecucion/configuradosino"
@@ -199,7 +199,7 @@ do
 
         7)  #borra Dominios
             echo ""
-            read -p " ¿ Seguro que quieres borrar la configuracion de Dominios? (S/n) -> " sn
+            read -p " ¿ Seguro que quieres borrar la configuracion de Dominios ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
                 sed -i 's/configurado_dominios="si"/configurado_dominios="no"/' "$ruta_ejecucion/configuradosino"
