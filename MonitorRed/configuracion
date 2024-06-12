@@ -88,7 +88,7 @@ fi
 validate_port() {
     local port=$1
 
-    if [[ ! $port =~ ^[0-9]+$ ]] || [[ $port -lt 1 ]] || [[ $port -gt 65535 ]]; then
+    if [[ $port =~ ^[0-9]+$ ]] || [[ $port -lt 1 ]] || [[ $port -gt 65535 ]]; then
         port_correcto="si"
     else
         echo -e "${amarillo} Error: en el numero de puerto.${borra_colores}"
