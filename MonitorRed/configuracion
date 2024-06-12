@@ -162,7 +162,7 @@ do
 
                 # Agrega la entrada al archivo como un nuevo elemento del array
                 if [[ "$ip_correpto" == "si" ]] && [[ "$nombre_correpto" == "si" ]] && [[ "$port_correcto" = "si" ]]; then
-                    echo "servicios[$ip:$port]=$name" >> $ruta_ejecucion/MonitorRedIps.config
+                    echo "servicios[$ip:$port]=$name" >> $ruta_ejecucion/MonitorRedServicios.config
                     echo ""
                     echo -e " Dispositivo ${azul}$name${borra_colores} con la ${azul}$ip:$port${borra_colores} = ${verde}ok${borra_colores}."
                     sleep 2
