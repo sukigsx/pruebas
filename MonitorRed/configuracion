@@ -323,8 +323,7 @@ do
                     echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
                     echo -e "${amarillo} Se necesita al menos uno para poder configurar el Bot de Telegram.${borra_colores}"
                     echo ""
-                    sleep 5
-                    break
+                    sleep 7
                 fi
 
             fi
