@@ -102,6 +102,7 @@ validate_domain() {
     # Verificar que el dominio no contenga http://, https://, ni www.
     if [[ $domain =~ ^(http://|https://|www\.) ]]; then
         echo -e "${amarillo} Error: el dominio NO debe contener http://, https://, ni www.${borra_colores}"
+        dominio_correcto="no"
     # Verificar que el dominio es válido
     elif [[ $domain =~ ^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
         domain_correcto="si"
