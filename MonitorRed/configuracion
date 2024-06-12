@@ -295,17 +295,15 @@ do
                 echo -e "${amarillo} Ya dispones de una configuracion de tu Bot de Telegram.${borra_colores}"
                 read -p " ¿ Deseas borrarla y configurar de nuevo (S/n) ? -> " sn
                 if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
-                    echo "borro y cargo fichero"; read p
-                    #rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
-                    #bash $ruta_ejecucion/ConfigurarBotTelegran
+                    rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                    bash $ruta_ejecucion/ConfigurarBotTelegran
                 else
                     echo ""
                     echo -e "${verde} No se modifica nada de la configuracion del Bot de Telegram.${borra_colores}"
-                    sleep 3
+                    sleep 4
                 fi
             else
-                echo "cargo fichero "; read p
-                #bash $ruta_ejecucion/ConfigurarBotTelegran
+                bash $ruta_ejecucion/ConfigurarBotTelegran
             fi
             ;;
 
