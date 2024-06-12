@@ -286,6 +286,27 @@ do
             ;;
 
         4)  #configurar para el telegram
+            clear
+            if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
+                echo ""
+                echo -e "${verde}"; figlet Configuracion; echo -e "${borra_colores}"
+                echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
+                echo ""
+                echo -e "${amarillo} Ya dispones de una configuracion de tu Bot de Telegram.${borra_colores}"
+                read -p " ¿ Deseas borrarla y configurar de nuevo (S/n) ? -> " sn
+                if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                    echo "borro y cargo fichero"; read p
+                    #rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                    #bash $ruta_ejecucion/ConfigurarBotTelegran
+                else
+                    echo ""
+                    echo -e "${verde} No se modifica nada de la configuracion del Bot de Telegram.${borra_colores}"
+                    sleep 3
+                fi
+            else
+                echo "cargo fichero "; read p
+                #bash $ruta_ejecucion/ConfigurarBotTelegran
+            fi
             ;;
 
         10) #Editar fichero configuracion de SERVICIOS
@@ -305,7 +326,7 @@ do
             else
                 echo -e ""
                 echo -e "${amarillo} No tienes configurados tus IPS.${borra_colores}"
-                echo -e " Selecciona la opcion 1 del menu comfiguracion para poder editar."
+                echo -e " Selecciona la opcion 2 del menu comfiguracion para poder editar."
                 sleep 5
             fi
             ;;
@@ -316,7 +337,7 @@ do
             else
                 echo -e ""
                 echo -e "${amarillo} No tienes configurados tus IPS.${borra_colores}"
-                echo -e " Selecciona la opcion 1 del menu comfiguracion para poder editar."
+                echo -e " Selecciona la opcion 3 del menu comfiguracion para poder editar."
                 sleep 5
             fi
             ;;
@@ -366,7 +387,7 @@ do
 
         23)  #borra toda la configuracion y lo deja como el inicio
             echo ""
-            read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n)? -> " sn
+            read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n) ? -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
                 rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null

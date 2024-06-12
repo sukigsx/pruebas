@@ -41,7 +41,7 @@ if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         then
             printf "${azul} DOMINIO ${amarillo}$resultado ${verde}ENCENDIDO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
         else
-            printf "${azul} DOMINIO ${amarillo}$resultado ${verde}APAGADO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
+            printf "${azul} DOMINIO ${amarillo}$resultado ${rojo}APAGADO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
         fi
     done
     echo ""
