@@ -286,6 +286,8 @@ do
             ;;
 
         4)  #configurar para el telegram
+            clear
+            menu_info
             if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
                 echo ""
                 echo -e "${verde}"; figlet Configuracion; echo -e "${borra_colores}"
