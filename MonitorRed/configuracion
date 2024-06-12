@@ -177,16 +177,32 @@ do
                 nano $ruta_ejecucion/MonitorRedServicios.config
             else
                 echo -e ""
-                echo -e "${amarillo} No tienes configurados tus servicios.${borra_colores}"
+                echo -e "${amarillo} No tienes configurados tus SERVICIOS.${borra_colores}"
                 echo -e " Selecciona la opcion 1 del menu comfiguracion para poder editar."
-                sleep 4
+                sleep 5
             fi
             ;;
 
         11) #Editar fichero configuracion de IPS.
+            if [ "$configurado_ips" = "si" ]; then
+                nano $ruta_ejecucion/MonitorRedIps.config
+            else
+                echo -e ""
+                echo -e "${amarillo} No tienes configurados tus IPS.${borra_colores}"
+                echo -e " Selecciona la opcion 1 del menu comfiguracion para poder editar."
+                sleep 5
+            fi
             ;;
 
         12) #Editar fichero configuracion de DOMINIOS
+            if [ "$configurado_dominios" = "si" ]; then
+                nano $ruta_ejecucion/MonitorRedDominios.config
+            else
+                echo -e ""
+                echo -e "${amarillo} No tienes configurados tus IPS.${borra_colores}"
+                echo -e " Selecciona la opcion 1 del menu comfiguracion para poder editar."
+                sleep 5
+            fi
             ;;
 
 
