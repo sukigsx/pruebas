@@ -172,7 +172,25 @@ do
         4)  #configurar para el telegram
             ;;
 
-        5)  #borra servicios
+        10) #Editar fichero configuracion de SERVICIOS
+            if [ "$configurado_servicios" = "si" ]; then
+                nano $ruta_ejecucion/MonitorRedServicios.config
+            else
+                echo -e ""
+                echo -e "${amarillo} No tienes configurados tus servicios.${borra_colores}"
+                echo -e " Selecciona la opcion 1 del menu comfiguracion para poder editar."
+                sleep 4
+            fi
+            ;;
+
+        11) #Editar fichero configuracion de IPS.
+            ;;
+
+        12) #Editar fichero configuracion de DOMINIOS
+            ;;
+
+
+        20)  #Borra la configuracion de los SERVICIOS
             echo ""
             read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
@@ -186,7 +204,7 @@ do
             fi
             ;;
 
-        6)  #borra ips
+        21)  #Borra la configuracion de los IPS
             echo ""
             read -p " ¿ Seguro que quieres borrar la configuracion de IPS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
@@ -200,7 +218,7 @@ do
             fi
             ;;
 
-        7)  #borra Dominios
+        22)  #Borra la configuracion de los Dominios
             echo ""
             read -p " ¿ Seguro que quieres borrar la configuracion de Dominios ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
@@ -214,7 +232,7 @@ do
             fi
             ;;
 
-        8)  #borra toda la configuracion y lo deja como el inicio
+        23)  #borra toda la configuracion y lo deja como el inicio
             echo ""
             read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n)? -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
