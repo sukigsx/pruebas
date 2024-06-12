@@ -107,6 +107,7 @@ validate_domain() {
         domain_correcto="si"
     else
         echo -e "${amarillo} Error: dominio inválido.${borra_colores}"
+        dominio_correcto="no"
     fi
 
     # Mostrar el resultado de la validación
