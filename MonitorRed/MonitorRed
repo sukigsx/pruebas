@@ -102,7 +102,7 @@ do
         3);;
 
         70) #comprobar todo
-
+            comprobar_ips
             ;;
 
         90) #ayuda
