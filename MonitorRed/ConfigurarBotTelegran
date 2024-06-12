@@ -94,7 +94,13 @@ read -p " Dime el id de tu usuario de Telegram -> " id
 echo "TOKEN=$token" >> $ruta_ejecucion/MonitorRedTelegram.config
 echo "ID=$id" >> $ruta_ejecucion/MonitorRedTelegram.config
 echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRedTelegram.config
+echo ""
+echo -e "${amarillo} Se va ha enviar un mensaje de telegran de prueba."
 
+source $ruta_ejecucion/MonitorRedTelegram.config
+curl -s -X POST $URL -d chat_id=$ID -d text="Este es un mensaje de prueba, comprobando la configuracion del Bot de telegram del script de MonitorRed."
+
+echo -e "${verde} Configuracion realizada.${borra_colores}"
 
 
 
