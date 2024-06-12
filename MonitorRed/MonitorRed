@@ -36,7 +36,7 @@ if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
     source $ruta_ejecucion/MonitorRedServicios.config
     for resultado in "${!servicios[@]}"
     do
-        ping -w 1 $resultado 1>/dev/null 2>/dev/null
+        curl -s -o -I $resultado 1>/dev/null 2>/dev/null
         if [ $? = "0" ]
         then
             printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${servicios[$resultado]}\n" | column -t -s $'\t'
