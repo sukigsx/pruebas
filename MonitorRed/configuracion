@@ -91,11 +91,10 @@ validate_port() {
     if [[ $port =~ ^[0-9]+$ ]] && [[ $port -ge 1 ]] && [[ $port -le 65535 ]]; then
         port_correcto="si"
     else
-        echo -e "${amarillo} Error: en el numero de puerto.${borra_colores}"
+        echo -e "${amarillo} Error: El puerto tiene que ser un numero y tiene que estar entre 1-65535.${borra_colores}"
         port_correcto="no"
     fi
 }
-
 
 
 #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
@@ -148,7 +147,7 @@ do
                 read -p " Dime un Nombre Dispositivo espacio y su dirección IP espacio su PUERTO -> " name ip port
                 echo ""
                 if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
-                    sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configuradosino
+                    sed -i 's/configurado_servicios="no"/configurado_servicios="si"/' $ruta_ejecucion/configuradosino
                     break
                 fi
 
