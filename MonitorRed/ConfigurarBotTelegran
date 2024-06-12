@@ -87,21 +87,19 @@ echo -e "   https://ugeek.github.io/blog/post/2019-03-14-crea-un-bot-de-telegram
 echo -e ""
 echo -e " Gracias Ugeek por todos tus aportes.${borra_colores}"
 echo ""
-read -p " Dime el TOKEN de tu Bot de Telegram -> " $token
-read -p " Dime el id del "
+read -p " Dime el TOKEN de tu Bot de Telegram -> " token
+read -p " Dime el id de tu usuario de Telegram -> " id
 
-
-
-
-
-
-
+#mete al fichero de configuracion de telegram los datos necesarios
+echo "TOKEN=$token" >> $ruta_ejecucion/MonitorRedTelegram.config
+echo "ID=$id" >> $ruta_ejecucion/MonitorRedTelegram.config
+echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRedTelegram.config
 
 
 
 
 
 #variables para el bot de telegram
-TOKEN="6285600343:AAGZbpbGIDRX_pF3qT1uAbAMJRuinBffkb0"
-ID="488663957"
-URL="https://api.telegram.org/bot$TOKEN/sendMessage"
+#TOKEN="6285600343:AAGZbpbGIDRX_pF3qT1uAbAMJRuinBffkb0"
+#ID="488663957"
+#URL="https://api.telegram.org/bot$TOKEN/sendMessage"
