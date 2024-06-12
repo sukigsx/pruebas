@@ -96,6 +96,27 @@ validate_port() {
     fi
 }
 
+validate_domain() {
+    local domain=$1
+
+    # Verificar que el dominio no contenga http://, https://, ni www.
+    if [[ $domain =~ ^(http://|https://|www\.) ]]; then
+        echo -e "${amarillo} Error: el dominio NO debe contener http://, https://, ni www.${borra_colores}"
+    # Verificar que el dominio es válido
+    elif [[ $domain =~ ^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        domain_correcto="si"
+    else
+        echo -e "${amarillo} Error: dominio inválido.${borra_colores}"
+    fi
+
+    # Mostrar el resultado de la validación
+    if [[ $domain_correcto == "si" ]]; then
+        dominio_correcto="si"
+    else
+        dominio_correcto="no"
+    fi
+}
+
 
 #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
 source $ruta_ejecucion/configuradosino
@@ -217,8 +238,49 @@ do
             done
             ;;
 
-        3)  #configurar dominios
+        3)  #configurar Dominios
+            # Buscar la cadena "declare -A ips" en el archivo
+            if ! grep -q 'declare -A dominios' "$ruta_ejecucion/MonitorRedDominios"; then
+                echo "declare -A dominios" >> $ruta_ejecucion/MonitorRedDominios.config
+            fi
 
+
+            while true
+            do
+                clear
+                echo ""
+                echo -e "${azul}- Listado de tus DOMINIOS para saber si estan avtivos. -${borra_colores}"
+                echo ""
+                tail -n +2 $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                echo ""
+
+                # Solicitar y validar la dirección IP
+                echo -e "${amarillo} Ej. PaginaWeb google.es (S -> Terminar de introducir datos.).${borra_colores}"
+                read -p " Dime un Nombre para el dominio y el dominio separado por espacio -> " name dominio
+                echo ""
+                if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
+                    sed -i 's/configurado_dominios="no"/configurado_dominios="si"/' $ruta_ejecucion/configuradosino
+                    break
+                fi
+
+                validate_name "$name"
+                validate_domain "$dominio"
+
+                # Verifica si se debe salir del bucle
+
+
+                # Agrega la entrada al archivo como un nuevo elemento del array
+                if [[ "$nombre_correpto" == "si" ]] && [[ "$dominio_correcto" = "si" ]]; then
+                    echo "dominios[$dominio]=$name" >> $ruta_ejecucion/MonitorRedDominios.config
+                    echo ""
+                    echo -e " nombre ${azul}$name${borra_colores} del dominio ${azul}$dominio${borra_colores} = ${verde}ok${borra_colores}."
+                    sleep 2
+                else
+                    echo -e "${rojo} Datos del dominio incorreptos.${borra_colores}"
+                    echo ""
+                    read -p " Pulsa una tecla para continuar." p
+                fi
+            done
             ;;
 
         4)  #configurar para el telegram
