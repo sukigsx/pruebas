@@ -316,7 +316,7 @@ do
             else
 
                 if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-                    bash $ruta_ejecucion/ConfigurarBotTelegran
+                    bash $ruta_ejecucion/ConfigurarBotTelegram
                 else
                     echo ""
                     echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
