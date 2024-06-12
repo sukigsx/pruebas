@@ -39,9 +39,9 @@ if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         curl -s -o -I $resultado 1>/dev/null 2>/dev/null
         if [ $? = "0" ]
         then
-            printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${servicios[$resultado]}\n" | column -t -s $'\t'
+            printf "${azul} SERVICIO${amarillo}${servicios[$resultado]} ${verde}ENCENDIDA${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
         else
-            printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${servicios[$resultado]}\n" | column -t -s $'\t'
+            printf "${azul} SERVICIO${amarillo}${servicios[$resultado]} ${verde}APAGADO${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
         fi
     done
     echo ""
