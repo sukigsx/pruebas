@@ -25,30 +25,56 @@ sleep 1
 exit
 }
 
+comprobar_servicios(){
+#funcion de comprobar comprobar_servicios
+clear
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRedServicios.config"
+if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+    echo ""
+    echo -e "${azul} Comprobando SERVICIOS.${borra_colores}\n"
+    source $ruta_ejecucion/MonitorRedServicios.config
+    for resultado in "${!servicios[@]}"
+    do
+        ping -w 1 $resultado 1>/dev/null 2>/dev/null
+        if [ $? = "0" ]
+        then
+            printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${servicios[$resultado]}\n" | column -t -s $'\t'
+        else
+            printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${servicios[$resultado]}\n" | column -t -s $'\t'
+        fi
+    done
+    echo ""
+    printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+    echo "----------------------------------------------------"
+    read -p " Pulsa una tecla para continuar." p
+fi
+}
+
 comprobar_ips(){
 #funcion de comprobar comprobar_ips
 clear
-            echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
-            archivo="$ruta_ejecucion/MonitorRedIps.config"
-            if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
-                echo ""
-                echo -e "${azul} Comprobando dispositivos en tu red.${borra_colores}\n"
-                source $ruta_ejecucion/MonitorRedIps.config
-                for resultado in "${!ips[@]}"
-                do
-                    ping -w 1 $resultado 1>/dev/null 2>/dev/null
-                    if [ $? = "0" ]
-                    then
-                        printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
-                    else
-                        printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
-                    fi
-                done
-                echo ""
-                printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
-                echo "----------------------------------------------------"
-                read -p " Pulsa una tecla para continuar." p
-            fi
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRedIps.config"
+if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+    echo ""
+    echo -e "${azul} Comprobando IPS activas en tu red.${borra_colores}\n"
+    source $ruta_ejecucion/MonitorRedIps.config
+    for resultado in "${!ips[@]}"
+    do
+        ping -w 1 $resultado 1>/dev/null 2>/dev/null
+        if [ $? = "0" ]
+        then
+            printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+        else
+            printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+        fi
+    done
+    echo ""
+    printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+    echo "----------------------------------------------------"
+    read -p " Pulsa una tecla para continuar." p
+fi
 }
 
 menu_info(){
@@ -92,7 +118,8 @@ do
     echo ""
     echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
     case $opcion in
-        1)
+        1)  #comprobar servicios
+            comprobar_servicios
             ;;
 
         2)  #comprobar ips
@@ -103,6 +130,7 @@ do
 
         70) #comprobar todo
             comprobar_ips
+            comprobar_servicios
             ;;
 
         90) #ayuda
