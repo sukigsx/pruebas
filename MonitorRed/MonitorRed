@@ -25,6 +25,32 @@ sleep 1
 exit
 }
 
+comprobar_dominios(){
+#funcion de comprobar comprobar_servicios
+clear
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRedDominios.config"
+if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+    echo ""
+    echo -e "${azul} Comprobando DOMINIOS.${borra_colores}\n"
+    source $ruta_ejecucion/MonitorRedDominios.config
+    for resultado in "${!dominios[@]}"
+    do
+        curl -s -o -I $resultado 1>/dev/null 2>/dev/null
+        if [ $? = "0" ]
+        then
+            printf "${azul} DOMINIO ${amarillo}${dominios[$resultado]} ${verde}ENCENDIDO${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
+        else
+            printf "${azul} DOMINIO ${amarillo}${dominios[$resultado]} ${verde}APAGADO${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
+        fi
+    done
+    echo ""
+    printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+    echo "----------------------------------------------------"
+    read -p " Pulsa una tecla para continuar." p
+fi
+}
+
 comprobar_servicios(){
 #funcion de comprobar comprobar_servicios
 clear
@@ -126,7 +152,9 @@ do
             comprobar_ips
             ;;
 
-        3);;
+        3)  #comprobar_dominios
+            comprobar_dominios
+            ;;
 
         70) #comprobar todo
             comprobar_ips
