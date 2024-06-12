@@ -59,6 +59,8 @@ echo ""
 }
 
 source $ruta_ejecucion/configuradosino
+while :
+do
 menu_info
 echo ""
 echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
@@ -99,9 +101,17 @@ echo -e "${amarillo} Se va ha enviar un mensaje de telegran de prueba."
 
 source $ruta_ejecucion/MonitorRedTelegram.config
 curl -s -X POST $URL -d chat_id=$ID -d text="Este es un mensaje de prueba, comprobando la configuracion del Bot de telegram del script de MonitorRed."
-
-echo -e "${verde} Configuracion realizada.${borra_colores}"
-
+if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+    echo ""
+    echo -e "${verde} Configuracion realizada.${borra_colores}"
+    sleep 3
+    break
+else
+    echo ""
+    echo -e "${verde} Repetimos la configuracion.${borra_colores}"
+    rm $ruta_ejecucion/MonitorRedTelegram.config
+    sleep 3
+done
 
 
 
