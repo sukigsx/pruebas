@@ -147,7 +147,7 @@ case $opcion in
         ;;
 
     99) #ir al menu configuracion.
-        bash $ruta_ejecucion/MonitorRed
+        bash $ruta_ejecucion/MonitorRed/configuracion
         ;;
 
     *)  #opcion invalida
