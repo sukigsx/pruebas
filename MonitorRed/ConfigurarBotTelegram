@@ -111,6 +111,7 @@ else
     echo -e "${verde} Repetimos la configuracion.${borra_colores}"
     rm $ruta_ejecucion/MonitorRedTelegram.config
     sleep 3
+fi
 done
 
 
