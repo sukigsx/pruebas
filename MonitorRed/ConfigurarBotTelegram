@@ -37,45 +37,8 @@ rosa="\e[0;35m\033[1m"
 turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
-menu_info(){
-# muestra el menu de sukigsx
+configurar_telegram(){
 clear
-echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
-echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
-echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
-echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
-echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
-echo -e ""
-echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
-echo ""
-echo -e "${azul} Estado de configuracion del script:${borra_colores}"
-echo ""
-echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
-echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
-echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
-echo ""
-}
-
-source $ruta_ejecucion/configuradosino
-while :
-do
-menu_info
-echo ""
-echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
-echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
-echo -e "   ${azul} 2-${borra_colores} Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios."
-echo -e "   ${azul} 3-${borra_colores} Automatizar los envios al Bot Telegram."
-echo -e "   ${azul} 4-${borra_colores} vacia."
-echo -e ""
-echo -e "   ${azul}90-${borra_colores} Ayuda"
-echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
-echo ""
-echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
-case $opcion in
-    1)  #Configurar Bot Telegram
-        clear
         echo -e "${verde}"; figlet Configuracion; echo -e "${borra_colores}"
         echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
         echo ""
@@ -127,6 +90,55 @@ case $opcion in
             echo -e "${verde} Repetimos la configuracion.${borra_colores}"
             rm $ruta_ejecucion/MonitorRedTelegram.config
             sleep 3
+        fi
+}
+
+menu_info(){
+# muestra el menu de sukigsx
+clear
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
+echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
+echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
+echo ""
+}
+
+source $ruta_ejecucion/configuradosino
+while :
+do
+menu_info
+echo ""
+echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
+echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
+echo -e "   ${azul} 2-${borra_colores} Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios."
+echo -e "   ${azul} 3-${borra_colores} Automatizar los envios al Bot Telegram."
+echo -e "   ${azul} 4-${borra_colores} vacia."
+echo -e ""
+echo -e "   ${azul}90-${borra_colores} Ayuda"
+echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
+echo ""
+echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+case $opcion in
+    1)  #Configurar Bot Telegram
+        #comprueba si esta conficgurado el bot telegram
+        if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
+            echo ""
+            echo -e "${amarillo} Ya dispones de una configuracion del Bot de Telegram.${borra_colores}"
+            echo ""
+            sleep 3
+        else
+            configurar_telegram
         fi
         ;;
 
