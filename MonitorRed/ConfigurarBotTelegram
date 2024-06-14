@@ -89,33 +89,65 @@ echo -e "   https://ugeek.github.io/blog/post/2019-03-14-crea-un-bot-de-telegram
 echo -e ""
 echo -e " Gracias Ugeek por todos tus aportes.${borra_colores}"
 echo ""
-read -p " Dime el TOKEN de tu Bot de Telegram -> " token
-read -p " Dime el id de tu usuario de Telegram -> " id
-
-#mete al fichero de configuracion de telegram los datos necesarios
-echo "TOKEN=$token" >> $ruta_ejecucion/MonitorRedTelegram.config
-echo "ID=$id" >> $ruta_ejecucion/MonitorRedTelegram.config
-echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRedTelegram.config
+echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
+echo -e "   ${azul} 2-${borra_colores} Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios."
+echo -e "   ${azul} 3-${borra_colores} Automatizar los envios al Bot Telegram."
+echo -e "   ${azul} 4-${borra_colores} vacia."
+echo -e ""
+echo -e "   ${azul}90-${borra_colores} Ayuda"
+echo -e "   ${azul}99-${borra_colores} Ir al menu principal."
 echo ""
-echo -e "${amarillo} Se ha enviado un mensaje de prueba a Telegram.${borra_colores}"
+echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+case $opcion in
+    1)  #Configurar Bot Telegram
+        read -p " Dime el TOKEN de tu Bot de Telegram -> " token
+        read -p " Dime el id de tu usuario de Telegram -> " id
 
-source $ruta_ejecucion/MonitorRedTelegram.config
-curl -s -X POST $URL -d chat_id=$ID -d text="Este es un mensaje de prueba, comprobando la configuracion del Bot de telegram del script de MonitorRed." 2>/dev/null 1>/dev/null 0>/dev/null
-echo ""
-read -p " ¿ Te ha llegado el mensaje a Telegram ? -> " sn
-if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
-    echo ""
-    echo -e "${verde} Configuracion realizada.${borra_colores}"
-    sleep 3
-    break
-else
-    echo ""
-    echo -e "${verde} Repetimos la configuracion.${borra_colores}"
-    rm $ruta_ejecucion/MonitorRedTelegram.config
-    sleep 3
-fi
+        #mete al fichero de configuracion de telegram los datos necesarios
+        echo "TOKEN=$token" >> $ruta_ejecucion/MonitorRedTelegram.config
+        echo "ID=$id" >> $ruta_ejecucion/MonitorRedTelegram.config
+        echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRedTelegram.config
+        echo ""
+        echo -e "${amarillo} Se ha enviado un mensaje de prueba a Telegram.${borra_colores}"
+
+        source $ruta_ejecucion/MonitorRedTelegram.config
+        curl -s -X POST $URL -d chat_id=$ID -d text="Este es un mensaje de prueba, comprobando la configuracion del Bot de telegram del script de MonitorRed." 2>/dev/null 1>/dev/null 0>/dev/null
+        echo ""
+        read -p " ¿ Te ha llegado el mensaje a Telegram ? -> " sn
+        if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+            echo ""
+            echo -e "${verde} Configuracion realizada.${borra_colores}"
+            sleep 3
+            break
+        else
+            echo ""
+            echo -e "${verde} Repetimos la configuracion.${borra_colores}"
+            rm $ruta_ejecucion/MonitorRedTelegram.config
+            sleep 3
+        fi
+        ;;
+
+    2)  #Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios
+        #comprueba si esta conficgurado el bot telegram
+        if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
+            echo "existe"
+        else
+            echo "no existe"
+        fi
+        read p
+        ;;
+
+    3)  #Automatizar los envios al Bot Telegram
+        ;;
+
+    *)  #opcion invalida
+        echo ""
+        echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+        sleep 2
+        ;;
+
+esac
 done
-
 
 
 #variables para el bot de telegram

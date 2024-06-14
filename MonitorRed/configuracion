@@ -133,7 +133,7 @@ do
     echo -e "   ${azul} 1-${borra_colores} Configurar Servicios que tengas en una misma ip (ej. 192.168.1.1:22 192.168.1.1:8080)"
     echo -e "   ${azul} 2-${borra_colores} Configurar Ips activas en tu red (ej. movil 192.168.1.50, tv 192.168.1.45)"
     echo -e "   ${azul} 3-${borra_colores} Configurar Dominios activos (ej. coches.web.es, motos.web.es)"
-    echo -e "   ${azul} 4-${borra_colores} Programar para informar a un boot de telegram."
+    echo -e "   ${azul} 4-${borra_colores} Programar/Automatizar envios para informar a un Boot de Telegram."
     echo -e ""
     echo -e "   ${amarillo}10-${borra_colores} Editar fichero configuracion de SERVICIOS."
     echo -e "   ${amarillo}11-${borra_colores} Editar fichero configuracion de IPS."
@@ -142,7 +142,8 @@ do
     echo -e "   ${rojo}20-${borra_colores} Borra la configuracion de los SERVICIOS"
     echo -e "   ${rojo}21-${borra_colores} Borra la configuracion de la IPS activas"
     echo -e "   ${rojo}22-${borra_colores} Borra la configuracion de los DOMINIOS"
-    echo -e "   ${rojo}23-${borra_colores} Borrar toda la configuracion."
+    echo -e "   ${rojo}23-${borra_colores} Borra la configuracion del Bot  Telegram"
+    echo -e "   ${rojo}24-${borra_colores} Borrar toda la configuracion."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
     echo -e "   ${azul}99-${borra_colores} Ir al menu principal."
@@ -404,7 +405,20 @@ do
             fi
             ;;
 
-        23)  #borra toda la configuracion y lo deja como el inicio
+        23) #Borra la configuracion del Bot  Telegram
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion del Bot Telegram (S/n) ? -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                echo ""
+                echo -e "${amarillo} Configuracion del Bot de Telegram borrada.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
+            ;;
+
+        24)  #borra toda la configuracion y lo deja como el inicio
             echo ""
             read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n) ? -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
