@@ -101,6 +101,7 @@ echo -e "${amarillo} Se va ha enviar un mensaje de telegran de prueba."
 
 source $ruta_ejecucion/MonitorRedTelegram.config
 curl -s -X POST $URL -d chat_id=$ID -d text="Este es un mensaje de prueba, comprobando la configuracion del Bot de telegram del script de MonitorRed."
+read -p " ¿ Te ha llegado el mensaje a Telegram ? -> " sn
 if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
     echo ""
     echo -e "${verde} Configuracion realizada.${borra_colores}"
