@@ -153,7 +153,8 @@ case $opcion in
                 cp $ruta_ejecucion/MonitorRedServicios.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
                 cp $ruta_ejecucion/MonitorRedDominios.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
                 cp $ruta_ejecucion/MonitorRedIps.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
-                read p
+
+
             else
                 echo ""
                 echo -e "${amarillo} No esta configurado tu Bot de Telegram.${borra_colores}"
@@ -169,6 +170,8 @@ case $opcion in
 
     3)  #Borrar la automatizacion de envios a Telegram
         rm -r /home/$(whoami)/.config/MonitorRedAutomatico
+        echo ""
+        echo -e "${amarillo} automatizacion del envio automatico borrada.${borra_colores}"; sleep 2
         ;;
 
     4)  #borra configuracion telegram
