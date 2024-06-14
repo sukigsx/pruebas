@@ -287,46 +287,7 @@ do
             ;;
 
         4)  #configurar para el telegram
-            clear
-            menu_info
-            if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
-                echo ""
-                echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
-                echo ""
-                echo -e "${amarillo} Ya dispones de una configuracion de tu Bot de Telegram.${borra_colores}"
-                read -p " ¿ Deseas borrarla y configurar de nuevo (S/n) ? -> " sn
-                if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
-
-                    if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-                        rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
-                        bash $ruta_ejecucion/ConfigurarBotTelegram
-                    else
-                        echo ""
-                        echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
-                        echo -e "${amarillo} Se necesita al menos uno para poder configurar el Bot de Telegram.${borra_colores}"
-                        echo ""
-                        sleep 5
-                    fi
-
-                else
-                    echo ""
-                    echo -e "${verde} No se modifica nada de la configuracion del Bot de Telegram.${borra_colores}"
-                    sleep 4
-                fi
-
-            else
-
-                if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-                    bash $ruta_ejecucion/ConfigurarBotTelegram
-                else
-                    echo ""
-                    echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
-                    echo -e "${amarillo} Se necesita al menos uno para poder configurar el Bot de Telegram.${borra_colores}"
-                    echo ""
-                    sleep 7
-                fi
-
-            fi
+            bash $ruta_ejecucion/ConfigurarBotTelegram
             ;;
 
         10) #Editar fichero configuracion de SERVICIOS
