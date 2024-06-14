@@ -165,7 +165,7 @@ case $opcion in
         ;;
 
     3)  #Borrar la automatizacion de envios a Telegram
-
+        rm -r /home/$(whoami)/.config/MonitorRedAutomatico
         ;;
 
     4)  #borra configuracion telegram
