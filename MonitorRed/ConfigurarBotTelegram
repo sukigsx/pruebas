@@ -153,7 +153,8 @@ case $opcion in
                 cp $ruta_ejecucion/MonitorRedServicios.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
                 cp $ruta_ejecucion/MonitorRedDominios.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
                 cp $ruta_ejecucion/MonitorRedIps.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
-
+                bash /home/$(whoami)/.config/MonitorRedAutomatico/AutomatizarBotTelegram.config
+                read p
 
             else
                 echo ""
@@ -169,7 +170,7 @@ case $opcion in
         ;;
 
     3)  #Borrar la automatizacion de envios a Telegram
-        rm -r /home/$(whoami)/.config/MonitorRedAutomatico
+        rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
         echo ""
         echo -e "${amarillo} automatizacion del envio automatico borrada.${borra_colores}"; sleep 2
         ;;
