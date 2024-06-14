@@ -123,7 +123,7 @@ echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
 echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
 echo -e "   ${azul} 2-${borra_colores} Automatizar los envios al Bot de telegram."
 echo -e ""
-echo -e "   ${azul} 3-${borra_colores} Borrar la automatizacion de envios al Bot de Telegram."
+echo -e "   ${rojo} 3-${borra_colores} Borrar la automatizacion de envios al Bot de Telegram."
 echo -e "   ${rojo} 4-${borra_colores} Borra la configuracion del Bot de Telegram."
 echo -e ""
 echo -e "   ${azul}90-${borra_colores} Ayuda"
@@ -153,7 +153,7 @@ case $opcion in
                 read p
             else
                 echo ""
-                echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+                echo -e "${amarillo} No esta configurado tu Bot de Telegram.${borra_colores}"
                 sleep 4
                 break
             fi

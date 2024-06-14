@@ -142,7 +142,7 @@ do
     echo -e "   ${rojo}20-${borra_colores} Borra la configuracion de los SERVICIOS"
     echo -e "   ${rojo}21-${borra_colores} Borra la configuracion de la IPS activas"
     echo -e "   ${rojo}22-${borra_colores} Borra la configuracion de los DOMINIOS"
-    echo -e "   ${rojo}23-${borra_colores} Borra la configuracion del Bot  Telegram"
+    echo -e "   ${rojo}23-${borra_colores} Borra la configuracion del Bot Telegram"
     echo -e "   ${rojo}24-${borra_colores} Borrar toda la configuracion."
     echo -e ""
     echo -e "   ${azul}90-${borra_colores} Ayuda"
