@@ -154,7 +154,7 @@ case $opcion in
                 cp $ruta_ejecucion/MonitorRedDominios.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
                 cp $ruta_ejecucion/MonitorRedIps.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
                 cp $ruta_ejecucion/MonitorRedTelegram.config /home/$(whoami)/.config/MonitorRedAutomatico/ 2>/dev/null 1>/dev/null 0>/dev/null
-
+                echo -e "${verde} listo ${borra_colores}"
                 bash /home/$(whoami)/.config/MonitorRedAutomatico/AutomatizarBotTelegram.config
                 read p
 
