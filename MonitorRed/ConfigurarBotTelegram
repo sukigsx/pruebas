@@ -149,7 +149,7 @@ case $opcion in
             if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
                 mkdir /home/$(whoami)/.config 2>/dev/null 1>/dev/null 0>/dev/null
                 mkdir /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
-                cat $ruta_ejecucion/AutomatizarBotTelegram.config >> /home/$(whoami)/.config/MonitorRedAutomatico/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+                cat AutomatizarBotTelegram.config >> /home/$(whoami)/.config/MonitorRedAutomatico/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
                 read p
             else
                 echo ""
