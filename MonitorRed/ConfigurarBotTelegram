@@ -121,9 +121,9 @@ menu_info
 echo ""
 echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
 echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
-echo -e "   ${azul} 2-${borra_colores} Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios."
-echo -e "   ${azul} 3-${borra_colores} Automatizar los envios al Bot Telegram."
+echo -e "   ${azul} 2-${borra_colores} Automatizar los envios al Bot de telegram."
 echo -e ""
+echo -e "   ${azul} 3-${borra_colores} Borrar la automatizacion de envios al Bot de Telegram."
 echo -e "   ${rojo} 4-${borra_colores} Borra la configuracion del Bot de Telegram."
 echo -e ""
 echo -e "   ${azul}90-${borra_colores} Ayuda"
@@ -143,17 +143,29 @@ case $opcion in
         fi
         ;;
 
-    2)  #Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios
-        #comprueba si esta conficgurado el bot telegram
-        if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
-            echo "existe"
+    2)  #automatizar los envios al Bot de Telegram
+        source $ruta_ejecucion/configuradosino
+        if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+            if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
+                mkdir /home/$(whoami)/.config
+                mkdir /home/$(whoami)/.config/MonitorRedAutomatico
+                cat $ruta_ejecucion/AutomatizarBotTelegram.cong >> /home/$(whoami)/.config/MonitorRedAutomatico/MonitorRedAutomatico
+                read p
+            else
+                echo ""
+                echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+                sleep 4
+                break
+            fi
         else
-            echo "no existe"
+            echo ""
+            echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+            sleep 4
         fi
-        read p
         ;;
 
-    3)  #Automatizar los envios al Bot Telegram
+    3)  #Borrar la automatizacion de envios a Telegram
+
         ;;
 
     4)  #borra configuracion telegram
