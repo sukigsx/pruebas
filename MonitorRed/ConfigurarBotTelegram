@@ -64,42 +64,45 @@ do
 menu_info
 echo ""
 echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
-echo ""
-echo -e "${avul}--${amarillo} INFORMACION NECESARIA PARA PODER CONFIGURAR ${azul}--${borra_colores}"
-echo ""
-echo -e " Voy a explicar en sencillos pasos como crear un Bot con @BotFather"
-echo -e " que es el padre de todos los Bots, creado por Telegram con el fin de facilitar la creación de estos:"
-echo -e "    - Clicamos este enlace @BotFather e iniciamos el Bot."
-echo -e "    - Seleccionamos o escribimos /newbot."
-echo -e "      Nos preguntará: ¿Que nombre quieres dar a tu bot?. Escribimos un nombre."
-echo -e "    - El Bot nos respone ahora: ¿Que nick quieres usar para este bot?"
-echo -e "      recuerda que el nick debe de acabar en bot o _bot. ejem: @nick_bot, @nickbot,…"
-echo -e "    - @BotFather ya nos ha creado el bot!!!. Ahora ya tenemos nuestro numero de Token para poder utilizar nuestro bot."
-echo -e ""
-echo -e " Si escribimos en @BotFather: /setuserpic, podremos elegir una foto para nuestro bot."
-echo -e "    Hay muchas mas opciones como añadir una descripción y demas, pero eso ya os lo dejo a vosotros…"
-echo -e ""
-echo -e " Cada usuario en Telegram tenemos un identificador, ID. Podemos saber el nuestro iniciando este bot @userinfobot."
-echo -e " Si queremos añadir el Bot en un Grupo o Canal, para que envíe mensajes o haga cualquier función"
-echo -e "    tendremos que averiguar el ID de ese Grupo o Canal. Para ello reenvía un mensaje desde el Canal/Grupo al Bot @ChannelIdBot."
-echo ""
-echo -e "${verde} NOTA. Esta informacio ha sido sacada de Ugeek de su pagina web: https://ugeek.github.io/"
-echo -e "   concretamente del siguiente enlace:"
-echo -e "   https://ugeek.github.io/blog/post/2019-03-14-crea-un-bot-de-telegram-con-bash-y-una-sola-linea-de-terminal.html"
-echo -e ""
-echo -e " Gracias Ugeek por todos tus aportes.${borra_colores}"
-echo ""
 echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
 echo -e "   ${azul} 2-${borra_colores} Enviar mensajes al Bot Telegram de tus Ips, Servicios y Dominios."
 echo -e "   ${azul} 3-${borra_colores} Automatizar los envios al Bot Telegram."
 echo -e "   ${azul} 4-${borra_colores} vacia."
 echo -e ""
 echo -e "   ${azul}90-${borra_colores} Ayuda"
-echo -e "   ${azul}99-${borra_colores} Ir al menu principal."
+echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
 echo ""
 echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
 case $opcion in
     1)  #Configurar Bot Telegram
+        clear
+        echo -e "${verde}"; figlet Configuracion; echo -e "${borra_colores}"
+        echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
+        echo ""
+        echo -e "${avul}--${amarillo} INFORMACION NECESARIA PARA PODER CONFIGURAR ${azul}--${borra_colores}"
+        echo ""
+        echo -e " Voy a explicar en sencillos pasos como crear un Bot con @BotFather"
+        echo -e " que es el padre de todos los Bots, creado por Telegram con el fin de facilitar la creación de estos:"
+        echo -e "    - Clicamos este enlace @BotFather e iniciamos el Bot."
+        echo -e "    - Seleccionamos o escribimos /newbot."
+        echo -e "      Nos preguntará: ¿Que nombre quieres dar a tu bot?. Escribimos un nombre."
+        echo -e "    - El Bot nos respone ahora: ¿Que nick quieres usar para este bot?"
+        echo -e "      recuerda que el nick debe de acabar en bot o _bot. ejem: @nick_bot, @nickbot,…"
+        echo -e "    - @BotFather ya nos ha creado el bot!!!. Ahora ya tenemos nuestro numero de Token para poder utilizar nuestro bot."
+        echo -e ""
+        echo -e " Si escribimos en @BotFather: /setuserpic, podremos elegir una foto para nuestro bot."
+        echo -e "    Hay muchas mas opciones como añadir una descripción y demas, pero eso ya os lo dejo a vosotros…"
+        echo -e ""
+        echo -e " Cada usuario en Telegram tenemos un identificador, ID. Podemos saber el nuestro iniciando este bot @userinfobot."
+        echo -e " Si queremos añadir el Bot en un Grupo o Canal, para que envíe mensajes o haga cualquier función"
+        echo -e "    tendremos que averiguar el ID de ese Grupo o Canal. Para ello reenvía un mensaje desde el Canal/Grupo al Bot @ChannelIdBot."
+        echo ""
+        echo -e "${verde} NOTA. Esta informacio ha sido sacada de Ugeek de su pagina web: https://ugeek.github.io/"
+        echo -e "   concretamente del siguiente enlace:"
+        echo -e "   https://ugeek.github.io/blog/post/2019-03-14-crea-un-bot-de-telegram-con-bash-y-una-sola-linea-de-terminal.html"
+        echo -e ""
+        echo -e " Gracias Ugeek por todos tus aportes.${borra_colores}"
+        echo ""
         read -p " Dime el TOKEN de tu Bot de Telegram -> " token
         read -p " Dime el id de tu usuario de Telegram -> " id
 
@@ -138,6 +141,13 @@ case $opcion in
         ;;
 
     3)  #Automatizar los envios al Bot Telegram
+        ;;
+
+    99) #ayuda
+        ;;
+
+    99) #ir al menu configuracion.
+        bash $ruta_ejecucion/MonitorRed
         ;;
 
     *)  #opcion invalida
