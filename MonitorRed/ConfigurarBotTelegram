@@ -160,11 +160,9 @@ case $opcion in
                 #mueve el fichero resultado.txt al destino .config/MonitorRed
                 mv $ruta_ejecucion/resultado.txt /home/$(whoami)/.config/MonitorRedAutomatico/resultado.txt
 
-                read p
+                #crear el fichero de ejecucion para la notificacion telegram
+                echo "curl -s -X POST $URL -d chat_id=$ID -d text='\$(cat resultado.txt)' 2>/dev/null 1>/dev/null 0>/dev/null" >> /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
 
-
-
-                #curl -s -X POST $URL -d chat_id=$ID -d text="$(cat resultado.txt)" 2>/dev/null 1>/dev/null 0>/dev/null
 
             else
                 echo ""
