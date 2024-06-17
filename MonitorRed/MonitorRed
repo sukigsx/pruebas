@@ -164,9 +164,8 @@ do
 
         90) #ayuda
             clear
-            cat $ruta_ejecucion/MonitorRed/ayuda
+            cat $ruta_ejecucion/ayuda
             read p
-            ;;
 
         99) #ir al menu de configuracion
             bash $ruta_ejecucion/configuracion

@@ -280,6 +280,9 @@ case $opcion in
         ;;
 
     90) #ayuda
+        clear
+        cat $ruta_ejecucion/ayuda
+        read p
         ;;
 
     99) #ir al menu configuracion.
