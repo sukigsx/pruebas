@@ -176,11 +176,13 @@ case $opcion in
                 do
                 menu_info
                 echo -e ""
-                echo -e "${azul} ¿ Cuantas veces al dia quieres ser notificado ?${borra_colores}"
+                echo -e " ¿ Cuantas veces al dia quieres ser notificado ?"
                 echo -e ""
-                echo -e "   ${azul} 1-${borra_colores} Una vez al dia a las 09'00 de la mañana."
-                echo -e "   ${azul} 2-${borra_colores} Dos veces a las 09'00 y a las 21'00."
-                echo -e "   ${azul} 3-${borra_colores} Tres veces a las 09'00, 13'00 y a las 21'00."
+                echo -e "   ${azul}  1-${borra_colores} Una vez al dia a las 09'00 de la mañana."
+                echo -e "   ${azul}  2-${borra_colores} Dos veces a las 09'00 y a las 21'00."
+                echo -e "   ${azul}  3-${borra_colores} Tres veces a las 09'00, 13'00 y a las 21'00."
+                echo -e ""
+                echo -e "   ${azul} 99-${borra_colores} Atras."
                 echo -e ""
                 read -p " Selecciona una opcion -> " dia
                 case $dia in
@@ -235,6 +237,10 @@ case $opcion in
                         echo -e "${verde} ok${borra_colores} Tres veces al dia a las 09'00, 13'00 y a las 21.00."
                         bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
                         sleep 3
+                        break
+                        ;;
+
+                    99) #atras
                         break
                         ;;
 
