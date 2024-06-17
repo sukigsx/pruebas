@@ -162,7 +162,7 @@ do
             do
                 clear
                 echo ""
-                echo -e "${azul}- Listado de tus SERVICIOS para saber si estan avtivos. -${borra_colores}"
+                echo -e "${azul}- Listado de tus SERVICIOS para saber si estan activos. -${borra_colores}"
                 echo ""
                 tail -n +2 $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
@@ -244,7 +244,7 @@ do
 
         3)  #configurar Dominios
             # Buscar la cadena "declare -A ips" en el archivo
-            if ! grep -q 'declare -A dominios' "$ruta_ejecucion/MonitorRedDominios"; then
+            if ! grep -q 'declare -A dominios' "$ruta_ejecucion/MonitorRedDominios.config"; then
                 echo "declare -A dominios" >> $ruta_ejecucion/MonitorRedDominios.config
             fi
 
