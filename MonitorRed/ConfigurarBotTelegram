@@ -159,11 +159,18 @@ case $opcion in
                 bash $ruta_ejecucion/AutomatizarBotTelegram.config
 
                 #mueve el fichero resultado.txt al destino .config/MonitorRed
+                rm /home/$(whoami)/.config/MonitorRedAutomatico/resultado.txt 2>/dev/null 1>/dev/null 0>/dev/null
                 mv $ruta_ejecucion/resultado.txt /home/$(whoami)/.config/MonitorRedAutomatico/resultado.txt
 
                 #crear el fichero de ejecucion para la notificacion telegram
-                echo "curl -s -X POST $URL -d chat_id=$ID -d text=\$(cat resultado.txt) 2>/dev/null 1>/dev/null 0>/dev/null" > /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+                echo "curl -s -X POST $URL -d chat_id=$ID -d text=\"\$(cat resultado.txt)\" 2>/dev/null 1>/dev/null 0>/dev/null" > /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
 
+                #metemos al cronbtab
+                # Generar la línea a agregar con el nombre del usuario
+                CRON_LINE="* * * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+
+                # Verificar si la línea ya existe en el crontab, y si no, agregarla
+                (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
 
 
             else
