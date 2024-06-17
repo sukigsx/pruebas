@@ -145,6 +145,12 @@ case $opcion in
 
     2)  #automatizar los envios al Bot de Telegram
         source $ruta_ejecucion/configuradosino
+        #borra conficguracion de crontab
+        crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
+        rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+
+
+
         if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
             if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
                 #crea la carpeta dentro del .config del usuario
@@ -168,11 +174,15 @@ case $opcion in
 
                 while :
                 do
+                menu_info
+                echo -e ""
+                echo -e "${azul} ¿ Cuantas veces al dia quieres ser notificado ?${borra_colores}"
+                echo -e ""
                 echo -e "   ${azul} 1-${borra_colores} Una vez al dia a las 09'00 de la mañana."
                 echo -e "   ${azul} 2-${borra_colores} Dos veces a las 09'00 y a las 21'00."
-                echo -e "   ${rojo} 3-${borra_colores} Tres veces a las 09'00, 13'00 y a las 21'00."
+                echo -e "   ${azul} 3-${borra_colores} Tres veces a las 09'00, 13'00 y a las 21'00."
                 echo -e ""
-                read -p " ¿ Cuantas veces al dia quieres que te informe ? -> " dia
+                read -p " Selecciona una opcion -> " dia
                 case $dia in
                     1)  #una vez
                         #metemos al cronbtab
@@ -251,12 +261,14 @@ case $opcion in
 
     3)  #Borrar la automatizacion de envios a Telegram
         rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+        crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
         echo ""
         echo -e "${amarillo} automatizacion del envio automatico borrada.${borra_colores}"; sleep 2
         ;;
 
     4)  #borra configuracion telegram
         rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+        crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
         echo ""
         echo -e "${amarillo} Configuracion del Bot de Telegram borrada.${borra_colores}"; sleep 2
         ;;
