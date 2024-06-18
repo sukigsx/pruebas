@@ -144,9 +144,6 @@ do
     echo ""
     echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
     case $opcion in
-    configurado_ips="no"
-configurado_dominios="no"
-configurado_servicios="no"
         1)  #comprobar servicios
             if [ "$configurado_servicios" = "si" ]; then
                 comprobar_servicios
