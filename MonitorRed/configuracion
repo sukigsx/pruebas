@@ -164,7 +164,7 @@ do
                 echo ""
                 echo -e "${azul}- Listado de tus SERVICIOS para saber si estan activos. -${borra_colores}"
                 echo ""
-                tail -n +2 $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                tail -n +2 $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null | awk -F'[[\\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
 
                 # Solicitar y validar la dirección IP
