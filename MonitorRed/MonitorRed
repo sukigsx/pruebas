@@ -179,7 +179,7 @@ do
                 comprobar_servicios
             else
                 echo -e ""
-                echo -e "${amarillo} No tienes ningun Servicio configurado-${borra_colores}"; sleep 1
+                echo -e "${amarillo} No tienes ningun Servicio configurado${borra_colores}"; sleep 1
                 echo -e ""
             fi
 
