@@ -187,7 +187,7 @@ do
                 comprobar_ips
             else
                 echo -e ""
-                echo -e "${amarillo} No tienes ninguna Ip configurado-${borra_colores}"; sleep 1
+                echo -e "${amarillo} No tienes ninguna Ip configurado${borra_colores}"; sleep 1
                 echo -e ""
             fi
 
@@ -197,6 +197,13 @@ do
                 echo -e ""
                 echo -e "${amarillo} No tienes ningun Dominio configurado-${borra_colores}"; sleep 1
                 echo -e ""
+            fi
+
+            if [ "$configurado_dominios" = "no" ] || [ "$configurado_ips" = "no" ] || [ "$configurado_servicios" = "no" ]; then
+                echo ""
+                printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+                echo "----------------------------------------------------"
+                read -p " Pulsa una tecla para continuar." p
             fi
             ;;
 
