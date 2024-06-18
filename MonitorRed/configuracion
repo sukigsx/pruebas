@@ -210,7 +210,7 @@ do
                 echo ""
                 echo -e "${azul}- Listado de tus IPS para saber si estan activas. -${borra_colores}"
                 echo ""
-                tail -n +2 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                tail -n +2 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
 
                 # Solicitar y validar la dirección IP
@@ -255,7 +255,7 @@ do
                 echo ""
                 echo -e "${azul}- Listado de tus DOMINIOS para saber si estan avtivos. -${borra_colores}"
                 echo ""
-                tail -n +2 $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null | awk -F'[[\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                tail -n +2 $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null | awk -F'[[\\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
                 echo ""
 
                 # Solicitar y validar la dirección IP
