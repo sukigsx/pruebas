@@ -32,11 +32,11 @@ echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
 archivo="$ruta_ejecucion/MonitorRedDominios.config"
 
 #comprueba si esta configurado
-#if [ "$configurado_dominios" = "no" ]; then
-#    echo -e ""
-#    echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}"; sleep 3
-#    echo -e ""
-#else
+if [ "$configurado_dominios" = "no" ]; then
+    echo -e ""
+    echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}"; sleep 3
+    echo -e ""
+else
 
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo ""
@@ -57,7 +57,7 @@ archivo="$ruta_ejecucion/MonitorRedDominios.config"
         echo "----------------------------------------------------"
         read -p " Pulsa una tecla para continuar." p
     fi
-#fi
+fi
 }
 
 comprobar_servicios(){
