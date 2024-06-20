@@ -29,4 +29,8 @@ La primera vez que lo ejecutes, tendras que configurar como minimo una de las tr
   - Y tambien en el menu configuracion en la opcion 4 tienes la opcion de automatizar los envios por telegram.
 
 ## Instalacion
-Simple, clonas el repositorio y ejecutas
+Simple, clonas el repositorio y ejecutas MonitorRed.sh y listo.
+
+Tambien puedes utilizar mi script (ejecutar scripts), el cual te permite de una forma interactiva instal scrips en bash y como no podria ser de otra manera, tambien te permite instalar mis scripts.
+
+# ESPERO OS GUSTE
