@@ -1,38 +1,58 @@
 # MonitorRed
-Este script esta creado en bash. Y su objetivo es comprobar Servicios, Ips activas y tus Dominios que tengas en internet o en tu red lan y saber si estan activas o no.
 
-Resulta muy util saber si estan levantados y estan operativos. Y con este script lo puedes hacer de una manera sencilla, ademas permite que te mande un mensaje a tu telegram.
-Lo he divido en Servicios, Ips y Dominios, que te paso a explicar las diferencias de los mismos al ejecutar el MonitorRed.
+Este es un programa que se llama **MonitorRed** y está hecho con el lenguaje de programación Bash.
+
+## ¿Para qué sirve MonitorRed?
+
+MonitorRed sirve para:
+- Ver si los servicios (programas) en tu red están funcionando.
+- Ver si las direcciones IP de tus dispositivos en la red están activas.
+- Ver si tus dominios (nombres de páginas web) están operativos.
+
+## ¿Por qué es útil MonitorRed?
+
+Es útil porque te permite saber si todo está funcionando bien y te avisa si hay algún problema. Además, puede enviarte un mensaje a Telegram para avisarte.
+
+## ¿Qué cosas puedes comprobar con MonitorRed?
 
 ### Servicios
-En servicios, entiende el script que son servicios que tienes alojados en un servidor y que se estan corriendo bajo la misma ip. Me explico, imagina que tienes una rapberry y en la cual tienes corriendo un wordpress en el puerto 8080, un vautgarden en el puerto 2020, etc.
-Bien todo en la misma ip, 192.168.1.100:8080 wordpress, 192.168.1.100:2020, etc.
-Pues cuando configuras los servicios el MonitorRed te comprueba si los tienes corriendo o no.
-Sin mas, creo que interesante.
 
-### Ips activas en tu red.
-Esto se me ocurrio para saber que dispositivos tengo en mi red encendidos. Con un simple vistazo veo lo que esta levantado o no.
-Para ello, cada dispositivo de tu red tienes que tenerlo asignado a una ip fija. Yo en mii caso el router le asigna ips fijas a cada dispositivo dependiendo de la direccion mac.
+- Un servicio es un programa que está funcionando en un servidor.
+- Por ejemplo, si tienes una Raspberry Pi y allí tienes un programa llamado WordPress en el puerto 8080 y otro programa en el puerto 2020.
+- El programa MonitorRed te dice si esos programas están funcionando o no.
 
-De esta forma yo se que la tv del salon es la 192.168.1.120, la de la cocina la 192.168.1.121 y asi con todo lo que tengas, y MonitorRed comprueba esas ips y te dice si estan conectadas o no. 
-Simple sencillo y practico.
+### IPs Activas
+
+- Una IP es un número que identifica a un dispositivo en la red.
+- Puedes ver qué dispositivos están conectados en tu red.
+- Por ejemplo, puedes saber si la TV del salón (con la IP 192.168.1.120) está encendida.
+- Cada dispositivo debe tener una IP fija para que MonitorRed pueda comprobarlo.
 
 ### Dominios
-Pues otra forma para saber que dominios tienes bajo control, por ejemplo puedes poner google.com y te dira si esta activo o no, claro sera raro que se caiga google.com jeje, pero si tienes una pagina web, te compruebe si esta operativa o no y puedes poner tantos dominios como quieras.
 
-## Telegram
-Todo esto que te he comentado se puede automatizar con telegram para que te mande un mensaje a tu bot 1 vez al dia, 2 o 3. Informandote de lo que tengas configurado, puede ser Ips Servicios o Dominios, o solo uno de ellos o dos, no tienes por que tenerlos todos configurados, pero si uno como minimo.
+- Un dominio es el nombre de una página web, como por ejemplo "google.com".
+- MonitorRed te dice si tu página web está funcionando.
+- Puedes agregar todos los dominios que quieras para que MonitorRed los verifique.
 
+## ¿Cómo recibir notificaciones por Telegram?
 
-## Iniciando de MonitorRed
-La primera vez que lo ejecutes, tendras que configurar como minimo una de las tres (Servicios, Ips oo Dominios), sino, no entrara al menu principal para scanear.
-  - Una vez que ya tengas configuro, con la opcion 99 del menu, alternas entre el menu configuracion y el menu principal. Podras ir poniendo o quitando Ips, Servicios o Dmoninios. Simple.
-  - En el menu configuracion, tienes la opcion 4 y dentro de ella tienes la opcion para configurar tu bot.El cual te pedira los datos necesarios para poder enviarle los resultados.
-  - Y tambien en el menu configuracion en la opcion 4 tienes la opcion de automatizar los envios por telegram.
+- MonitorRed puede enviarte mensajes a Telegram para decirte si todo está funcionando bien.
+- Puedes recibir estos mensajes una, dos o tres veces al día.
+- Puedes configurar qué quieres recibir: información sobre servicios, IPs o dominios, o sobre todos ellos.
 
-## Instalacion
-Simple, clonas el repositorio y ejecutas MonitorRed.sh y listo.
+## ¿Cómo empezar a usar MonitorRed?
 
-Tambien puedes utilizar mi script (ejecutar scripts), el cual te permite de una forma interactiva instal scrips en bash y como no podria ser de otra manera, tambien te permite instalar mis scripts.
+1. La primera vez que uses MonitorRed, debes configurar al menos una de las tres opciones: Servicios, IPs o Dominios.
+2. Si no configuras al menos una, no podrás usar el menú principal.
+3. En el menú, puedes usar la opción 99 para cambiar entre la configuración y el menú principal.
+4. En la configuración, puedes agregar o quitar servicios, IPs o dominios.
+5. También puedes configurar tu bot de Telegram para recibir mensajes.
 
-# ESPERO OS GUSTE
+## ¿Cómo instalar MonitorRed?
+
+1. Para instalar MonitorRed, solo necesitas clonar el repositorio y ejecutar el archivo `MonitorRed.sh`.
+2. También puedes usar otro script que te permite instalar scripts Bash de forma interactiva.
+
+---
+
+**¡Espero que te guste y te sea útil!**
