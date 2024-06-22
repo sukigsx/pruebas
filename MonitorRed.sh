@@ -247,7 +247,53 @@ fi
 #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
 #source $ruta_ejecucion/MonitorRed/configuradosino
 
-menu_info
-echo "continuamos"
-read p
+while :
+do
+    menu_info
+    echo -e "${verde}"; figlet Principal; echo -e "${borra_colores}"
+    echo ""
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 2-${borra_colores} Comprobar Ips activas en tu red."
+    echo -e "   ${azul} 3-${borra_colores} Comprobar Dominios activos."
+    echo -e ""
+    echo -e "   ${azul}70-${borra_colores} Comprobar todo."
+    echo -e ""
+    echo -e "   ${azul}90-${borra_colores} Ayuda"
+    echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
+    echo ""
+    echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+    case $opcion in
+        1)  #comprobar servicios
+            comprobar_servicios
+            ;;
 
+        2)  #comprobar ips
+            comprobar_ips
+            ;;
+
+        3)  #comprobar_dominios
+            comprobar_dominios
+            ;;
+
+        70) #comprobar todo
+            comprobar_servicios
+            comprobar_ips
+            comprobar_dominios
+            ;;
+
+        90) #ayuda
+            clear
+            cat $ruta_ejecucion/ayuda
+            read p
+            ;;
+
+        99) #ir al menu de configuracion
+            bash $ruta_ejecucion/configuracion
+            ;;
+
+        *)  echo ""
+            echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+            sleep 2
+            ;;
+    esac
+done
