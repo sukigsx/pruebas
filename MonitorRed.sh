@@ -245,7 +245,7 @@ else
 fi
 
 #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
-source $ruta_ejecucion/MonitorRed/configuradosino
+source $ruta_ejecucion/MonitorRed/configurado.conf
 
 while :
 do
