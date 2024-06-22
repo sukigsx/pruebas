@@ -245,16 +245,8 @@ else
 fi
 
 #carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
-#source $ruta_ejecucion/MonitorRed/configuradosino
+source $ruta_ejecucion/MonitorRed/configuradosino
 
-read -p "maximiza" popo
-#terminal maximizada
-wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-
-read -p "minimiza" popo
-#terminal minimizada
-wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz
-exit
 while :
 do
     menu_info
