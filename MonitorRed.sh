@@ -48,7 +48,7 @@ sleep 1
 exit
 }
 
-menu_info(){
+menu_principal(){
 # muestra el menu de sukigsx
 clear
 echo ""
@@ -248,8 +248,81 @@ fi
 #carga el fichero de configuracion para ver su estado
 source $ruta_ejecucion/MonitorRed/configurado.conf
 
+while :
+do
+    clear
+    echo ""
+    echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+    echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+    echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+    echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+    echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+    echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+    echo -e ""
+    echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+    echo ""
+    echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+    echo ""
+    echo -e "${azul}  Servicios${borra_colores} =${amarillo} $servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $bot_telegram ${borra_colores}"
+    echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $envio_telegram ${borra_colores}"
+    echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $envio_correo ${borra_colores}"
+    echo ""
+    echo -e "${verde}"; figlet Principal; echo -e "${borra_colores}"
+    echo ""
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip.${azul}  Configurado${borra_colores} =${amarillo} $servicios${borra_colores}"
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 2-${borra_colores} Comprobar Ips activas en tu red."
+    echo -e "   ${azul} 3-${borra_colores} Comprobar Dominios activos."
+    echo -e ""
+    echo -e "   ${azul}70-${borra_colores} Comprobar todo."
+    echo -e ""
+    echo -e "   ${azul}90-${borra_colores} Ayuda"
+    echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
+    echo ""
+    echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+    case $opcion in
+        1)  #comprobar servicios
+            comprobar_servicios
+            ;;
 
-menu_info
+        2)  #comprobar ips
+            comprobar_ips
+            ;;
+
+        3)  #comprobar_dominios
+            comprobar_dominios
+            ;;
+
+        70) #comprobar todo
+            comprobar_servicios
+            comprobar_ips
+            comprobar_dominios
+            ;;
+
+        90) #ayuda
+            clear
+            cat $ruta_ejecucion/ayuda
+            read p
+            ;;
+
+        99) #ir al menu de configuracion
+            bash $ruta_ejecucion/configuracion
+            ;;
+
+        *)  echo ""
+            echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+            sleep 2
+            ;;
+    esac
+done
 
 
 
