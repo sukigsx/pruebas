@@ -63,9 +63,9 @@ echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_c
 echo ""
 echo -e "${azul} Estado de configuracion del script:${borra_colores}"
 echo ""
-echo -e "${azul}  Servicios${borra_colores} =${amarillo} $servicios${borra_colores} | Bot de telegram = $bot_telegram"
-echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $ips${borra_colores} | Envio a telegram = $envio_telegram"
-echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $dominios${borra_colores} | Envio por correo = $envio_correo"
+echo -e "${azul}  Servicios${borra_colores} =${amarillo} $servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $bot_telegram ${borra_colores}"
+echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $envio_telegram ${borra_colores}"
+echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $envio_correo ${borra_colores}"
 echo ""
 }
 
