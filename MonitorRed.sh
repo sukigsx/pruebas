@@ -269,7 +269,7 @@ do
     echo ""
     echo -e "${verde}"; figlet Principal; echo -e "${borra_colores}"
     echo ""
-    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip.${azul}  Configurado${borra_colores} =${amarillo} $servicios${borra_colores}"
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip.${amarillo} $servicios${borra_colores} configurado."
     echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
     echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
     echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
