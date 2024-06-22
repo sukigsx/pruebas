@@ -121,9 +121,6 @@ else
 fi
 }
 
-#carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
-source $ruta_ejecucion/MonitorRed/configuradosino
-
 software_necesario(){
 #funcion software necesario
 #para que funcione necesita:
@@ -246,6 +243,9 @@ else
         echo ""
     fi
 fi
+
+#carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
+#source $ruta_ejecucion/MonitorRed/configuradosino
 
 menu_info
 echo "continuamos"
