@@ -48,6 +48,19 @@ sleep 1
 exit
 }
 
+menu_inicial(){
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   "
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   "
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}"
+echo -e "${rosa}                  |___/             ${azul}"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+}
+
 actualizar_script(){
 # actualizar el script
 #para que esta funcion funcione necesita:
