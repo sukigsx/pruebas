@@ -44,7 +44,6 @@ clear
 echo ""
 echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
 echo ""
-sleep 1
 exit
 }
 
@@ -280,29 +279,45 @@ do
     echo -e "   ${azul}90-${borra_colores} Ayuda"
     echo -e "   ${azul}99-${borra_colores} Salir del MonitorRed."
     echo ""
-    echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+    echo -e -n "${azul} Selecciona numero de las opciones del menu ->${borra_colores} "; read opcion
     case $opcion in
-        1)  #comprobar servicios
-            comprobar_servicios
+        1)  #Comprobar Servicios activos de la misma ip
             ;;
 
-        2)  #comprobar ips
-            comprobar_ips
+        2)  #Comprobar Ips activas
             ;;
 
-        3)  #comprobar_dominios
-            comprobar_dominios
+        3)  #Comprobar Dominio
             ;;
 
-        70) #comprobar todo
-            comprobar_servicios
-            comprobar_ips
-            comprobar_dominios
+        4)  #Comprobar todo
+            ;;
+
+        10) #configurar servicios
+            ;;
+
+        11) #Configurar ips
+            ;;
+
+
+        12) #Configurar dominios
+            ;;
+
+        13) #Configurar bot telegram
+            ;;
+
+        14) #automatico a telegram
+            ;;
+
+        15) #configurar correo
+            ;;
+
+        16) #automatico a correo
             ;;
 
         90) #ayuda
             clear
-            cat $ruta_ejecucion/ayuda
+            cat $ruta_ejecucion/MonotorRed/ayuda
             read p
             ;;
 
