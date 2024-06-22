@@ -306,8 +306,8 @@ do
             read p
             ;;
 
-        99) #ir al menu de configuracion
-            bash $ruta_ejecucion/configuracion
+        99) #salir
+            ctrl_c
             ;;
 
         *)  echo ""
