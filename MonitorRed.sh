@@ -249,7 +249,7 @@ fi
 source $ruta_ejecucion/MonitorRed/configurado.conf
 
 
-
+menu_info
 
 
 
