@@ -374,13 +374,13 @@ do
                 rm $ruta_ejecucion/MonitorRed/config/MonitorRedConfigurar_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
 
                 #crea el fichero de estado de configuracion (configurado.conf)
-                echo 'servicios="no"' >> $ruta_ejecucion/configurad.config
-                echo 'dominios="no"' >> $ruta_ejecucion/configurado.config
-                echo 'ips="no"' >> $ruta_ejecucion/configurado.config
-                echo 'bot_telegram="no"' >> $ruta_ejecucion/configurado.config
-                echo 'envio_telegram="no"' >> $ruta_ejecucion/configurado.config
-                echo 'envio_correo="no"' >> $ruta_ejecucion/configurado.config
-                echo 'configurar_correo="no"' >> $ruta_ejecucion/configurado.config
+                echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'ips="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
                 echo ""
                 echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
 
