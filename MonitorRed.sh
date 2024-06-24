@@ -331,7 +331,7 @@ do
             read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 rm $ruta_ejecucion/MonitorRed/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/configurado.config"
+                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/MonitorRed/configurado.config"
                 echo ""
                 echo -e "${amarillo} Borrada la configuracion de SERVICIOS.${borra_colores}"; sleep 2
             else
