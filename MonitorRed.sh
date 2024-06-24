@@ -317,7 +317,7 @@ do
 
         90) #ayuda
             clear
-            cat $ruta_ejecucion/MonotorRed/ayuda
+            cat $ruta_ejecucion/MonitorRed/ayuda
             read p
             ;;
 
