@@ -326,6 +326,72 @@ do
         16) #automatico a correo
             ;;
 
+        20) #Borrar servicios
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/configurado.conf"
+                echo ""
+                echo -e "${amarillo} Borrada la configuracion de SERVICIOS.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
+            ;;
+
+        21) #Borrar ips
+            ;;
+
+        22) #Borrar dominios
+            ;;
+
+        23) #Borrar bot de telegram
+            ;;
+
+        24) #Borrar automatico de telegram
+            ;;
+
+        25) #Borrar correo electronico
+            ;;
+
+        26) #Borrar automatico correo electronico
+            ;;
+
+        27) #Borrar todo
+            echo ""
+            read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n) ? -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/configurado.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedDominios.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedIps.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedBot_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedEnvio_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedEnvio_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRedConfigurar_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
+
+                #crea el fichero de estado de configuracion (configurado.conf)
+                echo 'servicios="no"' >> $ruta_ejecucion/configurad.conf
+                echo 'dominios="no"' >> $ruta_ejecucion/configurado.conf
+                echo 'ips="no"' >> $ruta_ejecucion/configurado.conf
+                echo 'bot_telegram="no"' >> $ruta_ejecucion/configurado.conf
+                echo 'envio_telegram="no"' >> $ruta_ejecucion/configurado.conf
+                echo 'envio_correo="no"' >> $ruta_ejecucion/configurado.conf
+                echo 'configurar_correo="no"' >> $ruta_ejecucion/configurado.conf
+                echo ""
+                echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
+
+                ########crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
+                #####rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                #####rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
+            ;;
+
         90) #ayuda
             clear
             cat $ruta_ejecucion/MonitorRed/ayuda
