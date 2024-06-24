@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "hola"; read p
-exit
+
 # Función para validar una dirección IP
 validate_ip() {
 local ip=$1
