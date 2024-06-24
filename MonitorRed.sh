@@ -245,7 +245,7 @@ fi
 
 
 #carga el fichero de configuracion para ver su estado
-source $ruta_ejecucion/MonitorRed/configurado.conf
+source $ruta_ejecucion/MonitorRed/configurado.config
 
 while :
 do
