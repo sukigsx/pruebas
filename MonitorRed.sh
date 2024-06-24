@@ -294,6 +294,7 @@ do
             ;;
 
         10) #configurar servicios
+            bash $ruta_ejecucion/MonitorRed/configurarservicios
             ;;
 
         11) #Configurar ips
