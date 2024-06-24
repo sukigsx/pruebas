@@ -244,11 +244,12 @@ else
 fi
 
 
-#carga el fichero de configuracion para ver su estado
-source $ruta_ejecucion/MonitorRed/configurado.config
 
 while :
 do
+    #carga el fichero de configuracion para ver su estado
+    source $ruta_ejecucion/MonitorRed/config/configurado.config
+
     clear
     echo ""
     echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
@@ -330,8 +331,8 @@ do
             echo ""
             read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
-                rm $ruta_ejecucion/MonitorRed/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/MonitorRed/configurado.config"
+                rm $ruta_ejecucion/MonitorRed/config/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/MonitorRed/config/configurado.config"
                 echo ""
                 echo -e "${amarillo} Borrada la configuracion de SERVICIOS.${borra_colores}"; sleep 2
             else
