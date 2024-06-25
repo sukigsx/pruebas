@@ -318,7 +318,6 @@ do
                 if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
                     echo ""
                     echo -e "${azul} Comprobando SERVICIOS.${borra_colores}\n"
-                    source $ruta_ejecucion/MonitorRedServicios.config
                     for resultado in "${!servicios[@]}"
                     do
                         curl -s -o -I $resultado 1>/dev/null 2>/dev/null
