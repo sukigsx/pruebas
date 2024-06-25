@@ -247,7 +247,7 @@ comprobar_servicios(){
 #funcion de comprobar comprobar_servicios
 clear
 echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
-archivo="$ruta_ejecucion/MonitorRedServicios.config"
+archivo="$ruta_ejecucion/MonitorRed/MonitorRedServicios.config"
 
 #comprueba si esta configurado
 if [ "$configurado_servicios" = "no" ]; then
