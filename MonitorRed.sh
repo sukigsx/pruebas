@@ -248,7 +248,7 @@ fi
 while :
 do
     #carga el fichero de configuracion para ver su estado
-    source $ruta_ejecucion/MonitorRed/config/configurado.config
+    source $ruta_ejecucion/MonitorRed/configurado.config
 
     clear
     echo ""
@@ -331,8 +331,8 @@ do
             echo ""
             read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/MonitorRed/config/configurado.config"
+                rm $ruta_ejecucion/MonitorRed/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/MonitorRed/configurado.config"
                 echo ""
                 echo -e "${amarillo} Borrada la configuracion de SERVICIOS.${borra_colores}"; sleep 2
             else
@@ -363,24 +363,24 @@ do
             echo ""
             read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n) ? -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
-                rm $ruta_ejecucion/MonitorRed/config/configurado.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/configurado.config 2>/dev/null 1>/dev/null 0>/dev/null
 
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedDominios.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedIps.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedBot_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedEnvio_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedEnvio_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/config/MonitorRedConfigurar_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedDominios.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedIps.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedBot_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedEnvio_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedEnvio_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedConfigurar_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
 
                 #crea el fichero de estado de configuracion (configurado.conf)
-                echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
-                echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
-                echo 'ips="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
-                echo 'bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
-                echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
-                echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
-                echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/config/configurado.config
+                echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'ips="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
                 echo ""
                 echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
 
