@@ -244,9 +244,7 @@ else
 fi
 
 #comprueba si eciste el fichero configurado.config
-if [ -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
-    echo "si existe"
-else
+if [ ! -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
     #crea el fichero de estado de configuracion (configurado.conf)
     echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
     echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
@@ -255,7 +253,9 @@ else
     echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
     echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
     echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-fi
+else
+    echo "si existe"
+    fi
 read p
 
 while :
