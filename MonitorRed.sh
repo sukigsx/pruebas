@@ -247,7 +247,14 @@ fi
 if [ -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
     echo "si existe"
 else
-    echo "no existe"
+    #crea el fichero de estado de configuracion (configurado.conf)
+    echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'ips="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
 fi
 read p
 
