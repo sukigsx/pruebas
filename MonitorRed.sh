@@ -306,7 +306,7 @@ do
         1)  #Comprobar Servicios activos de la misma ip
             clear
             echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
-            archivo="$ruta_ejecucion/MonitorRedServicios.config"
+            archivo="$ruta_ejecucion/MonitorRed/MonitorRedServicios.config"
 
             #comprueba si esta configurado
             if [ "$servicios" = "no" ]; then
