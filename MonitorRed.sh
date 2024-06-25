@@ -304,6 +304,36 @@ do
     echo -e -n "${azul} Selecciona numero de las opciones del menu ->${borra_colores} "; read opcion
     case $opcion in
         1)  #Comprobar Servicios activos de la misma ip
+            clear
+            echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+            archivo="$ruta_ejecucion/MonitorRedServicios.config"
+
+            #comprueba si esta configurado
+            if [ "$servicios" = "no" ]; then
+                echo -e ""
+                echo -e "${amarillo} No tienes ningun Servicio configurado.${borra_colores}"; sleep 2
+                echo -e ""
+            else
+                if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+                    echo ""
+                    echo -e "${azul} Comprobando SERVICIOS.${borra_colores}\n"
+                    source $ruta_ejecucion/MonitorRedServicios.config
+                    for resultado in "${!servicios[@]}"
+                    do
+                        curl -s -o -I $resultado 1>/dev/null 2>/dev/null
+                        if [ $? = "0" ]
+                        then
+                            printf "${azul} SERVICIO ${amarillo}${servicios[$resultado]} ${verde}ENCENDIDO${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
+                        else
+                            printf "${azul} SERVICIO ${amarillo}${servicios[$resultado]} ${rojo}APAGADO  ${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
+                        fi
+                    done
+                    echo ""
+                    printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+                    echo "----------------------------------------------------"
+                    read -p " Pulsa una tecla para continuar." p
+                fi
+            fi
             ;;
 
         2)  #Comprobar Ips activas
