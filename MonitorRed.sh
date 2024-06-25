@@ -243,7 +243,13 @@ else
     fi
 fi
 
-
+#comprueba si eciste el fichero configurado.config
+if [ -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
+    echo "si existe"
+else
+    echo "no existe"
+fi
+read p
 
 while :
 do
