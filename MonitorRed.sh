@@ -313,6 +313,7 @@ do
                 echo -e ""
                 echo -e "${amarillo} No tienes ningun Servicio configurado.${borra_colores}"; sleep 2
                 echo -e ""
+                read p
             else
                 if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
                     echo ""
