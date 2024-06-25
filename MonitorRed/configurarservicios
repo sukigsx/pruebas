@@ -52,8 +52,8 @@ validate_port() {
 
 
 # Buscar la cadena "declare -A ips" en el archivo
-if ! grep -q 'declare -A servicios' "$ruta_ejecucion/config/MonitorRedServicios.config"; then
-    echo "declare -A servicios" >> $ruta_ejecucion/MonitorRed/config/MonitorRedServicios.config
+if ! grep -q 'declare -A servicios' "$ruta_ejecucion/MonitorRedServicios.config"; then
+    echo "declare -A servicios" >> $ruta_ejecucion/MonitorRed/MonitorRedServicios.config
 fi
 
 while true

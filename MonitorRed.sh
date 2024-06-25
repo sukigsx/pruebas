@@ -8,7 +8,7 @@ export NombreScript="MonitorRed"
 export DescripcionDelScript="Comprobar Dominios, Ips y Servicios activos en tu red "
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
-export version="1.aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+export version="1.aaaaaaaaaaaaaaaaaaaa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -253,10 +253,8 @@ if [ ! -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
     echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
     echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
     echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-else
-    echo "si existe"
-    fi
-read p
+fi
+
 
 while :
 do
