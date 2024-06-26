@@ -72,16 +72,12 @@ do
     if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
         # Comprobar si el archivo contiene el carácter "="
         if grep -q "=" "$ruta_ejecucion/MonitorRedServicios.config"; then
-            echo "El archivo $archivo contiene al menos un signo '='."
+            sed -i 's/configurado_servicios="no"/configurado_servicios="si"/' $ruta_ejecucion/configurado.config
+            break
         else
-            echo "El archivo $archivo NO contiene ningún signo '='."
+            echo -e "${amarillo} No has introducido ningun Servicio${borra_colores}"; sleep 2
+            break
         fi
-    read p
-
-
-
-        sed -i 's/configurado_servicios="no"/configurado_servicios="si"/' $ruta_ejecucion/configurado.config
-        break
     fi
 
     validate_ip "$ip"
