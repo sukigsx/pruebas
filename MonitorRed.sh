@@ -62,9 +62,9 @@ echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_c
 echo ""
 echo -e "${azul} Estado de configuracion del script:${borra_colores}"
 echo ""
-echo -e "${azul}  Servicios${borra_colores} =${amarillo} $servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $bot_telegram ${borra_colores}"
-echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $envio_telegram ${borra_colores}"
-echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $envio_correo ${borra_colores}"
+echo -e "${azul}  Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $configurado_bot_telegram ${borra_colores}"
+echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $configurado_envio_telegram ${borra_colores}"
+echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $configurado_envio_correo ${borra_colores}"
 echo ""
 }
 
@@ -280,13 +280,13 @@ fi
 #comprueba si eciste el fichero configurado.config
 if [ ! -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
     #crea el fichero de estado de configuracion (configurado.conf)
-    echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo 'ips="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo 'bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_ips="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+    echo 'configurado_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
 fi
 
 
@@ -313,13 +313,13 @@ do
     echo -e "   ${azul} 4-${borra_colores} Comprobar todo"
     echo -e ""
     echo -e "   ${azul}Configuraciones:${borra_colores}"
-    echo -e "   ${azul}10-${borra_colores} Servicios            ${azul}(${amarillo} $servicios${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}11-${borra_colores} Ips                  ${azul}(${amarillo} $ips${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}12-${borra_colores} Dominios             ${azul}(${amarillo} $dominios${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}13-${borra_colores} Bot de Telegram      ${azul}(${amarillo} $bot_telegram${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}13-${borra_colores} Automatico a Telegram${azul}(${amarillo} $envio_telegram${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}15-${borra_colores} Correo Electronico   ${azul}(${amarillo} $configurar_correo${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}16-${borra_colores} Automatico a Correo  ${azul}(${amarillo} $envio_correo${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}10-${borra_colores} Servicios            ${azul}(${amarillo} $configurado_servicios${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}11-${borra_colores} Ips                  ${azul}(${amarillo} $configurado_ips${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}12-${borra_colores} Dominios             ${azul}(${amarillo} $configurado_dominios${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}13-${borra_colores} Bot de Telegram      ${azul}(${amarillo} $configurado_bot_telegram${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}13-${borra_colores} Automatico a Telegram${azul}(${amarillo} $configurado_envio_telegram${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}15-${borra_colores} Correo Electronico   ${azul}(${amarillo} $configurado_configurar_correo${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}16-${borra_colores} Automatico a Correo  ${azul}(${amarillo} $configurado_envio_correo${borra_colores} configurado${azul})${borra_colores}"
     echo -e ""
     echo -e "   ${azul}Borrar configuraciones de MonitorRed:${borra_colores}"
     echo -e "   ${azul}20-${rojo} Servicios${borra_colores}"
@@ -378,7 +378,7 @@ do
             read -p " ¿ Seguro que quieres borrar la configuracion de SERVICIOS ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 rm $ruta_ejecucion/MonitorRed/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-                sed -i 's/servicios="si"/servicios="no"/' "$ruta_ejecucion/MonitorRed/configurado.config"
+                sed -i 's/configurado_servicios="si"/configurado_servicios="no"/' "$ruta_ejecucion/MonitorRed/configurado.config"
                 echo ""
                 echo -e "${amarillo} Borrada la configuracion de SERVICIOS.${borra_colores}"; sleep 2
             else
@@ -420,13 +420,13 @@ do
                 rm $ruta_ejecucion/MonitorRed/MonitorRedConfigurar_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
 
                 #crea el fichero de estado de configuracion (configurado.conf)
-                echo 'servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-                echo 'dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-                echo 'ips="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-                echo 'bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-                echo 'envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-                echo 'envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
-                echo 'configurar_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_dominios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_ips="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_bot_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_envio_telegram="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_envio_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
+                echo 'configurado_correo="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
                 echo ""
                 echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
 
