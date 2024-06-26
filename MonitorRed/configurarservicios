@@ -70,6 +70,16 @@ do
     read -p " Dime un Nombre Dispositivo espacio y su dirección IP espacio su PUERTO -> " name ip port
     echo ""
     if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
+        # Comprobar si el archivo contiene el carácter "="
+        if grep -q "=" "$ruta_ejecucion/MonitorRed/MonitorRedServicios.config"; then
+            echo "El archivo $archivo contiene al menos un signo '='."
+        else
+            echo "El archivo $archivo NO contiene ningún signo '='."
+        fi
+    read p
+
+
+
         sed -i 's/servicios="no"/servicios="si"/' $ruta_ejecucion/configurado.config
         break
     fi
