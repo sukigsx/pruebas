@@ -318,7 +318,7 @@ do
     echo -e "   ${azul}12-${borra_colores} Dominios             ${azul}(${amarillo} $configurado_dominios${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}13-${borra_colores} Bot de Telegram      ${azul}(${amarillo} $configurado_bot_telegram${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}13-${borra_colores} Automatico a Telegram${azul}(${amarillo} $configurado_envio_telegram${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}15-${borra_colores} Correo Electronico   ${azul}(${amarillo} $configurado_configurar_correo${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}15-${borra_colores} Correo Electronico   ${azul}(${amarillo} $configurado_correo${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}16-${borra_colores} Automatico a Correo  ${azul}(${amarillo} $configurado_envio_correo${borra_colores} configurado${azul})${borra_colores}"
     echo -e ""
     echo -e "   ${azul}Borrar configuraciones de MonitorRed:${borra_colores}"
