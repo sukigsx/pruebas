@@ -75,7 +75,7 @@ do
             sed -i 's/configurado_servicios="no"/configurado_servicios="si"/' $ruta_ejecucion/configurado.config
             break
         else
-            echo -e "${amarillo} No has introducido ningun Servicio${borra_colores}"; sleep 2
+            echo -e "${amarillo} No has introducido ningun Servicio${borra_colores}"; sleep 3
             break
         fi
     fi
