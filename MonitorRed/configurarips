@@ -61,7 +61,7 @@ fi
                 echo ""
                 if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
                     # Comprobar si el archivo contiene el carácter "="
-                    if grep -q "=" "$ruta_ejecucion/MonitorRedServicios.config"; then
+                    if grep -q "=" "$ruta_ejecucion/MonitorRedIps.config"; then
                         sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configurado.config
                         break
                     else
