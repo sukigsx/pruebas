@@ -396,6 +396,7 @@ do
 
 
         12) #Configurar dominios
+            bash $ruta_ejecucion/MonitorRed/configurardominios
             ;;
 
         13) #Configurar bot telegram

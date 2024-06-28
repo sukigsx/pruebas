@@ -1,0 +1,101 @@
+#!/bin/bash
+
+ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
+ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
+
+#colores
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
+
+validate_domain() {
+    local domain=$1
+
+    # Verificar que el dominio no contenga http://, https://, ni www.
+    if [[ $domain =~ ^(http://|https://|www\.) ]]; then
+        echo -e "${amarillo} Error: el dominio NO debe contener http://, https://, ni www.${borra_colores}"
+        dominio_correcto="no"
+    # Verificar que el dominio es válido
+    elif [[ $domain =~ ^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        domain_correcto="si"
+    else
+        echo -e "${amarillo} Error: dominio inválido.${borra_colores}"
+        dominio_correcto="no"
+    fi
+
+    # Mostrar el resultado de la validación
+    if [[ $domain_correcto == "si" ]]; then
+        dominio_correcto="si"
+    else
+        dominio_correcto="no"
+    fi
+}
+
+# Función para validar un nombre sin caracteres especiales ni en blanco
+validate_name() {
+local name=$1
+local valid_name_regex="^[a-zA-Z0-9_]+$"
+
+if [[ $name =~ $valid_name_regex && ! -z $name ]]; then
+    nombre_correpto="si"
+else
+    echo -e "${amarillo} Error: Nombre no válido. Debe contener solo letras, números y guiones bajos, y no puede estar en blanco.${borra_colores}"
+    nombre_correpto="no"
+fi
+}
+
+
+
+
+            # Buscar la cadena "declare -A ips" en el archivo
+            if ! grep -q 'declare -A dominios' "$ruta_ejecucion/MonitorRedDominios.config"; then
+                echo "declare -A dominios" >> $ruta_ejecucion/MonitorRedDominios.config
+            fi
+
+
+            while true
+            do
+                clear
+                echo ""
+                echo -e "${azul}- Listado de tus DOMINIOS para saber si estan avtivos. -${borra_colores}"
+                echo ""
+                tail -n +2 $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null | awk -F'[[\\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+                echo ""
+
+                # Solicitar y validar la dirección IP
+                echo -e "${amarillo} Ej. PaginaWeb google.es (S -> Terminar de introducir datos.).${borra_colores}"
+                read -p " Dime un Nombre para el dominio y el dominio separado por espacio -> " name dominio
+                echo ""
+                if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
+                    # Comprobar si el archivo contiene el carácter "="
+                    if grep -q "=" "$ruta_ejecucion/MonitorRedDominios.config"; then
+                        sed -i 's/configurado_dominios="no"/configurado_dominios="si"/' $ruta_ejecucion/configurado.config
+                        break
+                    else
+                        echo -e "${amarillo} No has introducido ninguna Ip${borra_colores}"; sleep 3
+                        break
+                    fi
+                fi
+
+                validate_name "$name"
+                validate_domain "$dominio"
+
+                # Verifica si se debe salir del bucle
+
+
+                # Agrega la entrada al archivo como un nuevo elemento del array
+                if [[ "$nombre_correpto" == "si" ]] && [[ "$dominio_correcto" = "si" ]]; then
+                    echo "dominios[$dominio]=$name" >> $ruta_ejecucion/MonitorRedDominios.config
+                    echo ""
+                    echo -e " nombre ${azul}$name${borra_colores} del dominio ${azul}$dominio${borra_colores} = ${verde}ok${borra_colores}."
+                    sleep 2
+                else
+                    echo -e "${rojo} Datos del dominio incorreptos.${borra_colores}"
+                    echo ""
+                    read -p " Pulsa una tecla para continuar." p
+                fi
+            done
