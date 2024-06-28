@@ -41,52 +41,49 @@ fi
 
 
 # Buscar la cadena "declare -A ips" en el archivo
-            if ! grep -q 'declare -A ips' "$ruta_ejecucion/MonitorRedIps.config"; then
-                echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
-            fi
+if ! grep -q 'declare -A ips' "$ruta_ejecucion/MonitorRedIps.config"; then
+    echo "declare -A ips" >> $ruta_ejecucion/MonitorRedIps.config
+fi
+
+while true
+do
+    clear
+    echo ""
+    echo -e "${azul}- Listado de tus IPS para saber si estan activas. -${borra_colores}"
+    echo ""
+    tail -n +2 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
+    echo ""
+
+    # Solicitar y validar la dirección IP
+    echo -e "${amarillo} Ej. router 192.168.1.1 (S -> Terminar de introducir datos.).${borra_colores}"
+    read -p " Dime un Nombre Dispositivo espacio y su dirección IP -> " name ip
+    echo ""
+    if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
+        # Comprobar si el archivo contiene el carácter "="
+        if grep -q "=" "$ruta_ejecucion/MonitorRedIps.config"; then
+            sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configurado.config
+            break
+        else
+            echo -e "${amarillo} No has introducido ninguna Ip${borra_colores}"; sleep 3
+            break
+        fi
+    fi
+
+    validate_ip "$ip"
+    validate_name "$name"
+
+    # Verifica si se debe salir del bucle
 
 
-            while true
-            do
-                clear
-                echo ""
-                echo -e "${azul}- Listado de tus IPS para saber si estan activas. -${borra_colores}"
-                echo ""
-                tail -n +2 $ruta_ejecucion/MonitorRedIps.config 2>/dev/null | awk -F'[[\\]=]+' '{print "\033[32m" $3 "\033[0m =", "\033[32m" $2 "\033[0m"}' | column -t; echo ""
-                echo ""
-
-                # Solicitar y validar la dirección IP
-                echo -e "${amarillo} Ej. router 192.168.1.1 (S -> Terminar de introducir datos.).${borra_colores}"
-                read -p " Dime un Nombre Dispositivo espacio y su dirección IP -> " name ip
-                echo ""
-                if  [ "$name" == "s" ] || [ "$name" == "S" ]; then
-                    # Comprobar si el archivo contiene el carácter "="
-                    if grep -q "=" "$ruta_ejecucion/MonitorRedIps.config"; then
-                        sed -i 's/configurado_ips="no"/configurado_ips="si"/' $ruta_ejecucion/configurado.config
-                        break
-                    else
-                        echo -e "${amarillo} No has introducido ninguna Ip${borra_colores}"; sleep 3
-                        break
-                    fi
-                fi
-
-                validate_ip "$ip"
-                validate_name "$name"
-
-                # Verifica si se debe salir del bucle
-
-
-                # Agrega la entrada al archivo como un nuevo elemento del array
-                if [[ "$ip_correpto" == "si" ]] && [[ "$nombre_correpto" == "si" ]]; then
-                    echo "ips[$ip]=$name" >> $ruta_ejecucion/MonitorRedIps.config
-                    echo ""
-                    echo -e " Dispositivo ${azul}$name${borra_colores} con la ${azul}$ip${borra_colores} = ${verde}ok${borra_colores}."
-                    sleep 2
-                else
-                    echo -e "${rojo} Datos de dispositivo incorreptos.${borra_colores}"
-                    echo ""
-                    read -p " Pulsa una tecla para continuar." p
-                fi
-            done
-
-
+    # Agrega la entrada al archivo como un nuevo elemento del array
+    if [[ "$ip_correpto" == "si" ]] && [[ "$nombre_correpto" == "si" ]]; then
+        echo "ips[$ip]=$name" >> $ruta_ejecucion/MonitorRedIps.config
+        echo ""
+        echo -e " Dispositivo ${azul}$name${borra_colores} con la ${azul}$ip${borra_colores} = ${verde}ok${borra_colores}."
+        sleep 2
+    else
+        echo -e "${rojo} Datos de dispositivo incorreptos.${borra_colores}"
+        echo ""
+        read -p " Pulsa una tecla para continuar." p
+    fi
+done
