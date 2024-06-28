@@ -310,6 +310,41 @@ else
 fi
 }
 
+comprobar_dominios(){
+#funcion de comprobar comprobar_servicios
+clear
+echo -e "${rosa}"; figlet Escaneando; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRed/MonitorRedDominios.config"
+
+#comprueba si esta configurado
+if [ "$configurado_dominios" = "no" ]; then
+    echo -e ""
+    echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}"; sleep 2
+    echo -e ""
+else
+
+    if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+        echo ""
+        echo -e "${azul} Comprobando DOMINIOS.${borra_colores}\n"
+        source $ruta_ejecucion/MonitorRed/MonitorRedDominios.config
+        for resultado in "${!dominios[@]}"
+        do
+            curl -s -o -I $resultado 1>/dev/null 2>/dev/null
+            if [ $? = "0" ]
+            then
+                printf "${azul} DOMINIO ${amarillo}$resultado ${verde}ENCENDIDO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
+            else
+                printf "${azul} DOMINIO ${amarillo}$resultado ${rojo}APAGADO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
+            fi
+        done
+        echo ""
+        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        echo "----------------------------------------------------"
+        read -p " Pulsa una tecla para continuar." p
+    fi
+fi
+}
+
 #comprueba si eciste el fichero configurado.config
 if [ ! -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
     #crea el fichero de estado de configuracion (configurado.conf)
