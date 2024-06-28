@@ -246,7 +246,7 @@ fi
 comprobar_servicios(){
 #funcion de comprobar comprobar_servicios
 clear
-echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+echo -e "${rosa}"; figlet Escaneando; echo -e "${borra_colores}"
 archivo="$ruta_ejecucion/MonitorRed/MonitorRedServicios.config"
 
 #comprueba si esta configurado
@@ -280,7 +280,7 @@ fi
 comprobar_ips(){
 #funcion de comprobar comprobar_ips
 clear
-echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+echo -e "${rosa}"; figlet Escaneando; echo -e "${borra_colores}"
 archivo="$ruta_ejecucion/MonitorRed/MonitorRedIps.config"
 #comprobar si esta configurado
 if [ "$configurado_ips" = "no" ]; then
@@ -382,6 +382,8 @@ do
             ;;
 
         4)  #Comprobar todo
+            comprobar_servicios
+            comprobar_ips
             ;;
 
         10) #configurar servicios
