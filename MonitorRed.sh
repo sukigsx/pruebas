@@ -414,11 +414,13 @@ do
             ;;
 
         3)  #Comprobar Dominio
+            comprobar_dominios
             ;;
 
         4)  #Comprobar todo
             comprobar_servicios
             comprobar_ips
+            comprobar_dominios
             ;;
 
         10) #configurar servicios
