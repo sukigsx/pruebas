@@ -277,6 +277,39 @@ else
 fi
 }
 
+comprobar_ips(){
+#funcion de comprobar comprobar_ips
+clear
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRed/MonitorRedIps.config"
+#comprobar si esta configurado
+if [ "$configurado_ips" = "no" ]; then
+    echo -e ""
+    echo -e "${amarillo} No tienes ninguna Ip configurada.${borra_colores}"; sleep 2
+    echo -e ""
+else
+    if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+        echo ""
+        echo -e "${azul} Comprobando IPS activas en tu red.${borra_colores}\n"
+        source $ruta_ejecucion/MonitorRed/MonitorRedIps.config
+        for resultado in "${!ips[@]}"
+        do
+            ping -w 1 $resultado 1>/dev/null 2>/dev/null
+            if [ $? = "0" ]
+            then
+                printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+            else
+                printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+            fi
+        done
+        echo ""
+        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        echo "----------------------------------------------------"
+        read -p " Pulsa una tecla para continuar." p
+    fi
+fi
+}
+
 #comprueba si eciste el fichero configurado.config
 if [ ! -f $ruta_ejecucion/MonitorRed/configurado.config ]; then
     #crea el fichero de estado de configuracion (configurado.conf)
@@ -342,6 +375,7 @@ do
             ;;
 
         2)  #Comprobar Ips activas
+            comprobar_ips
             ;;
 
         3)  #Comprobar Dominio
