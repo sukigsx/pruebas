@@ -355,6 +355,7 @@ do
             ;;
 
         11) #Configurar ips
+            bash $ruta_ejecucion/MonitorRed/configurarips
             ;;
 
 
