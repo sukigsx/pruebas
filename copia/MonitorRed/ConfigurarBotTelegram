@@ -1,0 +1,300 @@
+#!/bin/bash
+
+# VARIABLE QUE RECOJEN LAS RUTAS
+ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
+ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
+
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+    echo ""
+    #echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptttttttttttttttttttttttttttt.${borra_colores}"
+    echo ""
+    sleep 1; exit
+else
+    echo ""
+    echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+    echo -e "${rojo} Saliendo del script.${borra_colores}"
+    rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/configuradosino 2>/dev/null 1>/dev/null 0>/dev/null
+    echo 'configurado_ips="no"' >> $ruta_ejecucion/configuradosino
+    echo 'configurado_dominios="no"' >> $ruta_ejecucion/configuradosino
+    echo 'configurado_servicios="no"' >> $ruta_ejecucion/configuradosino
+    sleep 3; exit
+    fi
+}
+
+#colores
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
+
+configurar_telegram(){
+clear
+        echo -e "${verde}"; figlet Configuracion; echo -e "${borra_colores}"
+        echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
+        echo ""
+        echo -e "${avul}--${amarillo} INFORMACION NECESARIA PARA PODER CONFIGURAR ${azul}--${borra_colores}"
+        echo ""
+        echo -e " Voy a explicar en sencillos pasos como crear un Bot con @BotFather"
+        echo -e " que es el padre de todos los Bots, creado por Telegram con el fin de facilitar la creación de estos:"
+        echo -e "    - Clicamos este enlace @BotFather e iniciamos el Bot."
+        echo -e "    - Seleccionamos o escribimos /newbot."
+        echo -e "      Nos preguntará: ¿Que nombre quieres dar a tu bot?. Escribimos un nombre."
+        echo -e "    - El Bot nos respone ahora: ¿Que nick quieres usar para este bot?"
+        echo -e "      recuerda que el nick debe de acabar en bot o _bot. ejem: @nick_bot, @nickbot,…"
+        echo -e "    - @BotFather ya nos ha creado el bot!!!. Ahora ya tenemos nuestro numero de Token para poder utilizar nuestro bot."
+        echo -e ""
+        echo -e " Si escribimos en @BotFather: /setuserpic, podremos elegir una foto para nuestro bot."
+        echo -e "    Hay muchas mas opciones como añadir una descripción y demas, pero eso ya os lo dejo a vosotros…"
+        echo -e ""
+        echo -e " Cada usuario en Telegram tenemos un identificador, ID. Podemos saber el nuestro iniciando este bot @userinfobot."
+        echo -e " Si queremos añadir el Bot en un Grupo o Canal, para que envíe mensajes o haga cualquier función"
+        echo -e "    tendremos que averiguar el ID de ese Grupo o Canal. Para ello reenvía un mensaje desde el Canal/Grupo al Bot @ChannelIdBot."
+        echo ""
+        echo -e "${verde} NOTA. Esta informacio ha sido sacada de Ugeek de su pagina web: https://ugeek.github.io/"
+        echo -e "   concretamente del siguiente enlace:"
+        echo -e "   https://ugeek.github.io/blog/post/2019-03-14-crea-un-bot-de-telegram-con-bash-y-una-sola-linea-de-terminal.html"
+        echo -e ""
+        echo -e " Gracias Ugeek por todos tus aportes.${borra_colores}"
+        echo ""
+        read -p " Dime el TOKEN de tu Bot de Telegram -> " token
+        read -p " Dime el id de tu usuario de Telegram -> " id
+
+        #mete al fichero de configuracion de telegram los datos necesarios
+        echo "TOKEN=$token" >> $ruta_ejecucion/MonitorRedTelegram.config
+        echo "ID=$id" >> $ruta_ejecucion/MonitorRedTelegram.config
+        echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRedTelegram.config
+        echo ""
+        echo -e "${amarillo} Se ha enviado un mensaje de prueba a Telegram.${borra_colores}"
+
+        source $ruta_ejecucion/MonitorRedTelegram.config
+        curl -s -X POST $URL -d chat_id=$ID -d text="Este es un mensaje de prueba, comprobando la configuracion del Bot de telegram del script de MonitorRed." 2>/dev/null 1>/dev/null 0>/dev/null
+        echo ""
+        read -p " ¿ Te ha llegado el mensaje a Telegram (S/n) ? -> " sn
+        if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+            echo ""
+            echo -e "${verde} Configuracion realizada.${borra_colores}"
+            sleep 3
+            break
+        else
+            echo ""
+            echo -e "${verde} Repetimos la configuracion.${borra_colores}"
+            rm $ruta_ejecucion/MonitorRedTelegram.config
+            sleep 3
+        fi
+}
+
+menu_info(){
+# muestra el menu de sukigsx
+clear
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
+echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
+echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
+echo ""
+}
+
+source $ruta_ejecucion/configuradosino
+while :
+do
+menu_info
+echo ""
+echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
+echo -e "   ${azul} 1-${borra_colores} Configurar Bot Telegram."
+echo -e "   ${azul} 2-${borra_colores} Automatizar los envios al Bot de telegram."
+echo -e ""
+echo -e "   ${rojo} 3-${borra_colores} Borrar la automatizacion de envios al Bot de Telegram."
+echo -e "   ${rojo} 4-${borra_colores} Borra la configuracion del Bot de Telegram."
+echo -e ""
+echo -e "   ${azul}90-${borra_colores} Ayuda"
+echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
+echo ""
+echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+case $opcion in
+    1)  #Configurar Bot Telegram
+        #comprueba si esta conficgurado el bot telegram
+        if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
+            echo ""
+            echo -e "${amarillo} Ya dispones de una configuracion del Bot de Telegram.${borra_colores}"
+            echo ""
+            sleep 3
+        else
+            configurar_telegram
+        fi
+        ;;
+
+    2)  #automatizar los envios al Bot de Telegram
+        source $ruta_ejecucion/configuradosino
+        #borra conficguracion de crontab
+        crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
+        rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+
+
+
+        if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+            if [ -f $ruta_ejecucion/MonitorRedTelegram.config ]; then
+                #crea la carpeta dentro del .config del usuario
+                mkdir /home/$(whoami)/.config 2>/dev/null 1>/dev/null 0>/dev/null
+                mkdir /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+
+                #carga los datos del bot de telegram
+                source $ruta_ejecucion/MonitorRedTelegram.config
+
+
+                #ejecuta la comprobacion
+                bash $ruta_ejecucion/AutomatizarBotTelegram.config
+
+                #mueve el fichero resultado.txt al destino .config/MonitorRed
+                rm /home/$(whoami)/.config/MonitorRedAutomatico/resultado.txt 2>/dev/null 1>/dev/null 0>/dev/null
+                mv $ruta_ejecucion/resultado.txt /home/$(whoami)/.config/MonitorRedAutomatico/resultado.txt
+
+                #crear el fichero de ejecucion para la notificacion telegram
+                echo "curl -s -X POST $URL -d chat_id=$ID -d text=\"\$(cat /home/$(whoami)/.config/MonitorRedAutomatico/resultado.txt)\" 2>/dev/null 1>/dev/null 0>/dev/null" > /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+                chmod +x /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+
+                while :
+                do
+                menu_info
+                echo -e ""
+                echo -e " ¿ Cuantas veces al dia quieres ser notificado ?"
+                echo -e ""
+                echo -e "   ${azul}  1-${borra_colores} Una vez al dia a las 09'00 de la mañana."
+                echo -e "   ${azul}  2-${borra_colores} Dos veces a las 09'00 y a las 21'00."
+                echo -e "   ${azul}  3-${borra_colores} Tres veces a las 09'00, 13'00 y a las 21'00."
+                echo -e ""
+                echo -e "   ${azul} 99-${borra_colores} Atras."
+                echo -e ""
+                read -p " Selecciona una opcion -> " dia
+                case $dia in
+                    1)  #una vez
+                        #metemos al cronbtab
+                        # Generar la línea a agregar con el nombre del usuario
+                        CRON_LINE="# MonitorRed"
+                        CRON_LINE1="0 9 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+
+                        # Verificar si la línea ya existe en el crontab, y si no, agregarla
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE1" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE1") | crontab -
+                        echo -e ""
+                        echo -e "${verde} ok${borra_colores} Una vez al dia a las 09'00 de la mañana."
+                        bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+                        sleep 3
+                        break
+                        ;;
+
+                    2)  #dos veces
+                        #metemos al cronbtab
+                        # Generar la línea a agregar con el nombre del usuario
+                        CRON_LINE="# MonitorRed"
+                        CRON_LINE1="0 9 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+                        CRON_LINE2="0 21 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+
+                        # Verificar si la línea ya existe en el crontab, y si no, agregarla
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE1" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE1") | crontab -
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE2" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE2") | crontab -
+                        echo -e ""
+                        echo -e "${verde} ok${borra_colores} Dos veces al dia a las 09'00 y a las 21.00."
+                        bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+                        sleep 3
+                        break
+                        ;;
+
+                    3)  #tres veces
+                        #metemos al cronbtab
+                        # Generar la línea a agregar con el nombre del usuario
+                        CRON_LINE="# MonitorRed"
+                        CRON_LINE1="0 9 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+                        CRON_LINE2="0 13 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+                        CRON_LINE3="0 21 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+
+                        # Verificar si la línea ya existe en el crontab, y si no, agregarla
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE1" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE1") | crontab -
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE2" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE2") | crontab -
+                        (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE3" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE3") | crontab -
+                        echo -e ""
+                        echo -e "${verde} ok${borra_colores} Tres veces al dia a las 09'00, 13'00 y a las 21.00."
+                        bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+                        sleep 3
+                        break
+                        ;;
+
+                    99) #atras
+                        break
+                        ;;
+
+                    *)  #opcion invalida
+                        echo ""
+                        echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+                        sleep 2
+                        ;;
+                esac
+                done
+
+            else
+                echo ""
+                echo -e "${amarillo} No esta configurado tu Bot de Telegram.${borra_colores}"
+                sleep 4
+                break
+            fi
+        else
+            echo ""
+            echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+            sleep 4
+        fi
+        ;;
+
+    3)  #Borrar la automatizacion de envios a Telegram
+        rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+        crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
+        echo ""
+        echo -e "${amarillo} automatizacion del envio automatico borrada.${borra_colores}"; sleep 2
+        ;;
+
+    4)  #borra configuracion telegram
+        rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+        crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
+        echo ""
+        echo -e "${amarillo} Configuracion del Bot de Telegram borrada.${borra_colores}"; sleep 2
+        ;;
+
+    90) #ayuda
+        clear
+        cat $ruta_ejecucion/ayuda
+        read p
+        ;;
+
+    99) #ir al menu configuracion.
+        exit
+        ;;
+
+    *)  #opcion invalida
+        echo ""
+        echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+        sleep 2
+        ;;
+
+esac
+done
+

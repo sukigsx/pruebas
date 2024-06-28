@@ -1,0 +1,204 @@
+#!/bin/bash
+
+# VARIABLE QUE RECOJEN LAS RUTAS
+ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
+ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
+
+#colores
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
+
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+clear
+echo ""
+echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+echo ""
+sleep 1
+exit
+}
+
+comprobar_dominios(){
+#funcion de comprobar comprobar_servicios
+clear
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRedDominios.config"
+
+#comprueba si esta configurado
+if [ "$configurado_dominios" = "no" ]; then
+    echo -e ""
+    echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}"; sleep 2
+    echo -e ""
+else
+
+    if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+        echo ""
+        echo -e "${azul} Comprobando DOMINIOS.${borra_colores}\n"
+        source $ruta_ejecucion/MonitorRedDominios.config
+        for resultado in "${!dominios[@]}"
+        do
+            curl -s -o -I $resultado 1>/dev/null 2>/dev/null
+            if [ $? = "0" ]
+            then
+                printf "${azul} DOMINIO ${amarillo}$resultado ${verde}ENCENDIDO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
+            else
+                printf "${azul} DOMINIO ${amarillo}$resultado ${rojo}APAGADO${borra_colores} del servicio web ${amarillo}${dominios[$resultado]}\n" | column -t -s $'\t'
+            fi
+        done
+        echo ""
+        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        echo "----------------------------------------------------"
+        read -p " Pulsa una tecla para continuar." p
+    fi
+fi
+}
+
+comprobar_servicios(){
+#funcion de comprobar comprobar_servicios
+clear
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRedServicios.config"
+
+#comprueba si esta configurado
+if [ "$configurado_servicios" = "no" ]; then
+    echo -e ""
+    echo -e "${amarillo} No tienes ningun Servicio configurado.${borra_colores}"; sleep 2
+    echo -e ""
+else
+    if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+        echo ""
+        echo -e "${azul} Comprobando SERVICIOS.${borra_colores}\n"
+        source $ruta_ejecucion/MonitorRedServicios.config
+        for resultado in "${!servicios[@]}"
+        do
+            curl -s -o -I $resultado 1>/dev/null 2>/dev/null
+            if [ $? = "0" ]
+            then
+                printf "${azul} SERVICIO ${amarillo}${servicios[$resultado]} ${verde}ENCENDIDO${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
+            else
+                printf "${azul} SERVICIO ${amarillo}${servicios[$resultado]} ${rojo}APAGADO  ${borra_colores} en la ip y puerto ${amarillo}$resultado\n" | column -t -s $'\t'
+            fi
+        done
+        echo ""
+        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        echo "----------------------------------------------------"
+        read -p " Pulsa una tecla para continuar." p
+    fi
+fi
+}
+
+comprobar_ips(){
+#funcion de comprobar comprobar_ips
+clear
+echo -e "${rosa}"; figlet Escanear; echo -e "${borra_colores}"
+archivo="$ruta_ejecucion/MonitorRedIps.config"
+#comprobar si esta configurado
+if [ "$configurado_ips" = "no" ]; then
+    echo -e ""
+    echo -e "${amarillo} No tienes ninguna Ip configurada.${borra_colores}"; sleep 2
+    echo -e ""
+else
+    if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
+        echo ""
+        echo -e "${azul} Comprobando IPS activas en tu red.${borra_colores}\n"
+        source $ruta_ejecucion/MonitorRedIps.config
+        for resultado in "${!ips[@]}"
+        do
+            ping -w 1 $resultado 1>/dev/null 2>/dev/null
+            if [ $? = "0" ]
+            then
+                printf "${azul} IP${amarillo} $resultado ${verde}ENCENDIDA${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+            else
+                printf "${azul} IP${amarillo} $resultado ${rojo}APAGADA  ${borra_colores} del equipo ${amarillo}${ips[$resultado]}\n" | column -t -s $'\t'
+            fi
+        done
+        echo ""
+        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        echo "----------------------------------------------------"
+        read -p " Pulsa una tecla para continuar." p
+    fi
+fi
+}
+
+menu_info(){
+# muestra el menu de sukigsx
+clear
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}    Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores}"
+echo -e "${azul}    Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores}"
+echo -e "${azul}    Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores}"
+echo ""
+}
+
+#carga el fichero de configurado si o no (configuradosino) que contiene las variables para saber lo que esta configurado.
+source $ruta_ejecucion/configuradosino
+clear
+menu_info
+while :
+do
+    menu_info
+    echo -e "${verde}"; figlet Principal; echo -e "${borra_colores}"
+    echo ""
+    echo -e "   ${azul} 1-${borra_colores} Comprobar Servicios activos de la misma ip."
+    echo -e "   ${azul} 2-${borra_colores} Comprobar Ips activas en tu red."
+    echo -e "   ${azul} 3-${borra_colores} Comprobar Dominios activos."
+    echo -e ""
+    echo -e "   ${azul}70-${borra_colores} Comprobar todo."
+    echo -e ""
+    echo -e "   ${azul}90-${borra_colores} Ayuda"
+    echo -e "   ${azul}99-${borra_colores} Ir al menu de configuracion."
+    echo ""
+    echo -e -n "${azul} Selecciona numero de las opciones del menu (Control+c = Salir) ->${borra_colores} "; read opcion
+    case $opcion in
+        1)  #comprobar servicios
+            comprobar_servicios
+            ;;
+
+        2)  #comprobar ips
+            comprobar_ips
+            ;;
+
+        3)  #comprobar_dominios
+            comprobar_dominios
+            ;;
+
+        70) #comprobar todo
+            comprobar_servicios
+            comprobar_ips
+            comprobar_dominios
+            ;;
+
+        90) #ayuda
+            clear
+            cat $ruta_ejecucion/ayuda
+            read p
+            ;;
+
+        99) #ir al menu de configuracion
+            bash $ruta_ejecucion/configuracion
+            ;;
+
+        *)  echo ""
+            echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+            sleep 2
+            ;;
+    esac
+done
