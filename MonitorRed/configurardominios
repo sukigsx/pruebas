@@ -76,7 +76,7 @@ fi
                         sed -i 's/configurado_dominios="no"/configurado_dominios="si"/' $ruta_ejecucion/configurado.config
                         break
                     else
-                        echo -e "${amarillo} No has introducido ninguna Ip${borra_colores}"; sleep 3
+                        echo -e "${amarillo} No has introducido ningun Dominio${borra_colores}"; sleep 3
                         break
                     fi
                 fi

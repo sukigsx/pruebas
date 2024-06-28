@@ -440,6 +440,17 @@ do
             ;;
 
         22) #Borrar dominios
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion de DOMINIOS ? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRed/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/configurado_Dominios="si"/configurado_Dominios="no"/' "$ruta_ejecucion/MonitorRed/configurado.config"
+                echo ""
+                echo -e "${amarillo} Borrada la configuracion de IPS.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
             ;;
 
         23) #Borrar bot de telegram
