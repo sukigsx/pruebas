@@ -394,9 +394,9 @@ do
     echo -e "   ${azul}21-${rojo} Ips${borra_colores}"
     echo -e "   ${azul}22-${rojo} Dominios${borra_colores}"
     echo -e "   ${azul}23-${rojo} Bot de Telegram${borra_colores}"
-    echo -e "   ${azul}24-${rojo} Automatico a Telegram${borra_colores}"
+    echo -e "   ${azul}24-${rojo} Envio Automatico a Telegram${borra_colores}"
     echo -e "   ${azul}25-${rojo} Correo Electronico${borra_colores}"
-    echo -e "   ${azul}26-${rojo} Automatico a Correo${borra_colores}"
+    echo -e "   ${azul}26-${rojo} Envio Automatico a Correo${borra_colores}"
     echo -e "   ${azul}27-${rojo} Restaurar todo${borra_colores}"
     echo -e ""
     echo -e "   ${azul}Resto de opciones:${borra_colores}"
@@ -437,6 +437,7 @@ do
             ;;
 
         13) #Configurar bot telegram
+            bash $ruta_ejecucion/MonitorRed/configurarbottelegram
             ;;
 
         14) #automatico a telegram
