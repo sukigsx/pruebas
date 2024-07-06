@@ -492,6 +492,17 @@ do
             ;;
 
         23) #Borrar bot de telegram
+            echo ""
+            read -p " ¿ Seguro que quieres borrar la configuracion de tu Bot de Telegram ? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                rm $ruta_ejecucion/MonitorRed/MonitorRedBot_telegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                sed -i 's/configurado_bot_telegram="si"/configurado_bot_telegram="no"/' $ruta_ejecucion/MonitorRed/configurado.config
+                echo ""
+                echo -e "${amarillo} Borrada la configuracion de tu Bot de Telegram.${borra_colores}"; sleep 2
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
             ;;
 
         24) #Borrar automatico de telegram
