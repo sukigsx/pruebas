@@ -510,12 +510,13 @@ do
                 rm $ruta_ejecucion/MonitorRed/configurado.config 2>/dev/null 1>/dev/null 0>/dev/null
 
                 rm $ruta_ejecucion/MonitorRed/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/MonitorRedDominios.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/MonitorRedIps.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/MonitorRedBot_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/MonitorRedEnvio_telegram.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/MonitorRedEnvio_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
-                rm $ruta_ejecucion/MonitorRed/MonitorRedConfigurar_correo.conf 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedBot_telegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedEnvio_telegram.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedEnvio_correo.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedConfigurar_correo.config 2>/dev/null 1>/dev/null 0>/dev/null
+                rm $ruta_ejecucion/MonitorRed/MonitorRedConfigurar_correo.config 2>/dev/null 1>/dev/null 0>/dev/null
 
                 #crea el fichero de estado de configuracion (configurado.conf)
                 echo 'configurado_servicios="no"' >> $ruta_ejecucion/MonitorRed/configurado.config
