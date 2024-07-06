@@ -13,7 +13,7 @@ turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
 #comprueba si ya esta configurado el bot de telegram
-if ! grep -q 'configurado_bot_telegram="no"' "$ruta_ejecucion/MonitorRed/configurado.config"; then
+if ! grep -q 'configurado_bot_telegram="no"' "$ruta_ejecucion/configurado.config"; then
     echo ""
     echo " Ya tienes el Bot De Telegram configurado."
     sleep 3
@@ -58,10 +58,10 @@ echo ""
 read -p " ¿ Te ha llegado el mensaje a Telegram (S/n) ? -> " sn
 if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
     echo ""
-    sed -i 's/configurado_bot_telegram="no"/configurado_bot_telegram="si"/' $ruta_ejecucion/MonitorRed/configurado.config
-    echo "token=$token" >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo "id=$id" >> $ruta_ejecucion/MonitorRed/configurado.config
-    echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRed/configurado.config
+    sed -i 's/configurado_bot_telegram="no"/configurado_bot_telegram="si"/' $ruta_ejecucion/configurado.config
+    echo "token=$token" >> $ruta_ejecucion/configurado.config
+    echo "id=$id" >> $ruta_ejecucion/configurado.config
+    echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/configurado.config
 
     echo -e "${verde} Configuracion de envio a telegram realizada correctamente.${borra_colores}"
     sleep 3
