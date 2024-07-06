@@ -59,8 +59,8 @@ read -p " ¿ Te ha llegado el mensaje a Telegram (S/n) ? -> " sn
 if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
     echo ""
     sed -i 's/configurado_bot_telegram="no"/configurado_bot_telegram="si"/' $ruta_ejecucion/configurado.config
-    echo "token=$token" >> $ruta_ejecucion/MonitorRedBot_telegram.config.config
-    echo "id=$id" >> $ruta_ejecucion/MonitorRedBot_telegram.config.config
+    echo "token=$token" >> $ruta_ejecucion/MonitorRedBot_telegram.config
+    echo "id=$id" >> $ruta_ejecucion/MonitorRedBot_telegram.config
     echo "URL=https://api.telegram.org/bot$token/sendMessage" >> $ruta_ejecucion/MonitorRedBot_telegram.config.config
 
     echo -e "${verde} Configuracion de envio a telegram realizada correctamente.${borra_colores}"
