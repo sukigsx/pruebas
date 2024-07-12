@@ -95,14 +95,14 @@ fi
 
 
 #borra el resultado por si hay alguno
-$ruta_ejecucion/resultado.txt >/dev/null 2>&1
+rm $ruta_ejecucion/resultado.txt >/dev/null 2>&1
 
 comprobar_servicios
 comprobar_ips
 comprobar_dominios
 
 #envia el telegram
-echo "curl -s -X POST $URL -d chat_id=$ID -d text=\"\$(cat $ruta_ejecucion/resultado.txt)\"
+curl -s -X POST $url -d chat_id=$id -d text="$(cat $ruta_ejecucion/resultado.txt)"
 
 #borra el resultado
 rm $ruta_ejecucion/resultado.txt >/dev/null 2>&1
