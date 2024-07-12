@@ -24,9 +24,9 @@ else
             curl -s -o -I $resultado 1>/dev/null 2>/dev/null
             if [ $? = "0" ]
             then
-                printf " ${servicios[$resultado]} OK $resultado\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " ${servicios[$resultado]} $resultado OK\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             else
-                printf " ${servicios[$resultado]} KO $resultado\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " ${servicios[$resultado]} $resultado KO\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
