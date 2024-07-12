@@ -40,21 +40,21 @@ archivo="$ruta_ejecucion/MonitorRedIps.config"
 #comprobar si esta configurado
 if [ "$configurado_ips" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
-    echo -e " - Comprobando IPS activas en tu red -\n" >> $ruta_ejecucion/resultado.txt
+    echo -e " - Comprobando IPS activas en tu red -" >> $ruta_ejecucion/resultado.txt
     echo -e " No tienes ninguna Ip configurada." >> $ruta_ejecucion/resultado.txt
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo -e " - Comprobando IPS activas en tu red -\n" >> $ruta_ejecucion/resultado.txt
+        echo -e " - Comprobando IPS activas en tu red -" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedIps.config
         for resultado in "${!ips[@]}"
         do
             ping -w 1 $resultado 1>/dev/null 2>/dev/null
             if [ $? = "0" ]
             then
-                printf " IP $resultado ENCENDIDA del equipo ${ips[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " $resultado OK \n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             else
-                printf " IP $resultado APAGADA   del equipo ${ips[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " $resultado KO \n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
@@ -69,22 +69,22 @@ archivo="$ruta_ejecucion/MonitorRedDominios.config"
 #comprueba si esta configurado
 if [ "$configurado_dominios" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
-    echo -e " - Comprobando DOMINIOS -\n" >> $ruta_ejecucion/resultado.txt
+    echo -e " - Comprobando DOMINIOS -" >> $ruta_ejecucion/resultado.txt
     echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}" >> $ruta_ejecucion/resultado.txt
 else
 
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo -e " - Comprobando DOMINIOS -\n" >> $ruta_ejecucion/resultado.txt
+        echo -e " - Comprobando DOMINIOS -" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedDominios.config
         for resultado in "${!dominios[@]}"
         do
             curl -s -o -I $resultado 1>/dev/null 2>/dev/null
             if [ $? = "0" ]
             then
-                printf " $resultado OK ${dominios[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " $resultado OK \n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             else
-                printf " $resultado KO ${dominios[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " $resultado KO \n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
