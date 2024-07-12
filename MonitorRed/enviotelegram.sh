@@ -82,9 +82,9 @@ else
             curl -s -o -I $resultado 1>/dev/null 2>/dev/null
             if [ $? = "0" ]
             then
-                printf " DOMINIO $resultado ENCENDIDO del servicio web ${dominios[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " $resultado OK ${dominios[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             else
-                printf " DOMINIO $resultado APAGADO   del servicio web ${dominios[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
+                printf " $resultado KO ${dominios[$resultado]}\n" | column -t -s $'\t' >> $ruta_ejecucion/resultado.txt
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
