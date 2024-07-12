@@ -1,0 +1,66 @@
+ #!/bin/bash
+
+# VARIABLE QUE RECOJEN LAS RUTAS
+ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
+ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
+
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+clear
+echo ""
+echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
+echo ""
+exit
+}
+
+#colores
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
+
+configurado_servicios="no"
+configurado_dominios="no"
+configurado_ips="si"
+configurado_bot_telegram="si"
+configurado_envio_telegram="no"
+configurado_envio_correo="no"
+configurado_correo="no"
+
+#comprueba si existe el fichero de configuracion
+if [ -f $ruta_ejecucion/configurado.config ]; then
+    :
+else
+    echo -e "${amarillo} MonitorRed NO esta configurado."
+    sleep 3; exit
+fi
+
+#comprueba si esta configurado el bot de configurado_bot_telegram
+
+
+
+#comprueba que tengas al menos configurado uno de servicios dominios o ips
+source $ruta_ejecucion/configurado.config
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+    echo ""
+    #echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptttttttttttttttttttttttttttt.${borra_colores}"
+    echo ""
+    sleep 1; exit
+else
+    echo ""
+    echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+    echo -e "${rojo} Saliendo del script.${borra_colores}"
+    rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
+    rm $ruta_ejecucion/configuradosino 2>/dev/null 1>/dev/null 0>/dev/null
+    echo 'configurado_ips="no"' >> $ruta_ejecucion/configuradosino
+    echo 'configurado_dominios="no"' >> $ruta_ejecucion/configuradosino
+    echo 'configurado_servicios="no"' >> $ruta_ejecucion/configuradosino
+    sleep 3; exit
+    fi

@@ -381,13 +381,13 @@ do
     echo -e "   ${azul} 4-${borra_colores} Comprobar todo"
     echo -e ""
     echo -e "   ${azul}Configuraciones:${borra_colores}"
-    echo -e "   ${azul}10-${borra_colores} Servicios            ${azul}(${amarillo} $configurado_servicios${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}11-${borra_colores} Ips                  ${azul}(${amarillo} $configurado_ips${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}12-${borra_colores} Dominios             ${azul}(${amarillo} $configurado_dominios${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}13-${borra_colores} Bot de Telegram      ${azul}(${amarillo} $configurado_bot_telegram${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}13-${borra_colores} Automatico a Telegram${azul}(${amarillo} $configurado_envio_telegram${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}15-${borra_colores} Correo Electronico   ${azul}(${amarillo} $configurado_correo${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}16-${borra_colores} Automatico a Correo  ${azul}(${amarillo} $configurado_envio_correo${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}10-${borra_colores} Servicios             ${azul}(${amarillo} $configurado_servicios${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}11-${borra_colores} Ips                   ${azul}(${amarillo} $configurado_ips${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}12-${borra_colores} Dominios              ${azul}(${amarillo} $configurado_dominios${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}13-${borra_colores} Bot de Telegram       ${azul}(${amarillo} $configurado_bot_telegram${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}14-${borra_colores} Automatico a Telegram ${azul}(${amarillo} $configurado_envio_telegram${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}15-${borra_colores} Correo Electronico    ${azul}(${amarillo} $configurado_correo${borra_colores} configurado${azul})${borra_colores}"
+    echo -e "   ${azul}16-${borra_colores} Automatico a Correo   ${azul}(${amarillo} $configurado_envio_correo${borra_colores} configurado${azul})${borra_colores}"
     echo -e ""
     echo -e "   ${azul}Borrar configuraciones de MonitorRed:${borra_colores}"
     echo -e "   ${azul}20-${rojo} Servicios${borra_colores}"
@@ -441,6 +441,7 @@ do
             ;;
 
         14) #automatico a telegram
+            bash $ruta_ejecucion/MonitorRed/configurarautomaticotelegram
             ;;
 
         15) #configurar correo
