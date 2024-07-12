@@ -12,7 +12,6 @@ archivo="$ruta_ejecucion/MonitorRedServicios.config"
 if [ "$configurado_servicios" = "no" ]; then
     echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
     echo -e " No tienes ningun Servicio configurado." >> $ruta_ejecucion/resultado.txt
-    echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
@@ -30,9 +29,6 @@ else
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
-        printf " Escaneo de servicios Terminado.\n" >> $ruta_ejecucion/resultado.txt
-        echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
-
     fi
 fi
 }
@@ -44,7 +40,6 @@ archivo="$ruta_ejecucion/MonitorRedIps.config"
 if [ "$configurado_ips" = "no" ]; then
     echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
     echo -e " No tienes ninguna Ip configurada." >> $ruta_ejecucion/resultado.txt
-    echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
@@ -62,8 +57,6 @@ else
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
-        printf " Escaneo de IPS Terminado.\n" >> $ruta_ejecucion/resultado.txt
-        echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
     fi
 fi
 }
@@ -76,12 +69,11 @@ archivo="$ruta_ejecucion/MonitorRedDominios.config"
 if [ "$configurado_dominios" = "no" ]; then
     echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
     echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}" >> $ruta_ejecucion/resultado.txt
-    echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
 else
 
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo "----------------------------------------------------"
+        echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
         echo -e " Comprobando DOMINIOS.\n" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedDominios.config
         for resultado in "${!dominios[@]}"
@@ -95,8 +87,6 @@ else
             fi
         done
         echo "" >> $ruta_ejecucion/resultado.txt
-        printf " Escaneo de DOMINIOS Terminado.\n" >> $ruta_ejecucion/resultado.txt
-        echo "----------------------------------------------------" >> $ruta_ejecucion/resultado.txt
     fi
 fi
 }
