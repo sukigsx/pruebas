@@ -24,19 +24,33 @@ rosa="\e[0;35m\033[1m"
 turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
-configurado_servicios="no"
-configurado_dominios="no"
-configurado_ips="si"
-configurado_bot_telegram="si"
-configurado_envio_telegram="no"
-configurado_envio_correo="no"
-configurado_correo="no"
+menu_principal(){
+# muestra el menu de sukigsx
+clear
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e ""
+echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo ""
+echo -e "${azul} Estado de configuracion del script:${borra_colores}"
+echo ""
+echo -e "${azul}  Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $configurado_bot_telegram ${borra_colores}"
+echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $configurado_envio_telegram ${borra_colores}"
+echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $configurado_envio_correo ${borra_colores}"
+echo ""
+}
 
 comprobar_automatico_telegram(){
 #comprueba si existe el fichero de configuracion
 if [ -f $ruta_ejecucion/configurado.config ]; then
     source $ruta_ejecucion/configurado.config
 else
+    echo""
     echo -e "${amarillo} MonitorRed NO esta configurado.${borra_colores}"
     sleep 3; exit
 fi
@@ -45,6 +59,7 @@ fi
 if [ $configurado_bot_telegram = "si" ]; then
     :
 else
+    echo ""
     echo -e "${amarillo} El Bot de Telegran NO esta configurado.${borra_colores}"
     sleep 4; exit
 fi
@@ -65,13 +80,16 @@ comprobar_automatico_telegram
 #se procede a la configuracion del bot comprobar_automatico_telegram
 while :
 do
-menu_info
+menu_principal
 echo ""
-echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
-echo -e "   ${azul} Opciones de aviso por telegram:${bora_colores}"
+echo -e "${verde} Configuracion de avisos por Telegram${borra_colores}"
+echo ""
+echo -e "${azul} Opciones de aviso por telegram:${bora_colores}"
 echo -e "   ${azul} 1-${borra_colores} Una vez al dia. (08:00)"
 echo -e "   ${azul} 2-${borra_colores} Dos veces al dia (08:00 y 14:00)"
 echo -e "   ${azul} 3-${borra_colores} Tres veces al dia (08:00 , 14:00 y 22:00)"
+echo -e ""
+echo -e "   ${azul}99-${borra_colores} Atras sin hacer nada"
 echo ""
 echo -e -n "${azul} Selecciona numero de veces al dia ->${borra_colores} "; read opcion
     case $opcion in
@@ -82,6 +100,10 @@ echo -e -n "${azul} Selecciona numero de veces al dia ->${borra_colores} "; read
             ;;
 
         3)  #3 verce al dia
+            ;;
+
+        99) #atras sin hacer nada
+            exit
             ;;
 
         *)  echo ""
