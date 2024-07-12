@@ -3,6 +3,7 @@
 ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 source $ruta_ejecucion/configurado.config
+source $ruta_ejecucion/MonitorRedBot_telegram.config
 
 comprobar_servicios(){
 #funcion de comprobar comprobar_servicios
@@ -91,6 +92,16 @@ else
 fi
 }
 
+#comprueba
+
+#borra el resultado por si hay alguno
+$ruta_ejecucion/resultado.txt >/dev/null 2>&1
+
 comprobar_servicios
 comprobar_ips
 comprobar_dominios
+
+#envia el telegram
+
+#borra el resultado
+rm $ruta_ejecucion/resultado.txt >/dev/null 2>&1
