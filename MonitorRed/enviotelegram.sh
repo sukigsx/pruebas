@@ -12,7 +12,7 @@ archivo="$ruta_ejecucion/MonitorRedServicios.config"
 #comprueba si esta configurado
 if [ "$configurado_servicios" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
-    echo -e " - Comprobando SERVICIOS -\n" >> $ruta_ejecucion/resultado.txt
+    echo -e " - Comprobando SERVICIOS -" >> $ruta_ejecucion/resultado.txt
     echo -e " No tienes ningun Servicio configurado." >> $ruta_ejecucion/resultado.txt
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
@@ -70,7 +70,7 @@ archivo="$ruta_ejecucion/MonitorRedDominios.config"
 if [ "$configurado_dominios" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
     echo -e " - Comprobando DOMINIOS -" >> $ruta_ejecucion/resultado.txt
-    echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}" >> $ruta_ejecucion/resultado.txt
+    echo -e "${amarillo} No tienes Dominios configurados.${borra_colores}" >> $ruta_ejecucion/resultado.txt
 else
 
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
