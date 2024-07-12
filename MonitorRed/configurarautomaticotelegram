@@ -76,9 +76,8 @@ while :
 do
 menu_principal
 echo ""
-echo -e "${verde} Configuracion de avisos por Telegram${borra_colores}"
-echo ""
 echo -e "${azul} Opciones de aviso por telegram:${bora_colores}"
+echo ""
 echo -e "   ${azul} 1-${borra_colores} Una vez al dia. (08:00)"
 echo -e "   ${azul} 2-${borra_colores} Dos veces al dia (08:00 y 14:00)"
 echo -e "   ${azul} 3-${borra_colores} Tres veces al dia (08:00 , 14:00 y 22:00)"
@@ -88,6 +87,18 @@ echo ""
 echo -e -n "${azul} Selecciona numero de veces al dia ->${borra_colores} "; read opcion
     case $opcion in
         1)  #1 vez al dia
+            #metemos al cronbtab
+            # Generar la línea a agregar con el nombre del usuario
+            CRON_LINE="# MonitorRed"
+            CRON_LINE1="0 9 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+
+            # Verificar si la línea ya existe en el crontab, y si no, agregarla
+            (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
+            (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE1" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE1") | crontab -
+            echo -e ""
+            echo -e "${verde} ok${borra_colores} Una vez al dia a las 09'00 de la mañana."
+            bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            sleep 3
             ;;
 
         2)  #2 veces al dia
