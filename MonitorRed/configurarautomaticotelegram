@@ -36,7 +36,7 @@ configurado_correo="no"
 if [ -f $ruta_ejecucion/configurado.config ]; then
     :
 else
-    echo -e "${amarillo} MonitorRed NO esta configurado."
+    echo -e "${amarillo} MonitorRed NO esta configurado.${borra_colores}"
     sleep 3; exit
 fi
 
