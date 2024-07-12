@@ -46,7 +46,7 @@ if [ $configurado_bot_telegram = "si" ]; then
     :
 else
     echo -e "${amarillo} El Bot de Telegran NO esta configurado.${borra_colores}"
-    sleep 3; exit
+    sleep 4; exit
 fi
 
 #comprueba que tengas al menos configurado uno de servicios dominios o ips
@@ -55,12 +55,38 @@ if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$c
 else
     echo ""
     echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
-    sleep 3; exit
+    sleep 4; exit
 fi
 }
 
+#comprobamos que se pueda configurar el aviso de bot comprobar_automatico_telegram
 comprobar_automatico_telegram
 
-echo "saliendo controlado"; read p; exit
+#se procede a la configuracion del bot comprobar_automatico_telegram
+while :
+do
+menu_info
+echo ""
+echo -e "${verde}"; figlet Bot Telegram; echo -e "${borra_colores}"
+echo -e "   ${azul} Opciones de aviso por telegram:${bora_colores}"
+echo -e "   ${azul} 1-${borra_colores} Una vez al dia. (08:00)"
+echo -e "   ${azul} 2-${borra_colores} Dos veces al dia (08:00 y 14:00)"
+echo -e "   ${azul} 3-${borra_colores} Tres veces al dia (08:00 , 14:00 y 22:00)"
+echo ""
+echo -e -n "${azul} Selecciona numero de veces al dia ->${borra_colores} "; read opcion
+    case $opcion in
+        1)  #1 vez al dia
+            ;;
 
+        2)  #2 veces al dia
+            ;;
 
+        3)  #3 verce al dia
+            ;;
+
+        *)  echo ""
+            echo -e "${amarillo} Opcion no valida del menu.${borra_colores}"
+            sleep 2
+            ;;
+    esac
+done
