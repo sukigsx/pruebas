@@ -42,6 +42,7 @@ fi
 
 #comprueba si esta configurado el bot de configurado_bot_telegram
 
+echo "saliendo controlado"; exit
 
 
 #comprueba que tengas al menos configurado uno de servicios dominios o ips
