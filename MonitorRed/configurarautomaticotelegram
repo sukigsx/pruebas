@@ -32,36 +32,35 @@ configurado_envio_telegram="no"
 configurado_envio_correo="no"
 configurado_correo="no"
 
+comprobar_automatico_telegram(){
 #comprueba si existe el fichero de configuracion
 if [ -f $ruta_ejecucion/configurado.config ]; then
-    :
+    source $ruta_ejecucion/configurado.config
 else
     echo -e "${amarillo} MonitorRed NO esta configurado.${borra_colores}"
-    sleep 3; read  p; exit
+    sleep 3; exit
 fi
 
 #comprueba si esta configurado el bot de configurado_bot_telegram
+if [ $configurado_bot_telegram = "si" ]; then
+    :
+else
+    echo -e "${amarillo} El Bot de Telegran NO esta configurado.${borra_colores}"
+    sleep 3; exit
+fi
+
+#comprueba que tengas al menos configurado uno de servicios dominios o ips
+if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
+    :
+else
+    echo ""
+    echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
+    sleep 3; exit
+fi
+}
+
+comprobar_automatico_telegram
 
 echo "saliendo controlado"; read p; exit
 
 
-#comprueba que tengas al menos configurado uno de servicios dominios o ips
-source $ruta_ejecucion/configurado.config
-if [ "$configurado_servicios" = "si" ] || [ "$configurado_ips" = "si" ] || [ "$configurado_dominios" = "si" ]; then
-    echo ""
-    #echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi scriptttttttttttttttttttttttttttt.${borra_colores}"
-    echo ""
-    sleep 1; exit
-else
-    echo ""
-    echo -e "${amarillo} No has configurado ningun Servicio, Dominio o Ips.${borra_colores}"
-    echo -e "${rojo} Saliendo del script.${borra_colores}"
-    rm $ruta_ejecucion/MonitorRedIps.config 2>/dev/null 1>/dev/null 0>/dev/null
-    rm $ruta_ejecucion/MonitorRedDominios.config 2>/dev/null 1>/dev/null 0>/dev/null
-    rm $ruta_ejecucion/MonitorRedServicios.config 2>/dev/null 1>/dev/null 0>/dev/null
-    rm $ruta_ejecucion/configuradosino 2>/dev/null 1>/dev/null 0>/dev/null
-    echo 'configurado_ips="no"' >> $ruta_ejecucion/configuradosino
-    echo 'configurado_dominios="no"' >> $ruta_ejecucion/configuradosino
-    echo 'configurado_servicios="no"' >> $ruta_ejecucion/configuradosino
-    sleep 3; exit
-    fi
