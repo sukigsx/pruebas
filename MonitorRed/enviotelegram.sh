@@ -11,11 +11,12 @@ archivo="$ruta_ejecucion/MonitorRedServicios.config"
 #comprueba si esta configurado
 if [ "$configurado_servicios" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
+    echo -e " - Comprobando SERVICIOS -\n" >> $ruta_ejecucion/resultado.txt
     echo -e " No tienes ningun Servicio configurado." >> $ruta_ejecucion/resultado.txt
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo -e " Comprobando SERVICIOS.\n" >> $ruta_ejecucion/resultado.txt
+        echo -e " - Comprobando SERVICIOS -\n" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedServicios.config
         for resultado in "${!servicios[@]}"
         do
@@ -38,11 +39,12 @@ archivo="$ruta_ejecucion/MonitorRedIps.config"
 #comprobar si esta configurado
 if [ "$configurado_ips" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
+    echo -e " - Comprobando IPS activas en tu red -\n" >> $ruta_ejecucion/resultado.txt
     echo -e " No tienes ninguna Ip configurada." >> $ruta_ejecucion/resultado.txt
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo -e " Comprobando IPS activas en tu red.\n" >> $ruta_ejecucion/resultado.txt
+        echo -e " - Comprobando IPS activas en tu red -\n" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedIps.config
         for resultado in "${!ips[@]}"
         do
@@ -66,12 +68,13 @@ archivo="$ruta_ejecucion/MonitorRedDominios.config"
 #comprueba si esta configurado
 if [ "$configurado_dominios" = "no" ]; then
     echo "" >> $ruta_ejecucion/resultado.txt
+    echo -e " - Comprobando DOMINIOS -\n" >> $ruta_ejecucion/resultado.txt
     echo -e "${amarillo} No tienes ningun Dominio configurado.${borra_colores}" >> $ruta_ejecucion/resultado.txt
 else
 
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo -e " Comprobando DOMINIOS.\n" >> $ruta_ejecucion/resultado.txt
+        echo -e " - Comprobando DOMINIOS -\n" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedDominios.config
         for resultado in "${!dominios[@]}"
         do
