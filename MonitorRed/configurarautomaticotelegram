@@ -37,12 +37,6 @@ echo -e "${rosa}                  |___/             ${azul}   Actualizado       
 echo -e ""
 echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
 echo ""
-echo -e "${azul} Estado de configuracion del script:${borra_colores}"
-echo ""
-echo -e "${azul}  Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $configurado_bot_telegram ${borra_colores}"
-echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $configurado_envio_telegram ${borra_colores}"
-echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $configurado_envio_correo ${borra_colores}"
-echo ""
 }
 
 comprobar_automatico_telegram(){
