@@ -5,6 +5,9 @@ ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al
 source $ruta_ejecucion/configurado.config
 source $ruta_ejecucion/MonitorRedBot_telegram.config
 
+# comprueba si bot telegran esta configurado
+
+
 comprobar_servicios(){
 #funcion de comprobar comprobar_servicios
 archivo="$ruta_ejecucion/MonitorRedServicios.config"

@@ -421,6 +421,7 @@ do
             comprobar_servicios
             comprobar_ips
             comprobar_dominios
+            bash $ruta_ejecucion/MonitorRed/enviotelegram.sh
             ;;
 
         10) #configurar servicios
