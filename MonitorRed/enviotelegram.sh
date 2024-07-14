@@ -17,7 +17,7 @@ if [ "$configurado_servicios" = "no" ]; then
 else
     if [ -f "$archivo" ] && grep -q "\[" "$archivo"; then
         echo "" >> $ruta_ejecucion/resultado.txt
-        echo -e " - Comprobando SERVICIOS -\n" >> $ruta_ejecucion/resultado.txt
+        echo -e " - Comprobando SERVICIOS -" >> $ruta_ejecucion/resultado.txt
         source $ruta_ejecucion/MonitorRedServicios.config
         for resultado in "${!servicios[@]}"
         do
