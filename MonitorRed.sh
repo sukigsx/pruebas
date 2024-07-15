@@ -529,7 +529,6 @@ do
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 crontab -l | grep -v 'MonitorRed' | crontab -
                 sed -i 's/configurado_envio_telegram="si"/configurado_envio_telegram="no"/' $ruta_ejecucion/MonitorRed/configurado.config
-                read p
             else
                 echo ""
                 echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
