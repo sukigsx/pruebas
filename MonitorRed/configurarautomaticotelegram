@@ -4,10 +4,6 @@
 ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
-echo $ruta_ejecucion
-read p
-exit
-
 #toma el control al pulsar control + c
 trap ctrl_c INT
 function ctrl_c()
