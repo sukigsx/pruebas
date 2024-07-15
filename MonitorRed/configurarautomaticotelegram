@@ -97,7 +97,7 @@ do
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE1" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE1") | crontab -
             echo -e ""
             echo -e "${verde} ok${borra_colores} Una vez al dia a las 09'00 de la mañana."
-            #bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            sed -i 's/configurado_envio_telegram="no"/configurado_envio_telegram="si"/' $ruta_ejecucion/configurado.config
             sleep 3
             exit
             ;;
@@ -115,7 +115,7 @@ do
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE2" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE2") | crontab -
             echo -e ""
             echo -e "${verde} ok${borra_colores} Dos veces al dia a las 09'00 y a las 21.00."
-            #bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            sed -i 's/configurado_envio_telegram="no"/configurado_envio_telegram="si"/' $ruta_ejecucion/configurado.config
             sleep 3
             exit
             ;;
@@ -135,7 +135,7 @@ do
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE3" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE3") | crontab -
             echo -e ""
             echo -e "${verde} ok${borra_colores} Tres veces al dia a las 09'00, 13'00 y a las 21.00."
-            #bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            sed -i 's/configurado_envio_telegram="no"/configurado_envio_telegram="si"/' $ruta_ejecucion/configurado.config
             sleep 3
             exit
             ;;

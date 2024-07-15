@@ -524,7 +524,15 @@ do
             ;;
 
         24) #Borrar automatico de telegram
-            crontab -l | grep -v 'MonitorRed' | crontab -
+            echo ""
+            read -p " ¿ Seguro que quieres borrar el envio automatico a telegram ? (S/n) -> " sn
+            if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
+                crontab -l | grep -v 'MonitorRed' | crontab -
+                sed -i 's/configurado_envio_telegram="si"/configurado_envio_telegram="no"/' $ruta_ejecucion/configurado.config
+            else
+                echo ""
+                echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
+            fi
             ;;
 
         25) #Borrar correo electronico
@@ -559,9 +567,9 @@ do
                 echo ""
                 echo -e "${amarillo} Toda la configuracion restablecida a sus valores iniciales.${borra_colores}"; sleep 2
 
-                ########crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
-                #####rm $ruta_ejecucion/MonitorRedTelegram.config 2>/dev/null 1>/dev/null 0>/dev/null
-                #####rm -r /home/$(whoami)/.config/MonitorRedAutomatico 2>/dev/null 1>/dev/null 0>/dev/null
+                #borra la configuracion de crontab
+                crontab -l | grep -v "MonitorRed" | crontab - 2>/dev/null 1>/dev/null 0>/dev/null
+
 
             else
                 echo ""
