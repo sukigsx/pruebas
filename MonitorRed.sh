@@ -528,7 +528,7 @@ do
             read -p " ¿ Seguro que quieres borrar el envio automatico a telegram ? (S/n) -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
                 crontab -l | grep -v 'MonitorRed' | crontab -
-                sed -i 's/configurado_envio_telegram="si"/configurado_envio_telegram="no"/' $ruta_ejecucion/configurado.config
+                sed -i 's/configurado_envio_telegram="si"/configurado_envio_telegram="no"/' $ruta_ejecucion/MonitorRed/configurado.config
                 read p
             else
                 echo ""
