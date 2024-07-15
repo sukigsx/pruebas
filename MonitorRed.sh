@@ -530,7 +530,7 @@ do
                 crontab -l | grep -v 'MonitorRed' | crontab -
                 sed -i 's/configurado_envio_telegram="si"/configurado_envio_telegram="no"/' $ruta_ejecucion/MonitorRed/configurado.config
                 echo ""
-                echo -e "${amarillo} Borrada la configuracion de envio automati a Telegram.${borra_colores}"; sleep 2
+                echo -e "${amarillo} Borrada la configuracion de envio automatica a Telegram.${borra_colores}"; sleep 3
             else
                 echo ""
                 echo -e "${verde} No se borra nada.${borra_colores}"; sleep 2
