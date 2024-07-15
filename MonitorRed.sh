@@ -246,7 +246,6 @@ fi
 comprobar_servicios(){
 #funcion de comprobar comprobar_servicios
 clear
-echo -e "${rosa}"; figlet Escaneando; echo -e "${borra_colores}"
 archivo="$ruta_ejecucion/MonitorRed/MonitorRedServicios.config"
 
 #comprueba si esta configurado
@@ -280,7 +279,6 @@ fi
 comprobar_ips(){
 #funcion de comprobar comprobar_ips
 clear
-echo -e "${rosa}"; figlet Escaneando; echo -e "${borra_colores}"
 archivo="$ruta_ejecucion/MonitorRed/MonitorRedIps.config"
 #comprobar si esta configurado
 if [ "$configurado_ips" = "no" ]; then
@@ -313,7 +311,6 @@ fi
 comprobar_dominios(){
 #funcion de comprobar comprobar_servicios
 clear
-echo -e "${rosa}"; figlet Escaneando; echo -e "${borra_colores}"
 archivo="$ruta_ejecucion/MonitorRed/MonitorRedDominios.config"
 
 #comprueba si esta configurado
@@ -343,6 +340,12 @@ else
         read -p " Pulsa una tecla para continuar." p
     fi
 fi
+}
+
+comprobar_envio_telegram(){
+echo ""
+echo -e "${azul} Comprobando Envio a telegrama.${borra_colores}\n"
+bash $ruta_ejecucion/MonitorRed/enviotelegram.sh
 }
 
 #comprueba si eciste el fichero configurado.config
@@ -421,7 +424,7 @@ do
             comprobar_servicios
             comprobar_ips
             comprobar_dominios
-            bash $ruta_ejecucion/MonitorRed/enviotelegram.sh
+            comprobar_envio_telegram
             ;;
 
         10) #configurar servicios
