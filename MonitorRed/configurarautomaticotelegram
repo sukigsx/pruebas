@@ -74,7 +74,7 @@ comprobar_automatico_telegram
 #se procede a la configuracion del bot comprobar_automatico_telegram
 while :
 do
-    menu_info
+    menu_principal
     echo -e ""
     echo -e " ¿ Cuantas veces al dia quieres ser notificado ?"
     echo -e ""
@@ -90,7 +90,7 @@ do
             #metemos al cronbtab
             # Generar la línea a agregar con el nombre del usuario
             CRON_LINE="# MonitorRed"
-            CRON_LINE1="0 9 * * * /$ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE1="0 9 * * * $ruta_ejecucion/enviotelegram.sh"
 
             # Verificar si la línea ya existe en el crontab, y si no, agregarla
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
@@ -106,8 +106,8 @@ do
             #metemos al cronbtab
             # Generar la línea a agregar con el nombre del usuario
             CRON_LINE="# MonitorRed"
-            CRON_LINE1="0 9 * * * /$ruta_ejecucion/enviotelegram.sh"
-            CRON_LINE2="0 21 * * * /$ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE1="0 9 * * * $ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE2="0 21 * * * $ruta_ejecucion/enviotelegram.sh"
 
             # Verificar si la línea ya existe en el crontab, y si no, agregarla
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
@@ -124,9 +124,9 @@ do
             #metemos al cronbtab
             # Generar la línea a agregar con el nombre del usuario
             CRON_LINE="# MonitorRed"
-            CRON_LINE1="0 9 * * * /$ruta_ejecucion/enviotelegram.sh"
-            CRON_LINE2="0 13 * * * /$ruta_ejecucion/enviotelegram.sh"
-            CRON_LINE3="0 21 * * * /$ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE1="0 9 * * * $ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE2="0 13 * * * $ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE3="0 21 * * * $ruta_ejecucion/enviotelegram.sh"
 
             # Verificar si la línea ya existe en el crontab, y si no, agregarla
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -

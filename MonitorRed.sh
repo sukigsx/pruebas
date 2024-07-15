@@ -524,6 +524,7 @@ do
             ;;
 
         24) #Borrar automatico de telegram
+            crontab -l | grep -v 'MonitorRed' | crontab -
             ;;
 
         25) #Borrar correo electronico
