@@ -94,14 +94,14 @@ do
             #metemos al cronbtab
             # Generar la línea a agregar con el nombre del usuario
             CRON_LINE="# MonitorRed"
-            CRON_LINE1="0 9 * * * /home/$(whoami)/./EnvioTelegram.sh"
+            CRON_LINE1="0 9 * * * /$ruta_ejecucion/enviotelegram.sh"
 
             # Verificar si la línea ya existe en el crontab, y si no, agregarla
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE1" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE1") | crontab -
             echo -e ""
             echo -e "${verde} ok${borra_colores} Una vez al dia a las 09'00 de la mañana."
-            bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            #bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
             sleep 3
             exit
             ;;
@@ -110,8 +110,8 @@ do
             #metemos al cronbtab
             # Generar la línea a agregar con el nombre del usuario
             CRON_LINE="# MonitorRed"
-            CRON_LINE1="0 9 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
-            CRON_LINE2="0 21 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+            CRON_LINE1="0 9 * * * /$ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE2="0 21 * * * /$ruta_ejecucion/enviotelegram.sh"
 
             # Verificar si la línea ya existe en el crontab, y si no, agregarla
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
@@ -119,7 +119,7 @@ do
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE2" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE2") | crontab -
             echo -e ""
             echo -e "${verde} ok${borra_colores} Dos veces al dia a las 09'00 y a las 21.00."
-            bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            #bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
             sleep 3
             exit
             ;;
@@ -128,9 +128,9 @@ do
             #metemos al cronbtab
             # Generar la línea a agregar con el nombre del usuario
             CRON_LINE="# MonitorRed"
-            CRON_LINE1="0 9 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
-            CRON_LINE2="0 13 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
-            CRON_LINE3="0 21 * * * /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh"
+            CRON_LINE1="0 9 * * * /$ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE2="0 13 * * * /$ruta_ejecucion/enviotelegram.sh"
+            CRON_LINE3="0 21 * * * /$ruta_ejecucion/enviotelegram.sh"
 
             # Verificar si la línea ya existe en el crontab, y si no, agregarla
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
@@ -139,7 +139,7 @@ do
             (crontab -l 2>/dev/null | grep -F -x "$CRON_LINE3" > /dev/null) || (crontab -l 2>/dev/null; echo "$CRON_LINE3") | crontab -
             echo -e ""
             echo -e "${verde} ok${borra_colores} Tres veces al dia a las 09'00, 13'00 y a las 21.00."
-            bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
+            #bash /home/$(whoami)/.config/MonitorRedAutomatico/EnvioTelegram.sh
             sleep 3
             exit
             ;;
