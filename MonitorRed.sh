@@ -269,7 +269,7 @@ else
             fi
         done
         echo ""
-        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        printf "${azul} Escaneo Terminado.${borra_colores}\n"
         echo "----------------------------------------------------"
         read -p " Pulsa una tecla para continuar." p
     fi
@@ -301,7 +301,7 @@ else
             fi
         done
         echo ""
-        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        printf "${azul} Escaneo Terminado.${borra_colores}\n"
         echo "----------------------------------------------------"
         read -p " Pulsa una tecla para continuar." p
     fi
@@ -335,7 +335,7 @@ else
             fi
         done
         echo ""
-        printf "${azul} Escaneo Terminado. Pulsa una tecla para continuar.${borra_colores}\n"
+        printf "${azul} Escaneo Terminado.${borra_colores}\n"
         echo "----------------------------------------------------"
         read -p " Pulsa una tecla para continuar." p
     fi
@@ -343,9 +343,22 @@ fi
 }
 
 comprobar_envio_telegram(){
+clear
 echo ""
 echo -e "${azul} Comprobando Envio a telegrama.${borra_colores}\n"
-bash $ruta_ejecucion/MonitorRed/enviotelegram.sh
+if [ "$configurado_bot_telegram" = "si" ]; then
+    bash $ruta_ejecucion/MonitorRed/enviotelegram.sh
+    echo ""
+    printf "${azul} Envio terminado.${borra_colores}\n"
+    echo "----------------------------------------------------"
+    read -p " Pulsa una tecla para continuar." p
+else
+    echo -e ""
+    echo -e "${amarillo} No tienes el Bot de Telegram configurado.${borra_colores}"; sleep 2
+    echo -e ""
+    echo "----------------------------------------------------"
+    read -p " Pulsa una tecla para continuar." p
+fi
 }
 
 #comprueba si eciste el fichero configurado.config
