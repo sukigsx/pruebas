@@ -108,4 +108,4 @@ comprobar_dominios
 curl -s -X POST $url -d chat_id=$id -d text="$(cat $ruta_ejecucion/resultado.txt)" >/dev/null 2>&1
 
 #borra el resultado
-rm $ruta_ejecucion/resultado.txt >/dev/null 2>&1
+#rm $ruta_ejecucion/resultado.txt >/dev/null 2>&1
