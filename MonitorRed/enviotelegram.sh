@@ -71,7 +71,7 @@ archivo="$ruta_ejecucion/MonitorRedDominios.config"
 
 #comprueba si esta configurado
 if [ "$configurado_dominios" = "no" ]; then
-    echo "" >> $ruta_ejecucion/resultado.txt
+    #echo "" >> $ruta_ejecucion/resultado.txt
     echo -e " - Comprobando DOMINIOS -" >> $ruta_ejecucion/resultado.txt
     echo -e "${amarillo} No tienes Dominios configurados.${borra_colores}" >> $ruta_ejecucion/resultado.txt
 else
