@@ -396,7 +396,7 @@ do
     echo -e "   ${azul} 3-${borra_colores} Comprobar Dominio"
     echo -e "   ${azul} 4-${borra_colores} Comprobar todo"
     echo -e ""
-    echo -e "   ${azul}Configuraciones:${borra_colores}"
+    echo -e "   ${azul}Configurar opciones de MonitorRed:${borra_colores}"
     echo -e "   ${azul}10-${borra_colores} Servicios             ${azul}(${amarillo} $configurado_servicios${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}11-${borra_colores} Ips                   ${azul}(${amarillo} $configurado_ips${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}12-${borra_colores} Dominios              ${azul}(${amarillo} $configurado_dominios${borra_colores} configurado${azul})${borra_colores}"
