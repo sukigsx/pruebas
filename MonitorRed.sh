@@ -402,8 +402,6 @@ do
     echo -e "   ${azul}12-${borra_colores} Dominios              ${azul}(${amarillo} $configurado_dominios${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}13-${borra_colores} Bot de Telegram       ${azul}(${amarillo} $configurado_bot_telegram${borra_colores} configurado${azul})${borra_colores}"
     echo -e "   ${azul}14-${borra_colores} Automatico a Telegram ${azul}(${amarillo} $configurado_envio_telegram${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}15-${borra_colores} Correo Electronico    ${azul}(${amarillo} $configurado_correo${borra_colores} configurado${azul})${borra_colores}"
-    echo -e "   ${azul}16-${borra_colores} Automatico a Correo   ${azul}(${amarillo} $configurado_envio_correo${borra_colores} configurado${azul})${borra_colores}"
     echo -e ""
     echo -e "   ${azul}Borrar configuraciones de MonitorRed:${borra_colores}"
     echo -e "   ${azul}20-${rojo} Servicios${borra_colores}"
@@ -411,9 +409,7 @@ do
     echo -e "   ${azul}22-${rojo} Dominios${borra_colores}"
     echo -e "   ${azul}23-${rojo} Bot de Telegram${borra_colores}"
     echo -e "   ${azul}24-${rojo} Envio Automatico a Telegram${borra_colores}"
-    echo -e "   ${azul}25-${rojo} Correo Electronico${borra_colores}"
-    echo -e "   ${azul}26-${rojo} Envio Automatico a Correo${borra_colores}"
-    echo -e "   ${azul}27-${rojo} Restaurar todo${borra_colores}"
+    echo -e "   ${azul}25-${rojo} Restaurar todo${borra_colores}"
     echo -e ""
     echo -e "   ${azul}Resto de opciones:${borra_colores}"
     echo -e "   ${azul}90-${borra_colores} Ayuda"
@@ -459,12 +455,6 @@ do
 
         14) #automatico a telegram
             bash $ruta_ejecucion/MonitorRed/configurarautomaticotelegram
-            ;;
-
-        15) #configurar correo
-            ;;
-
-        16) #automatico a correo
             ;;
 
         20) #Borrar servicios
@@ -537,13 +527,7 @@ do
             fi
             ;;
 
-        25) #Borrar correo electronico
-            ;;
-
-        26) #Borrar automatico correo electronico
-            ;;
-
-        27) #Borrar todo
+        25) #Borrar todo
             echo ""
             read -p " ¿ Seguro que quieres borrar toda la configuracion (S/n) ? -> " sn
             if [[ "$sn" == "s" ]] || [[ "$sn" == "S" ]]; then
