@@ -47,6 +47,19 @@ echo ""
 exit
 }
 
+EstadoRclone(){
+# Obtener lista de remotes
+remotes=$(rclone listremotes)
+
+if [ -z "$remotes" ]; then
+    echo "⚠️ No tenés ninguna cuenta (remote) configurada en rclone."
+    echo "Usá 'rclone config' para crear una."
+else
+    echo "✅ Estas son las cuentas configuradas en rclone:"
+    echo "$remotes"
+fi
+}
+
 menu_principal(){
 # muestra el menu de sukigsx
 clear
@@ -59,12 +72,6 @@ echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
 echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
-echo ""
-echo -e "${azul} Estado de configuracion del script:${borra_colores}"
-echo ""
-echo -e "${azul}  Servicios${borra_colores} =${amarillo} $configurado_servicios${borra_colores} | ${azul}Bot de telegram${borra_colores}  =${amarillo} $configurado_bot_telegram ${borra_colores}"
-echo -e "${azul}  Ips      ${borra_colores} =${amarillo} $configurado_ips${borra_colores} | ${azul}Envio a telegram${borra_colores} =${amarillo} $configurado_envio_telegram ${borra_colores}"
-echo -e "${azul}  Dominios ${borra_colores} =${amarillo} $configurado_dominios${borra_colores} | ${azul}Envio por correo${borra_colores} =${amarillo} $configurado_envio_correo ${borra_colores}"
 echo ""
 }
 
@@ -243,6 +250,44 @@ else
     fi
 fi
 
+## EMPIEZA LO GORDO
+clear
+menu_principal
+while :
+do
+clear
 echo ""
-echo "funcionandoooooooooo"
+echo -e "     1. ${azul}Listar cuentas de Rclone.${borra_colores}"
+echo -e "     2. ${azul}Crear cuenta en Rclone.${borra_colores}"
+echo -e "     3. ${azul}Borrar cuentas de Rclone.${borra_colores}"
+echo -e "     4. ${azul}Montar una cuenta de Rclone.${borra_colores}"
+echo -e "     5. ${azul}Montar cuentas al inicio del sistema.${borra_colores}"
 echo ""
+echo -e "     6. ${azul}Instalar servicio en tu maquina (comprobacion automatica).${borra_colores}"
+echo ""
+echo -e "     7. ${azul}Borrado de datos.${borra_colores}"
+echo ""
+echo -e "    90. ${azul}Ayuda.${borra_colores}"
+echo -e "    99. ${azul}Salir.${borra_colores}"
+echo ""
+echo -n " Seleccione una opcion del menu --->>> "
+read opcion
+case $opcion in
+        1)  #opcion 1
+            ;;
+
+        2)  #Opcion 2
+            ;;
+
+        3)  #opcion 3
+            ;;
+
+        *)      #se activa cuando se introduce una opcion no controlada del menu
+                echo "";
+                echo -e " ${amarillo}OPCION NO DISPONIBLE EN EL MENU.    Seleccion 0, 1, 2, 3, 4, 5, 6,7, 90 o 99 ${borra_colores}";
+                echo -e " ${amarillo}PRESIONA ENTER PARA CONTINUAR ........${borra_colores}";
+                echo "";
+                read pause;;
+
+esac
+done
