@@ -4,7 +4,7 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="MonitorRed"
+export NombreScript="RcloneTools"
 export DescripcionDelScript="Comprobar Dominios, Ips y Servicios activos en tu red "
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
@@ -18,7 +18,7 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="MonitorRed.sh" #contiene el nombre del script para poder actualizar desde github
+NombreScriptActualizar="RcloneTools.sh" #contiene el nombre del script para poder actualizar desde github
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
