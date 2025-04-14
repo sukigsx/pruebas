@@ -8,7 +8,7 @@ export NombreScript="RcloneTools"
 export DescripcionDelScript="Utilidad para gestionar y automatizar los montajes de Rclone."
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
-export version="1.00"
+export version="1.000"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -168,7 +168,7 @@ sleep 2
 
 
 conexion(){
-#funcion de comprobar conexion a internet
+#funcion de comprobar conexion a internet274372
 #para que funciones necesita:
 #   conexion ainternet
 #   la paleta de colores
@@ -244,5 +244,5 @@ else
 fi
 
 echo ""
-echo "funcionando"
+echo "funcionandoooooooooo"
 echo ""
