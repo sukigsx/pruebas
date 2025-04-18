@@ -422,7 +422,7 @@ clear
 menu_info
 conexion
 if [ $conexion = "SI" ]; then
-    #actualizar_script
+    actualizar_script
     if [ $actualizado = "SI" ]; then
         software_necesario
         if [ $software = "SI" ]; then
