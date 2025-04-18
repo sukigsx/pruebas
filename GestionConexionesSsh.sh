@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00000km0"
+export version="1.00m0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -227,8 +227,10 @@ listar_servidores() {
 # Verifica si hay servidores
 hay_servidores() {
     if [ ! -s "$SERVER_LIST" ]; then
+        tput civis #oculta el cursor
         echo ""
         echo -e " ⚠️  ${amarillo}No hay servidores en la lista. Agrega al menos uno primero.${borra_colores}"; sleep 3
+        tput cnorm #muestra el cursor
         return 1
     fi
     return 0
