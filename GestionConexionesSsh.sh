@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.kkkkjhja"
+export version="1.kkhja"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -254,7 +254,7 @@ conectar_servidores() {
     hay_servidores_menu || return
     listar_servidores
 
-    echo -ne "${azul} Seleccione uno oo varios servidores a conectar (separados por espacios) -> ${borra_colores}"
+    echo -ne "${azul} Seleccione uno o varios servidores a conectar (separados por espacios) (atras = cuelquier tecla) -> ${borra_colores}"
     read -a servidores
 
     # Exportar las variables de entorno del agente SSH
@@ -306,7 +306,7 @@ agregar_servidor() {
 editar_servidor() {
     hay_servidores_menu || return
     listar_servidores
-    echo -n "Número del servidor a editar: "
+    echo -ne "${azul} Número del servidor a editar (atras = cualquier tecla) ->${borra_coloresd} "
     read numero
     linea=$(sed -n "${numero}p" "$SERVER_LIST")
 
@@ -339,7 +339,7 @@ editar_servidor() {
 eliminar_servidores() {
     hay_servidores_menu || return
     listar_servidores
-    echo -n "Seleccione los números de los servidores a eliminar (separados por espacios): "
+    echo -ne "${azul} Seleccione los números de los servidores a eliminar (separados por espacios) (atras = cualquier tecla) ${borra_colores}"
     read -a numeros_a_eliminar
 
     # Ordenar los números de forma descendente para evitar problemas al eliminar varias líneas
