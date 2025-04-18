@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00assdddsa"
+export version="1.00addsa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -221,7 +221,8 @@ mostrar_menu() {
 # Función para listar los servidores
 listar_servidores() {
     hay_servidores || return
-    echo "Lista de servidores:"
+    echo -e "${verde} Lista de servidores:${borra_colores}"
+    echo ""
     nl -w2 -s'. ' "$SERVER_LIST"
 }
 
