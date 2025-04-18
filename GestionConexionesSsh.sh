@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.kkkjjk0a"
+export version="1.kkkjjkfhgf0a"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -297,7 +297,7 @@ agregar_servidor() {
     read -p " Usuario SSH ->  " usuario
     read -p " Host/IP -> " host
     echo ""
-    echo "$nombre = $usuario@$host" >> "$SERVER_LIST"
+    echo "$nombre,$usuario,$host" >> "$SERVER_LIST"
     echo -e "${verde} Servidor agregado.${borra_colores}"; sleep 1
 }
 
