@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00aa"
+export version="1.00aaaaa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -221,7 +221,7 @@ mostrar_menu() {
 listar_servidores() {
     hay_servidores || return
     echo "Lista de servidores:"
-    nl -w2 -s'. ' "$SERVER_LIST"; read p
+    nl -w2 -s'. ' "$SERVER_LIST"
 }
 
 # Verifica si hay servidores
@@ -381,6 +381,7 @@ detectar_terminal
 while true; do
     mostrar_menu
     echo ""
+    listar_servidores
     echo -ne "${azul} Seleccione una opción:${borra_colores} "
     read opcion
     case $opcion in
