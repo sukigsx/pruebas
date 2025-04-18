@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00skjha"
+export version="1.00skfffjha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -388,10 +388,10 @@ while true; do
         1) conectar_servidores ;;
         2) agregar_servidor ;;
         3) editar_servidor ;;
-        4) listar_servidores ;;
-        5) eliminar_servidores ;;
-        6) backup_config ;;
-        7) restaurar_config ;;
+        #4) listar_servidores ;;
+        4) eliminar_servidores ;;
+        5) backup_config ;;
+        6) restaurar_config ;;
         99) ctrl_c ;;
         *) echo ""; echo -e "${amarillo} Opción no valida.${borra_colores}"; sleep 2 ;;
     esac
