@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.kkkjjkfhgf0a"
+export version="1.kkkkjhja"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -221,6 +221,7 @@ mostrar_menu() {
 # Función para listar los servidores
 listar_servidores() {
     hay_servidores || return
+    echo ""
     echo -e "${verde} Lista de servidores:${borra_colores}"
     nl -w2 -s'. ' "$SERVER_LIST"
     echo ""
@@ -253,7 +254,7 @@ conectar_servidores() {
     hay_servidores_menu || return
     listar_servidores
 
-    echo -n "Seleccione los números de los servidores a conectar (separados por espacios): "
+    echo -ne "${azul} Seleccione uno oo varios servidores a conectar (separados por espacios) -> ${borra_colores}"
     read -a servidores
 
     # Exportar las variables de entorno del agente SSH
