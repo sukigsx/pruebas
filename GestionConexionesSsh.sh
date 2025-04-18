@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00"
+export version="1.00aa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -221,7 +221,7 @@ mostrar_menu() {
 listar_servidores() {
     hay_servidores || return
     echo "Lista de servidores:"
-    nl -w2 -s'. ' "$SERVER_LIST"
+    nl -w2 -s'. ' "$SERVER_LIST"; read p
 }
 
 # Verifica si hay servidores
@@ -281,9 +281,9 @@ conectar_servidores() {
 # Función para agregar un servidor
 agregar_servidor() {
     echo ""
-    read -p "Dime un nombre descriptivo para la conexion -> " nombre
-    read -p "Usuario SSH ->  " usuario
-    read -p "Host/IP -> " host
+    read -p " Dime un nombre descriptivo para la conexion -> " nombre
+    read -p " Usuario SSH ->  " usuario
+    read -p " Host/IP -> " host
     echo ""
     echo "$nombre,$usuario,$host" >> "$SERVER_LIST"
     echo -e "${verde} Servidor agregado.${borra_colores}"; sleep 1
