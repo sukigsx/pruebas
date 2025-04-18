@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00skdfdfdfffjha"
+export version="1.00skdfdfdjha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -325,7 +325,7 @@ editar_servidor() {
 
 # Función para eliminar servidores
 eliminar_servidores() {
-    hay_servidores || return
+    hay_servidores; sleep 2 || return
     listar_servidores
     echo -n "Seleccione los números de los servidores a eliminar (separados por espacios): "
     read -a numeros_a_eliminar
