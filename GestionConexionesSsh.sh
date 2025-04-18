@@ -306,12 +306,12 @@ agregar_servidor() {
 editar_servidor() {
     hay_servidores_menu || return
     listar_servidores
-    echo -ne "${azul} Número del servidor a editar (atras = cualquier tecla) ->${borra_coloresd} "
+    echo -ne "${azul} Número del servidor a editar (atras = cualquier tecla) ->${borra_colores} "
     read numero
     linea=$(sed -n "${numero}p" "$SERVER_LIST")
 
     if [ -z "$linea" ]; then
-        echo "Selección inválida"
+        echo -e ""
         return
     fi
 
