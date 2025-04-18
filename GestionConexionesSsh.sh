@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.0a"
+export version="1.kkkjgfkjk0a"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -240,7 +240,7 @@ hay_servidores() {
 # verifica si hay servidores para las opciones del menu
 hay_servidores_menu() {
     if [ ! -s "$SERVER_LIST" ]; then
-        echo -e "${verde} Lista de servidores:${borra_colores}"
+        echo ""
         echo -e " ⚠️  ${amarillo}No hay servidores en la lista. Agrega al menos uno primero.${borra_colores}"
         echo ""; sleep 2
         return 1
@@ -250,7 +250,7 @@ hay_servidores_menu() {
 
 # Función para conectar a servidores seleccionados
 conectar_servidores() {
-    hay_servidores || return
+    hay_servidores_menu || return
     listar_servidores
 
     echo -n "Seleccione los números de los servidores a conectar (separados por espacios): "
@@ -303,7 +303,7 @@ agregar_servidor() {
 
 # Función para editar un servidor
 editar_servidor() {
-    hay_servidores || return
+    hay_servidores_menu || return
     listar_servidores
     echo -n "Número del servidor a editar: "
     read numero
