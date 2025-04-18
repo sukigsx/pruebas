@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00"
+export version="1.000"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -204,15 +204,16 @@ detectar_terminal() {
 # Función para mostrar el menú principal
 mostrar_menu() {
     menu_info
-    echo -e " - Menu de $NombreScript -"
-    echo -e "    1) Conectar a un servidor ssh"
-    echo -e "    2) Añadir un servidor ssh"
-    echo -e "    3) Editar un servidor ssh"
-    echo -e "    4) Listar servidores"
-    echo -e "    5) Eliminar un servidor"
-    echo -e "    6) Realizar backup de configuración"
-    echo -e "    7) Restaurar backup de configuración"
-    echo -e "   99) Salir"
+    echo -e " --- Menu de $NombreScript ---"
+    echo ""
+    echo -e "    ${azul}1)${borra_colores} Conectar a un servidor ssh"
+    echo -e "    ${azul}2)${borra_colores} Añadir un servidor ssh"
+    echo -e "    ${azul}3)${borra_colores} Editar un servidor ssh"
+    echo -e "    ${azul}4)${borra_colores} Listar servidores"
+    echo -e "    ${azul}5)${borra_colores} Eliminar un servidor"
+    echo -e "    ${azul}6)${borra_colores} Realizar backup de configuración"
+    echo -e "    ${azul}7)${borra_colores} Restaurar backup de configuración"
+    echo -e "   ${azul}99)${borra_colores} Salir"
 }
 
 # Función para listar los servidores
@@ -376,7 +377,7 @@ detectar_terminal
 # Loop principal del menú
 while true; do
     mostrar_menu
-    echo -n "Seleccione una opción: "
+    echo -ne "${azul} Seleccione una opción:${borra_colores} "
     read opcion
     case $opcion in
         1) conectar_servidores ;;
