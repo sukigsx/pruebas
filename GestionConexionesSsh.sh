@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.0fjha"
+export version="1.0a"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -237,6 +237,17 @@ hay_servidores() {
     return 0
 }
 
+# verifica si hay servidores para las opciones del menu
+hay_servidores_menu() {
+    if [ ! -s "$SERVER_LIST" ]; then
+        echo -e "${verde} Lista de servidores:${borra_colores}"
+        echo -e " ⚠️  ${amarillo}No hay servidores en la lista. Agrega al menos uno primero.${borra_colores}"
+        echo ""; sleep 2
+        return 1
+    fi
+    return 0
+}
+
 # Función para conectar a servidores seleccionados
 conectar_servidores() {
     hay_servidores || return
@@ -325,7 +336,7 @@ editar_servidor() {
 
 # Función para eliminar servidores
 eliminar_servidores() {
-    hay_servidores || return
+    hay_servidores_menu || return
     listar_servidores
     echo -n "Seleccione los números de los servidores a eliminar (separados por espacios): "
     read -a numeros_a_eliminar
