@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00aaaaa"
+export version="1.00aa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -379,9 +379,9 @@ detectar_terminal
 
 # Loop principal del menú
 while true; do
+    listar_servidores
     mostrar_menu
     echo ""
-    listar_servidores
     echo -ne "${azul} Seleccione una opción:${borra_colores} "
     read opcion
     case $opcion in
