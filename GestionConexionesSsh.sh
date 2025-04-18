@@ -18,8 +18,8 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="" #contiene la direccion de github para actualizar el script
+NombreScriptActualizar="GestionConexionesSsh.sh" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
 software="ping which git diff ssh touch sed sort cut grep" #contiene el software necesario separado por espacios
