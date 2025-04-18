@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00000mmkkkm0"
+export version="1.00000km0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -228,7 +228,7 @@ listar_servidores() {
 hay_servidores() {
     if [ ! -s "$SERVER_LIST" ]; then
         echo ""
-        echo -e "⚠️  ${amarillo}No hay servidores en la lista. Agrega al menos uno primero.·{borra_colores}"; sleep 2
+        echo -e " ⚠️  ${amarillo}No hay servidores en la lista. Agrega al menos uno primero.${borra_colores}"; sleep 3
         return 1
     fi
     return 0
@@ -391,7 +391,7 @@ while true; do
         6) backup_config ;;
         7) restaurar_config ;;
         99) ctrl_c ;;
-        *) echo ""; echo -e "${amarillo} Opción inválida.${borra_colores}"; sleep 2 ;;
+        *) echo ""; echo -e "${amarillo} Opción no valida.${borra_colores}"; sleep 2 ;;
     esac
     echo
 done
