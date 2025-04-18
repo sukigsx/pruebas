@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.00aa"
+export version="1.00asssa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -205,6 +205,7 @@ detectar_terminal() {
 # Función para mostrar el menú principal
 mostrar_menu() {
     menu_info
+    listar_servidores
     echo -e "${azul} Menu de $NombreScript ${borra_colores}"
     echo ""
     echo -e "    ${azul}1)${borra_colores} Conectar a un servidor ssh"
@@ -379,7 +380,6 @@ detectar_terminal
 
 # Loop principal del menú
 while true; do
-    listar_servidores
     mostrar_menu
     echo ""
     echo -ne "${azul} Seleccione una opción:${borra_colores} "
