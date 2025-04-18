@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.0"
+export version="1.00"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -159,8 +159,8 @@ borra_colores="\033[0m\e[0m" #borra colores
 
 menu_info(){
 # muestra el menu de sukigsx
-echo ""
 clear
+echo ""
 echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ($NombreScript)"
 echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} ($DescripcionDelScript)"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
@@ -171,30 +171,6 @@ echo -e ""
 echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
 echo ""
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Archivo donde se guarda la lista de servidores
 SERVER_LIST="$HOME/.ssh_server_list"
@@ -228,15 +204,15 @@ detectar_terminal() {
 # Función para mostrar el menú principal
 mostrar_menu() {
     menu_info
-    echo " Menu de seleccion opciones:"
-    echo "1) Conectar a un servidor ssh"
-    echo "2) Añadir un servidor ssh"
-    echo "3) Editar un servidor ssh"
-    echo "4) Listar servidores"
-    echo "5) Eliminar un servidor"
-    echo "6) Realizar backup de configuración"
-    echo "7) Restaurar backup de configuración"
-    echo "8) Salir"
+    echo -e " - Menu de $NombreScript -"
+    echo -e "    1) Conectar a un servidor ssh"
+    echo -e "    2) Añadir un servidor ssh"
+    echo -e "    3) Editar un servidor ssh"
+    echo -e "    4) Listar servidores"
+    echo -e "    5) Eliminar un servidor"
+    echo -e "    6) Realizar backup de configuración"
+    echo -e "    7) Restaurar backup de configuración"
+    echo -e "   99) Salir"
 }
 
 # Función para listar los servidores
