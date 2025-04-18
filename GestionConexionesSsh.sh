@@ -228,10 +228,9 @@ listar_servidores() {
 # Verifica si hay servidores
 hay_servidores() {
     if [ ! -s "$SERVER_LIST" ]; then
-        #tput civis #oculta el cursor
         echo -e "${verde} Lista de servidores:${borra_colores}"
         echo -e " ⚠️  ${amarillo}No hay servidores en la lista. Agrega al menos uno primero.${borra_colores}"
-        #tput cnorm #muestra el cursor
+        echo ""
         return 1
     fi
     return 0
