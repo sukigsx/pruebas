@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jaakaafffaaaa"
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -142,7 +142,7 @@ function ctrl_c()
 clear
 menu_info
 echo -e "${verde} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
-sleep 2
+sleep 1
 exit
 }
 
