@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jaakaafffaaaaaaaaaaaaaaaa"
+export version="1.jaakaafffaaaaaaaaaa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -454,7 +454,7 @@ crear_alias(){
             else
                 echo "alias sshon='bash $(find $HOME -type f -name "crear_alias")'" >> $HOME/.bashrc
                 echo ""
-                echo -e "${verde} Listo, reinicia tu terminal para que tenga efecto los cambios.${borra_colores}"; read p ;;
+                echo -e "${verde} Listo, reinicia tu terminal para que tenga efecto los cambios.${borra_colores}"; read p
             fi ;;
 
         99) return ;;
