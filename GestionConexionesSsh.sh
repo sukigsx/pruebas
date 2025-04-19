@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaha"
+export version="1.jljaaaaaaaaaaaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -310,6 +310,7 @@ agregar_servidor() {
 
 # Función para editar un servidor
 editar_servidor() {
+    echo ""
     hay_servidores_menu || return
     listar_servidores
     echo -ne "${azul} Número del servidor a editar (atras = cualquier tecla) ->${borra_colores} "
@@ -317,7 +318,7 @@ editar_servidor() {
 
     if [ -z "$numero" ]; then
         echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
-        continue
+        return
     fi
 
     linea=$(sed -n "${numero}p" "$SERVER_LIST")
