@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljha"
+export version="1.jljaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -315,7 +315,10 @@ editar_servidor() {
     echo -ne "${azul} Número del servidor a editar (atras = cualquier tecla) ->${borra_colores} "
     read numero
 
-
+    if [ -z "$numero" ]; then
+        echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
+        continue
+    fi
 
     linea=$(sed -n "${numero}p" "$SERVER_LIST")
 
