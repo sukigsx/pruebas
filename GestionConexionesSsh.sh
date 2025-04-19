@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jaakjhaaaaaaaaaaaaaaaaaaaaaaaha"
+export version="1.jaakjhaaaaaaaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -422,7 +422,8 @@ restaurar_config() {
 }
 
 crear_alias(){
-echo "creando alias"; read p
+
+    echo "creando alias"; read p
 }
 
 principal(){
