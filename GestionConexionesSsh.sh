@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaaaaaaadfffaaakjhaaaaaaha"
+export version="1.jljaaaaaaaaaaadfffaaakjhaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -254,14 +254,20 @@ conectar_servidores() {
     hay_servidores_menu || return
     listar_servidores
 
-    echo -ne "${azul} Seleccione uno o varios servidores a conectar (separados por espacios) -> ${borra_colores}"
-    read -a servidores
-    echo ""
+    # Selección de servidores con fzf
+    mapfile -t seleccionados < <(nl -w2 -s': ' "$SERVER_LIST" | fzf --multi --prompt="Seleccione servidores: " --ansi)
 
-    if [ -z "$servidores" ]; then
+    if [ "${#seleccionados[@]}" -eq 0 ]; then
         echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
-        continue
+        return
     fi
+
+    # Extraer solo los números de línea seleccionados
+    servidores=()
+    for linea in "${seleccionados[@]}"; do
+        numero=$(echo "$linea" | cut -d':' -f1 | tr -d ' ')
+        servidores+=("$numero")
+    done
 
     # Exportar las variables de entorno del agente SSH
     export SSH_AUTH_SOCK
@@ -289,13 +295,18 @@ conectar_servidores() {
             eval "$TERMINAL_CMD \"ssh -i $KEY_PATH $usuario@$host$TERMINAL_SUFFIX\" &"
         else
             echo "Copiando clave SSH al servidor $nombre..."
+
             # Generar una nueva clave SSH para el servidor si no existe
-            ssh-keygen -t rsa -b 4096 -N "" -f "$KEY_PATH" <<< y >/dev/null 2>&1
+            if [ ! -f "$KEY_PATH" ]; then
+                ssh-keygen -t rsa -b 4096 -N "" -f "$KEY_PATH" <<< y >/dev/null 2>&1
+            fi
+
             ssh-copy-id -i "$KEY_PATH.pub" "$usuario@$host"
             eval "$TERMINAL_CMD \"ssh -i $KEY_PATH $usuario@$host$TERMINAL_SUFFIX\" &"
         fi
     done
 }
+
 
 # Función para agregar un servidor
 agregar_servidor() {
