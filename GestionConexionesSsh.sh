@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jaaka"
+export version="1.jaakaaaaaaaaaaa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -428,22 +428,29 @@ crear_alias(){
     echo ""
     echo -e "${azul} -- Crear alias de conexion a servidores ssh --${borra_colores}"
     echo -e ""
-    echo -e "${azul} 1)${borra_colores}   Puedes instalar mi script de creacion de alias que"
+    echo -e "${azul}  1)${borra_colores}  Puedes instalar mi script de creacion de alias que"
     echo -e "      lo puedes encontrar en mi github."
     echo -e "      Lo instalas le das un nombre de alias ej. sshon"
     echo -e "      y le pasas este comando $alias"
     echo -e ""
-    echo -e "${azul} 2)${borra_colores}   Que lo ponga automaticamente este script."
+    echo -e "${azul}  2)${borra_colores}  Que lo ponga automaticamente este script."
     echo -e "      Creara una linea en tu -bashrc como la siguiente"
     echo -e "      (alias sshon='bash $alias')"
     echo -e ""
-    echo -e "${azul} 99)${borra_colores}   No hacer nada y regresar."
+    echo -e "${azul} 99)${borra_colores}  No hacer nada y regresar."
     echo -e ""
     read -p " ¿ Que forma eliges la 1 o la 2 ? -> " opcion_alias
     case $opcion_alias in
-        1)  echo "la uno"; read p ;;
-        2)  echo "la dos"; read p ;;
+        1)  echo ""
+            echo "${verde} Direccion web de repositorios de sukigsx:"
+            echo " https://repositorio.mbbsistemas.es/${borra_colores}"; read p ;;
+
+        2)  echo "alias sshon='bash $(find $HOME -type f -name "crear_alias")'" >> $HOME/.bashrc
+            echo ""
+            echo -e "${verde} Listo, reinicia tu terminal para que tenga efecto los cambios.${borra_colores}" ;;
+
         99) return ;;
+
         *) echo ""; echo -e "${amarillo} Opción no valida.${borra_colores}"; sleep 2 ;;
     esac
 }
