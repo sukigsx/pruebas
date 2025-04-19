@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaavdddddddaaaaaaaaaaaaaaaaaaaaaaaaaaha"
+export version="1.jljaaaaaavdddddddaaaaaaaaaaaaaaaaadfffaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -372,7 +372,7 @@ eliminar_servidores() {
 
         if [ -z "$linea" ]; then
             echo ""
-            echo -e "${rojo} Servidor no valido.${borra_colores} $numero"; sleep 2
+            echo -e "${rojo} Servidor seleccionado:${borra_colores} $numero ${rojo}no es valido.${borra_colores} $numero"; sleep 2
             continue
         fi
 
