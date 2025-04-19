@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jaakjhaaaaaaaaaha"
+export version="1.jaakjhaaaaaaaaajkhha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -436,7 +436,7 @@ crear_alias(){
     echo -e "      Creara una linea en tu -bashrc como la siguiente"
     echo -e "       (alias sshon='bash $alias')"
     echo -e ""
-    read -p " Que forma eliges la 1 o la 2 -> " 12
+    read -p " Que forma eliges la 1 o la 2 -> " opcion_alias
 }
 
 principal(){
