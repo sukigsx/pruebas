@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaavdddddddaaaaaaaaaaaaaaaaadfffaaaaaaaaaha"
+export version="1.jljaaaaaaaaaaadfffaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -353,7 +353,7 @@ editar_servidor() {
 eliminar_servidores() {
     hay_servidores_menu || return
     listar_servidores
-    echo -ne "${azul} Seleccione los números de los servidores a eliminar (separados por espacios) (atras = cualquier tecla) ${borra_colores}"
+    echo -ne "${azul} Seleccione los números de los servidores a eliminar (separados por espacios) -> ${borra_colores}"
     read -a numeros_a_eliminar
 
     if [ -z "$numeros_a_eliminar" ]; then
@@ -372,7 +372,7 @@ eliminar_servidores() {
 
         if [ -z "$linea" ]; then
             echo ""
-            echo -e "${rojo} Servidor seleccionado:${borra_colores} $numero ${rojo}no es valido.${borra_colores} $numero"; sleep 2
+            echo -e "${rojo} Servidor seleccionado:${borra_colores} $numero ${rojo}no es valido.${borra_colores}"; sleep 2
             continue
         fi
 
@@ -389,22 +389,24 @@ eliminar_servidores() {
 
 # Función para realizar un backup
 backup_config() {
-    echo -n "¿Dónde quieres guardar el archivo de backup? (ruta y nombre del archivo): "
+    echo ""
+    echo -n "¿Dónde quieres guardar el archivo de backup? (ruta y nombre del archivo) -> "
     read destino
     cp "$SERVER_LIST" "$destino"
-    echo "Backup realizado correctamente en $destino"
+    echo -e "${verde}Backup realizado correctamente en${borra_colores} $destino"; sleep 2
 }
 
 # Función para restaurar desde un backup
 restaurar_config() {
-    echo -n "¿Dónde está el archivo de backup que quieres restaurar? (ruta y nombre del archivo): "
+    echo ""
+    echo -n " ¿Dónde está el archivo de backup que quieres restaurar? (ruta y nombre del archivo) -> "
     read origen
     if [ ! -f "$origen" ]; then
-        echo "El archivo de backup no existe."
+        echo -e "${rojo} El archivo de backup no existe.${borra_colores}"; sleep 2
         return
     fi
     cp "$origen" "$SERVER_LIST"
-    echo "Backup restaurado correctamente desde $origen"
+    echo -e "${verde} Backup restaurado correctamente desde${borra_colores} $origen"; sleep 2
 }
 
 principal(){
