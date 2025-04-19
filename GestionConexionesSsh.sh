@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaaaaaaadfffaaaaaaaaaha"
+export version="1.jljaaaaaaaaaaadfffaaakjhaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -383,17 +383,18 @@ eliminar_servidores() {
 
         rm -f "$HOME/.ssh/id_rsa_$nombre" "$HOME/.ssh/id_rsa_$nombre.pub"
         sed -i "${numero}d" "$SERVER_LIST"
-        echo "Servidor $nombre eliminado y las claves SSH asociadas han sido borradas."
+        echo -e "${verde} Servidor${borra_colores} $nombre ${verde}eliminado y las claves SSH asociadas han sido borradas.${borra_colores}"
     done
+    sleep 2
 }
 
 # Función para realizar un backup
 backup_config() {
     echo ""
-    echo -n "¿Dónde quieres guardar el archivo de backup? (ruta y nombre del archivo) -> "
+    echo -n " ¿Dónde quieres guardar el archivo de backup? (ruta y nombre del archivo) -> "
     read destino
     cp "$SERVER_LIST" "$destino"
-    echo -e "${verde}Backup realizado correctamente en${borra_colores} $destino"; sleep 2
+    echo -e "${verde} Backup realizado correctamente en${borra_colores} $destino"; sleep 2
 }
 
 # Función para restaurar desde un backup
