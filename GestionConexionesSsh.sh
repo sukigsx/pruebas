@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.kfvrbsja"
+export version="1.ja"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -256,7 +256,7 @@ conectar_servidores() {
 
     echo -ne "${azul} Seleccione uno o varios servidores a conectar (separados por espacios) (atras = cuelquier tecla) -> ${borra_colores}"
     read -a servidores
-
+    echo ""
     # Exportar las variables de entorno del agente SSH
     export SSH_AUTH_SOCK
     export SSH_AGENT_PID
