@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jaakjhaaaaaaaaaaaaaaaaaaaha"
+export version="1.jaakjhaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -423,9 +423,20 @@ restaurar_config() {
 
 crear_alias(){
     hay_servidores_menu || return
+    alias=$(find $HOME -type f -name "crear_alias")
     echo ""
     echo -e " -- Crear alias de conexion a servidores ssh --"
-    echo "creando alias"; read p
+    echo -e ""
+    echo -e " 1)   Puedes instalar mi script de creacion de alias que"
+    echo -e "      lo puedes encontrar en mi github."
+    echo -e "      Lo instalas le das un nombre de alias ej. sshon"
+    echo -e "      y le pasas este comando $alias"
+    echo -e ""
+    echo -e " 2)   Que lo ponga automaticamente este script."
+    echo -e "      Creara una linea en tu -bashrc como la siguiente"
+    echo -e "       (alias sshon='bash $alias')"
+    echo -e ""
+    read -p " Que forma eliges la 1 o la 2 -> " 12
 }
 
 principal(){
