@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaaaaaaadfffaaakjhaaaha"
+export version="1.jljaaaaaaaaaaadfffaddddaakjhaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -255,7 +255,7 @@ conectar_servidores() {
     listar_servidores
 
     # Selección de servidores con fzf
-    mapfile -t seleccionados < <(nl -w2 -s': ' "$SERVER_LIST" | fzf --multi --prompt="Seleccione servidores: " --ansi)
+    mapfile -t seleccionados < <(nl -w2 -s': ' "$SERVER_LIST" | fzf --multi --prompt="Seleccione servidores: " --layout=reverse --ansi)
 
     if [ "${#seleccionados[@]}" -eq 0 ]; then
         echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
