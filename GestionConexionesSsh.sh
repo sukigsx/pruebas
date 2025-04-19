@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaavvvaddddddddddddddaaaaaaaaaaaaaaaaaaaaaaaaaaha"
+export version="1.jljaaaaaavdddddddaaaaaaaaaaaaaaaaaaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -254,7 +254,7 @@ conectar_servidores() {
     hay_servidores_menu || return
     listar_servidores
 
-    echo -ne "${azul} Seleccione uno o varios servidores a conectar (separados por espacios) (atras = cuelquier tecla) -> ${borra_colores}"
+    echo -ne "${azul} Seleccione uno o varios servidores a conectar (separados por espacios) -> ${borra_colores}"
     read -a servidores
     echo ""
 
@@ -356,6 +356,12 @@ eliminar_servidores() {
     echo -ne "${azul} Seleccione los números de los servidores a eliminar (separados por espacios) (atras = cualquier tecla) ${borra_colores}"
     read -a numeros_a_eliminar
 
+    if [ -z "$numeros_a_eliminar" ]; then
+        echo ""
+        echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
+        return
+    fi
+
     # Ordenar los números de forma descendente para evitar problemas al eliminar varias líneas
     IFS=$'\n' sorted=($(for i in "${numeros_a_eliminar[@]}"; do echo "$i"; done | sort -nr))
     unset IFS
@@ -365,7 +371,8 @@ eliminar_servidores() {
         linea=$(sed -n "${numero}p" "$SERVER_LIST")
 
         if [ -z "$linea" ]; then
-            echo "Selección inválida: $numero"
+            echo ""
+            echo -e "${rojo} Servidor no valido.${borra_colores} $numero"; sleep 2
             continue
         fi
 
