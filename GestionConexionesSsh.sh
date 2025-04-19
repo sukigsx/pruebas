@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaaaaaaaddaakjhaaaha"
+export version="1.jljaaaaaaaaaassssaddaakjhaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -211,10 +211,10 @@ mostrar_menu() {
     echo -e "    ${azul}1)${borra_colores} Conectar a un servidor ssh"
     echo -e "    ${azul}2)${borra_colores} Añadir un servidor ssh"
     echo -e "    ${azul}3)${borra_colores} Editar un servidor ssh"
-    #echo -e "    ${azul}4)${borra_colores} Listar servidores"
     echo -e "    ${azul}4)${borra_colores} Eliminar un servidor"
     echo -e "    ${azul}5)${borra_colores} Realizar backup de configuración"
     echo -e "    ${azul}6)${borra_colores} Restaurar backup de configuración"
+    echo -e "    ${azul}7)${borra_colores} Crear alias de acceso rapido a tus servidores"
     echo -e "   ${azul}99)${borra_colores} Salir"
 }
 
@@ -421,6 +421,10 @@ restaurar_config() {
     echo -e "${verde} Backup restaurado correctamente desde${borra_colores} $origen"; sleep 2
 }
 
+crear_alias(){
+echo "creando alias"; read p
+}
+
 principal(){
 # Detectar la terminal disponible antes de iniciar el menú
 detectar_terminal
@@ -435,10 +439,10 @@ while true; do
         1) conectar_servidores ;;
         2) agregar_servidor ;;
         3) editar_servidor ;;
-        #4) listar_servidores ;;
         4) eliminar_servidores ;;
         5) backup_config ;;
         6) restaurar_config ;;
+        7) Crear_crear;
         99) ctrl_c ;;
         *) echo ""; echo -e "${amarillo} Opción no valida.${borra_colores}"; sleep 2 ;;
     esac
