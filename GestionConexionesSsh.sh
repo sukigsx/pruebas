@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.kkhja"
+export version="1.kkhsssja"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -265,7 +265,7 @@ conectar_servidores() {
         servidor=$(sed -n "${numero}p" "$SERVER_LIST")
 
         if [ -z "$servidor" ]; then
-            echo "Selección inválida: $numero"
+            echo "Selección inválida: $numero"; read p
             continue
         fi
 
