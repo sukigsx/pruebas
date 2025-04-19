@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaaaaaaadfffaddddaakjhaaaha"
+export version="1.jljaaaaaaaaaaaddaakjhaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -22,7 +22,7 @@ NombreScriptActualizar="GestionConexionesSsh.sh" #contiene el nombre del script 
 DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-software="ping which git diff ssh touch sed sort cut grep" #contiene el software necesario separado por espacios
+software="ping which git diff ssh touch sed sort cut grep fzf" #contiene el software necesario separado por espacios
 
 actualizar_script(){
 # actualizar el script
@@ -255,7 +255,7 @@ conectar_servidores() {
     listar_servidores
 
     # Selección de servidores con fzf
-    mapfile -t seleccionados < <(nl -w2 -s': ' "$SERVER_LIST" | fzf --multi --prompt="Seleccione servidores: " --layout=reverse --ansi)
+    mapfile -t seleccionados < <(nl -w2 -s': ' "$SERVER_LIST" | fzf --multi --prompt="Seleccione servidores: (Puedes seleccionar varios utilizando Tab)" --layout=reverse --ansi)
 
     if [ "${#seleccionados[@]}" -eq 0 ]; then
         echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
