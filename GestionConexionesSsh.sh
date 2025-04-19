@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.jljaaaaaavvvaaaaaaaaaaaaaha"
+export version="1.jljaaaaaavvvaaaaaaaaaaaaaaaaaaaaaaaaaaaha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -328,8 +328,8 @@ editar_servidor() {
         echo -e "${rojo} Servidor no valido.${borra_colores}"; sleep 2
         return
     fi
-
-    echo "Editando: $linea"
+    echo ""
+    echo -e "${azul} Editar/Modificar:${borra_colores} $linea"
     echo -n "Nuevo nombre (ENTER para mantener): "
     read nuevo_nombre
     echo -n "Nuevo usuario (ENTER para mantener): "
@@ -346,7 +346,7 @@ editar_servidor() {
     nuevo_host=${nuevo_host:-$host}
 
     sed -i "${numero}s/.*/$nuevo_nombre,$nuevo_usuario,$nuevo_host/" "$SERVER_LIST"
-    echo "Servidor actualizado."
+    echo -e "${verde} Servidor actualizado.${borra_colores}"
 }
 
 # Función para eliminar servidores
