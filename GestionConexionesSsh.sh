@@ -8,7 +8,7 @@ export NombreScript="GestionConexionesSsh"
 export DescripcionDelScript="Gestiona varias conexiones SSH"
 export Correo="mi correo@popo.es"
 export Web="https://mipweb.com"
-export version="1.ja"
+export version="1.jljha"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -257,6 +257,12 @@ conectar_servidores() {
     echo -ne "${azul} Seleccione uno o varios servidores a conectar (separados por espacios) (atras = cuelquier tecla) -> ${borra_colores}"
     read -a servidores
     echo ""
+
+    if [ -z "$servidores" ]; then
+        echo -e "${rojo} No se ha seleccionado ningun servidor.${borra_colores}"; sleep 2
+        continue
+    fi
+
     # Exportar las variables de entorno del agente SSH
     export SSH_AUTH_SOCK
     export SSH_AGENT_PID
@@ -273,7 +279,7 @@ conectar_servidores() {
         usuario=$(echo "$servidor" | cut -d',' -f2)
         host=$(echo "$servidor" | cut -d',' -f3)
 
-        echo "Abriendo nueva terminal para conectar a $nombre ($usuario@$host)..."
+        echo -e " Abriendo nueva terminal para conectar a $nombre ($usuario@$host)..."
 
         # Generar una clave única para cada servidor
         KEY_PATH="$HOME/.ssh/id_rsa_$nombre"
@@ -308,6 +314,9 @@ editar_servidor() {
     listar_servidores
     echo -ne "${azul} Número del servidor a editar (atras = cualquier tecla) ->${borra_colores} "
     read numero
+
+
+
     linea=$(sed -n "${numero}p" "$SERVER_LIST")
 
     if [ -z "$linea" ]; then
