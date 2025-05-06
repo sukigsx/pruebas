@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.00"
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -218,6 +218,7 @@ fi
 while :
 do
 clear
+menu_info
 echo -e " --- Opciones principales ---"
 echo -e ""
 echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba${borra_colores}"
@@ -225,7 +226,6 @@ echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-r
 echo -e "     3. ${azul}Gestion de carpetas.${borra_colores}"
 echo -e "     4. ${azul}Gestion de permisos.${borra_colores}"
 echo -e "     5. ${azul}Gestion de Samba.${borra_colores}"
-echo -e "     6. ${azul}Escanear la red..${borra_colores}"
 echo -e ""
 echo -e "    90. ${azul}Ayuda.${borra_colores}"
 echo -e "    99. ${azul}Salir.${borra_colores}"
@@ -233,22 +233,21 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  #opcion 1
+        1)  bash $ruta_ejecucion/crear_usuarios_carpetas_samba
             ;;
 
-        2)  #Opcion 2
+        2)  bash $ruta_ejecucion/usuarios
             ;;
 
-        3)  #opcion 3
-            ;;
-        4)  #opcion 1
+        3)  bash $ruta_ejecucion/carpetas
             ;;
 
-        5)  #Opcion 2
+        4)  bash $ruta_ejecucion/permisos
             ;;
 
-        6)  #opcion 3
+        5)  bash $ruta_ejecucion/samba
             ;;
+
         90)  #opcion 1
             ;;
 
