@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0"
+export version="1.00"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -22,7 +22,7 @@ NombreScriptActualizar="LinuxUserManager.sh" #contiene el nombre del script para
 DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-software="ping which git diff" #contiene el software necesario separado por espacios
+software="grep" #contiene el software necesario separado por espacios
 
 
 #colores
@@ -214,5 +214,52 @@ else
         echo ""
     fi
 fi
-echo "hola tio"; read pause
+
+while :
+do
+clear
+echo -e " --- Opciones principales ---"
+echo -e ""
+echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba${borra_colores}"
+echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
+echo -e "     3. ${azul}Gestion de carpetas.${borra_colores}"
+echo -e "     4. ${azul}Gestion de permisos.${borra_colores}"
+echo -e "     5. ${azul}Gestion de Samba.${borra_colores}"
+echo -e "     6. ${azul}Escanear la red..${borra_colores}"
+echo -e ""
+echo -e "    90. ${azul}Ayuda.${borra_colores}"
+echo -e "    99. ${azul}Salir.${borra_colores}"
+echo -e ""
+echo -n " Seleccione una opcion del menu -> "
+read opcion
+case $opcion in
+        1)  #opcion 1
+            ;;
+
+        2)  #Opcion 2
+            ;;
+
+        3)  #opcion 3
+            ;;
+        4)  #opcion 1
+            ;;
+
+        5)  #Opcion 2
+            ;;
+
+        6)  #opcion 3
+            ;;
+        90)  #opcion 1
+            ;;
+
+        99)  #Opcion 2
+            ;;
+
+        *)      #se activa cuando se introduce una opcion no controlada del menu
+                echo "";
+                echo -e " ${amarillo}OPCION NO DISPONIBLE EN EL MENU.${borra_colores}"; sleep 2
+                ;;
+
+esac
+done
 
