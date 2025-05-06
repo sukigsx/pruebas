@@ -1,14 +1,14 @@
-#!/bin/bash
+ #!/bin/bash
 
 #VARIABLES PRINCIPALES
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="RcloneTools"
-export DescripcionDelScript="Utilidad para gestionar y automatizar los montajes de Rclone."
-export Correo="scripts@mbbsistemas.es"
-export Web="https://repositorio.mbbsistemas.es"
-export version="1.000"
+export NombreScript="Linux User Manager"
+export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
+export Correo=""
+export Web=""
+export version=""
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -18,11 +18,11 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="RcloneTools.sh" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
+NombreScriptActualizar="" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-software="ping which git diff tail sed figlet curl" #contiene el software necesario separado por espacios
+software="ping which git diff" #contiene el software necesario separado por espacios
 
 
 #colores
@@ -34,59 +34,23 @@ rosa="\e[0;35m\033[1m"
 turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
+
 # FUNCIONES
 
-#toma el control al pulsar control + c
-trap ctrl_c INT
-function ctrl_c()
-{
-clear
-echo ""
-echo -e "${azul} Gracias ${rosa}$(whoami)${azul}. Por utilizar mi script.${borra_colores}"
-echo ""
-exit
-}
-
-EstadoRclone(){
-# Obtener lista de remotes
-remotes=$(rclone listremotes)
-
-if [ -z "$remotes" ]; then
-    echo "⚠️ No tenés ninguna cuenta (remote) configurada en rclone."
-    echo "Usá 'rclone config' para crear una."
-else
-    echo "✅ Estas son las cuentas configuradas en rclone:"
-    echo "$remotes"
-fi
-}
-
-menu_principal(){
+menu_info(){
 # muestra el menu de sukigsx
-clear
 echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ($NombreScript)"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} ($DescripcionDelScript)"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
 echo -e ""
-echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
+echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
 echo ""
 }
 
-menu_inicial(){
-echo ""
-echo -e "${rosa}            _    _                  ${azul}   "
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   "
-echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Nombre del script ( ${borra_colores}$NombreScript${azul} )${borra_colores}"
-echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Descripcion ( ${borra_colores}$DescripcionDelScript${azul})${borra_colores}"
-echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}"
-echo -e "${rosa}                  |___/             ${azul}"
-echo -e ""
-echo -e "${azul} Contacto: ( ${borra_colores}Correo $Correo${azul} ) ( ${borra_colores}Web $Web${azul} )${borra_colores}"
-echo ""
-}
 
 actualizar_script(){
 # actualizar el script
@@ -127,6 +91,7 @@ else
 fi
 }
 
+
 software_necesario(){
 #funcion software necesario
 #para que funcione necesita:
@@ -138,7 +103,7 @@ echo ""
 echo -e "${azul} Comprobando el software necesario.${borra_colores}"
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
-software="which git diff ping nano curl rclone" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+#########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for paquete in $software
 do
 which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
@@ -175,7 +140,7 @@ sleep 2
 
 
 conexion(){
-#funcion de comprobar conexion a internet274372
+#funcion de comprobar conexion a internet
 #para que funciones necesita:
 #   conexion ainternet
 #   la paleta de colores
@@ -213,7 +178,7 @@ fi
 
 
 clear
-menu_inicial
+menu_info
 conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
@@ -223,7 +188,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-            #bash $ruta_ejecucion/ #PON LA RUTA
+            bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
@@ -233,7 +198,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-            #bash $ruta_ejecucion/ #PON LA RUTA
+            bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
@@ -244,50 +209,8 @@ else
         export software="SI"
         export conexion="NO"
         export actualizado="No se ha podido comprobar la actualizacion del script"
-        #bash $ruta_ejecucion/ #PON LA RUTA
+        bash $ruta_ejecucion/ #PON LA RUTA
     else
         echo ""
     fi
 fi
-
-## EMPIEZA LO GORDO
-clear
-menu_principal
-while :
-do
-clear
-echo ""
-echo -e "     1. ${azul}Listar cuentas de Rclone.${borra_colores}"
-echo -e "     2. ${azul}Crear cuenta en Rclone.${borra_colores}"
-echo -e "     3. ${azul}Borrar cuentas de Rclone.${borra_colores}"
-echo -e "     4. ${azul}Montar una cuenta de Rclone.${borra_colores}"
-echo -e "     5. ${azul}Montar cuentas al inicio del sistema.${borra_colores}"
-echo ""
-echo -e "     6. ${azul}Instalar servicio en tu maquina (comprobacion automatica).${borra_colores}"
-echo ""
-echo -e "     7. ${azul}Borrado de datos.${borra_colores}"
-echo ""
-echo -e "    90. ${azul}Ayuda.${borra_colores}"
-echo -e "    99. ${azul}Salir.${borra_colores}"
-echo ""
-echo -n " Seleccione una opcion del menu --->>> "
-read opcion
-case $opcion in
-        1)  #opcion 1
-            ;;
-
-        2)  #Opcion 2
-            ;;
-
-        3)  #opcion 3
-            ;;
-
-        *)      #se activa cuando se introduce una opcion no controlada del menu
-                echo "";
-                echo -e " ${amarillo}OPCION NO DISPONIBLE EN EL MENU.    Seleccion 0, 1, 2, 3, 4, 5, 6,7, 90 o 99 ${borra_colores}";
-                echo -e " ${amarillo}PRESIONA ENTER PARA CONTINUAR ........${borra_colores}";
-                echo "";
-                read pause;;
-
-esac
-done

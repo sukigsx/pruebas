@@ -1,0 +1,106 @@
+#!/bin/bash
+
+if [[ $EUID -ne 0 ]]; then
+    echo "Este script debe ser ejecutado como root."
+    exit 1
+fi
+
+read -p "Ingrese la ruta de la carpeta base: " base_dir
+
+if [ -d "$base_dir" ]; then
+    echo "Carpeta '$base_dir' seleccionada correctamente."; sleep 2
+else
+    read -p "La carpeta $base_dir NO existe, deseas crearla : " sino
+    if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
+        sudo mkdir -p "$base_dir"
+        echo "Carpeta '$base_dir' creada."
+    else
+        exit
+    fi
+fi
+
+
+# Verificar que la ruta exista y sea un directorio
+if [[ ! -d "$base_dir" ]]; then
+    echo "La ruta '$base_dir' no existe o no es un directorio."
+    exit 1
+fi
+
+function list_folders() {
+    echo "Carpetas en $base_dir:"
+    find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+}
+
+function create_folders() {
+    read -p "Ingrese los nombres de las carpetas a crear (separadas por espacio): " -a folders
+    for folder in "${folders[@]}"; do
+        path="$base_dir/$folder"
+        if [[ -d "$path" ]]; then
+            echo "La carpeta '$folder' ya existe."
+        else
+            mkdir -p "$path"
+            echo "Carpeta '$folder' creada."
+        fi
+    done
+}
+
+function rename_folders() {
+    list_folders
+    read -p "Nombre actual de la carpeta #$i: " old_name
+    read -p "Nuevo nombre para '$old_name': " new_name
+
+    old_path="$base_dir/$old_name"
+    new_path="$base_dir/$new_name"
+
+    if [[ ! -d "$old_path" ]]; then
+        echo "La carpeta '$old_name' no existe."; sleep 2
+        #continue
+    fi
+
+    if [[ -e "$new_path" ]]; then
+        echo "Ya existe una carpeta con el nombre '$new_name'."; sleep 2
+        #continue
+    fi
+
+    mv "$old_path" "$new_path"
+    echo "Carpeta '$old_name' renombrada a '$new_name'."
+}
+
+function delete_folders() {
+    list_folders
+    read -p "Ingrese los nombres de las carpetas a eliminar (separadas por espacio): " -a folders
+    for folder in "${folders[@]}"; do
+        path="$base_dir/$folder"
+        if [[ -d "$path" ]]; then
+            rm -rf "$path"
+            echo "Carpeta '$folder' eliminada con todo su contenido."
+        else
+            echo "La carpeta '$folder' no existe."
+        fi
+    done
+}
+
+function menu() {
+    while true; do
+        echo
+        echo "Gestor de carpetas dentro de '$base_dir'"
+        echo "1. Listar carpetas"
+        echo "2. Crear carpetas"
+        echo "3. Renombrar carpetas"
+        echo "4. Borrar carpetas"
+        echo "5. Salir"
+        read -p "Seleccione una opción: " opcion
+
+        case $opcion in
+            1) list_folders ;;
+            2) create_folders ;;
+            3) rename_folders ;;
+            4) delete_folders ;;
+            5) break ;;
+            *) echo "Opción inválida." ;;
+        esac
+    done
+}
+
+
+menu

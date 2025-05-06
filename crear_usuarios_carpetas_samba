@@ -1,0 +1,181 @@
+#!/bin/bash
+
+#colores
+#ejemplo: echo -e "${verde} La opcion (-e) es para que pille el color.${borra_colores}"
+
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
+
+#comprueba si se ejecuta como root
+root(){
+    clear
+    if [ "$EUID" -ne 0 ]; then
+        echo -e "${rojo}Este script debe ejecutarse con sudo o como root.${borra_colores}"
+        exit 1
+    fi
+}
+
+#funcion de instalacion paquetes necesarios y actualizacion
+instalacion_paquetes_y_actualizacion(){
+    clear; echo "actualizando paquetes"; echo ""
+    sudo apt update
+    clear; echo "Actualizando sistema"; echo ""
+    sudo apt upgrade
+    clear; echo "Instalando samba y permisos acl"; echo ""
+    sudo apt install samba acl -y
+}
+
+# Función para crear usuarios
+crear_usuarios() {
+    clear
+    echo "Vamos a crear los usuarios."
+    echo ""
+    usuarios=()  # Array para almacenar los nombres de usuario
+    contrasenas=()  # Array para almacenar las contraseñas
+    login_enabled=()  # Array para almacenar si el usuario tendrá login
+
+    while true; do
+        # Preguntar por el nombre del usuario
+        echo ""
+        read -p "Ingrese el nombre del usuario (o 'ok' para terminar): " usuario
+
+        # Si el usuario ingresa 'ninguno', salimos del ciclo
+        if [ "$usuario" == "ok" ]; then
+            break
+        fi
+
+        # Preguntar por la contraseña del usuario
+        read -p "Ingrese la contraseña para $usuario: " pass
+
+        #añade el usuario a samba
+        echo "$pass" | sudo smbpasswd -a $usuario
+
+        # Preguntar si el usuario tendrá login
+        read -p "¿Desea que $usuario tenga acceso al login del sistema? (s/n): " login
+
+        # Almacenar los datos en los arrays
+        usuarios+=("$usuario")
+        contrasenas+=("$pass")
+        login_enabled+=("$login")
+        echo -e "${verde}ok${borra_colores}"; sleep 1
+    done
+
+    # Crear los usuarios y asignarles las contraseñas
+    for i in "${!usuarios[@]}"; do
+        usuario="${usuarios[$i]}"
+        pass="${contrasenas[$i]}"
+        login="${login_enabled[$i]}"
+
+        if [ "$login" == "n" ]; then
+            # Si no desea login, bloquear la cuenta
+            sudo useradd -s /sbin/nologin "$usuario"
+
+            #crea el usuario de samba
+            printf "$pass\n$pass\n" | sudo smbpasswd -a -s $usuario
+        else
+            # Si desea login, asignar /bin/bash como shell
+            sudo useradd -s /bin/bash "$usuario"
+
+            #crea el usuario de samba
+            printf "$pass\n$pass\n" | sudo smbpasswd -a -s $usuario
+        fi
+
+        # Asignar la contraseña al usuario
+        echo "$usuario:$pass" | sudo chpasswd
+    done
+    echo ""
+    echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
+}
+
+# Función para crear carpetas
+crear_carpetas() {
+    clear
+    echo "Vamos a crear las carpetas."
+    echo ""
+    echo "Las carpeta principal se creara en la raiz del sistema (/)"
+    read -p "Ingresa el nombre del recurso compartido. (Servidor smb) -> " recurso_compartido
+    # Preguntar por las carpetas
+    read -p "Ingrese las carpetas a crear (separadas por espacio, por ejemplo: (Descargas Video Photo): " carpetas
+
+    # Crear las carpetas
+    for carpeta in $carpetas; do
+        sudo mkdir -p /home/$recurso_compartido/$carpeta
+    done
+
+    echo "Carpetas creadas con éxito."
+}
+
+# Función para asignar permisos
+asignar_permisos() {
+    clear
+    echo "Vamos a asignar los permisos."
+
+    # Iterar sobre los usuarios y carpetas para asignar permisos
+    for usuario in "${usuarios[@]}"; do
+        for carpeta in $carpetas; do
+            echo "¿Qué permisos desea asignar a $usuario en la carpeta $carpeta? (rwx - Control Total, rx - Solo lectura, - - Sin acceso)"
+            read -p "Permisos para $usuario en /compartido/$carpeta: " permisos
+            # Asignar permisos basados en la entrada del usuario
+            if [ "$permisos" == "rwx" ]; then
+                sudo setfacl -R -m u:$usuario:rwx /home/$recurso_compartido/$carpeta
+            elif [ "$permisos" == "rx" ]; then
+                sudo setfacl -R -m u:$usuario:rx /home/$recurso_compartido/$carpeta
+            elif [ "$permisos" == "-" ]; then
+                sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido/$carpeta
+            else
+                echo "Permiso no reconocido, no se aplicó ningún cambio a $usuario para la carpeta $carpeta."
+            fi
+        done
+    done
+
+    echo "Permisos asignados con éxito."
+}
+
+configurar_samba(){
+    #añado la configuracion a samba
+    # Ruta del archivo de configuración de Samba
+    clear; echo "Configuramos el servidor de samba"; echo ""
+    SAMBA_CONF="/etc/samba/smb.conf"
+    # Bloque de configuración a añadir
+    CONFIG="[$recurso_compartido]
+    path = /home/$recurso_compartido
+    valid users = ${usuarios[@]}
+    read only = no
+    browsable = yes
+    writable = yes
+    create mask = 0775
+    directory mask = 0775
+    "
+
+    # Comprobamos si ya existe el bloque [compartido] para evitar duplicados
+    if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
+        # Añadir la configuración al final del archivo
+        sudo echo "$CONFIG" >> "$SAMBA_CONF"
+        echo "Configuración añadida a $SAMBA_CONF"
+    else
+        echo "El bloque [compartido] ya existe en $SAMBA_CONF"
+    fi
+
+    # Reiniciar el servicio de Samba para aplicar los cambios
+    sudo systemctl restart smbd
+
+    echo "Servicio Samba reiniciado para aplicar cambios."
+}
+
+
+# Ejecutar las funciones
+root
+instalacion_paquetes_y_actualizacion
+crear_usuarios
+read -p " Pulsa una tecla para continuar" p;
+crear_carpetas
+read -p " Pulsa una tecla para continuar" p;
+asignar_permisos
+read -p " Pulsa una tecla para continuar" p;
+configurar_samba
+echo "Proceso completado con éxito."

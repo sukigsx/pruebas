@@ -1,0 +1,120 @@
+#!/bin/bash
+
+function show_users() {
+    echo "Usuarios del sistema:"
+    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+}
+
+function create_user() {
+    show_users
+    read -p "Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
+
+    for username in "${usernames[@]}"; do
+        if id "$username" &>/dev/null; then
+            echo "El usuario $username ya existe."
+            continue
+        fi
+
+        read -s -p "Ingrese una contraseña para $username: " password
+        echo
+        read -s -p "Confirme la contraseña para $username: " password_confirm
+        echo
+
+        if [[ "$password" != "$password_confirm" ]]; then
+            echo "Las contraseñas no coinciden para $username."
+            continue
+        fi
+
+        read -p "¿Deseas permitir login al sistema para $username? (s/n): " login
+
+        if [[ "$login" =~ ^[Ss]$ ]]; then
+            useradd -m "$username"
+        else
+            useradd -M -s /usr/sbin/nologin "$username"
+        fi
+
+        echo "$username:$password" | sudo chpasswd
+        printf "$password\n$password\n" | sudo smbpasswd -a -s $username
+        #echo "$password" | sudo smbpasswd -a -s "$username"
+
+        echo "Usuario $username creado y sincronizado con Samba."
+    done
+}
+
+function change_password() {
+    show_users
+    read -p "Ingrese los nombres de los usuarios a modificar (separados por espacio): " -a usernames
+
+    for username in "${usernames[@]}"; do
+        if ! id "$username" &>/dev/null; then
+            echo "El usuario $username no existe."
+            continue
+        fi
+
+        read -s -p "Nueva contraseña para $username: " password
+        echo
+        read -s -p "Confirme la nueva contraseña para $username: " password_confirm
+        echo
+
+        if [[ "$password" != "$password_confirm" ]]; then
+            echo "Las contraseñas no coinciden para $username."
+            continue
+        fi
+
+        echo "$username:$password" | chpasswd
+        echo "$password" | smbpasswd -s "$username"
+
+        echo "Contraseña de $username actualizada y sincronizada con Samba."
+    done
+}
+
+function delete_user() {
+    show_users
+    read -p "Ingrese los nombres de los usuarios a eliminar (separados por espacio): " -a usernames
+
+    for username in "${usernames[@]}"; do
+        if ! id "$username" &>/dev/null; then
+            echo "El usuario $username no existe."
+            continue
+        fi
+
+        read -p "¿Estás seguro que deseas eliminar al usuario $username? (s/n): " confirm
+        if [[ "$confirm" =~ ^[Ss]$ ]]; then
+            smbpasswd -x "$username"
+            userdel -r "$username"
+            echo "Usuario $username eliminado del sistema y de Samba."
+        else
+            echo "Eliminación de $username cancelada."
+        fi
+    done
+}
+
+function menu() {
+    while true; do
+        echo
+        echo "Gestor de usuarios del sistema y Samba"
+        echo "1. Mostrar usuarios"
+        echo "2. Crear usuarios"
+        echo "3. Cambiar contraseñas"
+        echo "4. Eliminar usuarios"
+        echo "5. Salir"
+        read -p "Seleccione una opción: " opcion
+
+        case $opcion in
+            1) show_users ;;
+            2) create_user ;;
+            3) change_password ;;
+            4) delete_user ;;
+            5) break ;;
+            *) echo "Opción inválida." ;;
+        esac
+    done
+}
+
+# Verificar si es root
+if [[ $EUID -ne 0 ]]; then
+    echo "Este script debe ser ejecutado como root."
+    exit 1
+fi
+
+menu

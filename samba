@@ -1,0 +1,88 @@
+#!/bin/bash
+
+SAMBA_CONF="/etc/samba/smb.conf"
+
+function show_users() {
+    echo "Usuarios del sistema:"
+    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+}
+
+function configurar_samba() {
+    clear
+    show_users
+    echo ""
+    echo "=== Configuración de nuevo recurso Samba ==="
+    read -p "Nombre del recurso compartido el que se ve: " recurso_compartido
+    read -p "Ruta absoluta al recurso (ej: /home/$recurso_compartido): " ruta
+    read -p "Usuarios permitidos (separados por espacio): " -a usuarios
+
+    CONFIG="[$recurso_compartido]
+    path = $ruta
+    valid users = ${usuarios[@]}
+    read only = no
+    browsable = yes
+    writable = yes
+    create mask = 0775
+    directory mask = 0775
+"
+
+    if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
+        echo "$CONFIG" | sudo tee -a "$SAMBA_CONF" > /dev/null
+        echo "✅ Configuración añadida para [$recurso_compartido]."
+    else
+        echo "⚠️ El bloque [$recurso_compartido] ya existe. No se añadió nada."
+    fi
+
+    sudo systemctl restart smbd
+    echo "🔁 Servicio Samba reiniciado."
+}
+
+function ver_configuracion() {
+    echo "=== Contenido de $SAMBA_CONF ==="
+    sudo less "$SAMBA_CONF"
+}
+
+function eliminar_configuracion() {
+    read -p "Nombre del recurso compartido a eliminar: " recurso_compartido
+
+    # Hacemos una copia de seguridad
+    sudo cp "$SAMBA_CONF" "$SAMBA_CONF.bak"
+
+    # Usamos sed para eliminar el bloque completo
+    sudo sed -i "/\[$recurso_compartido\]/,/^$/d" "$SAMBA_CONF"
+
+    echo "🗑️ Configuración de [$recurso_compartido] eliminada."
+
+    sudo systemctl restart smbd
+    echo "🔁 Servicio Samba reiniciado."
+}
+
+function menu() {
+    while true; do
+        echo
+        echo "======= Gestor de Configuración de Samba ======="
+        echo "1. Añadir recurso compartido"
+        echo "2. Ver archivo smb.conf"
+        echo "3. Eliminar recurso compartido"
+        echo "4. Reiniciar servicio Samba"
+        echo "5. Salir"
+        read -p "Seleccione una opción: " opcion
+
+        case $opcion in
+            1) configurar_samba ;;
+            2) ver_configuracion ;;
+            3) eliminar_configuracion ;;
+            4) sudo systemctl restart smbd; echo "🔁 Servicio Samba reiniciado." ;;
+            5) break ;;
+            *) echo "❌ Opción inválida." ;;
+        esac
+    done
+}
+
+# Verificar permisos de root
+if [[ $EUID -ne 0 ]]; then
+    echo "⚠️ Este script debe ejecutarse como root."
+    exit 1
+fi
+
+menu
