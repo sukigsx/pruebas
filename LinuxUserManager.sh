@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.00"
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -188,7 +188,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
-            bash $ruta_ejecucion/ #PON LA RUTA
+            #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
@@ -198,7 +198,7 @@ if [ $conexion = "SI" ]; then
             export software="SI"
             export conexion="NO"
             export actualizado="No se ha podido comprobar la actualizacion del script"
-            bash $ruta_ejecucion/ #PON LA RUTA
+            #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
         fi
@@ -209,7 +209,7 @@ else
         export software="SI"
         export conexion="NO"
         export actualizado="No se ha podido comprobar la actualizacion del script"
-        bash $ruta_ejecucion/ #PON LA RUTA
+        #bash $ruta_ejecucion/ #PON LA RUTA
     else
         echo ""
     fi
