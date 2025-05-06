@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaah"
+export version="1.0aaasssaaaaaaaaaaaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -52,11 +52,13 @@ check_root() {
     if sudo -v; then
       echo -e "${verde} Autenticación correcta. Reejecutando como root...${borra_colores}"; sleep 2
       # Reejecuta el script como root
-      exec sudo "$0" "$@"
+      #exec sudo "$0" "$@"
     else
       echo ""
       echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"; sleep 3
-      ctrl_c
+      echo ""
+      echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+     echo ""; exit
     fi
   fi
 }
