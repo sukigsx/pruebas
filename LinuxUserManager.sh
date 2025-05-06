@@ -37,6 +37,17 @@ borra_colores="\033[0m\e[0m" #borra colores
 
 # FUNCIONES
 
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+clear
+echo ""
+echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+echo ""
+exit
+}
+
 menu_info(){
 # muestra el menu de sukigsx
 echo ""
@@ -251,7 +262,7 @@ case $opcion in
         90)  #opcion 1
             ;;
 
-        99)  #Opcion 2
+        99)  ctr
             ;;
 
         *)      #se activa cuando se introduce una opcion no controlada del menu
