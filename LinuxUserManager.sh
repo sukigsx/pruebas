@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0h"
+export version="1.0aah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -49,7 +49,8 @@ check_root() {
 
     # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
     if sudo -v; then
-      echo "Autenticación correcta. Reejecutando como root..."; sleep 2
+      echo "Autenticación correcta. Reejecutando como root..."
+      # Reejecuta el script como root
       exec sudo "$0" "$@"
     else
       echo "Contraseña incorrecta o acceso denegado. Abortando."
