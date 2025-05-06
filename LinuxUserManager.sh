@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version=""
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -18,8 +18,8 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="" #contiene la direccion de github para actualizar el script
+NombreScriptActualizar="LinuxUserManager.sh" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
 software="ping which git diff" #contiene el software necesario separado por espacios
@@ -214,3 +214,4 @@ else
         echo ""
     fi
 fi
+echo "hola tio"
