@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aah"
+export version="1.0aaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -42,18 +42,19 @@ borra_colores="\033[0m\e[0m" #borra colores
 # Función que comprueba si se ejecuta como root
 check_root() {
   if [ "$EUID" -ne 0 ]; then
-    echo "Este script necesita privilegios de root."
+    echo ""
+    echo -e "${azul} Este script necesita privilegios de root.${borra_colores}"
 
     # Pedir contraseña para sudo
-    echo "Introduce tu contraseña para obtener permisos de superusuario."
+    echo -e "Introduce tu contraseña para obtener permisos de superusuario."
 
     # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
     if sudo -v; then
-      echo "Autenticación correcta. Reejecutando como root..."
+      echo -e "${verde} Autenticación correcta. Reejecutando como root...${borra_colores}"; sleep 2
       # Reejecuta el script como root
       exec sudo "$0" "$@"
     else
-      echo "Contraseña incorrecta o acceso denegado. Abortando."
+      echo -e "${rojo} Contraseña incorrecta o acceso denegado. Abortando.${borra_colores}"; sleep 3
       exit 1
     fi
   fi
