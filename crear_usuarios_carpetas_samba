@@ -159,7 +159,7 @@ configurar_samba(){
 
 
 # Ejecutar las funciones
-if [[ "$CALLED_FROM" == "script1.sh" ]]; then
+if [[ "$CALLED_FROM" == "si" ]]; then
     echo "script2.sh fue llamado desde script1.sh"
 else
     echo "script2.sh fue ejecutado directamente o desde otro script"
