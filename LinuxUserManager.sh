@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaasskhbdaaaaaaaaaah"
+export version="1.0aaasssaasskh888bdaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -61,7 +61,7 @@ check_root() {
     # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
     if sudo -v; then
       echo ""
-      echo -e "${verde} Autenticación correcta. Reejecutando como root...${borra_colores}"; sleep 2
+      echo -e "${verde} Autenticación correcta. Reejecutando como root...${borra_colores}"; sleep 3
       # Reejecuta el script como root
       #exec sudo "$0" "$@"
     else
@@ -281,7 +281,7 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  bash $ruta_ejecucion/crear_usuarios_carpetas_samba
+        1)  sudo bash $ruta_ejecucion/crear_usuarios_carpetas_samba
             ;;
 
         2)  bash $ruta_ejecucion/usuarios; read p
