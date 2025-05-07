@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaaaaaaddddddaaaaaaaaaaaah"
+export version="1.0aaasssaaaaaaddttddddaaaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -75,7 +75,7 @@ clear
 echo ""
 echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
 echo ""
-sleep 3
+sleep 1
 exit
 }
 
