@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaaaaaaaaddddddaaaaaaaaaaaah"
+export version="1.0aaasssaaaaaaddddddaaaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -42,6 +42,7 @@ borra_colores="\033[0m\e[0m" #borra colores
 # Función que comprueba si se ejecuta como root
 check_root() {
     menu_info
+    clear
   if [ "$EUID" -ne 0 ]; then
     echo ""
     echo -e "${amarillo} Este script necesita privilegios de rootn ingresa la contraseña.${borra_colores}"
