@@ -164,7 +164,7 @@ if [[ "$CALLED_FROM" == "script1.sh" ]]; then
 else
     echo "script2.sh fue ejecutado directamente o desde otro script"
 fi
-exit
+read p; exit
 root
 instalacion_paquetes_y_actualizacion
 crear_usuarios
