@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaasskhbdddddwwddaaaaaaaaaaaah"
+export version="1.0aaasssaasskhbdaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -22,7 +22,15 @@ NombreScriptActualizar="LinuxUserManager.sh" #contiene el nombre del script para
 DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
-software="grep samba acl" #contiene el software necesario separado por espacios
+# Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
+    declare -A requeridos
+    requeridos=(
+        [git]="git"
+        [nano]="nano"
+        [curl]="curl"
+        [konsole]="konsole"
+        [getfacl]="acl"
+    )
 
 
 #colores
@@ -146,38 +154,35 @@ echo -e "${azul} Comprobando el software necesario.${borra_colores}"
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
 #########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
-for paquete in $software
-do
-which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
-sino=$? #recojemos el 0 o 1 del resultado de which
-contador="1" #ponemos la variable contador a 1
-    while [ $sino -gt 0 ] #entra en el bicle si variable programa es 0, no lo ha encontrado which
-    do
-        if [ $contador = "4" ] || [ $conexion = "no" ] 2>/dev/null 1>/dev/null 0>/dev/null #si el contador es 4 entre en then y sino en else
-        then #si entra en then es porque el contador es igual a 4 y no ha podido instalar o no hay conexion a internet
-            clear
-            echo ""
-            echo -e " ${amarillo}NO se ha podido instalar ${rojo}$paquete${amarillo}.${borra_colores}"
-            echo -e " ${amarillo}Intentelo usted con la orden: (${borra_colores}sudo apt install $paquete ${amarillo})${borra_colores}"
-            echo -e ""
-            echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
-            echo ""; read p
-            echo ""
-            exit
-        else #intenta instalar
-            echo " Instalando $paquete. Intento $contador/3."
-            sudo apt install $paquete -y 2>/dev/null 1>/dev/null 0>/dev/null
-            let "contador=contador+1" #incrementa la variable contador en 1
-            which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa en tu sistema
-            sino=$? ##recojemos el 0 o 1 del resultado de which
-        fi
+for comando in "${!requeridos[@]}"; do
+        which $comando &>/dev/null
+        sino=$?
+        contador=1
+        while [ $sino -ne 0 ]; do
+            if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
+                clear
+                echo ""
+                echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
+                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}sudo apt install ${requeridos[$comando]}${amarillo})${borra_colores}"
+                echo -e ""
+                echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
+                echo ""; read p
+                echo ""
+                exit 1
+            else
+                echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
+                sudo apt install ${requeridos[$comando]} -y &>/dev/null
+                let "contador=contador+1"
+                which $comando &>/dev/null
+                sino=$?
+            fi
+        done
+        echo -e " [${verde}ok${borra_colores}] $comando (${requeridos[$comando]})."
     done
-echo -e " [${verde}ok${borra_colores}] $paquete."
-software="SI"
-done
-echo ""
-echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
-sleep 2
+
+    echo ""
+    echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
+    sleep 2
 }
 
 
