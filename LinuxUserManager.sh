@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaassaaaadddddttdwwwddddddaaaaaaaaaaaah"
+export version="1.0aaasssaassaaaadjkhbddddttdwwwddddddaaaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -259,7 +259,6 @@ fi
 
 while :
 do
-check_root
 clear
 menu_info
 echo -e " --- Opciones principales ---"
