@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaaaaaaddttdddddddaaaaaaaaaaaah"
+export version="1.0aaasssaassaaaaddttdddddddaaaaaaaaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -45,7 +45,7 @@ check_root() {
     menu_info
   if [ "$EUID" -ne 0 ]; then
     echo ""
-    echo -e "${amarillo} Este script necesita privilegios de rootn ingresa la contraseña.${borra_colores}"
+    echo -e "${amarillo} Este script necesita privilegios de root ingresa la contraseña.${borra_colores}"
 
     # Pedir contraseña para sudo
     echo -e "${rojo}"
