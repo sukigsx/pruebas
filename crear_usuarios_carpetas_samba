@@ -20,16 +20,6 @@ root(){
     fi
 }
 
-#funcion de instalacion paquetes necesarios y actualizacion
-instalacion_paquetes_y_actualizacion(){
-    clear; echo "actualizando paquetes"; echo ""
-    sudo apt update
-    clear; echo "Actualizando sistema"; echo ""
-    sudo apt upgrade
-    clear; echo "Instalando samba y permisos acl"; echo ""
-    sudo apt install samba acl -y
-}
-
 # Función para crear usuarios
 crear_usuarios() {
     clear
@@ -169,6 +159,12 @@ configurar_samba(){
 
 
 # Ejecutar las funciones
+if [[ "$CALLED_FROM" == "script1.sh" ]]; then
+    echo "script2.sh fue llamado desde script1.sh"
+else
+    echo "script2.sh fue ejecutado directamente o desde otro script"
+fi
+exit
 root
 instalacion_paquetes_y_actualizacion
 crear_usuarios
