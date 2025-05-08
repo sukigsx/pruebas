@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasfffjkhffjjfffhgkfgjkhfffaaah"
+export version="1.0aaasfffjkhffjjsssfffhgkfgjkhfffaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -284,7 +284,7 @@ fi
         sudo mkdir -p $recurso_compartido/$carpeta
     done
 
-    echo "Carpetas creadas con éxito."; read p
+    echo "Carpetas creadas con éxito."
 }
 
 # Función para asignar permisos en opcion 1 del menu
@@ -420,7 +420,7 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  clear; menu_info; 1_crear_carpetas; 1_asignar_permisos; 1_configurar_samba
+        1)  clear; menu_info; 1_crear_carpetas; 1_asignar_permisos; 1_configurar_samba; read pause
             ;;
 
         2)  bash -E $ruta_ejecucion/usuarios; read p
