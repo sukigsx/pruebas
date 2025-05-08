@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasffffffffaaah"
+export version="1.0aaasfffffjkfgjkhfffaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -208,7 +208,6 @@ fi
 
 # Función para crear usuarios en opcion 1 del menu
 1_crear_usuarios() {
-    clear
     echo "Vamos a crear los usuarios."
     echo ""
     usuarios=()  # Array para almacenar los nombres de usuario
@@ -270,7 +269,6 @@ fi
 
 # Función para crear carpetas en opcion 1 del menu
 1_crear_carpetas() {
-    clear
     echo "Vamos a crear las carpetas."
     echo ""
     echo "Las carpeta principal se creara en la raiz del sistema (/)"
@@ -288,7 +286,6 @@ fi
 
 # Función para asignar permisos en opcion 1 del menu
 1_asignar_permisos() {
-    clear
     echo "Vamos a asignar los permisos."
 
     # Iterar sobre los usuarios y carpetas para asignar permisos
@@ -316,7 +313,7 @@ fi
 1_configurar_samba(){
     #añado la configuracion a samba
     # Ruta del archivo de configuración de Samba
-    clear; echo "Configuramos el servidor de samba"; echo ""
+    echo "Configuramos el servidor de samba"; echo ""
     SAMBA_CONF="/etc/samba/smb.conf"
     # Bloque de configuración a añadir
     CONFIG="[$recurso_compartido]
