@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaassskh8daaaaaaaaaah"
+export version="1.0aaassskh8daaaa44aaaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -263,7 +263,7 @@ else
 fi
 
 check_root
-export CALLED_FROM="si" #exporta esta variable, para saber si se ha cargado el script principal
+export CALLED_FROM=si #exporta esta variable, para saber si se ha cargado el script principal
 while :
 do
 clear
