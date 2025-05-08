@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasffffffffff8aaah"
+export version="1.0aaasffffffffjkhff8aaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -182,6 +182,7 @@ for comando in "${!requeridos[@]}"; do
 
     echo ""
     echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
+    software="SI"
     sleep 2
 }
 
