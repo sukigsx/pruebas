@@ -11,15 +11,6 @@ rosa="\e[0;35m\033[1m"
 turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
-#comprueba si se ejecuta como root
-root(){
-    clear
-    if [ "$EUID" -ne 0 ]; then
-        echo -e "${rojo}Este script debe ejecutarse con sudo o como root.${borra_colores}"
-        exit 1
-    fi
-}
-
 # Función para crear usuarios
 crear_usuarios() {
     clear
@@ -159,10 +150,11 @@ configurar_samba(){
 
 
 # Ejecutar las funciones
+menu_info
 if [[ $NombreScript == "Linux User Manager" ]]; then
-    echo "Correcto"
+    echo ""
 else
-    echo "script2.sh fue ejecutado directamente o desde otro script"
+    echo -e "${amarillo}Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
 fi
 echo "listo la variable ==== $NombreScript"
 read p; exit
