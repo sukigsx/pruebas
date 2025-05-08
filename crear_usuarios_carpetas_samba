@@ -164,6 +164,7 @@ if [[ "$CALLED_FROM" == "si" ]]; then
 else
     echo "script2.sh fue ejecutado directamente o desde otro script"
 fi
+echo "listo la variable ==== $CALLED_FROM"
 read p; exit
 root
 instalacion_paquetes_y_actualizacion
