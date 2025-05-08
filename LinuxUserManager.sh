@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasfffjkhffjjhgkfgjkhfffaaah"
+export version="1.0aaasfffjkhffjjfffhgkfgjkhfffaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -274,6 +274,7 @@ fi
     echo "Vamos a crear las carpetas."
     echo ""
     echo "Se necesita la carpeta principal de la cual estaran las carpetas compartidas dentro."
+    echo "Si solo pones el nombre te la creara en $ruta_ejecucion."
     read -p "Ingresa la ruta absoluta de la carpeta. (ej. /home/recurso_compartido) -> " recurso_compartido
     # Preguntar por las carpetas
     read -p "Ingrese las carpetas a crear (separadas por espacio, por ejemplo: (Descargas Video Photo): " carpetas
@@ -283,7 +284,7 @@ fi
         sudo mkdir -p $recurso_compartido/$carpeta
     done
 
-    echo "Carpetas creadas con éxito."
+    echo "Carpetas creadas con éxito."; read p
 }
 
 # Función para asignar permisos en opcion 1 del menu
