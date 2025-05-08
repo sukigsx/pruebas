@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaassskh8aaaaah"
+export version="1.0aaas8aaaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -281,10 +281,10 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  sudo bash $ruta_ejecucion/crear_usuarios_carpetas_samba
+        1)  sudo -E bash $ruta_ejecucion/crear_usuarios_carpetas_samba
             ;;
 
-        2)  bash $ruta_ejecucion/usuarios; read p
+        2)  bash -E $ruta_ejecucion/usuarios; read p
             ;;
 
         3)  bash $ruta_ejecucion/carpetas
