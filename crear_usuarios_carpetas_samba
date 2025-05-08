@@ -159,7 +159,7 @@ configurar_samba(){
 
 
 # Ejecutar las funciones
-if [ $NombreScript="Linux User Manager" ]; then
+if [[ $NombreScript == "Linux User Manager" ]]; then
     echo "script2.sh fue llamado desde script1.sh"
 else
     echo "script2.sh fue ejecutado directamente o desde otro script"
