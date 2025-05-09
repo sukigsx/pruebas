@@ -39,7 +39,9 @@ echo ""
 
 # Función para crear usuarios
 crear_usuarios() {
-    echo "Vamos a crear los usuarios."
+    echo -e "${azul} --- CREACION DE USUARIOS ---${borra_colores}"
+    echo -e "${ruequesa} Listado de los usuarios actuales del sistemas.${borra_colores}"
+    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
     echo ""
     usuarios=()  # Array para almacenar los nombres de usuario
     contrasenas=()  # Array para almacenar las contraseñas
@@ -48,7 +50,8 @@ crear_usuarios() {
     while true; do
         # Preguntar por el nombre del usuario
         echo ""
-        read -p "Ingrese el nombre del usuario (o 'ok' para terminar): " usuario
+        echo " Ingrese el nombre de usuario nuevo."
+        read -p "Si ya los tienes creados = ('ok' para terminar): " usuario
 
         # Si el usuario ingresa 'ninguno', salimos del ciclo
         if [ "$usuario" == "ok" ]; then
@@ -56,13 +59,13 @@ crear_usuarios() {
         fi
 
         # Preguntar por la contraseña del usuario
-        read -p "Ingrese la contraseña para $usuario: " pass
+        read -p " Ingrese la contraseña para $usuario: " pass
 
         #añade el usuario a samba
         echo "$pass" | sudo smbpasswd -a $usuario
 
         # Preguntar si el usuario tendrá login
-        read -p "¿Desea que $usuario tenga acceso al login del sistema? (s/n): " login
+        read -p " ¿Desea que $usuario tenga acceso al login del sistema? (s/n): " login
 
         # Almacenar los datos en los arrays
         usuarios+=("$usuario")
@@ -95,7 +98,7 @@ crear_usuarios() {
         echo "$usuario:$pass" | sudo chpasswd
     done
     echo ""
-    echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
+    echo -e "${verde} Usuarios creados con éxito.${borra_colores}"
 }
 
 # Función para crear carpetas
