@@ -110,12 +110,12 @@ function change_password() {
         echo
 
         if [[ "$password" != "$password_confirm" ]]; then
-            echo -e "${rojo} Las contraseñas no coinciden para${borra_colores} $username"; sleep 2
+            echo -e "${rojo} Las contraseñas no coinciden para${borra_colores} $username"; sleep 3
             continue
         fi
 
-        echo "$username:$password" | chpasswd
-        echo "$password" | smbpasswd -s "$username"
+        echo "$username:$password" | chpasswd &>/dev/null
+        echo "$password" | smbpasswd -s "$username" &>/dev/null
 
         echo -e "${verde} Contraseña de${borra_colores} $username ${verde}actualizada y sincronizada con Samba.${borra_colores}"; sleep 2
     done
