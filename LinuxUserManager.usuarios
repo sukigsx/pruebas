@@ -43,42 +43,6 @@ function show_users() {
     echo -e "${borra_colores}"
 }
 
-function create_uuser() {
-    show_users
-    read -p " Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
-
-    for username in "${usernames[@]}"; do
-        if id "$username" &>/dev/null; then
-            echo "El usuario $username ya existe."
-            continue
-        fi
-
-        read -s -p "Ingrese una contraseña para $username: " password
-        echo
-        read -s -p "Confirme la contraseña para $username: " password_confirm
-        echo
-
-        if [[ "$password" != "$password_confirm" ]]; then
-            echo "Las contraseñas no coinciden para $username."
-            continue
-        fi
-
-        read -p "¿Deseas permitir login al sistema para $username? (s/n): " login
-
-        if [[ "$login" =~ ^[Ss]$ ]]; then
-            useradd -m "$username"
-        else
-            useradd -M -s /usr/sbin/nologin "$username"
-        fi
-
-        echo "$username:$password" | sudo chpasswd
-        printf "$password\n$password\n" | sudo smbpasswd -a -s $username
-        #echo "$password" | sudo smbpasswd -a -s "$username"
-
-        echo "Usuario $username creado y sincronizado con Samba."
-    done
-}
-
 function create_user() {
     show_users
     read -p "Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
@@ -86,31 +50,32 @@ function create_user() {
     for username in "${usernames[@]}"; do
         # Validar nombre de usuario
         if [[ ! "$username" =~ ^[a-z_][a-z0-9_-]{0,31}$ ]]; then
-            echo "Nombre de usuario inválido: $username"
-            echo "Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres)."
-            read p
+            echo -e "${rojo} Nombre de usuario inválido:{amarillo} $username ${borra_colores}"
+            echo -e "${amarillo} Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres).${borra_colores}"
+            echo ""
+            echo -p " El usuario $username No se creara. Pulsa una tecla para continuar." pause
             continue
         fi
 
         # Verificar si el usuario ya existe
         if id "$username" &>/dev/null; then
-            echo "El usuario $username ya existe."
+            echo -e "·{amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 2
             continue
         fi
 
         # Solicitar contraseña
-        read -s -p "Ingrese una contraseña para $username: " password
+        read -s -p " Ingrese una contraseña para $username: " password
         echo
-        read -s -p "Confirme la contraseña para $username: " password_confirm
+        read -s -p " Confirme la contraseña para $username: " password_confirm
         echo
 
         if [[ "$password" != "$password_confirm" ]]; then
-            echo "Las contraseñas no coinciden para $username."
+            echo -e "${amarillo} Las contraseñas no coinciden para $username ${borra_colores}."; sleep 2
             continue
         fi
 
         # Preguntar si se permite login
-        read -p "¿Deseas permitir login al sistema para $username? (s/n): " login
+        read -p " ¿Deseas permitir login al sistema para $username? (s/n): " login
 
         if [[ "$login" =~ ^[Ss]$ ]]; then
             sudo useradd -m "$username"
@@ -122,7 +87,7 @@ function create_user() {
         echo "$username:$password" | sudo chpasswd
         printf "$password\n$password\n" | sudo smbpasswd -a -s "$username"
 
-        echo "Usuario $username creado y sincronizado con Samba."
+        echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"
     done
 }
 
