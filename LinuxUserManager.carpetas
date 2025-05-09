@@ -84,6 +84,7 @@ function menu() {
         menu_info
         echo
         echo -e "${azul} --- Gestor de carpetas dentro de ${azul}'$base_dir'${azul} ---${borra_colores}"
+        echo ""
         echo -e "  1. ${azul}Listar carpetas${borra_colores}"
         echo -e "  2. ${azul}Crear carpetas${borra_colores}"
         echo -e "  3. ${azul}Renombrar carpetas${borra_colores}"
@@ -117,15 +118,16 @@ function carpeta_base(){
         else
             exit
         fi
-fi
+    fi
 }
 
-# Verificar que la ruta exista y sea un directorio
-if [[ ! -d "$base_dir" ]]; then
-    echo "La ruta '$base_dir' no existe o no es un directorio."
-    exit 1
-fi
+
 clear
 menu_info
 carpeta_base
+# Verificar que la ruta exista y sea un directorio
+if [[ ! -d "$base_dir" ]]; then
+    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar."; sleep 3
+    exit 1
+fi
 menu

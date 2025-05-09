@@ -148,6 +148,7 @@ function menu() {
         menu_info
         echo ""
         echo -e "${azul} --- Gestor de usuarios del sistema y Samba ---${borra_colores}"
+        echo ""
         echo -e "  1.${azul} Mostrar usuarios${borra_colores}"
         echo -e "  2.${azul} Crear usuarios${borra_colores}"
         echo -e "  3.${azul} Cambiar contraseñas${borra_colores}"
