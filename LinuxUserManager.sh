@@ -288,7 +288,7 @@ case $opcion in
         1)  sudo -E bash $ruta_ejecucion/LinuxUserManager.todo
             ;;
 
-        2)  sudo -E source $ruta_ejecucion/LinuxUserManager.usuarios
+        2)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
             ;;
 
         3)  sudo -E bash $ruta_ejecucion/carpetas
