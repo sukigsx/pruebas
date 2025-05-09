@@ -113,6 +113,7 @@ function delete_user() {
 }
 
 function menu() {
+    menu_info
     while true; do
         echo ""
         echo -e "${azul} Gestor de usuarios del sistema y Samba${borra_colores}"
@@ -148,5 +149,4 @@ else
     exit
 fi
 
-menu_info
 menu
