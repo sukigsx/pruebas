@@ -132,7 +132,7 @@ function delete_user() {
         fi
 
         read -p "¿Estás seguro que deseas eliminar al usuario $username? (s/n): " confirm
-        if [[ "$confirm" =~ ^[Ss]$ ]]; then
+        if [[ "$confirm" == [Ss] ]]; then
             smbpasswd -x "$username"
             userdel -r "$username"
             echo "Usuario $username eliminado del sistema y de Samba."
