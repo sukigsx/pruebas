@@ -96,28 +96,28 @@ function create_user() {
 
 function change_password() {
     show_users
-    read -p "Ingrese los nombres de los usuarios a modificar (separados por espacio): " -a usernames
+    read -p " Ingrese los nombres de los usuarios a modificar (separados por espacio): " -a usernames
 
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
-            echo "El usuario $username no existe."
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 2
             continue
         fi
 
-        read -s -p "Nueva contraseña para $username: " password
+        read -s -p " Nueva contraseña para $username: " password
         echo
-        read -s -p "Confirme la nueva contraseña para $username: " password_confirm
+        read -s -p " Confirme la nueva contraseña para $username: " password_confirm
         echo
 
         if [[ "$password" != "$password_confirm" ]]; then
-            echo "Las contraseñas no coinciden para $username."
+            echo -e "${rojo} Las contraseñas no coinciden para${borra_colores} $username"; sleep 2
             continue
         fi
 
         echo "$username:$password" | chpasswd
         echo "$password" | smbpasswd -s "$username"
 
-        echo "Contraseña de $username actualizada y sincronizada con Samba."
+        echo -e "${verde} Contraseña de${borra_colores} $username ${verde}actualizada y sincronizada con Samba.${borra_colores}"; sleep 2
     done
 }
 
@@ -148,11 +148,11 @@ function menu() {
         menu_info
         echo ""
         echo -e "${azul} Gestor de usuarios del sistema y Samba${borra_colores}"
-        echo -e "${azul} 1.${borra_colores} Mostrar usuarios${borra_colores}"
-        echo -e "${azul} 2.${borra_colores} Crear usuarios${borra_colores}"
-        echo -e "${azul} 3.${borra_colores} Cambiar contraseñas${borra_colores}"
-        echo -e "${azul} 4.${borra_colores} Eliminar usuarios${borra_colores}"
-        echo -e "${azul} 5.${borra_colores} Atras (Menu principal)${borra_colores}"
+        echo -e "${azul}  1.${borra_colores} Mostrar usuarios${borra_colores}"
+        echo -e "${azul}  2.${borra_colores} Crear usuarios${borra_colores}"
+        echo -e "${azul}  3.${borra_colores} Cambiar contraseñas${borra_colores}"
+        echo -e "${azul}  4.${borra_colores} Eliminar usuarios${borra_colores}"
+        echo -e "${azul} 99.${borra_colores} Atras (Menu principal)${borra_colores}"
         echo -e ""
         read -e -p " Seleccione una opción: " opcion
 
@@ -161,7 +161,7 @@ function menu() {
             2) create_user ;;
             3) change_password ;;
             4) delete_user ;;
-            5) exit ;;
+           99) exit ;;
             *) echo -e "${amarillo} Opción inválida.${borra_colores}"; sleep 2 ;;
         esac
     done
