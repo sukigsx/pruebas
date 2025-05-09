@@ -53,13 +53,13 @@ function create_user() {
             echo -e "${rojo} Nombre de usuario inválido:{amarillo} $username ${borra_colores}"
             echo -e "${amarillo} Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres).${borra_colores}"
             echo ""
-            echo -p " El usuario $username No se creara. Pulsa una tecla para continuar." pause
+            echo -e " El usuario $username No se creara. Pulsa una tecla para continuar." sleep 4
             continue
         fi
 
         # Verificar si el usuario ya existe
         if id "$username" &>/dev/null; then
-            echo -e "·{amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 2
+            echo -e "·{amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 4
             continue
         fi
 
@@ -70,7 +70,7 @@ function create_user() {
         echo
 
         if [[ "$password" != "$password_confirm" ]]; then
-            echo -e "${amarillo} Las contraseñas no coinciden para $username ${borra_colores}."; sleep 2
+            echo -e "${amarillo} Las contraseñas no coinciden para $username ${borra_colores}."; sleep 4
             continue
         fi
 
@@ -87,7 +87,7 @@ function create_user() {
         echo "$username:$password" | sudo chpasswd
         printf "$password\n$password\n" | sudo smbpasswd -a -s "$username"
 
-        echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"
+        echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"; sleep 4
     done
 }
 
