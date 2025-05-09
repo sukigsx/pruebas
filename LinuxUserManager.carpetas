@@ -78,17 +78,30 @@ function delete_folders() {
     done
 }
 
+function delete_all(){
+    echo ""
+    echo -e "${amarillo}"
+    read -p "¿Seguro que quieres borrar $base_dir y todo su contenido?: " sn
+    echo -e "$borra_colores"
+    if [[ "$sn" == [Ss] ]]; then
+        rm -r $base_dir; echo ""; echo -e "${verde} Carpeta base y su contenido borrado${borra_colores}"; sleep 3
+    else
+        echo -e ""
+    fi
+}
+
 function menu() {
     while true; do
         clear
         menu_info
         echo
-        echo -e "${azul} --- Gestor de carpetas dentro de ${borra_colores}'$base_dir'${azul} ---${borra_colores}"
+        echo -e "${azul} --- Gestor de carpetas dentro de ${borra_colores}$base_dir ${azul}---${borra_colores}"
         echo ""
         echo -e "  1. ${azul}Listar carpetas${borra_colores}"
         echo -e "  2. ${azul}Crear carpetas${borra_colores}"
         echo -e "  3. ${azul}Renombrar carpetas${borra_colores}"
         echo -e "  4. ${azul}Borrar carpetas${borra_colores}"
+        echo -e "  5. ${azul}Borrar carpeta base y todo su contenido${borra_colores}"
         echo -e " 99. ${azul}Atras (Menu principal)${borra_colores}"
         echo ""
         read -p "Seleccione una opción: " opcion
@@ -98,6 +111,7 @@ function menu() {
             2) create_folders ;;
             3) rename_folders ;;
             4) delete_folders ;;
+            5) delete_all ;;
            99) exit ;;
             *) echo "Opción inválida."; sleep 2 ;;
         esac
