@@ -162,7 +162,7 @@ function menu() {
             3) change_password ;;
             4) delete_user ;;
             5) exit ;;
-            *) echo -e "${amarillo} Opción inválida.${borra_colores}" ;;
+            *) echo -e "${amarillo} Opción inválida.${borra_colores}"; sleep 2 ;;
         esac
     done
 }
