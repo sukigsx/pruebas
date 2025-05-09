@@ -40,9 +40,11 @@ echo ""
 # Función para crear usuarios
 crear_usuarios() {
     echo -e "${azul} --- CREACION DE USUARIOS ---${borra_colores}"
-    echo -e "${ruequesa} Listado de los usuarios actuales del sistemas.${borra_colores}"
-    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
     echo ""
+    echo -e "${tuequesa} Listado de los usuarios actuales del sistemas.${borra_colores}"
+    echo -e "${verde}"
+    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+    echo -e "${borra_colores}"
     usuarios=()  # Array para almacenar los nombres de usuario
     contrasenas=()  # Array para almacenar las contraseñas
     login_enabled=()  # Array para almacenar si el usuario tendrá login
@@ -193,7 +195,6 @@ fi
 
 clear
 menu_info
-check_root
 crear_usuarios
 read -p " Pulsa una tecla para continuar" p;
 crear_carpetas
