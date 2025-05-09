@@ -161,7 +161,7 @@ function menu() {
             2) create_user ;;
             3) change_password ;;
             4) delete_user ;;
-            5) break ;;
+            5) exit ;;
             *) echo "Opción inválida." ;;
         esac
     done
