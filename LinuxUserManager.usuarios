@@ -147,12 +147,12 @@ function menu() {
         clear
         menu_info
         echo ""
-        echo -e "${azul} Gestor de usuarios del sistema y Samba${borra_colores}"
-        echo -e "${azul}  1.${borra_colores} Mostrar usuarios${borra_colores}"
-        echo -e "${azul}  2.${borra_colores} Crear usuarios${borra_colores}"
-        echo -e "${azul}  3.${borra_colores} Cambiar contraseñas${borra_colores}"
-        echo -e "${azul}  4.${borra_colores} Eliminar usuarios${borra_colores}"
-        echo -e "${azul} 99.${borra_colores} Atras (Menu principal)${borra_colores}"
+        echo -e "${azul} --- Gestor de usuarios del sistema y Samba ---${borra_colores}"
+        echo -e "  1.${azul} Mostrar usuarios${borra_colores}"
+        echo -e "  2.${azul} Crear usuarios${borra_colores}"
+        echo -e "  3.${azul} Cambiar contraseñas${borra_colores}"
+        echo -e "  4.${azul} Eliminar usuarios${borra_colores}"
+        echo -e " 99.${azul} Atras (Menu principal)${borra_colores}"
         echo -e ""
         read -e -p " Seleccione una opción: " opcion
 
