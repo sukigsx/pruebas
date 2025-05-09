@@ -106,16 +106,18 @@ function menu() {
 
 
 function carpeta_base(){
-    read -p "Ingrese la ruta de la carpeta base: " base_dir
+    read -p " Ingrese la ruta de la carpeta base: " base_dir
 
     if [ -d "$base_dir" ]; then
-        echo "Carpeta '$base_dir' seleccionada correctamente."; sleep 2
+        echo " Carpeta '$base_dir' seleccionada correctamente."; sleep 2
     else
-        read -p "La carpeta $base_dir NO existe, deseas crearla : " sino
+        read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
         if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
             sudo mkdir -p "$base_dir"
-            echo "Carpeta '$base_dir' creada."
+            echo " Carpeta '$base_dir' creada."
         else
+            echo ""
+            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar."; sleep 3
             exit
         fi
     fi
@@ -127,6 +129,7 @@ menu_info
 carpeta_base
 # Verificar que la ruta exista y sea un directorio
 if [[ ! -d "$base_dir" ]]; then
+    echo ""
     echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar."; sleep 3
     exit 1
 fi
