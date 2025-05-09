@@ -60,7 +60,7 @@ function create_user() {
         # Verificar si el usuario ya existe
         if id "$username" &>/dev/null; then
             echo ""
-            echo -e "·{amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 4
+            echo -e "·{amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 2
             continue
         fi
 
@@ -72,7 +72,7 @@ function create_user() {
 
         if [[ "$password" != "$password_confirm" ]]; then
             echo ""
-            echo -e "${amarillo} Las contraseñas no coinciden para${borra_colores} $username ${borra_colores}"; sleep 4
+            echo -e "${amarillo} Las contraseñas no coinciden para${borra_colores} $username ${borra_colores}"; sleep 2
             continue
         fi
 
@@ -80,16 +80,16 @@ function create_user() {
         read -p " ¿Deseas permitir login al sistema para $username? (s/n): " login
 
         if [[ "$login" =~ ^[Ss]$ ]]; then
-            sudo useradd -m "$username" &> /dev/null
+            sudo useradd -m "$username" &>/dev/null
         else
-            sudo useradd -M -s /usr/sbin/nologin "$username" &> /dev/null
+            sudo useradd -M -s /usr/sbin/nologin "$username" &>/dev/null
         fi
 
         # Establecer contraseña en el sistema y en Samba
         echo "$username:$password" | sudo chpasswd
         printf "$password\n$password\n" | sudo smbpasswd -a -s "$username"
 
-        echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"; sleep 4
+        echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"; sleep 2
     done
 }
 
@@ -127,7 +127,7 @@ function delete_user() {
 
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
-            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 4
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 2
             continue
         fi
 
@@ -135,9 +135,9 @@ function delete_user() {
         if [[ "$confirm" == [Ss] ]]; then
             smbpasswd -x "$username" &>/dev/null
             userdel -r "$username" &>/dev/null
-            echo -e "${verde} Usuario${borra_colores} $username ${verde}eliminado del sistema y de Samba${borra_colores}"; sleep 4
+            echo -e "${verde} Usuario${borra_colores} $username ${verde}eliminado del sistema y de Samba${borra_colores}"; sleep 2
         else
-            echo -e "${verde} Eliminación de${borra_colores} $username ${verde}cancelada.${borra_colores}"; sleep 4
+            echo -e "${verde} Eliminación de${borra_colores} $username ${verde}cancelada.${borra_colores}"; sleep 2
         fi
     done
 }
