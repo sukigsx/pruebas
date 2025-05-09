@@ -45,7 +45,7 @@ function show_users() {
 
 function create_user() {
     show_users
-    read -p "Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
+    read -p " Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
 
     for username in "${usernames[@]}"; do
         # Validar nombre de usuario
@@ -53,12 +53,13 @@ function create_user() {
             echo -e "${rojo} Nombre de usuario inválido:{amarillo} $username ${borra_colores}"
             echo -e "${amarillo} Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres).${borra_colores}"
             echo ""
-            echo -e " El usuario $username No se creara. Pulsa una tecla para continuar."; sleep 4
+            echo -e " El usuario $username No se creara. Pulsa una tecla para continuar."; read p
             continue
         fi
 
         # Verificar si el usuario ya existe
         if id "$username" &>/dev/null; then
+            echo ""
             echo -e "·{amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 4
             continue
         fi
@@ -70,7 +71,8 @@ function create_user() {
         echo
 
         if [[ "$password" != "$password_confirm" ]]; then
-            echo -e "${amarillo} Las contraseñas no coinciden para${borra_colores} $username${amarillo}.${borra_colores}"; sleep 4
+            echo ""
+            echo -e "${amarillo} Las contraseñas no coinciden para${borra_colores} $username ${borra_colores}"; sleep 4
             continue
         fi
 
