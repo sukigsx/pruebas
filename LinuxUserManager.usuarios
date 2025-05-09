@@ -140,6 +140,7 @@ function delete_user() {
             echo "Eliminación de $username cancelada."
         fi
     done
+    read p
 }
 
 function menu() {
