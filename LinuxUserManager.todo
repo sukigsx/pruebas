@@ -37,6 +37,33 @@ echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_co
 echo ""
 }
 
+# Función que comprueba si se ejecuta como root
+check_root() {
+    clear
+    menu_info
+  if [ "$EUID" -ne 0 ]; then
+    echo ""
+    echo -e "${amarillo} Este script necesita privilegios de root ingresa la contraseña.${borra_colores}"
+
+    # Pedir contraseña para sudo
+    echo -e "${rojo}"
+
+    # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
+    if sudo -v; then
+      echo ""
+      echo -e "${verde} Autenticación correcta. Reejecutando como root...${borra_colores}"; sleep 3
+      # Reejecuta el script como root
+      #exec sudo "$0" "$@"
+    else
+      echo ""
+      echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"; sleep 3
+      echo ""
+      echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+     echo ""; exit
+    fi
+  fi
+}
+
 # Función para crear usuarios
 crear_usuarios() {
     echo -e "${azul} --- CREACION DE USUARIOS ---${borra_colores}"
@@ -188,6 +215,7 @@ fi
 
 clear
 menu_info
+check_root
 crear_usuarios
 read -p " Pulsa una tecla para continuar" p;
 crear_carpetas
