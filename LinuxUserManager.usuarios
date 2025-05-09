@@ -87,7 +87,7 @@ function create_user() {
 
         # Establecer contraseña en el sistema y en Samba
         echo "$username:$password" | sudo chpasswd
-        printf "$password\n$password\n" | sudo smbpasswd -a -s "$username"
+        printf "$password\n$password\n" | sudo smbpasswd -a -s "$username" &>/dev/null
 
         echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"; sleep 2
     done
@@ -127,7 +127,7 @@ function delete_user() {
 
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
-            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 2
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe, No se puede eliminar.${borra_colores}"; sleep 2
             continue
         fi
 
@@ -152,7 +152,7 @@ function menu() {
         echo -e "${azul} 2.${borra_colores} Crear usuarios${borra_colores}"
         echo -e "${azul} 3.${borra_colores} Cambiar contraseñas${borra_colores}"
         echo -e "${azul} 4.${borra_colores} Eliminar usuarios${borra_colores}"
-        echo -e "${azul} 5.${borra_colores} Salir${borra_colores}"
+        echo -e "${azul} 5.${borra_colores} Atras (Menu principal)${borra_colores}"
         echo -e ""
         read -e -p " Seleccione una opción: " opcion
 
