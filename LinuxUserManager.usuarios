@@ -45,11 +45,7 @@ function show_users() {
 
 function create_user() {
     show_users
-    read -p " Ingrese los nombres de los nuevos usuarios (separados por espacio) o (s = salir): " -a usernames
-
-    if [[ "$usernames" = [Ss] ]]; then
-        break
-    fi
+    read -p " Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
 
     for username in "${usernames[@]}"; do
         if id "$username" &>/dev/null; then
