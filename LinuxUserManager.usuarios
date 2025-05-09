@@ -123,24 +123,23 @@ function change_password() {
 
 function delete_user() {
     show_users
-    read -p "Ingrese los nombres de los usuarios a eliminar (separados por espacio): " -a usernames
+    read -p " Ingrese los nombres de los usuarios a eliminar (separados por espacio): " -a usernames
 
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
-            echo "El usuario $username no existe."
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe."
             continue
         fi
 
-        read -p "¿Estás seguro que deseas eliminar al usuario $username? (s/n): " confirm
+        read -p " ¿Estás seguro que deseas eliminar al usuario $username? (s/n): " confirm
         if [[ "$confirm" == [Ss] ]]; then
-            smbpasswd -x "$username"
-            userdel -r "$username"
-            echo "Usuario $username eliminado del sistema y de Samba."
+            smbpasswd -x "$username" &>/dev/null
+            userdel -r "$username" &>/dev/null
+            echo -e "${verde} Usuario${borra_colores} $username ${verde}eliminado del sistema y de Samba${borra_colores}"
         else
-            echo "Eliminación de $username cancelada."
+            echo -e "${verde} Eliminación de${borra_colores} $username ${verde}cancelada.${borra_colores}"
         fi
     done
-    read p
 }
 
 function menu() {
