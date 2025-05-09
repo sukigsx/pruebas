@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasfffsfffaaah"
+export version="1.0aaasfffaaasfffaaah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -288,7 +288,7 @@ case $opcion in
         1)  bash -E $ruta_ejecucion/LinuxUserManager.todo
             ;;
 
-        2)  bash -E $ruta_ejecucion/usuarios; read p
+        2)  bash -E $ruta_ejecucion/LinuxUserManager.usuarios; read p
             ;;
 
         3)  bash -E $ruta_ejecucion/carpetas
