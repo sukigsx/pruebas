@@ -81,10 +81,10 @@ function delete_folders() {
 function delete_all(){
     echo ""
     echo -e "${amarillo}"
-    read -p "¿Seguro que quieres borrar $base_dir y todo su contenido?: " sn
+    read -p " ¿Seguro que quieres borrar $base_dir y todo su contenido?: " sn
     echo -e "$borra_colores"
     if [[ "$sn" == [Ss] ]]; then
-        rm -r $base_dir; echo ""; echo -e "${verde} Carpeta base y su contenido borrado${borra_colores}"; sleep 3
+        rm -r $base_dir; echo ""; echo -e "${verde} Carpeta base y su contenido borrado${borra_colores}"; sleep 3; exit
     else
         echo -e ""
     fi
@@ -104,7 +104,7 @@ function menu() {
         echo -e "  5. ${azul}Borrar carpeta base y todo su contenido${borra_colores}"
         echo -e " 99. ${azul}Atras (Menu principal)${borra_colores}"
         echo ""
-        read -p "Seleccione una opción: " opcion
+        read -p " Seleccione una opción: " opcion
 
         case $opcion in
             1) list_folders ;;
