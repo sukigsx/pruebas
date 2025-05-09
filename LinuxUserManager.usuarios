@@ -23,9 +23,19 @@ echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_co
 echo ""
 }
 
-function show_users() {
-    echo "Usuarios del sistema:"
+function listar_show_users() {
+    echo -e "${azul} Listado de usuarios del sistema:${borra_colores}"
+    echo -e "${verde}"
     awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+    echo -e "${borra_colores}"
+    read -p " Pulsa una tecla para continuar." pause
+}
+
+function show_users() {
+    echo -e "${azul} Listado de usuarios del sistema:${borra_colores}"
+    echo -e "${verde}"
+    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+    echo -e "${borra_colores}"
 }
 
 function create_user() {
@@ -126,7 +136,7 @@ function menu() {
         read -e -p " Seleccione una opción: " opcion
 
         case $opcion in
-            1) show_users ;;
+            1) listar_show_users ;;
             2) create_user ;;
             3) change_password ;;
             4) delete_user ;;
