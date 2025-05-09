@@ -83,7 +83,7 @@ function menu() {
         clear
         menu_info
         echo
-        echo -e "${azul} --- Gestor de carpetas dentro de ${azul}'$base_dir'${azul} ---${borra_colores}"
+        echo -e "${azul} --- Gestor de carpetas dentro de ${borra_colores}'$base_dir'${azul} ---${borra_colores}"
         echo ""
         echo -e "  1. ${azul}Listar carpetas${borra_colores}"
         echo -e "  2. ${azul}Crear carpetas${borra_colores}"
@@ -98,7 +98,7 @@ function menu() {
             2) create_folders ;;
             3) rename_folders ;;
             4) delete_folders ;;
-            5) exit ;;
+           99) exit ;;
             *) echo "Opción inválida."; sleep 2 ;;
         esac
     done
@@ -109,7 +109,7 @@ function carpeta_base(){
     read -p " Ingrese la ruta de la carpeta base: " base_dir
 
     if [ -d "$base_dir" ]; then
-        echo " Carpeta '$base_dir' seleccionada correctamente."; sleep 2
+        echo " Carpeta '$base_dir' seleccionada correctamente."; sleep 3
     else
         read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
         if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
@@ -117,7 +117,7 @@ function carpeta_base(){
             echo " Carpeta '$base_dir' creada."
         else
             echo ""
-            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar."; sleep 3
+            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
             exit
         fi
     fi
