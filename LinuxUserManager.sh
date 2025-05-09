@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaaddda5aaa88aah"
+export version="1.0aaaddda5adddaa88aah"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -285,19 +285,19 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  sudo bash -E $ruta_ejecucion/LinuxUserManager.todo
+        1)  sudo -E bash $ruta_ejecucion/LinuxUserManager.todo
             ;;
 
-        2)  sudo bash -E $ruta_ejecucion/LinuxUserManager.usuarios; read p
+        2)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios; read p
             ;;
 
-        3)  sudo bash -E $ruta_ejecucion/carpetas
+        3)  sudo -E bash $ruta_ejecucion/carpetas
             ;;
 
-        4)  sudo bash -E $ruta_ejecucion/permisos
+        4)  sudo -E bash $ruta_ejecucion/permisos
             ;;
 
-        5)  sudo bash -E $ruta_ejecucion/samba
+        5)  sudo -E bash $ruta_ejecucion/samba
             ;;
 
         90)  #opcion 1
