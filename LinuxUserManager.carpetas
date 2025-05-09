@@ -25,8 +25,14 @@ echo ""
 }
 
 function list_folders() {
-    echo "Carpetas en $base_dir:"
-    find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+    if [ -z "$base_dir" ]; then
+        echo ""
+        echo -e "${amarillo} No tienes carpetas credas dentro de $base_dir ${borra_colores}"; sleep 3
+    else
+        echo "Carpetas en $base_dir:"
+        find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+        read p
+    fi
 }
 
 function create_folders() {
@@ -128,7 +134,7 @@ function carpeta_base(){
         read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
         if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
             sudo mkdir -p "$base_dir"
-            echo " Carpeta '$base_dir' creada."
+            echo "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
         else
             echo ""
             echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
