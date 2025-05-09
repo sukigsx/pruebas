@@ -39,21 +39,24 @@ echo ""
 
 # Función para crear usuarios
 crear_usuarios() {
-    echo -e "${azul} --- CREACION DE USUARIOS ---${borra_colores}"
-    echo ""
-    echo -e "${tuequesa} Listado de los usuarios actuales del sistemas.${borra_colores}"
-    echo -e "${verde}"
-    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
-    echo -e "${borra_colores}"
+
     usuarios=()  # Array para almacenar los nombres de usuario
     contrasenas=()  # Array para almacenar las contraseñas
     login_enabled=()  # Array para almacenar si el usuario tendrá login
 
     while true; do
         # Preguntar por el nombre del usuario
+        clear
+        menu_info
+        echo -e "${azul} --- CREACION DE USUARIOS ---${borra_colores}"
+        echo ""
+        echo -e "${tuequesa} Listado de los usuarios actuales del sistemas.${borra_colores}"
+        echo -e "${verde}"
+        awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+        echo -e "${borra_colores}"
         echo ""
         echo " Ingrese el nombre de usuario nuevo."
-        read -p "Si ya los tienes creados = ('ok' para terminar): " usuario
+        read -p " Si ya los tienes creados = ('ok' para terminar): " usuario
 
         # Si el usuario ingresa 'ninguno', salimos del ciclo
         if [ "$usuario" == "ok" ]; then
