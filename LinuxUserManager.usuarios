@@ -88,6 +88,7 @@ function create_user() {
         if [[ ! "$username" =~ ^[a-z_][a-z0-9_-]{0,31}$ ]]; then
             echo "Nombre de usuario inválido: $username"
             echo "Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres)."
+            read p
             continue
         fi
 
