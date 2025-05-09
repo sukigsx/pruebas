@@ -53,7 +53,7 @@ function create_user() {
             echo -e "${rojo} Nombre de usuario inválido:{amarillo} $username ${borra_colores}"
             echo -e "${amarillo} Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres).${borra_colores}"
             echo ""
-            echo -e " El usuario $username No se creara. Pulsa una tecla para continuar." sleep 4
+            echo -e " El usuario $username No se creara. Pulsa una tecla para continuar."; sleep 4
             continue
         fi
 
@@ -70,7 +70,7 @@ function create_user() {
         echo
 
         if [[ "$password" != "$password_confirm" ]]; then
-            echo -e "${amarillo} Las contraseñas no coinciden para $username ${borra_colores}."; sleep 4
+            echo -e "${amarillo} Las contraseñas no coinciden para${borra_colores} $username${amarillo}.${borra_colores}"; sleep 4
             continue
         fi
 
@@ -78,9 +78,9 @@ function create_user() {
         read -p " ¿Deseas permitir login al sistema para $username? (s/n): " login
 
         if [[ "$login" =~ ^[Ss]$ ]]; then
-            sudo useradd -m "$username"
+            sudo useradd -m "$username" &> /dev/null
         else
-            sudo useradd -M -s /usr/sbin/nologin "$username"
+            sudo useradd -M -s /usr/sbin/nologin "$username" &> /dev/null
         fi
 
         # Establecer contraseña en el sistema y en Samba
