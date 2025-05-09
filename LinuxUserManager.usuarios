@@ -9,18 +9,6 @@ rosa="\e[0;35m\033[1m"
 turquesa="\e[0;36m\033[1m"
 borra_colores="\033[0m\e[0m" #borra colores
 
-#toma el control al pulsar control + c
-trap ctrl_c INT
-function ctrl_c()
-{
-clear
-echo ""
-echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
-echo ""
-sleep 1
-exit
-}
-
 menu_info(){
 # muestra el menu de sukigsx
 echo ""
@@ -173,7 +161,7 @@ function menu() {
             2) create_user ;;
             3) change_password ;;
             4) delete_user ;;
-            5) ctrl_c ;;
+            5) exit ;;
             *) echo -e "${amarillo} Opción inválida.${borra_colores}" ;;
         esac
     done
