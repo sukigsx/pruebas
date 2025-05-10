@@ -126,7 +126,11 @@ function menu() {
 
 
 function carpeta_base(){
+    echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
+    echo -e " Es necesarias que indiques su ruta para poder configurar."
+    echo ""
     read -p " Ingrese la ruta de la carpeta base: " base_dir
+
 
     if [ -d "$base_dir" ]; then
         echo " Carpeta '$base_dir' seleccionada correctamente."; sleep 3
@@ -148,9 +152,9 @@ clear
 menu_info
 carpeta_base
 # Verificar que la ruta exista y sea un directorio
-if [[ ! -d "$base_dir" ]]; then
-    echo ""
-    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar."; sleep 3
-    exit 1
-fi
+#if [[ ! -d "$base_dir" ]]; then
+#    echo ""
+#    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 3
+#    exit 1
+#fi
 menu
