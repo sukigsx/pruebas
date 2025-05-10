@@ -90,11 +90,6 @@ function rename_folders() {
 
 function delete_folders() {
     list_folders
-    if [ "$base_dir" = "No seleccionada" ]; then
-        echo ""
-        echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
-        return
-    fi
     read -p "Ingrese los nombres de las carpetas a eliminar (separadas por espacio): " -a folders
     for folder in "${folders[@]}"; do
         path="$base_dir/$folder"
