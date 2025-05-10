@@ -97,6 +97,7 @@ function delete_all(){
 }
 
 function menu() {
+    baser_dir="No seleccionada"
     while true; do
         clear
         menu_info
@@ -144,7 +145,6 @@ function carpeta_base(){
         else
             echo ""
             echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
-            exit
         fi
     fi
 }
