@@ -97,7 +97,7 @@ function delete_all(){
 }
 
 function menu() {
-    baser_dir="No seleccionada"
+    base_dir="No seleccionada"
     while true; do
         clear
         menu_info
@@ -129,6 +129,7 @@ function menu() {
 
 
 function carpeta_base(){
+    echo ""
     echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
     echo -e " Es necesario que indiques su ruta absoluta para poder configurar."
     echo ""
@@ -145,6 +146,7 @@ function carpeta_base(){
         else
             echo ""
             echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
+            base_dir="No seleccionada"
         fi
     fi
 }
