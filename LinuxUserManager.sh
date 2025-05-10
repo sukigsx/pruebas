@@ -188,7 +188,7 @@ for comando in "${!requeridos[@]}"; do
     echo ""
     echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
     software="SI"
-    sleep 2; read p
+    sleep 2
 }
 
 
