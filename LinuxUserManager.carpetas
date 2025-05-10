@@ -126,7 +126,7 @@ function menu() {
         clear
         menu_info
         echo
-        echo -e "${azul} --- Gestor de carpetas dentro de ${borra_colores}$base_dir ${azul}---${borra_colores}"
+        echo -e "${azul} --- Gestor de carpetas dentro de${borra_colores} $base_dir ${azul}---${borra_colores}"
         echo ""
         echo -e "  1. ${azul}Listar carpetas${borra_colores}"
         echo -e "  2. ${azul}Crear carpetas${borra_colores}"
@@ -168,7 +168,7 @@ function carpeta_base(){
         if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
             sudo mkdir -p "$base_dir"
             echo ""
-            echo "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
+            echo -e "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
         else
             echo ""
             echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
@@ -187,5 +187,4 @@ clear
 #    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 3
 #    exit 1
 #fi
-echo "popo"; read p
 menu
