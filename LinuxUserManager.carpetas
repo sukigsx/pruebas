@@ -165,6 +165,9 @@ function carpeta_base(){
         return
     fi
 
+    # Convertir a ruta absoluta
+    base_dir=$(realpath -m "$base_dir")
+
     if [ -d "$base_dir" ]; then
         echo ""
         echo -e "${verde} Carpeta${borra_colores} $base_dir ${verde}seleccionada correctamente.${borra_colores}"; sleep 3
