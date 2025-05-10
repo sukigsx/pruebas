@@ -154,9 +154,9 @@ clear
 menu_info
 carpeta_base
 # Verificar que la ruta exista y sea un directorio
-#if [[ ! -d "$base_dir" ]]; then
-#    echo ""
-#    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 3
-#    exit 1
-#fi
+if [[ ! -d "$base_dir" ]]; then
+    echo ""
+    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 3
+    exit 1
+fi
 menu
