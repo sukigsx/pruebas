@@ -25,25 +25,32 @@ echo ""
 }
 
 function list_folders() {
-    if [ -z "$base_dir" ]; then
+    if [ "$base_dir" = "No definida" ]; then
+        echo ""
+        echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
+        return
+    fi
+
+    if [ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d)" ]; then
         echo ""
         echo -e "${amarillo} No tienes carpetas credas dentro de $base_dir ${borra_colores}"; sleep 3
     else
-        echo "Carpetas en $base_dir:"
+        echo ""
+        echo -e "${verde} Listado de carpetas de${borra_colores} $base_dir"
         find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
-        read p
+        read -p " Pulsa tecla para continuar" pause
     fi
 }
 
 function create_folders() {
-    read -p "Ingrese los nombres de las carpetas a crear (separadas por espacio): " -a folders
+    read -p " Ingrese los nombres de las carpetas a crear (separadas por espacio): " -a folders
     for folder in "${folders[@]}"; do
         path="$base_dir/$folder"
         if [[ -d "$path" ]]; then
-            echo "La carpeta '$folder' ya existe."
+            echo " La carpeta '$folder' ya existe."
         else
             mkdir -p "$path"
-            echo "Carpeta '$folder' creada."
+            echo " Carpeta '$folder' creada."
         fi
     done
 }
