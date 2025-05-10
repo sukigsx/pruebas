@@ -53,10 +53,10 @@ function create_folders() {
     for folder in "${folders[@]}"; do
         path="$base_dir/$folder"
         if [[ -d "$path" ]]; then
-            echo " La carpeta '$folder' ya existe."
+            echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}ya existe.${borra_colores}"; sleep 2
         else
             mkdir -p "$path"
-            echo " Carpeta '$folder' creada."
+            echo -e "${verde} Carpeta${borra_colores} $folder ${verde}creada.${borra_colores}"; sleep 1
         fi
     done
 }
@@ -66,24 +66,24 @@ function rename_folders() {
     if [ "$base_dir" = "No seleccionada" ]; then
         return
     fi
-    read -p "Nombre actual de la carpeta #$i: " old_name
-    read -p "Nuevo nombre para '$old_name': " new_name
+    read -p " Nombre actual de la carpeta #$i: " old_name
+    read -p " Nuevo nombre para '$old_name': " new_name
 
     old_path="$base_dir/$old_name"
     new_path="$base_dir/$new_name"
 
     if [[ ! -d "$old_path" ]]; then
-        echo "La carpeta '$old_name' no existe."; sleep 2
+        echo -e "${amarillo} La carpeta${borra_colores} $old_name ${amarillo}no existe.${borra_colores}"; sleep 2
         #continue
     fi
 
     if [[ -e "$new_path" ]]; then
-        echo "Ya existe una carpeta con el nombre '$new_name'."; sleep 2
+        echo -e "${amarillo} Ya existe una carpeta con el nombre${borra_colores} $new_name"; sleep 2
         #continue
     fi
 
     mv "$old_path" "$new_path"
-    echo "Carpeta '$old_name' renombrada a '$new_name'."
+    echo -e "${verde} Carpeta${borra_colores} $old_name ${verde}renombrada a ${borra_colores}$new_name"; sleep 2
 }
 
 function delete_folders() {
@@ -91,14 +91,14 @@ function delete_folders() {
     if [ "$base_dir" = "No seleccionada" ]; then
         return
     fi
-    read -p "Ingrese los nombres de las carpetas a eliminar (separadas por espacio): " -a folders
+    read -p " Ingrese los nombres de las carpetas a eliminar (separadas por espacio): " -a folders
     for folder in "${folders[@]}"; do
         path="$base_dir/$folder"
         if [[ -d "$path" ]]; then
             rm -rf "$path"
-            echo "Carpeta '$folder' eliminada con todo su contenido."
+            echo -e "${verde} Carpeta${borra_colores} $folder ${verde}eliminada con todo su contenido."; sleep 2
         else
-            echo "La carpeta '$folder' no existe."
+            echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}no existe."; sleep 2
         fi
     done
 }
@@ -167,7 +167,7 @@ function carpeta_base(){
     fi
 
     # Convertir a ruta absoluta
-    base_dir=$(realpath -m "$base_dir")
+    export base_dir=$(realpath -m "$base_dir")
 
     if [ -d "$base_dir" ]; then
         echo ""
