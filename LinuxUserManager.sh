@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.aadffffdsa"
+export version="1.aadffffcccdsa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -33,7 +33,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [ping]="ping"
         [samba]="samba"
         [gawk]="awk"
-        [coreutils]="realpath"
+        [realpath]="coreutils"
     )
 
 
