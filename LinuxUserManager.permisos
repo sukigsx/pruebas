@@ -26,14 +26,14 @@ echo ""
 modificar_permisos() {
     clear
     menu_info
-    echo "### Gestión de permisos ACL para carpetas compartidas ###"
+    echo " --- Gestión de permisos ACL para carpetas compartidas ---"
 
     # Solicitar ruta base de carpetas compartidas
-    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " ruta_compartida
+    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: $base_dir: " ruta_compartida
 
     # Verificar que la ruta existe
     if [ ! -d "$ruta_compartida" ]; then
-        echo "La ruta especificada no existe."
+        echo "La ruta especificada no existe."; sleep 2
         exit 1
     fi
 
