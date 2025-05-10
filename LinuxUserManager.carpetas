@@ -159,6 +159,11 @@ function carpeta_base(){
     echo ""
     read -p " Ingrese la ruta de la carpeta base: " base_dir
 
+    if [ -z $base_dir ]; then
+        echo ""
+        echo -e "${amarillo} La ruta no puede estar vacia${borra_colores}"; sleep 3
+        return
+    fi
 
     if [ -d "$base_dir" ]; then
         echo ""
