@@ -187,4 +187,5 @@ clear
 #    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 3
 #    exit 1
 #fi
+echo "popo"; read p
 menu
