@@ -25,6 +25,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
 # Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
     declare -A requeridos
     requeridos=(
+        #[NombreDeUtilidad]="PaqueteInstalar"
         [git]="git"
         [diff]="diff"
         [curl]="curl"
@@ -32,7 +33,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [which]="which"
         [ping]="ping"
         [samba]="samba"
-        [gawk]="awk"
+        [awk]="gawk"
         [realpath]="coreutils"
         [ifconfig]="net-tools"
     )
