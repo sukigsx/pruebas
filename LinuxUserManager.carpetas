@@ -135,7 +135,7 @@ function carpeta_base(){
 
 
     if [ -d "$base_dir" ]; then
-        echo "${verde} Carpeta${borra_colores }$base_dir ${verde} seleccionada correctamente.${borra_colores}"; sleep 3
+        echo -e "${verde} Carpeta${borra_colores }$base_dir ${verde} seleccionada correctamente.${borra_colores}"; sleep 3
     else
         read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
         if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
