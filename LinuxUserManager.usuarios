@@ -168,18 +168,20 @@ function menu() {
     done
 }
 
-# Ejecutar las funciones
-if [[ $NombreScript == "Linux User Manager" ]]; then
-    echo ""
-else
+function control_ejecucion(){
+    if [[ $NombreScript == "Linux User Manager" ]]; then
+        echo ""
+    else
+        clear
+        echo ""
+        echo -e "${amarillo} Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        sleep 1
+        exit
+    fi
     clear
-    echo ""
-    echo -e "${amarillo} Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
-    echo ""
-    echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
-    echo ""
-    sleep 1
-    exit
-fi
-clear
+}
+control_ejecucion
 menu
