@@ -186,14 +186,22 @@ function carpeta_base(){
     fi
 }
 
+function control_ejecucion(){
+    if [[ $NombreScript == "Linux User Manager" ]]; then
+        echo ""
+    else
+        clear
+        echo ""
+        echo -e "${amarillo} Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        sleep 1
+        exit
+    fi
+    clear
+}
 
 clear
-#menu_info
-#carpeta_base
-## Verificar que la ruta exista y sea un directorio
-#if [[ ! -d "$base_dir" ]]; then
-#    echo ""
-#    echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 3
-#    exit 1
-#fi
+control_ejecucion
 menu
