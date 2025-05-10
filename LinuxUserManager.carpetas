@@ -110,9 +110,7 @@ function delete_all(){
         return
     fi
     echo ""
-    #echo -e "${amarillo}"
-    #read -p " ¿Seguro que quieres borrar $base_dir y todo su contenido?: " sn
-    #echo -e "$borra_colores"
+
     read -p "$(echo -e "${amarillo}¿Seguro que quieres borrar${borra_colores} $base_dir ${amarillo}y todo su contenido? (s/n): ${borra_colores}")" sn
 
     if [[ "$sn" == [Ss] ]]; then

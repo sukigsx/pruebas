@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.aaddpa"
+export version="1.aaddpssa"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -33,6 +33,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [ping]="ping"
         [samba]="samba"
         [gawk]="awk"
+        [coreutils]="realpath"
     )
 
 
@@ -273,7 +274,7 @@ clear
 menu_info
 echo -e " --- Opciones principales ---"
 echo -e ""
-echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba${borra_colores}"
+echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba.${borra_colores}"
 echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
 echo -e "     3. ${azul}Gestion de carpetas.${borra_colores}"
 echo -e "     4. ${azul}Gestion de permisos.${borra_colores}"
