@@ -25,7 +25,7 @@ echo ""
 }
 
 function list_folders() {
-    if [ "$base_dir" = "No definida" ]; then
+    if [ "$base_dir" = "No seleccionada" ]; then
         echo ""
         echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
         return
