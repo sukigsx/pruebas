@@ -154,7 +154,6 @@ function menu() {
 
 
 function carpeta_base(){
-    base_dir=$(cat /tmp/base_dir >/dev/null 2>&1)
     echo ""
     echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
     echo -e " Es necesario que indiques su ruta absoluta para poder configurar."

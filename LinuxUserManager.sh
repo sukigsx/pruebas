@@ -88,7 +88,6 @@ clear
 echo ""
 echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
 echo ""
-sudo rm /tmp/base_dir &>/dev/null
 sleep 1
 exit
 }

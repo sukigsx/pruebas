@@ -26,22 +26,21 @@ echo ""
 modificar_permisos() {
     clear
     menu_info
-    base_dir=$(cat /tmp/base_dir >/dev/null 2>&1)
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas ---${borra_colores}"
 
     # Solicitar ruta base de carpetas compartidas
-    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: $base_dir: " ruta_compartida
+    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: $base_dir: " base_dir
 
     # Verificar que la ruta existe
-    if [ ! -d "$ruta_compartida" ]; then
+    if [ ! -d "$base_dir" ]; then
         echo "La ruta especificada no existe o no la has definido ."; sleep 3
         exit 1
     fi
 
     # Listar carpetas en esa ruta
-    echo -e "\nCarpetas encontradas en $ruta_compartida:"
-    carpetas=($(ls -1 "$ruta_compartida"))
+    echo -e "\nCarpetas encontradas en $base_dir:"
+    carpetas=($(ls -1 "$base_dir"))
     for carpeta in "${carpetas[@]}"; do
         echo " - $carpeta"
     done
@@ -57,7 +56,7 @@ modificar_permisos() {
     echo -e "\nPermisos ACL actuales por carpeta y usuario:"
     for carpeta in "${carpetas[@]}"; do
         echo -e "\n--- $carpeta ---"
-        getfacl -p "$ruta_compartida/$carpeta" | grep '^user:' | grep -v 'user::'
+        getfacl -p "$base_dir/$carpeta" | grep '^user:' | grep -v 'user::'
     done
 
     # Modificar permisos
@@ -74,15 +73,15 @@ modificar_permisos() {
 
             case $opcion in
                 1)
-                    sudo setfacl -R -m u:$usuario:rwx "$ruta_compartida/$carpeta"
+                    sudo setfacl -R -m u:$usuario:rwx "$base_dir/$carpeta"
                     echo " -> Se otorgó control total a $usuario en $carpeta"
                     ;;
                 2)
-                    sudo setfacl -R -m u:$usuario:rx "$ruta_compartida/$carpeta"
+                    sudo setfacl -R -m u:$usuario:rx "$base_dir/$carpeta"
                     echo " -> Se otorgó solo lectura a $usuario en $carpeta"
                     ;;
                 3)
-                    sudo setfacl -R -m u:$usuario:--- "$ruta_compartida/$carpeta"
+                    sudo setfacl -R -m u:$usuario:--- "$base_dir/$carpeta"
                     echo " -> Se eliminó el acceso de $usuario en $carpeta"
                     ;;
                 "")
