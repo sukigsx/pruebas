@@ -26,7 +26,6 @@ echo ""
 modificar_permisos() {
     clear
     menu_info
-    #ruta_compartida=$base_dir
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas ---${borra_colores}"
 
