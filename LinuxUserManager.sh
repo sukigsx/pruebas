@@ -274,7 +274,7 @@ while :
 do
 clear
 menu_info
-echo -e " --- Opciones principales ---"
+echo -e "${azul} --- Opciones principales ---${borra_colores}"
 echo -e ""
 echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba.${borra_colores}"
 echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
