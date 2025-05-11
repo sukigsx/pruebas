@@ -24,6 +24,7 @@ echo ""
 }
 
 modificar_permisos() {
+    while true; do
     clear
     menu_info
 
@@ -48,15 +49,14 @@ modificar_permisos() {
 
     echo -e "\nUsuarios del sistema:"
     # Listar usuarios normales, excluyendo a los administradores
-usuarios=($(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd))
+    usuarios=($(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd))
 
-# Excluir usuarios del grupo sudo, wheel o admin
-for usuario in "${usuarios[@]}"; do
-    if ! id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
-        echo " - $usuario"
-    fi
-done
-
+    # Excluir usuarios del grupo sudo, wheel o admin
+    for usuario in "${usuarios[@]}"; do
+        if ! id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
+            echo " - $usuario"
+        fi
+    done
 
     # Mostrar permisos ACL actuales en columnas
     echo -e "\n${azul}Permisos ACL actuales por carpeta y usuario:${borra_colores}\n"
@@ -104,6 +104,7 @@ done
                     ;;
             esac
         done
+    done
     done
 
     echo -e "\nCambios de permisos finalizados."
