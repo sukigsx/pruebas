@@ -40,7 +40,9 @@ modificar_permisos() {
     if [[ -f /tmp/base_dir ]]; then
     base_dir=$(< /tmp/base_dir)
 else
-    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
+    read -p " Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
+    clear
+    menu_info
 fi
 
 if [[ ! -d "$base_dir" ]]; then
