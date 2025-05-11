@@ -110,7 +110,7 @@ function rename_folders() {
 }
 
 function delete_folders() {
-    list_folders
+    list_folders_rename
     if [ "$base_dir" = "No seleccionada" ]; then
         return
     fi
@@ -137,7 +137,8 @@ function delete_all(){
     read -p "$(echo -e "${amarillo}¿Seguro que quieres borrar${borra_colores} $base_dir ${amarillo}y todo su contenido? (s/n): ${borra_colores}")" sn
 
     if [[ "$sn" == [Ss] ]]; then
-        rm -r $base_dir; echo ""; echo -e "${verde} Carpeta base y su contenido borrado${borra_colores}"; sleep 3; exit
+        rm -r $base_dir; echo ""; echo -e "${verde} Carpeta base y su contenido borrado${borra_colores}"; sleep 3
+        sudo rm -r /tmp/base_dir >/dev/null 2>&1; exit
     else
         echo -e ""
     fi
