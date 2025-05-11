@@ -42,6 +42,23 @@ function list_folders() {
     fi
 }
 
+function list_folders_rename() {
+    if [ "$base_dir" = "No seleccionada" ]; then
+        echo ""
+        echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
+        return
+    fi
+
+    if [ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d)" ]; then
+        echo ""
+        echo -e "${amarillo} No tienes carpetas credas dentro de${borra_colores} $base_dir"; sleep 3; exit
+    else
+        echo ""
+        echo -e "${verde} Listado de carpetas de${borra_colores} $base_dir"
+        find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+    fi
+}
+
 function create_folders() {
     if [ "$base_dir" = "No seleccionada" ]; then
         echo ""
@@ -62,11 +79,11 @@ function create_folders() {
 }
 
 function rename_folders() {
-    list_folders
+    list_folders_rename
     if [ "$base_dir" = "No seleccionada" ]; then
         return
     fi
-    read -p " Nombre actual de la carpeta #$i: " old_name
+    read -p " Nombre actual de la carpeta: " old_name
     read -p " Nuevo nombre para '$old_name': " new_name
 
     old_path="$base_dir/$old_name"
