@@ -77,7 +77,9 @@ fi
     done
 
     # Mostrar permisos ACL actuales en columnas, ordenados por usuario
-    echo -e "\n${azul}Permisos ACL actuales por carpeta y usuario (ordenado por usuario):${borra_colores}\n"
+    echo ""
+    echo -e "${azul} Permisos ACL actuales por carpeta y usuario (ordenado por usuario):${borra_colores}"
+    echo -e "${azul} Si no ves datos en las columnas es porque no se ha definido ningun permiso.${borra_colores}"
 
     acl_entries=()
     for carpeta in "${carpetas[@]}"; do
@@ -91,8 +93,10 @@ fi
     IFS=$'\n' sorted_entries=($(printf "%s\n" "${acl_entries[@]}" | sort))
 
     # Imprimir encabezado
+    echo -e "${verde}"
     printf "%-20s %-20s %-10s\n" "Usuario" "Carpeta" "Permisos"
     printf "%-20s %-20s %-10s\n" "-------" "-------" "--------"
+    echo -e "${borra_colores}"
 
     for entry in "${sorted_entries[@]}"; do
         IFS='|' read -r usuario carpeta permisos <<< "$entry"
