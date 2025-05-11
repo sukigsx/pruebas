@@ -168,6 +168,7 @@ function carpeta_base(){
 
     # Convertir a ruta absoluta
     export base_dir=$(realpath -m "$base_dir")
+    echo $base_dir >> /tmp/base_dir
 
     if [ -d "$base_dir" ]; then
         echo ""
