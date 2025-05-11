@@ -37,7 +37,9 @@ function list_folders() {
     else
         echo ""
         echo -e "${verde} Listado de carpetas de${borra_colores} $base_dir"
+        echo ""
         find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+        echo ""
         read -p " Pulsa tecla para continuar" pause
     fi
 }
@@ -55,7 +57,9 @@ function list_folders_rename() {
     else
         echo ""
         echo -e "${verde} Listado de carpetas de${borra_colores} $base_dir"
+        echo ""
         find "$base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+        echo ""
     fi
 }
 
