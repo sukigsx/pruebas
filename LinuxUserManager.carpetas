@@ -33,8 +33,7 @@ function list_folders() {
 
     if [ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d)" ]; then
         echo ""
-        echo -e "${amarillo} No tienes carpetas credas dentro de${borra_colores} $base_dir"; sleep 3
-        return
+        echo -e "${amarillo} No tienes carpetas credas dentro de${borra_colores} $base_dir"; sleep 3; exit
     else
         echo ""
         echo -e "${verde} Listado de carpetas de${borra_colores} $base_dir"
