@@ -53,7 +53,8 @@ function list_folders_rename() {
 
     if [ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d)" ]; then
         echo ""
-        echo -e "${amarillo} No tienes carpetas credas dentro de${borra_colores} $base_dir"; sleep 3; exit
+        echo -e "${amarillo} No tienes carpetas credas dentro de${borra_colores} $base_dir"
+        echo ""
     else
         echo ""
         echo -e "${verde} Listado de carpetas actuales en${borra_colores} $base_dir"

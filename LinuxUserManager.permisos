@@ -44,14 +44,16 @@ else
 fi
 
 if [[ ! -d "$base_dir" ]]; then
-    echo -e "\nLa ruta especificada no existe o no la has definido."
+    echo ""
+    echo -e "${amarillo} La ruta especificada no existe o no la has definido.${borra_colores}"
     sleep 3
     exit 1
 fi
 
 # Comprobar si hay al menos un archivo o carpeta dentro
 if [[ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1)" ]]; then
-    echo -e "\nEl directorio '$base_dir' está vacío. No hay carpetas ni archivos dentro."
+    echo ""
+    echo -e "${amarillo} El directorio${borra_colores} $base_dir ${amarillo}está vacío. No hay carpetas ni archivos dentro."
     sleep 3
     exit 1
 fi
