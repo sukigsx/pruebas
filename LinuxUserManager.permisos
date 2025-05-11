@@ -39,20 +39,20 @@ modificar_permisos() {
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en${borra_colores} $base_dir ---${borra_colores}"
 
-    echo -e "\nCarpetas encontradas en $base_dir:"
-    carpetas=($(ls -1 "$base_dir"))
-    for carpeta in "${carpetas[@]}"; do
-        echo " - $carpeta"
-    done
+    #echo -e "\nCarpetas encontradas en $base_dir:"
+    #carpetas=($(ls -1 "$base_dir"))
+    #for carpeta in "${carpetas[@]}"; do
+    #    echo " - $carpeta"
+    #done
 
-    echo -e "\nUsuarios del sistema (excluyendo administradores):"
-    usuarios=()
-    for usuario in $(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd); do
-        if ! id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
-            usuarios+=("$usuario")
-            echo " - $usuario"
-        fi
-    done
+    #echo -e "\nUsuarios del sistema (excluyendo administradores):"
+    #usuarios=()
+    #for usuario in $(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd); do
+    #    if ! id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
+    #        usuarios+=("$usuario")
+    #        echo " - $usuario"
+    #    fi
+    #done
 
     # Mostrar permisos ACL actuales en columnas, ordenados por usuario
     echo -e "\n${azul}Permisos ACL actuales por carpeta y usuario (ordenado por usuario):${borra_colores}\n"
