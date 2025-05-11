@@ -90,19 +90,30 @@ function rename_folders() {
         return
     fi
     read -p " Nombre actual de la carpeta: " old_name
+
+    if [[ ! -d "$old_path" ]]; then
+        echo -e "${amarillo} La carpeta${borra_colores} $old_name ${amarillo}no existe.${borra_colores}"; sleep 2
+        return
+    fi
+
     read -p " Nuevo nombre para '$old_name': " new_name
+
+    if [[ -e "$new_path" ]]; then
+        echo -e "${amarillo} Ya existe una carpeta con el nombre${borra_colores} $new_name"; sleep 2
+        return
+    fi
 
     old_path="$base_dir/$old_name"
     new_path="$base_dir/$new_name"
 
     if [[ ! -d "$old_path" ]]; then
         echo -e "${amarillo} La carpeta${borra_colores} $old_name ${amarillo}no existe.${borra_colores}"; sleep 2
-        continue
+        return
     fi
 
     if [[ -e "$new_path" ]]; then
         echo -e "${amarillo} Ya existe una carpeta con el nombre${borra_colores} $new_name"; sleep 2
-        continue
+        return
     fi
 
     mv "$old_path" "$new_path"
