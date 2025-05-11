@@ -27,16 +27,20 @@ modificar_permisos() {
     clear
     menu_info
 
-    echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas ---${borra_colores}"
-
-    # Solicitar ruta base de carpetas compartidas
-    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: $base_dir: " base_dir
+    if [ -f /tmp/base_dir ]; then
+        base_dir=$(< /tmp/base_dir)
+    else
+        # Solicitar ruta base de carpetas compartidas
+        read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido: " base_dir
+    fi
 
     # Verificar que la ruta existe
     if [ ! -d "$base_dir" ]; then
         echo "La ruta especificada no existe o no la has definido ."; sleep 3
         exit 1
     fi
+
+    echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en $base_dir ---${borra_colores}"
 
     # Listar carpetas en esa ruta
     echo -e "\nCarpetas encontradas en $base_dir:"
