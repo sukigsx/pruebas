@@ -26,18 +26,38 @@ modificar_permisos() {
     clear
     menu_info
 
-    if [ -f /tmp/base_dir ]; then
-        base_dir=$(cat /tmp/base_dir)
-    else
-        read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
-    fi
+    #if [ -f /tmp/base_dir ]; then
+    #    base_dir=$(cat /tmp/base_dir)
+    #else
+    #    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
+    #fi
 
-    if [ ! -d "$base_dir" ]; then
-        echo "La ruta especificada no existe o no la has definido."; sleep 3
-        exit 1
-    fi
+    #if [ ! -d "$base_dir" ]; then
+    #    echo "La ruta especificada no existe o no la has definido."; sleep 3
+    #    exit 1
+    #fi
 
-    echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en${borra_colores} $base_dir ---${borra_colores}"
+    if [[ -f /tmp/base_dir ]]; then
+    base_dir=$(< /tmp/base_dir)
+else
+    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
+fi
+
+if [[ ! -d "$base_dir" ]]; then
+    echo -e "\nLa ruta especificada no existe o no la has definido."
+    sleep 3
+    exit 1
+fi
+
+# Comprobar si hay al menos un archivo o carpeta dentro
+if [[ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1)" ]]; then
+    echo -e "\nEl directorio '$base_dir' está vacío. No hay carpetas ni archivos dentro."
+    sleep 3
+    exit 1
+fi
+
+
+    echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en${borra_colores} $base_dir ${azul}---${borra_colores}"
 
     #echo -e "\nCarpetas encontradas en $base_dir:"
     carpetas=($(ls -1 "$base_dir"))
