@@ -31,7 +31,7 @@ modificar_permisos() {
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas ---${borra_colores}"
 
     # Solicitar ruta base de carpetas compartidas
-    #read -p "Ingrese la ruta donde están las carpetas compartidas (ej: $base_dir: " ruta_compartida
+    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: $base_dir: " ruta_compartida
 
     # Verificar que la ruta existe
     if [ ! -d "$ruta_compartida" ]; then
