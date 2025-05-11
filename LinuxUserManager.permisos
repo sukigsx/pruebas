@@ -133,3 +133,4 @@ function control_ejecucion(){
 
 control_ejecucion
 modificar_permisos
+read p
