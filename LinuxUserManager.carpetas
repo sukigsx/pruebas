@@ -33,7 +33,7 @@ function list_folders() {
 
     if [ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d)" ]; then
         echo ""
-        echo -e "${amarillo} No tienes carpetas credas dentro de $base_dir ${borra_colores}"; sleep 3
+        echo -e "${amarillo} No tienes carpetas credas dentro de${borra_colores} $base_dir"; sleep 3
     else
         echo ""
         echo -e "${verde} Listado de carpetas de${borra_colores} $base_dir"
@@ -96,9 +96,9 @@ function delete_folders() {
         path="$base_dir/$folder"
         if [[ -d "$path" ]]; then
             rm -rf "$path"
-            echo -e "${verde} Carpeta${borra_colores} $folder ${verde}eliminada con todo su contenido."; sleep 2
+            echo -e "${verde} Carpeta${borra_colores} $folder ${verde}eliminada con todo su contenido.${borra_colores}"; sleep 2
         else
-            echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}no existe."; sleep 2
+            echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}no existe.${borra_colores}"; sleep 2
         fi
     done
 }
