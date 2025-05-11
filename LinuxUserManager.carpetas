@@ -121,7 +121,12 @@ function delete_all(){
 }
 
 function menu() {
-    base_dir="No seleccionada"
+    if [ -f /tmp/base_dir ]; then
+        base_dir=$(cat /tmp/base_dir)
+    else
+        base_dir="No seleccionada"
+    fi
+
     while true; do
         clear
         menu_info
