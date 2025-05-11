@@ -26,7 +26,7 @@ echo ""
 modificar_permisos() {
     clear
     menu_info
-    base_dir=$(cat /tmp/base_dir) >/dev/null 2>&1
+    base_dir=$(cat /tmp/base_dir) &> /dev/null
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas ---${borra_colores}"
 
