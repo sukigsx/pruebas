@@ -66,11 +66,11 @@ function list_folders_rename() {
 
 function create_folders() {
     list_folders_rename
-    if [ "$base_dir" = "No seleccionada" ]; then
-        echo ""
-        echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
-        return
-    fi
+    #if [ "$base_dir" = "No seleccionada" ]; then
+    #    echo ""
+    #    echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
+    #    return
+    #fi
 
     read -p " Ingrese los nombres de las carpetas a crear (separadas por espacio): " -a folders
     for folder in "${folders[@]}"; do
