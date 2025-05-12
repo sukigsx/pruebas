@@ -63,6 +63,11 @@ fi
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en${borra_colores} $base_dir ${azul}---${borra_colores}"
 
+            echo "  1) Control total (rwx)"
+            echo "  2) Solo lectura (rx)"
+            echo "  3) Sin acceso"
+            echo "  Enter) Mantener permisos actuales"
+
     #echo -e "\nCarpetas encontradas en $base_dir:"
     carpetas=($(ls -1 "$base_dir"))
     #for carpeta in "${carpetas[@]}"; do
@@ -110,8 +115,8 @@ fi
     for usuario in "${usuarios[@]}"; do
         for carpeta in "${carpetas[@]}"; do
             echo ""
-            echo -e " 1- ${azul}Control total ${borra_colores}2-${azul} Solo lectura${borra_colores} 3-${azul} Sin acceso${borra_colores} Enter-${azul} Mantiene permisos actuales${borra_colores}"
-            read -p "$(echo -e "${azul}Permisos para${borra_colores} $usuario ${azul}en${borra_colores} $carpeta ${azul}[1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}")" opcion
+            #echo -e " 1- ${azul}Control total ${borra_colores}2-${azul} Solo lectura${borra_colores} 3-${azul} Sin acceso${borra_colores} Enter-${azul} Mantiene permisos actuales${borra_colores}"
+            read -p "$(echo -e "${azul} Permisos para${borra_colores} $usuario ${azul}en${borra_colores} $carpeta ${azul}[1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}")" opcion
 
             #echo ""
             #echo -e "\nSeleccione el tipo de acceso para el usuario '$usuario' en la carpeta '$carpeta':"
