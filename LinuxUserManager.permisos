@@ -106,15 +106,20 @@ fi
     done
 
     # Modificar permisos
-    echo -e "\nAhora puede modificar permisos."
+
     for usuario in "${usuarios[@]}"; do
         for carpeta in "${carpetas[@]}"; do
-            echo -e "\nSeleccione el tipo de acceso para el usuario '$usuario' en la carpeta '$carpeta':"
-            echo "  1) Control total (rwx)"
-            echo "  2) Solo lectura (rx)"
-            echo "  3) Sin acceso"
-            echo "  Enter) Mantener permisos actuales"
-            read -p "Opción [1-3 o Enter]: " opcion
+            echo -e " 1- ${azul}Control total ${borra_colores}2-${azul} Solo lectura${borra_colores} 3-${azul} Sin acceso${borra_colores} Enter-${azul} Mantiene permisos actuales${borra_colores}"
+
+            echo -e "$(read -p "${amarillo}Permisos para $usuario en $carpeta [1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}" opcion)"
+
+            #echo ""
+            #echo -e "\nSeleccione el tipo de acceso para el usuario '$usuario' en la carpeta '$carpeta':"
+            #echo "  1) Control total (rwx)"
+            #echo "  2) Solo lectura (rx)"
+            #echo "  3) Sin acceso"
+            #echo "  Enter) Mantener permisos actuales"
+            #read -p "Opción [1-3 o Enter]: " opcion
 
             case $opcion in
                 1)
