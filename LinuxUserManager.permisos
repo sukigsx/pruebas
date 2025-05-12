@@ -109,9 +109,9 @@ fi
 
     for usuario in "${usuarios[@]}"; do
         for carpeta in "${carpetas[@]}"; do
+            echo ""
             echo -e " 1- ${azul}Control total ${borra_colores}2-${azul} Solo lectura${borra_colores} 3-${azul} Sin acceso${borra_colores} Enter-${azul} Mantiene permisos actuales${borra_colores}"
-
-            echo -e "$(read -p "${amarillo}Permisos para $usuario en $carpeta [1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}" opcion)"
+            read -p "$(echo -e "${azul}Permisos para${borra_colores} $usuario ${azul}en${borra_colores} $carpeta ${azul}[1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}")" opcion
 
             #echo ""
             #echo -e "\nSeleccione el tipo de acceso para el usuario '$usuario' en la carpeta '$carpeta':"
