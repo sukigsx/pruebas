@@ -79,7 +79,17 @@ function create_folders() {
             echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}ya existe.${borra_colores}"; sleep 2
         else
             mkdir -p "$path"
-            sudo setfacl -R -m u::--- g::--- o::--- $path #crea las carpetas y quita todos los permisos a usuarios gurupos y otros
+
+            # Recorre todos los usuarios con UID >= 1000 (usuarios reales)
+            for usuario in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
+            # Evita aplicar la ACL al propietario de la carpeta
+
+                echo "→ Quitando permisos a $usuario"
+                sudo setfacl -R -m u:$usuario:--- "$path"
+
+            done
+
+
             echo -e "${verde} Carpeta${borra_colores} $folder ${verde}creada.${borra_colores}"; sleep 1
         fi
     done
