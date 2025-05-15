@@ -60,7 +60,6 @@ modificar_permisos() {
 
     # Construir arreglo usuarios con etiqueta [admin] si aplica
     usuarios=()
-    #for usuario in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
     for usuario in $(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd); do
         if id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
             usuarios+=("$usuario [admin]")
@@ -81,6 +80,7 @@ modificar_permisos() {
         done < <(getfacl -cp "$base_dir/$carpeta")
     done
 
+    # Ordenar las entradas acl por usuario
     IFS=$'\n' sorted_entries=($(printf "%s\n" "${acl_entries[@]}" | sort))
 
     echo -e "${verde}"
@@ -88,14 +88,24 @@ modificar_permisos() {
     printf "%-20s %-20s %-10s\n" "-------" "-------" "--------"
     echo -e "${borra_colores}"
 
-    for entry in "${sorted_entries[@]}"; do
-        IFS='|' read -r usuario carpeta permisos <<< "$entry"
-        printf "%-20s %-20s %-10s\n" "$usuario" "$carpeta" "$permisos"
+    # Mostrar tabla completa con TODOS los usuarios y carpetas, con permisos o --- si no tiene
+    for usuario_raw in "${usuarios[@]}"; do
+        usuario=$(echo "$usuario_raw" | awk '{print $1}')
+        for carpeta in "${carpetas[@]}"; do
+            permiso="---"  # Por defecto si no tiene permiso asignado
+            for entry in "${acl_entries[@]}"; do
+                IFS='|' read -r u c p <<< "$entry"
+                if [[ "$u" == "$usuario" && "$c" == "$carpeta" ]]; then
+                    permiso=$p
+                    break
+                fi
+            done
+            printf "%-20s %-20s %-10s\n" "$usuario_raw" "$carpeta" "$permiso"
+        done
     done
 
     # Modificar permisos
     for usuario_raw in "${usuarios[@]}"; do
-        # Extraer nombre real (sin la etiqueta [admin])
         usuario=$(echo "$usuario_raw" | awk '{print $1}')
         for carpeta in "${carpetas[@]}"; do
             echo ""
@@ -126,6 +136,7 @@ modificar_permisos() {
 
     echo -e "\nCambios de permisos finalizados."
 }
+
 
 
 function control_ejecucion(){
