@@ -26,63 +26,48 @@ modificar_permisos() {
     clear
     menu_info
 
-    #if [ -f /tmp/base_dir ]; then
-    #    base_dir=$(cat /tmp/base_dir)
-    #else
-    #    read -p "Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
-    #fi
-
-    #if [ ! -d "$base_dir" ]; then
-    #    echo "La ruta especificada no existe o no la has definido."; sleep 3
-    #    exit 1
-    #fi
-
     if [[ -f /tmp/base_dir ]]; then
-    base_dir=$(< /tmp/base_dir)
-else
-    read -p " Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
-    clear
-    menu_info
-fi
+        base_dir=$(< /tmp/base_dir)
+    else
+        read -p " Ingrese la ruta donde están las carpetas compartidas (ej: /home/compartido): " base_dir
+        clear
+        menu_info
+    fi
 
-if [[ ! -d "$base_dir" ]]; then
-    echo ""
-    echo -e "${amarillo} La ruta especificada no existe o no la has definido.${borra_colores}"
-    sleep 3
-    exit 1
-fi
+    if [[ ! -d "$base_dir" ]]; then
+        echo ""
+        echo -e "${amarillo} La ruta especificada no existe o no la has definido.${borra_colores}"
+        sleep 3
+        exit 1
+    fi
 
-# Comprobar si hay al menos un archivo o carpeta dentro
-if [[ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1)" ]]; then
-    echo ""
-    echo -e "${amarillo} El directorio${borra_colores} $base_dir ${amarillo}está vacío. No hay carpetas ni archivos dentro.${borra_colores}"
-    sleep 3
-    exit 1
-fi
-
+    # Comprobar si hay al menos un archivo o carpeta dentro
+    if [[ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1)" ]]; then
+        echo ""
+        echo -e "${amarillo} El directorio${borra_colores} $base_dir ${amarillo}está vacío. No hay carpetas ni archivos dentro.${borra_colores}"
+        sleep 3
+        exit 1
+    fi
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en${borra_colores} $base_dir ${azul}---${borra_colores}"
 
-            echo "  1) Control total (rwx)"
-            echo "  2) Solo lectura (rx)"
-            echo "  3) Sin acceso"
-            echo "  Enter) Mantener permisos actuales"
+    echo "  1) Control total (rwx)"
+    echo "  2) Solo lectura (rx)"
+    echo "  3) Sin acceso"
+    echo "  Enter) Mantener permisos actuales"
 
-    #echo -e "\nCarpetas encontradas en $base_dir:"
     carpetas=($(ls -1 "$base_dir"))
-    #for carpeta in "${carpetas[@]}"; do
-    #    echo " - $carpeta"
-    #done
 
-    #echo -e "\nUsuarios del sistema (excluyendo administradores):"
+    # Construir arreglo usuarios con etiqueta [admin] si aplica
     usuarios=()
-    for usuario in 1; do
-        if ! id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
+    for usuario in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
+        if id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
+            usuarios+=("$usuario [admin]")
+        else
             usuarios+=("$usuario")
         fi
     done
 
-    # Mostrar permisos ACL actuales en columnas, ordenados por usuario
     echo ""
     echo -e "${azul} Permisos ACL actuales por carpeta y usuario (ordenado por usuario):${borra_colores}"
     echo -e "${azul} Si no ves datos en las columnas es porque no se ha definido ningun permiso.${borra_colores}"
@@ -95,10 +80,8 @@ fi
         done < <(getfacl -cp "$base_dir/$carpeta")
     done
 
-    # Ordenar por usuario
     IFS=$'\n' sorted_entries=($(printf "%s\n" "${acl_entries[@]}" | sort))
 
-    # Imprimir encabezado
     echo -e "${verde}"
     printf "%-20s %-20s %-10s\n" "Usuario" "Carpeta" "Permisos"
     printf "%-20s %-20s %-10s\n" "-------" "-------" "--------"
@@ -110,20 +93,12 @@ fi
     done
 
     # Modificar permisos
-
-    for usuario in "${usuarios[@]}"; do
+    for usuario_raw in "${usuarios[@]}"; do
+        # Extraer nombre real (sin la etiqueta [admin])
+        usuario=$(echo "$usuario_raw" | awk '{print $1}')
         for carpeta in "${carpetas[@]}"; do
             echo ""
-            #echo -e " 1- ${azul}Control total ${borra_colores}2-${azul} Solo lectura${borra_colores} 3-${azul} Sin acceso${borra_colores} Enter-${azul} Mantiene permisos actuales${borra_colores}"
-            read -p "$(echo -e "${azul} Permisos para${borra_colores} $usuario ${azul}en${borra_colores} $carpeta ${azul}[1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}")" opcion
-
-            #echo ""
-            #echo -e "\nSeleccione el tipo de acceso para el usuario '$usuario' en la carpeta '$carpeta':"
-            #echo "  1) Control total (rwx)"
-            #echo "  2) Solo lectura (rx)"
-            #echo "  3) Sin acceso"
-            #echo "  Enter) Mantener permisos actuales"
-            #read -p "Opción [1-3 o Enter]: " opcion
+            read -p "$(echo -e "${azul} Permisos para${borra_colores} $usuario_raw ${azul}en${borra_colores} $carpeta ${azul}[1=rwx, 2=rx, 3=---, Enter=mantener]: ${borra_colores}")" opcion
 
             case $opcion in
                 1)
@@ -150,6 +125,7 @@ fi
 
     echo -e "\nCambios de permisos finalizados."
 }
+
 
 function control_ejecucion(){
     if [[ $NombreScript == "Linux User Manager" ]]; then
