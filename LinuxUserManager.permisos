@@ -60,7 +60,8 @@ modificar_permisos() {
 
     # Construir arreglo usuarios con etiqueta [admin] si aplica
     usuarios=()
-    for usuario in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
+    #for usuario in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
+    for usuario in $(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd); do
         if id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
             usuarios+=("$usuario [admin]")
         else
