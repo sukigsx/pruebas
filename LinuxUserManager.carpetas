@@ -79,7 +79,7 @@ function create_folders() {
             echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}ya existe.${borra_colores}"; sleep 2
         else
             mkdir -p "$path"
-            sudo setfacl -R -m o::--- $path
+            sudo setfacl -R -m u::--- g::--- o::--- $path #crea las carpetas y quita todos los permisos a usuarios gurupos y otros
             echo -e "${verde} Carpeta${borra_colores} $folder ${verde}creada.${borra_colores}"; sleep 1
         fi
     done
