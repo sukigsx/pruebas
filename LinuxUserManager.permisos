@@ -76,10 +76,16 @@ fi
 
     #echo -e "\nUsuarios del sistema (excluyendo administradores):"
     usuarios=()
+
+        for usuario in 1; do
+            if awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd; then
+                usuarios+=("$usuario")
+            fi
+        done
+
 #    for usuario in 1; do
 #        if ! id -nG "$usuario" | grep -qwE 'sudo|wheel|admin'; then
 #            usuarios+=("$usuario")
-#    #        echo " - $usuario"
 #        fi
 #    done
 
