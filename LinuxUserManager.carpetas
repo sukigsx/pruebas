@@ -84,8 +84,9 @@ function create_folders() {
             for usuario in $(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd); do
             # Evita aplicar la ACL al propietario de la carpeta
 
-                echo "→ Quitando permisos a $usuario"
-                sudo setfacl -R -m u:$usuario:--- "$path"
+                #echo "→ Quitando permisos a $usuario"
+                #sudo setfacl -R -m u:$usuario:--- "$path"
+                sudo setfacl -R -m u:$usuario:--- -m g::--- -m o::--- "$path" >/dev/null 2>&1
 
             done
 
