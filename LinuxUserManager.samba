@@ -109,6 +109,7 @@ function configurar_samba() {
     sudo systemctl restart smbd
     echo -e ""
     echo -e "🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2
+    recursos_compartidos="si"
 }
 
 function ver_configuracion() {
