@@ -33,11 +33,30 @@ function show_users() {
     awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
 }
 
+function listar_recursos_samba() {
+    echo -e " 🔍 ${azul}Recursos compartidos configurados en Samba:${borra_colores}"
+    echo -e""
+
+    recursos=$(grep "^\[" /etc/samba/smb.conf \
+        | grep -vE "^\[(global|printers|print\$)\]" \
+        | sed 's/^\[\(.*\)\]$/\1/')
+
+    if [ -z "$recursos" ]; then
+        echo ""
+        echo " ❌ ${amarillo}No se encontraron recursos compartidos válidos.${borra_colores}"
+        echo ""
+    else
+        echo "$recursos" | nl -w2 -s'. '
+    fi
+}
+
+
 function configurar_samba() {
     while true; do
     clear
     menu_info
     show_users
+    listar_recursos_samba
     echo ""
     read -p " Nombre del recurso compartido (el que se ve): " recurso_compartido
 
@@ -60,7 +79,7 @@ function configurar_samba() {
         else
             echo -e ""
             echo -e " ❌ ${rojo}Los siguientes usuarios no existen:${borra_colores} ${usuarios_invalidos[*]}"
-            echo -e " 🔁 ${amarillo}Intenta de nuevo.${borra_colores}"; sleep 2
+            echo -e " 🔁 ${amarillo}Intenta de nuevo.${borra_colores}"; sleep 4
         fi
     done
 
@@ -88,47 +107,6 @@ function configurar_samba() {
     echo -e "🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-function configurar_sambaprueba() {
-    clear
-    menu_info
-    show_users
-    echo ""
-    read -p " Nombre del recurso compartido el que se ve: " recurso_compartido
-    read -p " Usuarios permitidos (separados por espacio): " -a usuarios
-
-    CONFIG="[$recurso_compartido]
-    path = $base_dir
-    valid users = ${usuarios[@]}
-    read only = no
-    browsable = yes
-    writable = yes
-    create mask = 0775
-    directory mask = 0775
-"
-
-    if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
-        echo "$CONFIG" | sudo tee -a "$SAMBA_CONF" > /dev/null
-        echo " ✅ Configuración añadida para el recurso compartido [$recurso_compartido]."; sleep 2
-    else
-        echo " ⚠️ El recurso compartido [$recurso_compartido] ya existe. No se añadió nada."; sleep 2
-    fi
-
-    sudo systemctl restart smbd
-    echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"
-}
-
 function ver_configuracion() {
     echo "=== Contenido de $SAMBA_CONF ==="
     sudo less "$SAMBA_CONF"
@@ -143,10 +121,9 @@ function eliminar_configuracion() {
     # Usamos sed para eliminar el bloque completo
     sudo sed -i "/\[$recurso_compartido\]/,/^$/d" "$SAMBA_CONF"
 
+    echo -e ""
     echo -e " 🗑️${verde} Configuración de${borra_colores} $recurso_compartido ${verde}eliminada."
-
     sudo systemctl restart smbd
-    echo ""
     echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"; sleep 2
 }
 
