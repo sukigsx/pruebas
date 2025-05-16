@@ -337,7 +337,12 @@ case $opcion in
         2)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
             ;;
 
-        3)  sudo -E bash $ruta_ejecucion/LinuxUserManager.carpetas
+        3)  #comprueba la carpeta base y lo muestra en el menu
+            if [ -f /tmp/base_dir ]; then
+                sudo -E bash $ruta_ejecucion/LinuxUserManager.carpetas
+            else
+                base_dir="$(echo -e "${rojo} Carpeta base NO seleccionada${borra_colores}")"
+            fi
             ;;
 
         4)  sudo -E bash $ruta_ejecucion/LinuxUserManager.permisos
