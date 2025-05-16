@@ -106,6 +106,22 @@ function menu() {
     done
 }
 
+function control_ejecucion(){
+    if [[ $NombreScript == "Linux User Manager" ]]; then
+        echo ""
+    else
+        clear
+        echo ""
+        echo -e "${amarillo} Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        sleep 1
+        exit
+    fi
+    clear
+}
+
 # Verificar permisos de root
 if [[ $EUID -ne 0 ]]; then
     echo -e ""
@@ -113,5 +129,6 @@ if [[ $EUID -ne 0 ]]; then
     echo -e ""
     exit 1
 fi
-
+control_ejecucion
+base_dir=$(< /tmp/base_dir)
 menu
