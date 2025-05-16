@@ -126,6 +126,7 @@ function eliminar_configuracion() {
         echo -e ""
         echo -e " ❌ ${rojo}El recurso '$recurso_compartido' no existe.${borra_colores}"
         echo -e " ℹ️  ${amarillo}No se realizó ninguna eliminación.${borra_colores}"
+        sleep 10
         return 1
     fi
 
