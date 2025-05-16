@@ -50,6 +50,7 @@ function listar_recursos_samba() {
         return
     else
         echo " $recursos"
+        recursos_compartidos="si"
     fi
 }
 
