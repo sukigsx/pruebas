@@ -34,15 +34,16 @@ function show_users() {
 }
 
 function configurar_samba() {
+    while true; do
     clear
     menu_info
     show_users
     echo ""
-    read -p "Nombre del recurso compartido (el que se ve): " recurso_compartido
+    read -p " Nombre del recurso compartido (el que se ve): " recurso_compartido
 
     # Leer usuarios y verificar existencia
-    while true; do
-        read -p "Usuarios permitidos (separados por espacio): " -a usuarios
+    #while true; do
+        read -p " Usuarios permitidos (separados por espacio): " -a usuarios
         usuarios_validos=()
         usuarios_invalidos=()
 
@@ -57,8 +58,8 @@ function configurar_samba() {
         if [ ${#usuarios_invalidos[@]} -eq 0 ]; then
             break
         else
-            echo "❌ Los siguientes usuarios no existen: ${usuarios_invalidos[*]}"
-            echo "🔁 Intenta de nuevo."
+            echo -e " ❌ ${rojo}Los siguientes usuarios no existen:${borra_colores} ${usuarios_invalidos[*]}"
+            echo .e " 🔁 ${amarillo}Intenta de nuevo.${borra_colores}"; sleep 2
         fi
     done
 
@@ -74,13 +75,13 @@ function configurar_samba() {
 
     if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
         echo "$CONFIG" | sudo tee -a "$SAMBA_CONF" > /dev/null
-        echo "✅ Configuración añadida para [$recurso_compartido]."
+        echo -e " ✅ ${verde}Configuración añadida para ${borra_colores} $recurso_compartido"
     else
-        echo "⚠️ El bloque [$recurso_compartido] ya existe. No se añadió nada."
+        echo -e "⚠️ ${amarillo}El recurso${borra_colores} $recurso_compartido ${amarillo}ya existe. No se añadió nada.${borra_colores}"
     fi
 
     sudo systemctl restart smbd
-    echo "🔁 Servicio Samba reiniciado."
+    echo -e "🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2
 }
 
 
