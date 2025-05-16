@@ -117,7 +117,6 @@ function ver_configuracion() {
 function eliminar_configuracion() {
     listar_recursos_samba
     if [ "$recursos_compartidos" = "no" ]; then
-        read p
         return
     fi
 
