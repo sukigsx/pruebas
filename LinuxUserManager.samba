@@ -26,7 +26,7 @@ echo ""
 }
 
 function show_users() {
-    echo -e "${azul} === Configuración de nuevo recurso Samba en %{borra_colores} $base_dir ${azul}===${borra_colores}"
+    echo -e "${azul} === Configuración de nuevo recurso Samba en ${borra_colores} $base_dir ${azul}===${borra_colores}"
     echo -e ""
     echo -e "${azul} Usuarios del sistema:${borra_colores}"
     echo -e ""
@@ -34,7 +34,8 @@ function show_users() {
 }
 
 function listar_recursos_samba() {
-    echo -e " 🔍 ${azul}Recursos compartidos configurados en Samba:${borra_colores}"
+    echo ""
+    echo -e " ${azul} Recursos compartidos configurados en Samba:${borra_colores}"
     echo -e""
 
     recursos=$(grep "^\[" /etc/samba/smb.conf \
@@ -44,7 +45,7 @@ function listar_recursos_samba() {
 
     if [ -z "$recursos" ]; then
         echo ""
-        echo " ❌ ${amarillo}No se encontraron recursos compartidos válidos.${borra_colores}"
+        echo -e " ❌ ${amarillo}No tienes recursos compartidos.${borra_colores}"
         echo ""
     else
         echo " $recursos"
@@ -110,7 +111,7 @@ function configurar_samba() {
 
 function ver_configuracion() {
     echo "=== Contenido de $SAMBA_CONF ==="
-    sudo less "$SAMBA_CONF"
+    sudo nano "$SAMBA_CONF"
 }
 
 function eliminar_configuracion() {
@@ -136,7 +137,7 @@ function menu() {
         echo -e "${azul}--- Gestor de Configuración de Samba, carpeta base${borra_colores} $base_dir ${azul}---${borra_colores}"
         echo -e ""
         echo -e "${azul}  1.${borra_colores} Añadir recurso compartido"
-        echo -e "${azul}  2.${borra_colores} Ver archivo smb.conf"
+        echo -e "${azul}  2.${borra_colores} Ver/modificar archivo smb.conf"
         echo -e "${azul}  3.${borra_colores} Eliminar recurso compartido"
         echo -e "${azul}  4.${borra_colores} Reiniciar servicio Samba"
         echo -e "${azul} 99.${borra_colores} Salir"
