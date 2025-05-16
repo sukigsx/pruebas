@@ -312,7 +312,7 @@ menu_info
 if [ -f /tmp/base_dir ]; then
     base_dir=$(cat /tmp/base_dir)
 else
-    base_dir="$(echo -e "${verde} Carpeta base NO seleccionada${borra_colores}")"
+    base_dir="$(echo -e "${rojo} Carpeta base NO seleccionada${borra_colores}")"
 
 fi
 
@@ -321,8 +321,9 @@ echo -e ""
 echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba.${borra_colores}"
 echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
 echo -e "     3. ${azul}Gestion de carpetas compartidas. $base_dir"
-echo -e "     4. ${azul}Gestion de permisos de las carpetas compartidas.${amarillo} $base_dir ${borra_colores}"
-echo -e "     5. ${azul}Gestion de Samba.${amarillo} $base_dir ${borra_colores}"
+echo -e "     4. ${azul}Gestion de permisos de las carpetas compartidas. $base_dir"
+echo -e "     5. ${azul}Gestion de Samba. $base_dir"
+echo -e "     6. ${azul}Seleccionar o modifica la carpeta base${borra_colores}"
 echo -e ""
 echo -e "    90. ${azul}Ayuda.${borra_colores}"
 echo -e "    99. ${azul}Salir.${borra_colores}"
@@ -343,6 +344,9 @@ case $opcion in
             ;;
 
         5)  sudo -E bash $ruta_ejecucion/LinuxUserManager.samba
+            ;;
+
+        6)  carpeta_base
             ;;
 
         90)  #opcion 1
