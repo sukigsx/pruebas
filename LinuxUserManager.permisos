@@ -84,8 +84,8 @@ modificar_permisos() {
     IFS=$'\n' sorted_entries=($(printf "%s\n" "${acl_entries[@]}" | sort))
 
     echo -e "${verde}"
-    printf "%-20s %-20s %-10s\n" "Usuario" "Carpeta" "Permisos"
-    printf "%-20s %-20s %-10s\n" "-------" "-------" "--------"
+    printf "%-25s %-25s %-10s\n" "Usuario" "Carpeta" "Permisos"
+    printf "%-25s %-205 %-10s\n" "-------" "-------" "--------"
     echo -e "${borra_colores}"
 
     # Mostrar tabla completa con TODOS los usuarios y carpetas, con permisos o --- si no tiene
@@ -100,7 +100,7 @@ modificar_permisos() {
                     break
                 fi
             done
-            printf "%-30s %-30s %-10s\n" "$usuario_raw" "$carpeta" "$permiso"
+            printf "%-25s %-25s %-10s\n" "$usuario_raw" "$carpeta" "$permiso"
         done
     done
 
