@@ -100,7 +100,7 @@ modificar_permisos() {
                     break
                 fi
             done
-            printf "%-20s %-20s %-10s\n" "$usuario_raw" "$carpeta" "$permiso"
+            printf "%-30s %-30s %-10s\n" "$usuario_raw" "$carpeta" "$permiso"
         done
     done
 
