@@ -85,7 +85,7 @@ modificar_permisos() {
 
     echo -e "${verde}"
     printf "%-25s %-25s %-10s\n" "Usuario" "Carpeta" "Permisos"
-    printf "%-25s %-205 %-10s\n" "-------" "-------" "--------"
+    printf "%-25s %-25 %-10s\n" "-------" "-------" "--------"
     echo -e "${borra_colores}"
 
     # Mostrar tabla completa con TODOS los usuarios y carpetas, con permisos o --- si no tiene
