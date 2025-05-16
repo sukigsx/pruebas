@@ -341,7 +341,8 @@ case $opcion in
             if [ -f /tmp/base_dir ]; then
                 sudo -E bash $ruta_ejecucion/LinuxUserManager.carpetas
             else
-                base_dir="$(echo -e "${rojo} Carpeta base NO seleccionada${borra_colores}")"
+                echo ""
+                echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
             fi
             ;;
 
