@@ -81,8 +81,9 @@ function eliminar_configuracion() {
 }
 
 function menu() {
-    menu_info
     while true; do
+        clear
+        menu_info
         echo
         echo -e "${azul}--- Gestor de Configuración de Samba ---${borra_colores}"
         echo -e ""
