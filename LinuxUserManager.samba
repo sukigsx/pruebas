@@ -32,6 +32,7 @@ function show_users() {
 
 function configurar_samba() {
     clear
+    menu_info
     show_users
     echo ""
     echo "=== Configuración de nuevo recurso Samba ==="
@@ -87,11 +88,11 @@ function menu() {
         echo
         echo -e "${azul}--- Gestor de Configuración de Samba, carpeta base${borra_colores} $base_dir ${azul}---${borra_colores}"
         echo -e ""
-        echo -e "${azul}  1. Añadir recurso compartido${borra_colores}"
-        echo -e "${azul}  2. Ver archivo smb.conf${borra_colores}"
-        echo -e "${azul}  3. Eliminar recurso compartido${borra_colores}"
-        echo -e "${azul}  4. Reiniciar servicio Samba${borra_colores}"
-        echo -e "${azul} 99. Salir${borra_colores}"
+        echo -e "${azul}  1.${borra_colores} Añadir recurso compartido"
+        echo -e "${azul}  2.${borra_colores} Ver archivo smb.conf"
+        echo -e "${azul}  3.${borra_colores} Eliminar recurso compartido"
+        echo -e "${azul}  4.${borra_colores} Reiniciar servicio Samba"
+        echo -e "${azul} 99.${borra_colores} Salir"
         echo ""
         read -p " Seleccione una opción: " opcion
 
