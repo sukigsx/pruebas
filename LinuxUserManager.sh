@@ -230,6 +230,40 @@ fi
 #        si=ejecuta, variables software="SI", conexion="NO", actualizado="No se ha podiso comprobar actualizacion de script"
 #        no=Ya sale solo desde la funcion
 
+function carpeta_base(){
+    echo ""
+    echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
+    echo -e " Es necesario que indiques su ruta absoluta para poder configurar."
+    echo ""
+    read -p " Ingrese la ruta de la carpeta base: " base_dir
+
+    if [ -z $base_dir ]; then
+        echo ""
+        echo -e "${amarillo} La ruta no puede estar vacia${borra_colores}"; sleep 3
+        return
+    fi
+
+    # Convertir a ruta absoluta
+    export base_dir=$(realpath -m "$base_dir")
+    echo $base_dir > /tmp/base_dir
+
+
+    if [ -d "$base_dir" ]; then
+        echo ""
+        echo -e "${verde} Carpeta${borra_colores} $base_dir ${verde}seleccionada correctamente.${borra_colores}"; sleep 3
+    else
+        read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
+        if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
+            sudo mkdir -p "$base_dir"
+            echo ""
+            echo -e "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
+        else
+            echo ""
+            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
+            base_dir="No seleccionada"
+        fi
+    fi
+}
 
 clear
 menu_info
@@ -274,13 +308,21 @@ while :
 do
 clear
 menu_info
+#comprueba la carpeta base y lo muestra en el menu
+if [ -f /tmp/base_dir ]; then
+    base_dir=$(cat /tmp/base_dir)
+else
+    base_dir="$(echo -e "${rojo} Carpeta base NO seleccionada${borra_colores}")"
+
+fi
+
 echo -e "${azul} --- Opciones principales ---${borra_colores}"
 echo -e ""
 echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba.${borra_colores}"
 echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
-echo -e "     3. ${azul}Gestion de carpetas compartidas.${borra_colores}"
-echo -e "     4. ${azul}Gestion de permisos de las carpetas compartidas.${borra_colores}"
-echo -e "     5. ${azul}Gestion de Samba.${borra_colores}"
+echo -e "     3. ${azul}Gestion de carpetas compartidas. $base_dir"
+echo -e "     4. ${azul}Gestion de permisos de las carpetas compartidas.${amarillo} $base_dir ${borra_colores}"
+echo -e "     5. ${azul}Gestion de Samba.${amarillo} $base_dir ${borra_colores}"
 echo -e ""
 echo -e "    90. ${azul}Ayuda.${borra_colores}"
 echo -e "    99. ${azul}Salir.${borra_colores}"
