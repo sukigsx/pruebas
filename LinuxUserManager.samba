@@ -118,6 +118,45 @@ function eliminar_configuracion() {
     echo ""
     read -p " Nombre del recurso compartido a eliminar: " recurso_compartido
 
+    # Verificar si el recurso existe
+    recurso_existente=$(grep -i "^\[$recurso_compartido\]" /etc/samba/smb.conf \
+        | sed -e 's/^\[\(.*\)\]$/\1/')
+
+    if [ -z "$recurso_existente" ]; then
+        echo -e ""
+        echo -e " ❌ ${rojo}El recurso '$recurso_compartido' no existe.${borra_colores}"
+        echo -e " ℹ️  ${amarillo}No se realizó ninguna eliminación.${borra_colores}"
+        return 1
+    fi
+
+    # Hacemos una copia de seguridad
+    sudo cp "$SAMBA_CONF" "$SAMBA_CONF.bak"
+
+    # Usamos sed para eliminar el bloque completo
+    sudo sed -i "/\[$recurso_compartido\]/,/^$/d" "$SAMBA_CONF"
+
+    echo -e ""
+    echo -e " 🗑️${verde} Configuración de${borra_colores} $recurso_compartido ${verde}eliminada."
+    sudo systemctl restart smbd
+    echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"; sleep 2
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function eliminar_configuracionnnnnn() {
+    listar_recursos_samba
+    echo ""
+    read -p " Nombre del recurso compartido a eliminar: " recurso_compartido
+
     # Hacemos una copia de seguridad
     sudo cp "$SAMBA_CONF" "$SAMBA_CONF.bak"
 
