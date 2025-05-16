@@ -312,7 +312,7 @@ menu_info
 if [ -f /tmp/base_dir ]; then
     base_dir=$(cat /tmp/base_dir)
 else
-    base_dir="$(echo -e "${rojo} Carpeta base NO seleccionada${borra_colores}")"
+    base_dir="$(echo -e "${verde} Carpeta base NO seleccionada${borra_colores}")"
 
 fi
 
