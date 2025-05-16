@@ -100,7 +100,7 @@ function menu() {
             2) ver_configuracion ;;
             3) eliminar_configuracion ;;
             4) sudo systemctl restart smbd; echo ""; echo -e "🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2 ;;
-            5) break ;;
+            99) break ;;
             *) echo ""; echo -e " ❌ ${amarillo}Opción inválida.${borra_colores}"; sleep 2 ;;
         esac
     done
