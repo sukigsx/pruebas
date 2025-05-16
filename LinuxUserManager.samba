@@ -46,7 +46,7 @@ function listar_recursos_samba() {
     if [ -z "$recursos" ]; then
         echo ""
         echo -e " ❌ ${amarillo}No tienes recursos compartidos.${borra_colores}"; sleep 2
-        return
+        break
     else
         echo " $recursos"
     fi
@@ -126,7 +126,7 @@ function eliminar_configuracion() {
         echo -e ""
         echo -e " ❌ ${rojo}El recurso '$recurso_compartido' no existe.${borra_colores}"
         echo -e " ℹ️  ${amarillo}No se realizó ninguna eliminación.${borra_colores}"
-        sleep 10
+        sleep 4
         return 1
     fi
 
