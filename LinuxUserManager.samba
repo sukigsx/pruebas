@@ -58,8 +58,9 @@ function configurar_samba() {
         if [ ${#usuarios_invalidos[@]} -eq 0 ]; then
             break
         else
+            echo -e ""
             echo -e " ❌ ${rojo}Los siguientes usuarios no existen:${borra_colores} ${usuarios_invalidos[*]}"
-            echo .e " 🔁 ${amarillo}Intenta de nuevo.${borra_colores}"; sleep 2
+            echo -e " 🔁 ${amarillo}Intenta de nuevo.${borra_colores}"; sleep 2
         fi
     done
 
@@ -75,12 +76,15 @@ function configurar_samba() {
 
     if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
         echo "$CONFIG" | sudo tee -a "$SAMBA_CONF" > /dev/null
+        echo -e ""
         echo -e " ✅ ${verde}Configuración añadida para ${borra_colores} $recurso_compartido"
     else
+        echo -e ""
         echo -e "⚠️ ${amarillo}El recurso${borra_colores} $recurso_compartido ${amarillo}ya existe. No se añadió nada.${borra_colores}"
     fi
 
     sudo systemctl restart smbd
+    echo -e ""
     echo -e "🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2
 }
 
@@ -131,7 +135,7 @@ function ver_configuracion() {
 }
 
 function eliminar_configuracion() {
-    read -p "Nombre del recurso compartido a eliminar: " recurso_compartido
+    read -p " Nombre del recurso compartido a eliminar: " recurso_compartido
 
     # Hacemos una copia de seguridad
     sudo cp "$SAMBA_CONF" "$SAMBA_CONF.bak"
@@ -139,10 +143,11 @@ function eliminar_configuracion() {
     # Usamos sed para eliminar el bloque completo
     sudo sed -i "/\[$recurso_compartido\]/,/^$/d" "$SAMBA_CONF"
 
-    echo "🗑️ Configuración de [$recurso_compartido] eliminada."
+    echo -e " 🗑️${verde} Configuración de${borra_colores} $recurso_compartido ${verde}eliminada."; sleep 2
 
     sudo systemctl restart smbd
-    echo "🔁 Servicio Samba reiniciado."
+    echo ""
+    echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"
 }
 
 function menu() {
