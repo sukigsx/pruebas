@@ -346,16 +346,28 @@ case $opcion in
             fi
             ;;
 
-        4)  sudo -E bash $ruta_ejecucion/LinuxUserManager.permisos
+        4)  #comprueba la carpeta base y lo muestra en el menu
+            if [ -f /tmp/base_dir ]; then
+                sudo -E bash $ruta_ejecucion/LinuxUserManager.permisos
+            else
+                echo ""
+                echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
+            fi
             ;;
 
-        5)  sudo -E bash $ruta_ejecucion/LinuxUserManager.samba
+        5)  #comprueba la carpeta base y lo muestra en el menu
+            if [ -f /tmp/base_dir ]; then
+                sudo -E bash $ruta_ejecucion/LinuxUserManager.samba
+            else
+                echo ""
+                echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
+            fi
             ;;
 
         6)  carpeta_base
             ;;
 
-        90)  #opcion 1
+        90) echo "esto es la ayuda"; sleep 3
             ;;
 
         99)  ctrl_c
