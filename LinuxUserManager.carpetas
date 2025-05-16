@@ -48,7 +48,7 @@ function list_folders_rename() {
     if [ "$base_dir" = "No seleccionada" ]; then
         echo ""
         echo -e "${amarillo} No has definido la ruta de la carpeta base.${borra_colores}"; sleep 3
-        exit
+        return
     fi
 
     if [ -z "$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d)" ]; then
