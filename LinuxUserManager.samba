@@ -45,8 +45,8 @@ function listar_recursos_samba() {
 
     if [ -z "$recursos" ]; then
         echo ""
-        echo -e " ❌ ${amarillo}No tienes recursos compartidos.${borra_colores}"
-        echo ""
+        echo -e " ❌ ${amarillo}No tienes recursos compartidos.${borra_colores}"; sleep 2
+        return
     else
         echo " $recursos"
     fi
