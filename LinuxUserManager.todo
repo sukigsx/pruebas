@@ -37,172 +37,82 @@ echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_co
 echo ""
 }
 
-# Función para crear usuarios
-crear_usuarios() {
-
-    usuarios=()  # Array para almacenar los nombres de usuario
-    contrasenas=()  # Array para almacenar las contraseñas
-    login_enabled=()  # Array para almacenar si el usuario tendrá login
-
-    while true; do
-        # Preguntar por el nombre del usuario
-        clear
-        menu_info
-        echo -e "${azul} --- CREACION DE USUARIOS ---${borra_colores}"
+function control_ejecucion(){
+    if [[ $NombreScript == "Linux User Manager" ]]; then
         echo ""
-        echo -e "${tuequesa} Listado de los usuarios actuales del sistemas.${borra_colores}"
-        echo -e "${verde}"
-        awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
-        echo -e "${borra_colores}"
-        echo ""
-        echo " Ingrese el nombre de usuario nuevo."
-        read -p " Si ya los tienes creados = ('ok' para terminar): " usuario
-
-        # Si el usuario ingresa 'ninguno', salimos del ciclo
-        if [ "$usuario" == "ok" ]; then
-            break
-        fi
-
-        # Preguntar por la contraseña del usuario
-        read -p " Ingrese la contraseña para $usuario: " pass
-
-        #añade el usuario a samba
-        echo "$pass" | sudo smbpasswd -a $usuario
-
-        # Preguntar si el usuario tendrá login
-        read -p " ¿Desea que $usuario tenga acceso al login del sistema? (s/n): " login
-
-        # Almacenar los datos en los arrays
-        usuarios+=("$usuario")
-        contrasenas+=("$pass")
-        login_enabled+=("$login")
-        echo -e "${verde}ok${borra_colores}"; sleep 1
-    done
-
-    # Crear los usuarios y asignarles las contraseñas
-    for i in "${!usuarios[@]}"; do
-        usuario="${usuarios[$i]}"
-        pass="${contrasenas[$i]}"
-        login="${login_enabled[$i]}"
-
-        if [ "$login" == "n" ]; then
-            # Si no desea login, bloquear la cuenta
-            sudo useradd -s /sbin/nologin "$usuario"
-
-            #crea el usuario de samba
-            printf "$pass\n$pass\n" | sudo smbpasswd -a -s $usuario
-        else
-            # Si desea login, asignar /bin/bash como shell
-            sudo useradd -s /bin/bash "$usuario"
-
-            #crea el usuario de samba
-            printf "$pass\n$pass\n" | sudo smbpasswd -a -s $usuario
-        fi
-
-        # Asignar la contraseña al usuario
-        echo "$usuario:$pass" | sudo chpasswd
-    done
-    echo ""
-    echo -e "${verde} Usuarios creados con éxito.${borra_colores}"
-}
-
-# Función para crear carpetas
-crear_carpetas() {
-    clear
-    echo "Vamos a crear las carpetas."
-    echo ""
-    echo "Las carpeta principal se creara en la raiz del sistema (/)"
-    read -p "Ingresa el nombre del recurso compartido. (Servidor smb) -> " recurso_compartido
-    # Preguntar por las carpetas
-    read -p "Ingrese las carpetas a crear (separadas por espacio, por ejemplo: (Descargas Video Photo): " carpetas
-
-    # Crear las carpetas
-    for carpeta in $carpetas; do
-        sudo mkdir -p /home/$recurso_compartido/$carpeta
-    done
-
-    echo "Carpetas creadas con éxito."
-}
-
-# Función para asignar permisos
-asignar_permisos() {
-    clear
-    echo "Vamos a asignar los permisos."
-
-    # Iterar sobre los usuarios y carpetas para asignar permisos
-    for usuario in "${usuarios[@]}"; do
-        for carpeta in $carpetas; do
-            echo "¿Qué permisos desea asignar a $usuario en la carpeta $carpeta? (rwx - Control Total, rx - Solo lectura, - - Sin acceso)"
-            read -p "Permisos para $usuario en /compartido/$carpeta: " permisos
-            # Asignar permisos basados en la entrada del usuario
-            if [ "$permisos" == "rwx" ]; then
-                sudo setfacl -R -m u:$usuario:rwx /home/$recurso_compartido/$carpeta
-            elif [ "$permisos" == "rx" ]; then
-                sudo setfacl -R -m u:$usuario:rx /home/$recurso_compartido/$carpeta
-            elif [ "$permisos" == "-" ]; then
-                sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido/$carpeta
-            else
-                echo "Permiso no reconocido, no se aplicó ningún cambio a $usuario para la carpeta $carpeta."
-            fi
-        done
-    done
-
-    echo "Permisos asignados con éxito."
-}
-
-configurar_samba(){
-    #añado la configuracion a samba
-    # Ruta del archivo de configuración de Samba
-    clear; echo "Configuramos el servidor de samba"; echo ""
-    SAMBA_CONF="/etc/samba/smb.conf"
-    # Bloque de configuración a añadir
-    CONFIG="[$recurso_compartido]
-    path = /home/$recurso_compartido
-    valid users = ${usuarios[@]}
-    read only = no
-    browsable = yes
-    writable = yes
-    create mask = 0775
-    directory mask = 0775
-    "
-
-    # Comprobamos si ya existe el bloque [compartido] para evitar duplicados
-    if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
-        # Añadir la configuración al final del archivo
-        sudo echo "$CONFIG" >> "$SAMBA_CONF"
-        echo "Configuración añadida a $SAMBA_CONF"
     else
-        echo "El bloque [compartido] ya existe en $SAMBA_CONF"
+        clear
+        echo ""
+        echo -e "${amarillo} Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        sleep 1
+        exit
     fi
-
-    # Reiniciar el servicio de Samba para aplicar los cambios
-    sudo systemctl restart smbd
-
-    echo "Servicio Samba reiniciado para aplicar cambios."
+    clear
 }
 
-
-# Ejecutar las funciones
-if [[ $NombreScript == "Linux User Manager" ]]; then
-    echo ""
-else
+function show_users() {
     clear
-    echo ""
-    echo -e "${amarillo} Hay que ejecutar el script desde LinuxUserManager.sh${borra_colores}"
-    echo ""
-    echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
-    echo ""
-    sleep 1
-    exit
-fi
+    menu_info
+    echo -e "${azul} Listado de usuarios del sistema:${borra_colores}"
+    echo -e "${verde}"
+    awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
+    echo -e "${borra_colores}"
+}
+
+function create_user() {
+    show_users
+    read -p " Ingrese los nombres de los nuevos usuarios (separados por espacio): " -a usernames
+
+    for username in "${usernames[@]}"; do
+        # Validar nombre de usuario
+        if [[ ! "$username" =~ ^[a-z_][a-z0-9_-]{0,31}$ ]]; then
+            echo -e "${rojo} Nombre de usuario inválido:${amarillo} $username ${borra_colores}"
+            echo -e "${amarillo} Debe comenzar con una letra minúscula o guion bajo, y solo contener letras minúsculas, números, guiones o guiones bajos (máx. 32 caracteres).${borra_colores}"
+            echo ""
+            echo -e " El usuario $username No se creara. Pulsa una tecla para continuar."; read p
+            continue
+        fi
+
+        # Verificar si el usuario ya existe
+        if id "$username" &>/dev/null; then
+            echo ""
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 2
+            continue
+        fi
+
+        # Solicitar contraseña
+        read -s -p " Ingrese una contraseña para $username: " password
+        echo
+        read -s -p " Confirme la contraseña para $username: " password_confirm
+        echo
+
+        if [[ "$password" != "$password_confirm" ]]; then
+            echo ""
+            echo -e "${amarillo} Las contraseñas no coinciden para${borra_colores} $username ${borra_colores}"; sleep 2
+            continue
+        fi
+
+        # Preguntar si se permite login
+        read -p " ¿Deseas permitir login al sistema para $username? (s/n): " login
+
+        if [[ "$login" =~ ^[Ss]$ ]]; then
+            sudo useradd -m "$username" &>/dev/null
+        else
+            sudo useradd -M -s /usr/sbin/nologin "$username" &>/dev/null
+        fi
+
+        # Establecer contraseña en el sistema y en Samba
+        echo "$username:$password" | sudo chpasswd
+        printf "$password\n$password\n" | sudo smbpasswd -a -s "$username" &>/dev/null
+
+        echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"; sleep 2
+    done
+}
 
 clear
 menu_info
-crear_usuarios
-read -p " Pulsa una tecla para continuar" p;
-crear_carpetas
-read -p " Pulsa una tecla para continuar" p;
-asignar_permisos
-read -p " Pulsa una tecla para continuar" p;
-configurar_samba
-echo "Proceso completado con éxito."
+control_ejecucion
+create_user
