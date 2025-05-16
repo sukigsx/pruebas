@@ -110,11 +110,11 @@ function configurar_samba() {
 }
 
 function ver_configuracion() {
-    echo "=== Contenido de $SAMBA_CONF ==="
     sudo nano "$SAMBA_CONF"
 }
 
 function eliminar_configuracion() {
+    listar_recursos_samba
     read -p " Nombre del recurso compartido a eliminar: " recurso_compartido
 
     # Hacemos una copia de seguridad
