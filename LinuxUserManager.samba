@@ -116,6 +116,10 @@ function ver_configuracion() {
 
 function eliminar_configuracion() {
     listar_recursos_samba
+    if [ $recursos_compartidos = "no" ]; then
+        break
+    fi
+
     echo ""
     read -p " Nombre del recurso compartido a eliminar: " recurso_compartido
 
