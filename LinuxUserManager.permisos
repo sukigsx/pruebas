@@ -50,11 +50,11 @@ modificar_permisos() {
     fi
 
     echo -e "${azul} --- Gestión de permisos ACL para carpetas compartidas en${borra_colores} $base_dir ${azul}---${borra_colores}"
-
-    echo "  1) Control total (rwx)"
-    echo "  2) Solo lectura (rx)"
-    echo "  3) Sin acceso"
-    echo "  Enter) Mantener permisos actuales"
+    echo ""
+    echo "      1 = Control total (rwx)"
+    echo "      2 = Solo lectura (rx)"
+    echo "      3 = Sin acceso"
+    echo "  Enter = Mantener permisos actuales"
 
     carpetas=($(ls -1 "$base_dir"))
 
@@ -70,7 +70,6 @@ modificar_permisos() {
 
     echo ""
     echo -e "${azul} Permisos ACL actuales por carpeta y usuario (ordenado por usuario):${borra_colores}"
-    echo -e "${azul} Si no ves datos en las columnas es porque no se ha definido ningun permiso.${borra_colores}"
 
     acl_entries=()
     for carpeta in "${carpetas[@]}"; do
