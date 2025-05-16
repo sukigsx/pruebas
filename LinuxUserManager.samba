@@ -26,9 +26,10 @@ echo ""
 }
 
 function show_users() {
-    echo -e "${azul} === Configuración de nuevo recurso Samba ===${borra_colores}"
+    echo -e "${azul} === Configuración de nuevo recurso Samba en %{borra_colores} $base_dir ${azul}===${borra_colores}"
     echo -e ""
     echo -e "${azul} Usuarios del sistema:${borra_colores}"
+    echo -e ""
     awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd
 }
 
@@ -37,8 +38,70 @@ function configurar_samba() {
     menu_info
     show_users
     echo ""
+    read -p "Nombre del recurso compartido (el que se ve): " recurso_compartido
+
+    # Leer usuarios y verificar existencia
+    while true; do
+        read -p "Usuarios permitidos (separados por espacio): " -a usuarios
+        usuarios_validos=()
+        usuarios_invalidos=()
+
+        for usuario in "${usuarios[@]}"; do
+            if id "$usuario" &>/dev/null; then
+                usuarios_validos+=("$usuario")
+            else
+                usuarios_invalidos+=("$usuario")
+            fi
+        done
+
+        if [ ${#usuarios_invalidos[@]} -eq 0 ]; then
+            break
+        else
+            echo "❌ Los siguientes usuarios no existen: ${usuarios_invalidos[*]}"
+            echo "🔁 Intenta de nuevo."
+        fi
+    done
+
+    CONFIG="[$recurso_compartido]
+    path = $base_dir
+    valid users = ${usuarios_validos[*]}
+    read only = no
+    browsable = yes
+    writable = yes
+    create mask = 0775
+    directory mask = 0775
+"
+
+    if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
+        echo "$CONFIG" | sudo tee -a "$SAMBA_CONF" > /dev/null
+        echo "✅ Configuración añadida para [$recurso_compartido]."
+    else
+        echo "⚠️ El bloque [$recurso_compartido] ya existe. No se añadió nada."
+    fi
+
+    sudo systemctl restart smbd
+    echo "🔁 Servicio Samba reiniciado."
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function configurar_sambaprueba() {
+    clear
+    menu_info
+    show_users
+    echo ""
     read -p " Nombre del recurso compartido el que se ve: " recurso_compartido
-    read -p "Usuarios permitidos (separados por espacio): " -a usuarios
+    read -p " Usuarios permitidos (separados por espacio): " -a usuarios
 
     CONFIG="[$recurso_compartido]
     path = $base_dir
