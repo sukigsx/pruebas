@@ -115,6 +115,7 @@ function ver_configuracion() {
 
 function eliminar_configuracion() {
     listar_recursos_samba
+    echo ""
     read -p " Nombre del recurso compartido a eliminar: " recurso_compartido
 
     # Hacemos una copia de seguridad
