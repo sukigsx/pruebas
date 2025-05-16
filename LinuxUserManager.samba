@@ -120,13 +120,13 @@ function configurar_sambaprueba() {
 
     if ! grep -q "\[$recurso_compartido\]" "$SAMBA_CONF"; then
         echo "$CONFIG" | sudo tee -a "$SAMBA_CONF" > /dev/null
-        echo "✅ Configuración añadida para [$recurso_compartido]."
+        echo " ✅ Configuración añadida para el recurso compartido [$recurso_compartido]."; sleep 2
     else
-        echo "⚠️ El bloque [$recurso_compartido] ya existe. No se añadió nada."
+        echo " ⚠️ El recurso compartido [$recurso_compartido] ya existe. No se añadió nada."; sleep 2
     fi
 
     sudo systemctl restart smbd
-    echo "🔁 Servicio Samba reiniciado."
+    echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"
 }
 
 function ver_configuracion() {
@@ -143,11 +143,11 @@ function eliminar_configuracion() {
     # Usamos sed para eliminar el bloque completo
     sudo sed -i "/\[$recurso_compartido\]/,/^$/d" "$SAMBA_CONF"
 
-    echo -e " 🗑️${verde} Configuración de${borra_colores} $recurso_compartido ${verde}eliminada."; sleep 2
+    echo -e " 🗑️${verde} Configuración de${borra_colores} $recurso_compartido ${verde}eliminada."
 
     sudo systemctl restart smbd
     echo ""
-    echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"
+    echo -e " 🔁${verde} Servicio Samba reiniciado.${borra_colores}"; sleep 2
 }
 
 function menu() {
