@@ -56,7 +56,7 @@ function control_ejecucion(){
 function show_users() {
     clear
     menu_info
-    echo -e "${verde}"
+    echo -e "${rosa}"
     figlet -t "Creacion De Usuarios"
     echo -e "${borra_colores}"
     echo -e "${azul} Listado de usuarios del sistema:${borra_colores}"
@@ -115,7 +115,75 @@ function create_user() {
     done
 }
 
+function carpeta_base(){
+    echo ""
+    echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
+    echo -e " Es necesario que indiques su ruta absoluta para poder configurar."
+    echo ""
+    read -p " Ingrese la ruta de la carpeta base: " base_dir
+
+    if [ -z $base_dir ]; then
+        echo ""
+        echo -e "${amarillo} La ruta no puede estar vacia${borra_colores}"; sleep 3
+        return
+    fi
+
+    # Convertir a ruta absoluta
+    export base_dir=$(realpath -m "$base_dir")
+    echo $base_dir > /tmp/base_dir
+
+
+    if [ -d "$base_dir" ]; then
+        echo ""
+        echo -e "${verde} Carpeta${borra_colores} $base_dir ${verde}seleccionada correctamente.${borra_colores}"; sleep 3
+    else
+        read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
+        if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
+            sudo mkdir -p "$base_dir"
+            echo ""
+            echo -e "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
+        else
+            echo ""
+            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
+            base_dir="No seleccionada"
+        fi
+    fi
+}
+
+function create_folders() {
+    menu_info
+    echo -e "${rosa}"
+    figlet -t "Gestor De Carpetas Compartidas"
+    echo -e "${borra_colores}"
+    carpeta_base
+
+
+    read -p " Ingrese los nombres de las carpetas a crear (separadas por espacio): " -a folders
+    for folder in "${folders[@]}"; do
+        path="$base_dir/$folder"
+        if [[ -d "$path" ]]; then
+            echo -e "${amarillo} La carpeta${borra_colores} $folder ${amarillo}ya existe.${borra_colores}"; sleep 2
+        else
+            mkdir -p "$path"
+
+            # Recorre todos los usuarios con UID >= 1000 (usuarios reales)
+            for usuario in $(awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd); do
+            # Evita aplicar la ACL al propietario de la carpeta
+
+                #echo "→ Quitando permisos a $usuario"
+                #sudo setfacl -R -m u:$usuario:--- "$path"
+                sudo setfacl -R -m u:$usuario:--- -m g::--- -m o::--- "$path" >/dev/null 2>&1
+
+            done
+
+
+            echo -e "${verde} Carpeta${borra_colores} $folder ${verde}creada.${borra_colores}"; sleep 1
+        fi
+    done
+}
+
 clear
 menu_info
 control_ejecucion
 create_user
+create_folders
