@@ -267,6 +267,36 @@ function carpeta_base(){
     fi
 }
 
+function crear_todo(){
+    carpeta_base
+
+    sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
+
+    #gestion de carpetas
+    if [ -f /tmp/base_dir ]; then
+        sudo -E bash $ruta_ejecucion/LinuxUserManager.carpetas
+    else
+        echo ""
+        echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
+    fi
+
+    #destion de permisos
+    if [ -f /tmp/base_dir ]; then
+        sudo -E bash $ruta_ejecucion/LinuxUserManager.permisos
+    else
+        echo ""
+        echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
+    fi
+
+    #gestion samba
+    if [ -f /tmp/base_dir ]; then
+        sudo -E bash $ruta_ejecucion/LinuxUserManager.samba
+    else
+        echo ""
+        echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
+    fi
+}
+
 clear
 menu_info
 conexion
@@ -333,7 +363,8 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  sudo -E bash $ruta_ejecucion/LinuxUserManager.todo
+        1)  #sudo -E bash $ruta_ejecucion/LinuxUserManager.todo
+            crear_todo
             ;;
 
         2)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
