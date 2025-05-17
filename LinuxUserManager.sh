@@ -232,6 +232,40 @@ fi
 #        si=ejecuta, variables software="SI", conexion="NO", actualizado="No se ha podiso comprobar actualizacion de script"
 #        no=Ya sale solo desde la funcion
 
+function carpeta_base(){
+    echo ""
+    echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
+    echo -e " Es necesario que indiques su ruta absoluta para poder configurar."
+    echo ""
+    read -p " Ingrese la ruta de la carpeta base: " base_dir
+
+    if [ -z $base_dir ]; then
+        echo ""
+        echo -e "${amarillo} La ruta no puede estar vacia${borra_colores}"; sleep 3
+        return
+    fi
+
+    # Convertir a ruta absoluta
+    export base_dir=$(realpath -m "$base_dir")
+    echo $base_dir > /tmp/base_dir
+
+
+    if [ -d "$base_dir" ]; then
+        echo ""
+        echo -e "${verde} Carpeta${borra_colores} $base_dir ${verde}seleccionada correctamente.${borra_colores}"; sleep 3
+    else
+        read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
+        if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
+            sudo mkdir -p "$base_dir"
+            echo ""
+            echo -e "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
+        else
+            echo ""
+            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
+            base_dir="No seleccionada"
+        fi
+    fi
+}
 
 clear
 menu_info
@@ -298,7 +332,6 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-
         1)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
             ;;
 
