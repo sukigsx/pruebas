@@ -232,70 +232,6 @@ fi
 #        si=ejecuta, variables software="SI", conexion="NO", actualizado="No se ha podiso comprobar actualizacion de script"
 #        no=Ya sale solo desde la funcion
 
-function carpeta_base(){
-    echo ""
-    echo -e "${amarillo} INFO:${borra_colores} La carpeta base es la que contiene tus carpetas que tienes compartidas."
-    echo -e " Es necesario que indiques su ruta absoluta para poder configurar."
-    echo ""
-    read -p " Ingrese la ruta de la carpeta base: " base_dir
-
-    if [ -z $base_dir ]; then
-        echo ""
-        echo -e "${amarillo} La ruta no puede estar vacia${borra_colores}"; sleep 3
-        return
-    fi
-
-    # Convertir a ruta absoluta
-    export base_dir=$(realpath -m "$base_dir")
-    echo $base_dir > /tmp/base_dir
-
-
-    if [ -d "$base_dir" ]; then
-        echo ""
-        echo -e "${verde} Carpeta${borra_colores} $base_dir ${verde}seleccionada correctamente.${borra_colores}"; sleep 3
-    else
-        read -p " La carpeta $base_dir NO existe, deseas crearla (s/n): " sino
-        if [ "$sino" == "s" ] || [ "$sino" == "S" ]; then
-            sudo mkdir -p "$base_dir"
-            echo ""
-            echo -e "${verde} Carpeta ${borra_colores}$base_dir ${verde}creada.${borra_colores}"; sleep 3
-        else
-            echo ""
-            echo -e "${rojo} La ruta '$base_dir' no existe o no es un directorio, No se puede continuar.${borra_colores}"; sleep 4
-            base_dir="No seleccionada"
-        fi
-    fi
-}
-
-function crear_todo(){
-    carpeta_base
-
-    sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
-
-    #gestion de carpetas
-    if [ -f /tmp/base_dir ]; then
-        sudo -E bash $ruta_ejecucion/LinuxUserManager.carpetas
-    else
-        echo ""
-        echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
-    fi
-
-    #destion de permisos
-    if [ -f /tmp/base_dir ]; then
-        sudo -E bash $ruta_ejecucion/LinuxUserManager.permisos
-    else
-        echo ""
-        echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
-    fi
-
-    #gestion samba
-    if [ -f /tmp/base_dir ]; then
-        sudo -E bash $ruta_ejecucion/LinuxUserManager.samba
-    else
-        echo ""
-        echo -e "${amarillo} Carpeta base NO seleccionada${borra_colores}"; sleep 2
-    fi
-}
 
 clear
 menu_info
@@ -350,12 +286,11 @@ fi
 
 echo -e "${azul} --- Opciones principales ---${borra_colores}"
 echo -e ""
-echo -e "     1. ${azul}Crear usuarios carpetas permisos y configurar samba.${borra_colores}"
-echo -e "     2. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
-echo -e "     3. ${azul}Gestion de carpetas compartidas.${borra_colores} $base_dir"
-echo -e "     4. ${azul}Gestion de permisos de las carpetas compartidas.${borra_colores} $base_dir"
-echo -e "     5. ${azul}Gestion de Samba.${borra_colores} $base_dir"
-echo -e "     6. ${azul}Seleccionar o modifica la carpeta base${borra_colores}"
+echo -e "     1. ${azul}Gestion de usuarios de tu $(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2- | tr -d '"').${borra_colores}"
+echo -e "     2. ${azul}Gestion de carpetas compartidas.${borra_colores} $base_dir"
+echo -e "     3. ${azul}Gestion de permisos de las carpetas compartidas.${borra_colores} $base_dir"
+echo -e "     4. ${azul}Gestion de Samba.${borra_colores} $base_dir"
+echo -e "     5. ${azul}Seleccionar o modifica la carpeta base${borra_colores}"
 echo -e ""
 echo -e "    90. ${azul}Ayuda.${borra_colores}"
 echo -e "    99. ${azul}Salir.${borra_colores}"
@@ -363,14 +298,11 @@ echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
 case $opcion in
-        1)  #sudo -E bash $ruta_ejecucion/LinuxUserManager.todo
-            crear_todo
+
+        1)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
             ;;
 
-        2)  sudo -E bash $ruta_ejecucion/LinuxUserManager.usuarios
-            ;;
-
-        3)  #comprueba la carpeta base y lo muestra en el menu
+        2)  #comprueba la carpeta base y lo muestra en el menu
             if [ -f /tmp/base_dir ]; then
                 sudo -E bash $ruta_ejecucion/LinuxUserManager.carpetas
             else
@@ -379,7 +311,7 @@ case $opcion in
             fi
             ;;
 
-        4)  #comprueba la carpeta base y lo muestra en el menu
+        3)  #comprueba la carpeta base y lo muestra en el menu
             if [ -f /tmp/base_dir ]; then
                 sudo -E bash $ruta_ejecucion/LinuxUserManager.permisos
             else
@@ -388,7 +320,7 @@ case $opcion in
             fi
             ;;
 
-        5)  #comprueba la carpeta base y lo muestra en el menu
+        4)  #comprueba la carpeta base y lo muestra en el menu
             if [ -f /tmp/base_dir ]; then
                 sudo -E bash $ruta_ejecucion/LinuxUserManager.samba
             else
@@ -397,7 +329,7 @@ case $opcion in
             fi
             ;;
 
-        6)  carpeta_base
+        5)  carpeta_base
             ;;
 
         90) echo "esto es la ayuda"; sleep 3
