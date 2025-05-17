@@ -56,6 +56,9 @@ function control_ejecucion(){
 function show_users() {
     clear
     menu_info
+    echo -e "${verde}"
+    figlet -t "Creacion De Usuarios"
+    echo -e "${borra_colores}"
     echo -e "${azul} Listado de usuarios del sistema:${borra_colores}"
     echo -e "${verde}"
     awk -F: '$3 >= 1000 && $1 != "nobody" { print $1 }' /etc/passwd

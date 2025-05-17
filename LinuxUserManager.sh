@@ -36,6 +36,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [awk]="gawk"
         [realpath]="coreutils"
         [nano]="nano"
+        [figlet]="figlet"
     )
 
 
