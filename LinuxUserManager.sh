@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 
 #VARIABLES PRINCIPALES
 # con export son las variables necesarias para exportar al los siguientes script
