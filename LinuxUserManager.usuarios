@@ -60,7 +60,7 @@ function create_user() {
         # Verificar si el usuario ya existe
         if id "$username" &>/dev/null; then
             echo ""
-            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}ya existe."; sleep 2
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}ya existe.${borra_colores}"; sleep 2
             continue
         fi
 
