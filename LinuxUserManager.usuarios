@@ -88,7 +88,7 @@ function create_user() {
         # Establecer contraseña en el sistema y en Samba
         echo "$username:$password" | sudo chpasswd
         printf "$password\n$password\n" | sudo smbpasswd -a -s "$username" &>/dev/null
-
+        echo ""
         echo -e "${verde} Usuario${borra_colores} $username ${verde}creado y sincronizado con Samba.${borra_colores}"; sleep 2
     done
 }
