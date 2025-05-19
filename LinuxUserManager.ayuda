@@ -227,7 +227,6 @@ echo -e "     3. ${azul}Muestra la ayuda de creacion/modificacion carpetas.${bor
 echo -e "     4. ${azul}Muestra la ayuda de configuracion de permisos ACL.${borra_colores}"
 echo -e "     5. ${azul}Muestra la ayuda de configuracion Samba.${borra_colores}"
 echo -e ""
-echo -e "    90. ${azul}Ayuda.${borra_colores}"
 echo -e "    99. ${azul}Atras.${borra_colores}"
 echo -e ""
 echo -n " Seleccione una opcion del menu -> "
@@ -248,10 +247,7 @@ case $opcion in
         5)  mostrar_ayuda_samba
             ;;
 
-        90) echo "esto es la ayuda"; sleep 3
-            ;;
-
-        99)  ctrl_c
+        99) break
             ;;
 
         *)      #se activa cuando se introduce una opcion no controlada del menu
