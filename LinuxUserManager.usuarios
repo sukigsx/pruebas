@@ -100,6 +100,7 @@ function change_password() {
 
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
+            echo ""
             echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 3
             continue
         fi
