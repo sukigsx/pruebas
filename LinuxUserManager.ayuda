@@ -53,6 +53,7 @@ function control_ejecucion(){
 
 
 mostrar_ayuda_general(){
+menu_info
 echo -e "${verde}Nombre del Script:${borra_colores} Linux User Manager"
 
 echo -e "\n${turquesa}Descripción General:${borra_colores}"
@@ -96,6 +97,7 @@ echo -e "\n${turquesa}Resumen:${borra_colores}"
 echo -e "${amarillo}--------${borra_colores}"
 echo "Este script está diseñado para facilitar tareas comunes de administración de usuarios y compartición de archivos en redes locales."
 echo "Es especialmente útil en entornos educativos, pequeñas oficinas o para usuarios que deseen automatizar configuraciones de red local."
+read p
 }
 
 mostrar_ayuda_usuarios(){
@@ -238,9 +240,9 @@ fi
 echo -e "${azul} --- Menu de ayuda ---${borra_colores}"
 echo -e ""
 echo -e "     1. ${azul}Muestra la la descripcion general.${borra_colores}"
-echo -e "     2. ${azul}Muestra la ayuda de creacion/modificacion de usuarios.${borra_colores} $base_dir"
-echo -e "     3. ${azul}Muestra la ayuda de creacion/modificacion carpetas.${borra_colores} $base_dir"
-echo -e "     4. ${azul}Muestra la ayuda de configuracion de permisos ACL.${borra_colores} $base_dir"
+echo -e "     2. ${azul}Muestra la ayuda de creacion/modificacion de usuarios.${borra_colores}"
+echo -e "     3. ${azul}Muestra la ayuda de creacion/modificacion carpetas.${borra_colores}"
+echo -e "     4. ${azul}Muestra la ayuda de configuracion de permisos ACL.${borra_colores}"
 echo -e "     5. ${azul}Muestra la ayuda de configuracion Samba.${borra_colores}"
 echo -e ""
 echo -e "    90. ${azul}Ayuda.${borra_colores}"
