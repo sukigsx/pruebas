@@ -147,7 +147,7 @@ function delete_all(){
     fi
     echo ""
 
-    read -p "$(echo -e "${amarillo}¿Seguro que quieres borrar${borra_colores} $base_dir ${amarillo}y todo su contenido? (s/n): ${borra_colores}")" sn
+    read -p "$(echo -e "${amarillo} ¿Seguro que quieres borrar${borra_colores} $base_dir ${amarillo}y todo su contenido? (s/n): ${borra_colores}")" sn
 
     if [[ "$sn" == [Ss] ]]; then
         rm -r $base_dir; echo ""; echo -e "${verde} Carpeta base y su contenido borrado${borra_colores}"; sleep 3
@@ -187,7 +187,7 @@ function menu() {
             4) delete_folders ;;
             5) delete_all ;;
            99) exit ;;
-            *) echo "Opción inválida."; sleep 2 ;;
+            *) echo " Opción inválida."; sleep 2 ;;
         esac
     done
 }

@@ -103,12 +103,12 @@ function configurar_samba() {
         echo -e " ✅ ${verde}Configuración añadida para ${borra_colores} $recurso_compartido"
     else
         echo -e ""
-        echo -e "⚠️ ${amarillo}El recurso${borra_colores} $recurso_compartido ${amarillo}ya existe. No se añadió nada.${borra_colores}"
+        echo -e " ⚠️ ${amarillo}El recurso${borra_colores} $recurso_compartido ${amarillo}ya existe. No se añadió nada.${borra_colores}"
     fi
 
     sudo systemctl restart smbd
     echo -e ""
-    echo -e "🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2
+    echo -e " 🔁 ${verde}Servicio Samba reiniciado.${borra_colores}"; sleep 2
     recursos_compartidos="si"
 }
 
@@ -194,7 +194,7 @@ function control_ejecucion(){
 # Verificar permisos de root
 if [[ $EUID -ne 0 ]]; then
     echo -e ""
-    echo -e "⚠️ ${rojo}Este script debe ejecutarse como root.${borra_colores}"
+    echo -e " ⚠️ ${rojo}Este script debe ejecutarse como root.${borra_colores}"
     echo -e ""
     exit 1
 fi
