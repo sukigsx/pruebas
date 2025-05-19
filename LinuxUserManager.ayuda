@@ -56,7 +56,7 @@ mostrar_ayuda_general(){
     clear
     menu_info
     echo -e "${rosa}==============================================${borra_colores}"
-    echo -e "${azul}             Descripcion General              ${borra_colores}"
+    echo -e "${azul}        Descripcion General del script        ${borra_colores}"
     echo -e "${rosa}==============================================${borra_colores}"
     echo -e "${verde}Nombre del Script:${borra_colores} Linux User Manager"
 
