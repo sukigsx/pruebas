@@ -101,10 +101,10 @@ function change_password() {
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
             echo ""
-            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 3
+            echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe.${borra_colores}"; sleep 2
             continue
         fi
-
+        echo ""
         read -s -p " Nueva contraseña para $username: " password
         echo
         read -s -p " Confirme la nueva contraseña para $username: " password_confirm
