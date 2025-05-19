@@ -128,6 +128,7 @@ function delete_user() {
 
     for username in "${usernames[@]}"; do
         if ! id "$username" &>/dev/null; then
+            echo ""
             echo -e "${amarillo} El usuario${borra_colores} $username ${amarillo}no existe, No se puede eliminar.${borra_colores}"; sleep 2
             continue
         fi
@@ -136,8 +137,10 @@ function delete_user() {
         if [[ "$confirm" == [Ss] ]]; then
             smbpasswd -x "$username" &>/dev/null
             userdel -r "$username" &>/dev/null
+            echo ""
             echo -e "${verde} Usuario${borra_colores} $username ${verde}eliminado del sistema y de Samba${borra_colores}"; sleep 2
         else
+            echo ""
             echo -e "${verde} Eliminación de${borra_colores} $username ${verde}cancelada.${borra_colores}"; sleep 2
         fi
     done
