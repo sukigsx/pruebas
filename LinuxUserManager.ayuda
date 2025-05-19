@@ -58,30 +58,26 @@ mostrar_ayuda_general(){
     echo -e "${rosa}==============================================${borra_colores}"
     echo -e "${azul}        Descripcion General del script        ${borra_colores}"
     echo -e "${rosa}==============================================${borra_colores}"
+    echo ""
     echo -e "${verde}Nombre del Script:${borra_colores} Linux User Manager"
-
     echo -e "\n${turquesa}Descripción General:${borra_colores}"
     echo -e "${amarillo}--------------------${borra_colores}"
     echo "Este script en Bash es una herramienta interactiva para gestionar usuarios, carpetas compartidas, permisos y configuración de Samba en sistemas Linux."
-
     echo -e "\n${turquesa}Funcionalidad Principal:${borra_colores}"
     echo -e "${amarillo}------------------------${borra_colores}"
     echo -e "- ${verde}Nombre:${borra_colores} Linux User Manager"
     echo -e "- ${verde}Propósito:${borra_colores} Configurar y administrar usuarios, directorios compartidos, permisos de acceso, y Samba para compartir archivos en red."
-
     echo -e "\n${turquesa}Requisitos y Verificaciones:${borra_colores}"
     echo -e "${amarillo}----------------------------${borra_colores}"
     echo "- Ejecutado como root: Verifica si se tienen privilegios administrativos. Si no, solicita autenticación mediante sudo."
     echo "- Comprobación de conexión a internet: Necesaria para actualizaciones y la instalación de software requerido."
-    echo "- Verificación e instalación de software necesario: Comprueba que herramientas como ${verde}git${borra_colores}, ${verde}diff${borra_colores}, ${verde}curl${borra_colores}, etc., estén instaladas. Si no están, las instala automáticamente."
+    echo -e "- Verificación e instalación de software necesario: Comprueba que herramientas como ${verde}git${borra_colores}, ${verde}diff${borra_colores}, ${verde}curl${borra_colores}, etc., estén instaladas. Si no están, las instala automáticamente."
     echo "- Actualización automática del script desde GitHub: Si hay una versión más reciente en el repositorio, la descarga y reemplaza el script actual."
-
     echo -e "\n${turquesa}Gestión de Carpeta Base:${borra_colores}"
     echo -e "${amarillo}------------------------${borra_colores}"
     echo "- Solicita al usuario una ruta para la carpeta base que contendrá los recursos compartidos."
     echo "- Si no existe la ruta, permite crearla automáticamente."
     echo "- Almacena esta ruta temporalmente para uso posterior en el script."
-
     echo -e "\n${turquesa}Interfaz de Menú Interactivo:${borra_colores}"
     echo -e "${amarillo}-----------------------------${borra_colores}"
     echo "Muestra un menú desde donde el usuario puede:"
@@ -92,11 +88,9 @@ mostrar_ayuda_general(){
     echo "  5. Seleccionar o cambiar la carpeta base."
     echo " 90. Ver ayuda."
     echo " 99. Salir del script."
-
     echo -e "\n${turquesa}Limpieza y Salida:${borra_colores}"
     echo -e "${amarillo}------------------${borra_colores}"
     echo "- Al presionar Ctrl+C o elegir la opción de salir, elimina archivos temporales y muestra un mensaje de despedida."
-
     echo -e "\n${turquesa}Resumen:${borra_colores}"
     echo -e "${amarillo}--------${borra_colores}"
     echo "Este script está diseñado para facilitar tareas comunes de administración de usuarios y compartición de archivos en redes locales."
