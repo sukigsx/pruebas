@@ -152,7 +152,7 @@ mostrar_ayuda_permisos(){
     echo ""
     echo -e "${amarillo}Este script permite administrar permisos ACL para carpetas compartidas en Linux.${borra_colores}"
     echo ""
-    echo -e "${verde}FUNCIONALIDADES PRINCIPALES:${borra_colores}"
+    echo -e "${verde}FUNCIONALIDADES PRINCIPALES:${turquesa}"
     echo -e " 1.${turquesa} Muestra información básica del script (nombre, versión, conexión, software)."
     echo -e " 2.${turquesa} Solicita la ruta donde están las carpetas compartidas para modificar permisos."
     echo -e " 3.${turquesa} Verifica que la ruta exista y contenga carpetas o archivos."
