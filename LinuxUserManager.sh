@@ -365,7 +365,7 @@ case $opcion in
         5)  carpeta_base
             ;;
 
-        90) echo "esto es la ayuda"; sleep 3
+        90) sudo -E bash $ruta_ejecucion/LinuxUserManager.ayuda
             ;;
 
         99)  ctrl_c
