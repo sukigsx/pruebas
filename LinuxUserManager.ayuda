@@ -53,6 +53,7 @@ function control_ejecucion(){
 
 
 mostrar_ayuda_general(){
+clear
 menu_info
 echo -e "${verde}Nombre del Script:${borra_colores} Linux User Manager"
 
@@ -101,6 +102,8 @@ read p
 }
 
 mostrar_ayuda_usuarios(){
+clear
+menu_info
 echo -e ""
 echo -e "${rosa}Este script es una${borra_colores} ${turquesa}herramienta para administrar usuarios en un sistema Linux${borra_colores} ${rosa}y también para sincronizarlos con un servidor Samba.${borra_colores}"
 echo -e ""
@@ -114,9 +117,12 @@ echo -e "${amarillo}El script incluye un menú fácil de usar con colores para m
 echo -e ""
 echo -e "${rosa}En resumen:${borra_colores} Es un asistente práctico para gestionar usuarios en Linux y Samba, sin necesidad de usar comandos complejos directamente."
 echo -e ""
+read p
 }
 
 mostrar_ayuda_carpetas(){
+clear
+menu_info
 echo -e ""
 echo -e "${rosa}Este script es un${borra_colores} ${turquesa}gestor de carpetas${borra_colores} ${rosa}que te permite administrar carpetas dentro de una ruta base definida.${borra_colores}"
 echo -e ""
@@ -130,42 +136,14 @@ echo -e "${amarillo}El script verifica que tengas definida la carpeta base, y av
 echo -e ""
 echo -e "${rosa}En resumen:${borra_colores} Es una herramienta para gestionar carpetas con facilidad y seguridad, con un menú claro y colores que facilitan la lectura."
 echo -e ""
+read p
 }
 
-mostrar_ayuda(){
-echo -e "${rosa}==============================================${borra_colores}"
-echo -e "${azul}         Linux User Manager - AYUDA           ${borra_colores}"
-echo -e "${rosa}==============================================${borra_colores}"
-echo ""
-echo -e "${amarillo}Este script te ayuda a gestionar usuarios, carpetas y permisos en Linux,${borra_colores}"
-echo -e "${amarillo}además de configurar Samba para compartir carpetas en la red.${borra_colores}"
-echo ""
-echo -e "${verde}FUNCIONALIDADES PRINCIPALES:${borra_colores}"
-echo -e " 1.${turquesa} Gestión de usuarios${borra_colores}: Crear, modificar y eliminar usuarios."
-echo -e " 2.${turquesa} Gestión de carpetas compartidas${borra_colores}: Selección y administración de carpetas para compartir."
-echo -e " 3.${turquesa} Gestión de permisos${borra_colores}: Controla quién puede acceder a las carpetas compartidas."
-echo -e " 4.${turquesa} Configuración de Samba${borra_colores}: Automatiza compartir carpetas en la red local."
-echo -e " 5.${turquesa} Actualización automática${borra_colores}: Verifica y actualiza el script desde GitHub."
-echo -e " 6.${turquesa} Verificación de software${borra_colores}: Comprueba y, si falta, instala el software necesario."
-echo -e " 7.${turquesa} Comprobación de conexión a Internet${borra_colores}: Verifica que estés conectado para actualizaciones."
-echo ""
-echo -e "${verde}INTERFAZ:${borra_colores}"
-echo -e " El script se maneja mediante un menú en la terminal con opciones numeradas."
-echo -e " Requiere permisos de administrador para realizar cambios en el sistema."
-echo ""
-echo -e "${verde}OTROS DETALLES:${borra_colores}"
-echo -e " - Mensajes claros para guiarte y avisarte si falta alguna configuración."
-echo -e " - Permite seleccionar o cambiar la carpeta base para compartir archivos."
-echo -e " - Puedes salir del script en cualquier momento con seguridad."
-echo ""
-echo -e "${rosa}==============================================${borra_colores}"
-echo -e "${azul}       ¡GRACIAS POR USAR Linux User Manager!${borra_colores}"
-echo -e "${rosa}==============================================${borra_colores}"
-echo ""
-}
 
 mostrar_ayuda_permisos(){
-echo -e "${rosa}==============================================${borra_colores}"
+    clear
+    menu_info
+    echo -e "${rosa}==============================================${borra_colores}"
     echo -e "${azul}           Gestión de Permisos ACL            ${borra_colores}"
     echo -e "${rosa}==============================================${borra_colores}"
     echo ""
@@ -192,10 +170,13 @@ echo -e "${rosa}==============================================${borra_colores}"
     echo ""
     echo -e "${rosa}==============================================${borra_colores}"
     echo ""
+    read p
 }
 
 mostrar_ayuda_samba(){
-echo -e "${rosa}==============================================${borra_colores}"
+    clear
+    menu_info
+    echo -e "${rosa}==============================================${borra_colores}"
     echo -e "${azul}          Gestor de Recursos Samba            ${borra_colores}"
     echo -e "${rosa}==============================================${borra_colores}"
     echo ""
@@ -220,6 +201,7 @@ echo -e "${rosa}==============================================${borra_colores}"
     echo ""
     echo -e "${rosa}==============================================${borra_colores}"
     echo ""
+    read p
 }
 
 #empieza lo gordo
@@ -246,7 +228,7 @@ echo -e "     4. ${azul}Muestra la ayuda de configuracion de permisos ACL.${borr
 echo -e "     5. ${azul}Muestra la ayuda de configuracion Samba.${borra_colores}"
 echo -e ""
 echo -e "    90. ${azul}Ayuda.${borra_colores}"
-echo -e "    99. ${azul}Salir.${borra_colores}"
+echo -e "    99. ${azul}Atras.${borra_colores}"
 echo -e ""
 echo -n " Seleccione una opcion del menu -> "
 read opcion
