@@ -6,8 +6,8 @@
 
 export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
-export Correo=""
-export Web=""
+export Correo="scripts@mbbsistemas.com"
+export Web="https://repositorio.mbbsistemas.es"
 export version="1.aaaaaaaaaoka"
 conexion="Sin comprobar"
 software="Sin comprobar"
