@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo="scripts@mbbsistemas.com"
 export Web="https://repositorio.mbbsistemas.es"
-export version="1.aaaaaaaahhhhhhhhhhhhjuhhhhhhhgbgfhhhhhhhkjhhhhhhhhhhhaoka"
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -19,7 +19,7 @@ ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
 NombreScriptActualizar="LinuxUserManager.sh" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
+DireccionGithub="https://github.com/sukigsx/LinuxUserManager" #contiene la direccion de github para actualizar el script
 
 #VARIABLES DE SOFTWARE NECESARIO
 # Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
