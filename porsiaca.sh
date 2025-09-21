@@ -75,7 +75,7 @@ done
 }
 
 actualizar_script(){
-archivo_local="10.sh" # Nombre del archivo local
+archivo_local="porsiaca.sh" # Nombre del archivo local
 ruta_repositorio="https://github.com/sukigsx/pruebas.git" #ruta del repositorio para actualizar y clonar con git clone
 
 # Obtener la ruta del script
