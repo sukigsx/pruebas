@@ -325,7 +325,6 @@ revoke_access() {
 
 #compruba la actualizacion y el ssoftware necesario
 clear
-read p
 conexion
 
 if [ $var_conexion = "si" ]
@@ -339,7 +338,7 @@ else
     var_software="si"
     var_actualizado="Imposible comprobar sin conexion a internet"
 fi
-read p
+echo "todo ok"; read p
 
 
 # Bucle principal del menú con fzf y preview
