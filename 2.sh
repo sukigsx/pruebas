@@ -80,21 +80,6 @@ function run_in_terminal() {
     esac
 }
 
-# --- NUEVA FUNCIÓN ---
-# Función para verificar la accesibilidad de un host
-function check_host_availability() {
-    #local host="$1"
-    # Usamos ping para enviar 1 paquete y esperamos 1 segundo.
-    # El &> /dev/null redirecciona la salida para que no se muestre en pantalla.
-    HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
-    ping -c 1 -W 1 "$HOST" &> /dev/null
-    if [ $? -eq 0 ]; then
-        return 0 # Éxito
-    else
-        return 1 # Fallo
-    fi
-}
-
 # Función para agregar un nuevo cliente
 add_client() {
     clear
@@ -103,16 +88,17 @@ add_client() {
     read -p "Ingresa el nombre de usuario del servidor $DISPLAY_NAME: " USERNAME
     read -p "Ingresa la dirección IP o el nombre de host del servidor $DISPLAY_NAME: " HOST
 
-    # --- VERIFICACIÓN DE CONECTIVIDAD ---
     echo ""
-    echo -e "${azul}Verificando la accesibilidad del host $HOST...${borra_colores}"
-    if ! check_host_availability "$HOST"; then
-        echo ""
-        echo -e "${rojo}¡Error! El host $HOST no es accesible. No se puede continuar.${borra_colores}"
+    echo -e "${azul}Comprobando si el servidor $HOST está accesible...${borra_colores}"
+
+    # Comprobar si el puerto 22 está abierto
+    if nc -z -w3 "$HOST" 22; then
+        echo -e "${verde}El servidor $HOST está en línea y responde en el puerto 22.${borra_colores}"
+    else
+        echo -e "${rojo}Error: No se pudo conectar a $HOST en el puerto 22. Verifica que el servidor está encendido y accesible.${borra_colores}"
         sleep 3
         return
     fi
-    # --- FIN DE LA VERIFICACIÓN ---
 
     # Crea un nombre de directorio único combinando usuario y host
     CLIENT_DIR="$SSH_DIR/${USERNAME}_${HOST//./-}"
@@ -135,14 +121,14 @@ connect_client() {
     echo ""
     if [ ! -f "$SSH_DIR/clientes.txt" ]; then
         clear
-        echo ""
         echo -e "${rojo}No hay servidores registrados.${borra_colores}"; sleep 3
         return
     fi
 
+    echo -e "${azul}Verificando estado de servidores...${borra_colores}"
+
     # Muestra el nombre a mostrar en el menú
     CLIENTS=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $1" ("$2"@" $3")"}' | fzf -m --layout=reverse --prompt="Selecciona uno o más servidores para conectar (Tab para seleccionar, Enter para confirmar): ")
-
 
     if [[ -n "$CLIENTS" ]]; then
         # Extrae la información del formato 'Nombre (usuario@host)'
@@ -151,38 +137,25 @@ connect_client() {
             HOST=$(echo "$CLIENT" | sed -E 's/.*@(.*)\)/\1/')
             DISPLAY_NAME=$(echo "$CLIENT" | sed -E 's/ (.*)//')
 
-            #verifica si esta accesible el servidor para conectar
-            echo ""
-            echo -e "${azul}Verificando la accesibilidad al servidor${borra_colores} $DISPLAY_NAME"
-            HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
-            #if ! check_host_availability "$HOST"; then
-            #    echo ""
-            #    echo -e "${rojo}¡Advertencia! El servidor${borra_colores} $DISPLAY_NAME ${rojo}no es accesible.${borra_colores}"; sleep 2
-            #    continue
-            #fi
-
-            HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
-            ping -c 1 -W 1 "$HOST" &> /dev/null
-            if [ $? -eq 0 ]; then
-                echo "perfecto"; read p #return 0 # Éxito
-            else
-                echo "malll"; read p #continue
-            fi
-
-            # Crea un nombre de directorio único para la conexión
+            #Crea un nombre de directorio único para la conexión
             CLIENT_DIR_UNIQUE="${USERNAME}_${HOST//./-}"
 
-            echo ""
-            echo -e "${azul}Conectando a ${borra_colores}'$DISPLAY_NAME' ($USERNAME@$HOST)${azul} en una nueva ventana de terminal...${borra_colores}"; sleep 2
+            # 🔎 Comprobar si el puerto 22 está abierto
+            if nc -z -w3 "$HOST" 22; then
+                echo -e "${azul}Conectando a ${borra_colores}'$DISPLAY_NAME' ($USERNAME@$HOST)${azul} en nueva ventana terminal.${borra_colores}"; sleep 2
 
-            run_in_terminal "$DISPLAY_NAME ($USERNAME@$HOST)" "ssh -i \"$SSH_DIR/$CLIENT_DIR_UNIQUE/id_rsa\" \"$USERNAME@$HOST\""
+                run_in_terminal "$DISPLAY_NAME ($USERNAME@$HOST)" "ssh -i \"$SSH_DIR/$CLIENT_DIR_UNIQUE/id_rsa\" \"$USERNAME@$HOST\"" > /dev/null 2>&1
+            else
+                echo -e "${rojo}No se pudo conectar a $DISPLAY_NAME. Saltando conexion.${borra_colores}"
+                sleep 2
+            fi
         done
 
     else
         echo -e "${rojo}Selección cancelada.${borra_colores}"
     fi
-    echo ""
-    echo -e "${verde}Conexiones iniciadas. Verifica las nuevas ventanas de terminal.${borra_colores}"; sleep 5
+    echo ""; sleep 5
+    ctrl_c
 }
 
 # Función para revocar el acceso a un cliente
@@ -196,49 +169,66 @@ revoke_access() {
 
     CLIENT_REVOKE=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $1" ("$2"@" $3")"}' | fzf --layout=reverse --prompt="Selecciona un servidor para revocar el acceso: ")
 
-    HOST=$(echo "$CLIENT_REVOKE" | sed -E 's/.*@(.*)\)/\1/')
-
-    #verifica si esta accesible el servidor para conectar
-    echo ""
-    echo -e "${azul}Verificando la accesibilidad de $HOST...${borra_colores}"
-    if ! check_host_availability "$HOST"; then
-        echo ""
-        echo -e "${rojo}¡Advertencia! El host $HOST no es accesible.${borra_colores}"
-        read -p "¿Deseas eliminar la conexion sin eliminar los datos del servidor? : " sn
-        if [[ "$sn" == "S" || "$sn" == "s" ]]; then
-            echo ""
-        else
-            return
-        fi
-    fi
+    echo -e "${azul}Verificando estado de servidores...${borra_colores}"
 
     if [[ -n "$CLIENT_REVOKE" ]]; then
         # Extrae la información del formato 'Nombre (usuario@host)'
         USERNAME=$(echo "$CLIENT_REVOKE" | sed -E 's/.* \((.*)@.*/\1/')
         HOST=$(echo "$CLIENT_REVOKE" | sed -E 's/.*@(.*)\)/\1/')
+        DISPLAY_NAME=$(echo "$CLIENT_REVOKE" | sed -E 's/ (.*)//')
 
         # Crea un nombre de directorio único para la revocación
         CLIENT_DIR_UNIQUE="${USERNAME}_${HOST//./-}"
 
-        echo -e "${amarillo}Revocando acceso para $USERNAME@$HOST...${borra_colores}"; sleep 2
+        # 🔎 Comprobar si el puerto 22 está abierto
+        if nc -z -w3 "$HOST" 22; then
+            echo -e "${amarillo}Revocando acceso para servidor $DISPLAY_NAME con $USERNAME@$HOST...${borra_colores}"; sleep 2
 
-        #ssh -t "$USERNAME@$HOST" "sudo sed -i '/$USERNAME/d' ~/.ssh/authorized_keys"
-        USUARIODOMINIO=$(echo "$(whoami)@$(hostname)")
-        ssh -t "$USERNAME@$HOST" "sudo sed -i '/$USUARIODOMINIO/d' ~/.ssh/authorized_keys"
+            # Eliminar clave del archivo authorized_keys en el servidor
 
-        # Elimina la línea completa que contiene el nombre de mostrar, usuario y host
-        sed -i "/$USERNAME,$HOST/d" "$SSH_DIR/clientes.txt"
+            ssh "$USERNAME@$HOST" 'sudo -l' > /dev/null 2>&1
 
-        rm -rf "$SSH_DIR/$CLIENT_DIR_UNIQUE"
+            # Almacena el código de salida del último comando
+            if [ $? -eq 0 ]; then
+                USUARIODOMINIO=$(echo "$(whoami)@$(hostname)")
+                echo "El usuario $USUARIO tiene permisos de sudo en $HOST."
+                ssh -t "$USERNAME@$HOST" "sudo sed -i '/$USUARIODOMINIO/d' ~/.ssh/authorized_keys"
+            else
+                USUARIODOMINIO=$(echo "$(whoami)@$(hostname)")
+                echo "El usuario $USUARIO NO tiene permisos de sudo en $HOST."
+                ssh -t "$USERNAME@$HOST" "sed -i '/$USUARIODOMINIO/d' ~/.ssh/authorized_keys"
+            fi
 
-        ssh-keygen -R "$HOST"
+            #USUARIODOMINIO="$(whoami)@$(hostname)"
+            #ssh -t "$USERNAME@$HOST" "sudo sed -i '/$USUARIODOMINIO/d' ~/.ssh/authorized_keys"
+            #ssh -t "$USERNAME@$HOST" "sed -i '/$USUARIODOMINIO/d' ~/.ssh/authorized_keys"
 
-        echo -e "${verde}Acceso de $USERNAME revocado y archivos locales eliminados.${borra_colores}"; sleep 2
+            # Elimina la línea exacta con nombre, usuario y host
+            sed -i "/^$DISPLAY_NAME,$USERNAME,$HOST$/d" "$SSH_DIR/clientes.txt"
+
+            # Borra el directorio de claves locales
+            rm -rf "$SSH_DIR/$CLIENT_DIR_UNIQUE"
+
+            # Elimina la huella del host
+            ssh-keygen -R "$HOST"
+
+            echo -e "${verde}Acceso de $USERNAME revocado y archivos locales eliminados.${borra_colores}"; sleep 2
+        else
+            echo -e "${rojo}Error: No se pudo conectar a $DISPLAY_NAME en el puerto 22. Eliminando solo archivos locales...${borra_colores}"
+
+            # Elimina igualmente los datos locales para limpiar el registro
+            sed -i "/^$DISPLAY_NAME,$USERNAME,$HOST$/d" "$SSH_DIR/clientes.txt"
+            rm -rf "$SSH_DIR/$CLIENT_DIR_UNIQUE"
+            ssh-keygen -R "$HOST"
+
+            sleep 2
+        fi
     else
         echo -e "${rojo}Selección cancelada.${borra_colores}"
     fi
     sleep 3
 }
+
 
 # Bucle principal del menú con fzf y preview
 while true; do

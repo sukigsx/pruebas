@@ -176,19 +176,6 @@ revoke_access() {
 
     HOST=$(echo "$CLIENT_REVOKE" | sed -E 's/.*@(.*)\)/\1/')
 
-    #verifica si esta accesible el servidor para conectar
-    echo ""
-    echo -e "${azul}Verificando la accesibilidad de $HOST...${borra_colores}"
-    if ! check_host_availability "$HOST"; then
-        echo ""
-        echo -e "${rojo}¡Advertencia! El host $HOST no es accesible.${borra_colores}"
-        read -p "¿Deseas eliminar la conexion sin eliminar los datos del servidor? : " sn
-        if [[ "$sn" == "S" || "$sn" == "s" ]]; then
-            echo ""
-        else
-            return
-        fi
-    fi
 
     if [[ -n "$CLIENT_REVOKE" ]]; then
         # Extrae la información del formato 'Nombre (usuario@host)'

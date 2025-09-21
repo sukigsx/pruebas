@@ -19,6 +19,7 @@ clear
 echo ""
 echo -e " ${verde}- Gracias por utilizar mi script -${borra_colores}"
 echo ""
+rm /tmp/sino.txt
 exit
 }
 
@@ -80,21 +81,6 @@ function run_in_terminal() {
     esac
 }
 
-# --- NUEVA FUNCIÓN ---
-# Función para verificar la accesibilidad de un host
-function check_host_availability() {
-    #local host="$1"
-    # Usamos ping para enviar 1 paquete y esperamos 1 segundo.
-    # El &> /dev/null redirecciona la salida para que no se muestre en pantalla.
-    HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
-    ping -c 1 -W 1 "$HOST" &> /dev/null
-    if [ $? -eq 0 ]; then
-        return 0 # Éxito
-    else
-        return 1 # Fallo
-    fi
-}
-
 # Función para agregar un nuevo cliente
 add_client() {
     clear
@@ -103,14 +89,18 @@ add_client() {
     read -p "Ingresa el nombre de usuario del servidor $DISPLAY_NAME: " USERNAME
     read -p "Ingresa la dirección IP o el nombre de host del servidor $DISPLAY_NAME: " HOST
 
-    # --- VERIFICACIÓN DE CONECTIVIDAD ---
-    echo ""
-    echo -e "${azul}Verificando la accesibilidad del host $HOST...${borra_colores}"
-    if ! check_host_availability "$HOST"; then
-        echo ""
-        echo -e "${rojo}¡Error! El host $HOST no es accesible. No se puede continuar.${borra_colores}"
+    #verifica si esta accesible el servidor para conectar
+    HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
+    USER=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $2}')
+    DISPLAY_NAME=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $1}')
+
+    ssh -o BatchMode=yes -o ConnectTimeout=5 sukigsx_admin@192.168.1.101 "exit" > /tmp/sino.txt 2>&1
+    if grep -q "Permission denied" "/tmp/sino.txt"; then
+        echo -e "${verde}Conexión a${borra_colores} $DISPLAY_NAME${verde} correpta.${borra_colores}"
+    else
+        echo -e "${rojo}Conexión a${borra_colores} $DISPLAY_NAME${rojo} fallida.${borra_colores}"
         sleep 3
-        return
+        continue
     fi
     # --- FIN DE LA VERIFICACIÓN ---
 
@@ -143,6 +133,8 @@ connect_client() {
     # Muestra el nombre a mostrar en el menú
     CLIENTS=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $1" ("$2"@" $3")"}' | fzf -m --layout=reverse --prompt="Selecciona uno o más servidores para conectar (Tab para seleccionar, Enter para confirmar): ")
 
+    echo -e "${azul}Comprobando conexiones a servidores.${borra_colores}"
+    echo ""
 
     if [[ -n "$CLIENTS" ]]; then
         # Extrae la información del formato 'Nombre (usuario@host)'
@@ -152,37 +144,33 @@ connect_client() {
             DISPLAY_NAME=$(echo "$CLIENT" | sed -E 's/ (.*)//')
 
             #verifica si esta accesible el servidor para conectar
-            echo ""
-            echo -e "${azul}Verificando la accesibilidad al servidor${borra_colores} $DISPLAY_NAME"
             HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
-            #if ! check_host_availability "$HOST"; then
-            #    echo ""
-            #    echo -e "${rojo}¡Advertencia! El servidor${borra_colores} $DISPLAY_NAME ${rojo}no es accesible.${borra_colores}"; sleep 2
-            #    continue
-            #fi
+            USER=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $2}')
+            DISPLAY_NAME=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $1}')
 
-            HOST=$(cat "$SSH_DIR/clientes.txt" | awk -F',' '{print $3}')
-            ping -c 1 -W 1 "$HOST" &> /dev/null
-            if [ $? -eq 0 ]; then
-                echo "perfecto"; read p #return 0 # Éxito
+            ssh -o BatchMode=yes -o ConnectTimeout=5 sukigsx_admin@192.168.1.101 "exit" > /tmp/sino.txt 2>&1
+            if grep -q "Permission denied" "/tmp/sino.txt"; then
+                echo -e "${verde}Conexión a${borra_colores} $DISPLAY_NAME${verde} correpta.${borra_colores}"
             else
-                echo "malll"; read p #continue
+                echo -e "${rojo}Conexión a${borra_colores} $DISPLAY_NAME${rojo} fallida.${borra_colores}"
+                sleep 3
+                continue
             fi
 
             # Crea un nombre de directorio único para la conexión
-            CLIENT_DIR_UNIQUE="${USERNAME}_${HOST//./-}"
+            CLIENT_DIR_UNIQUE="${USERNAME}_${HOST//./-}" > /dev/null 2>&1
 
             echo ""
             echo -e "${azul}Conectando a ${borra_colores}'$DISPLAY_NAME' ($USERNAME@$HOST)${azul} en una nueva ventana de terminal...${borra_colores}"; sleep 2
 
-            run_in_terminal "$DISPLAY_NAME ($USERNAME@$HOST)" "ssh -i \"$SSH_DIR/$CLIENT_DIR_UNIQUE/id_rsa\" \"$USERNAME@$HOST\""
+            run_in_terminal "$DISPLAY_NAME ($USERNAME@$HOST)" "ssh -i \"$SSH_DIR/$CLIENT_DIR_UNIQUE/id_rsa\" \"$USERNAME@$HOST\"" > /dev/null 2>&1
         done
 
     else
         echo -e "${rojo}Selección cancelada.${borra_colores}"
     fi
     echo ""
-    echo -e "${verde}Conexiones iniciadas. Verifica las nuevas ventanas de terminal.${borra_colores}"; sleep 5
+    ctrl_c
 }
 
 # Función para revocar el acceso a un cliente
