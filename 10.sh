@@ -332,7 +332,7 @@ if [ $var_conexion = "si" ]
 then
     var_conexion="si"
     software_necesario
-    #actualizar_script
+    actualizar_script
 else
     var_conexion="no"
     software_necesario
