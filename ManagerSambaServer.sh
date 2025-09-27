@@ -164,7 +164,7 @@ exit
 # ========================
 # Funcion crear_total (script completo 1)
 # ========================
-
+crear_total() {
 # Funcion para crear usuarios
 crear_usuarios() {
 while true; do
