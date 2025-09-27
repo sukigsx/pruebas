@@ -646,9 +646,9 @@ fi
 # ========================
 # Menￃﾺ principal
 # ========================
+clear
 menu_info
 while true; do
-    clear
     echo ""
     echo "===== MENU PRINCIPAL ====="
     echo "1) Crear usuarios, carpetas y permisos Samba"
