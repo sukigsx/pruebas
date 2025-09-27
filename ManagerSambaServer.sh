@@ -30,8 +30,8 @@ actualizar_script(){
 #   conexion a internet
 #   la paleta de colores
 #   software: git diff xdotool
-archivo_local="InstalacionDeSoftware.sh" # Nombre del archivo local
-ruta_repositorio="https://github.com/sukigsx/instalar_software.git" #ruta del repositorio para actualizar y clonar con git clone
+archivo_local="ManagerSambaServer.sh" # Nombre del archivo local
+ruta_repositorio="https://github.com/sukigsx/pruebas.git" #ruta del repositorio para actualizar y clonar con git clone
 
 # Obtener la ruta del script
 descarga=$(dirname "$(readlink -f "$0")")
