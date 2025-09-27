@@ -74,7 +74,7 @@ fi
         [git]="git"
         [diff]="diff"
         [curl]="curl"
-        [smbd]="samba"
+        [smbclient]="samba"
         [getfacl]="acl"
     )
 
