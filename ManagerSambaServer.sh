@@ -77,7 +77,7 @@ echo ""
 echo -e " Comprobando el software necesario."
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
-software="which git diff ping extrepo nano gdebi curl konsole wget fzf" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+software="which git diff ping apt curl awk" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for paquete in $software
 do
 which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
