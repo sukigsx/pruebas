@@ -2,14 +2,143 @@
 
 #colores
 #ejemplo: echo -e "${verde} La opcion (-e) es para que pille el color.${borra_colores}"
+#which git diff ping apt curl awk
 
-#compruba la actualizacion y el ssoftware necesario
-clear
+ruta_ejecucion=$(dirname "$(readlink -f "$0")")
 export version="2.0 Actualizado a base debian13 y nuevo software."
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
-conexion
+
+menu_info(){
+#muestra el menu de sukigsx
+echo ""
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores}  $0 "
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de instalacion basado en Debian"
+echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
+echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
+echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
+echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e ""
+echo -e "${azul} Contacto:${borra_colores} (Correo scripts@mbbsistemas.com) (Web https://repositorio.mbbsistemas.es)${borra_colores}"
+echo ""
+}
+
+actualizar_script(){
+#actualizar el script
+#para que esta funcion funcione necesita:
+#   conexion a internet
+#   la paleta de colores
+#   software: git diff xdotool
+archivo_local="InstalacionDeSoftware.sh" # Nombre del archivo local
+ruta_repositorio="https://github.com/sukigsx/instalar_software.git" #ruta del repositorio para actualizar y clonar con git clone
+
+# Obtener la ruta del script
+descarga=$(dirname "$(readlink -f "$0")")
+git clone $ruta_repositorio /tmp/comprobar >/dev/null 2>&1
+
+diff $descarga/$archivo_local /tmp/comprobar/$archivo_local >/dev/null 2>&1
+
+
+if [ $? = 0 ]
+then
+    #esta actualizado, solo lo comprueba
+    echo ""
+    echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
+    echo ""
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+    actualizado="SI"
+    sleep 2
+else
+    #hay que actualizar, comprueba y actualiza
+    echo ""
+    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
+    echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
+    sleep 3
+    cp -r /tmp/comprobar/* $descarga
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+    echo ""
+    echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
+    echo ""
+    sleep 2
+    exit
+fi
+}
+
+software_necesario(){
+#funcion software necesario
+#para que funcione necesita:
+#   conexion a internet
+#   la paleta de colores
+#   software: which/tmp/software
+echo ""
+echo -e " Comprobando el software necesario."
+echo ""
+#which git diff ping figlet xdotool wmctrl nano fzf
+software="which git diff ping extrepo nano gdebi curl konsole wget fzf" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+for paquete in $software
+do
+which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
+sino=$? #recojemos el 0 o 1 del resultado de which
+contador="1" #ponemos la variable contador a 1
+    while [ $sino -gt 0 ] #entra en el bicle si variable programa es 0, no lo ha encontrado which
+    do
+        if [ $contador = "4" ] || [ $conexion = "no" ] 2>/dev/null 1>/dev/null 0>/dev/null #si el contador es 4 entre en then y sino en else
+        then #si entra en then es porque el contador es igual a 4 y no ha podido instalar o no hay conexion a internet
+            clear
+            echo ""
+            echo -e " ${amarillo}NO se ha podido instalar ${rojo}$paquete${amarillo}.${borra_colores}"
+            echo -e " ${amarillo}Intentelo usted con la orden: (${borra_colores}sudo apt install $paquete ${amarillo})${borra_colores}"
+            echo -e ""
+            echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
+            echo ""; read p
+            echo ""
+            exit
+        else #intenta instalar
+            echo " Instalando $paquete. Intento $contador/3."
+            sudo apt install $paquete -y 2>/dev/null 1>/dev/null 0>/dev/null
+            let "contador=contador+1" #incrementa la variable contador en 1
+            which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa en tu sistema
+            sino=$? ##recojemos el 0 o 1 del resultado de which
+        fi
+    done
+echo -e " [${verde}ok${borra_colores}] $paquete."
+software="SI"
+done
+
+#configura el fichero de extrep para poder metes repositorios no oficales
+CONFIG_FILE="/etc/extrepo/config.yaml"
+
+# Verificar si el fichero existe
+if [[ -f "$CONFIG_FILE" ]]; then
+    # Usar sed para asegurar que las líneas empiecen con "-"
+    sudo sed -i -E \
+        -e 's/^#?[[:space:]]*- main/- main/' \
+        -e 's/^#?[[:space:]]*- contrib/- contrib/' \
+        -e 's/^#?[[:space:]]*- non-free/- non-free/' \
+        "$CONFIG_FILE"
+fi
+}
+
+conexion(){
+#funcion de comprobar conexion a internet
+#para que funciones necesita:
+#   conexion ainternet
+#   la paleta de colores
+#   software: ping
+if ping -c1 google.com &>/dev/null
+then
+    conexion="SI"
+    echo ""
+    echo -e " Conexion a internet = ${verde}SI${borra_colores}"
+else
+    conexion="NO"
+    echo ""
+    echo -e " Conexion a internet = ${rojo}NO${borra_colores}"
+fi
+}
 
 rojo="\e[0;31m\033[1m" #rojo
 verde="\e[;32m\033[1m"
@@ -29,119 +158,6 @@ echo -e " ${verde}- Gracias por utilizar mi script -${borra_colores}"
 echo ""
 exit
 }
-
-menu_info(){
-#muestra el menu de sukigsx
-echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores}  $0 "
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de instalacion basado en Debian"
-echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
-echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
-echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
-echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
-echo -e ""
-echo -e "${azul} Contacto:${borra_colores} (Correo scripts@mbbsistemas.com) (Web https://repositorio.mbbsistemas.es)${borra_colores}"
-echo ""
-}
-
-software_necesario(){
-var_software="no"
-echo -e " Verificando software necesario:"
-software="which git diff ping apt curl awk" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
-for paquete in $software
-do
-which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
-sino=$? #recojemos el 0 o 1 del resultado de which
-contador="1" #ponemos la variable contador a 1
-    while [ $sino -gt 0 ] #entra en el bicle si variable programa es 0, no lo ha encontrado which
-    do
-        if [ $contador = "4" ] || [ $conexion = "no" ] 2>/dev/null 1>/dev/null 0>/dev/null #si el contador es 4 entre en then y sino en else
-        then #si entra en then es porque el contador es igual a 4 y no ha podido instalar o no hay conexion a internet
-            clear
-            echo ""
-            echo -e " ${amarillo}NO se ha podido instalar ${rojo}$paquete${amarillo}.${borra_colores}"
-            echo -e " ${amarillo}Intentelo usted con la orden: (${borra_colores}sudo apt install $paquete ${amarillo})${borra_colores}"
-            echo -e ""
-            echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
-            read pause
-            exit
-        else #intenta instalar
-            echo " Instalando $paquete. Intento $contador/3."
-            sudo apt install $paquete -y 2>/dev/null 1>/dev/null 0>/dev/null
-            let "contador=contador+1" #incrementa la variable contador en 1
-            which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa en tu sistema
-            sino=$? ##recojemos el 0 o 1 del resultado de which
-        fi
-    done
-echo -e " [${verde}ok${borra_colores}] $paquete."
-var_software="si"
-done
-}
-
-conexion(){
-if ping -c1 google.com &>/dev/null
-then
-    #echo ""
-    #echo -e " Conexion a internet [${verde}ok${borra_colores}]."
-    var_conexion="si"
-    #echo ""
-else
-    #echo ""
-    #echo -e " Conexion a internet [${rojo}ko${borra_colores}]."
-    var_conexion="no"
-    echo ""
-fi
-}
-
-actualizar_script(){
-archivo_local="ManagerSambaServer.sh" # Nombre del archivo local
-ruta_repositorio="https://github.com/sukigsx/pruebas.git" #ruta del repositorio para actualizar y clonar con git clone
-
-# Obtener la ruta del script
-descarga=$(dirname "$(readlink -f "$0")")
-#descarga="/home/$(whoami)/scripts"
-git clone $ruta_repositorio /tmp/comprobar >/dev/null 2>&1
-
-diff $descarga/$archivo_local /tmp/comprobar/$archivo_local >/dev/null 2>&1
-
-
-if [ $? = 0 ]
-then
-    #esta actualizado, solo lo comprueba
-    echo ""
-    #echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
-    #echo ""
-    var_actualizado="si"
-    chmod -R +w /tmp/comprobar
-    rm -R /tmp/comprobar
-else
-    #hay que actualizar, comprueba y actualiza
-    echo ""
-    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
-    echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
-    sleep 3
-    mv /tmp/comprobar/$archivo_local $descarga
-    chmod -R +w /tmp/comprobar
-    rm -R /tmp/comprobar
-    echo ""
-    echo -e "${verde} El script se ha actualizado.${borra_colores}"
-    sleep 2
-    exit
-    #kill -9 $(ps -o ppid= -p $$)
-    #xdotool windowkill `xdotool getactivewindow`
-fi
-}
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -621,18 +637,39 @@ done
 
 }
 
-
-
-if [ $var_conexion = "si" ]
-then
-    var_conexion="si"
-    software_necesario
+clear
+menu_info
+conexion
+if [ $conexion = "SI" ]; then
     actualizar_script
+    if [ $actualizado = "SI" ]; then
+        software_necesario
+        if [ $software = "SI" ]; then
+            export software="SI"
+            export conexion="SI"
+            export actualizado="SI"
+        else
+            echo ""
+        fi
+    else
+        software_necesario
+        if [ $software = "SI" ]; then
+            export software="SI"
+            export conexion="NO"
+            export actualizado="No se ha podido comprobar la actualizacion del script"
+        else
+            echo ""
+        fi
+    fi
 else
-    var_conexion="no"
     software_necesario
-    var_software="si"
-    var_actualizado="Imposible comprobar sin conexion a internet"
+    if [ $software = "SI" ]; then
+        export software="SI"
+        export conexion="NO"
+        export actualizado="No se ha podido comprobar la actualizacion del script"
+    else
+        echo ""
+    fi
 fi
 
 # ========================
