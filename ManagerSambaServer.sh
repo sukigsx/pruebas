@@ -25,8 +25,8 @@ exit
 menu_info(){
 #muestra el menu de sukigsx
 echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ( $0 )"
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} (Software de instalacion basado en Debian)"
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores}  $0 "
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de instalacion basado en Debian"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
@@ -651,13 +651,13 @@ while true; do
     clear
     menu_info
     echo ""
-    echo -e "${azul}MENU PRINCIPAL${borra_colores}"
+    echo -e " ${azul}MENU PRINCIPAL${borra_colores}"
     echo ""
-    echo -e "${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba"
-    echo -e "${azul} 2)${borra_colores} Modificar permisos ACL"
-    echo -e "${azul}99)${borra_colores} Salir"
+    echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba"
+    echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL"
+    echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
-    read -rp "Elige una opcion: " opcion
+    read -rp " Elige una opcion: " opcion
 
     case "$opcion" in
         1) crear_total ;;
