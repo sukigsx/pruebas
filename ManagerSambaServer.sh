@@ -111,7 +111,8 @@ then
     echo ""
     #echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
     #echo ""
-    var_actualizado="si"
+    #var_actualizado="si"
+    actualizado="si"
     chmod -R +w /tmp/comprobar
     rm -R /tmp/comprobar
 else
