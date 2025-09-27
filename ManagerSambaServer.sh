@@ -646,14 +646,15 @@ fi
 # ========================
 # Menￃﾺ principal
 # ========================
-clear
-menu_info
+
 while true; do
+    clear
+    menu_info
     echo ""
     echo -e "${azul}MENU PRINCIPAL${borra_colores}"
-    echo -e "${azul} 1) Crear usuarios, carpetas y permisos Samba${borra_colores}"
-    echo -e "${azul} 2) Modificar permisos ACL${borra_colores}"
-    echo -e "${azul}99) Salir${borra_colores}"
+    echo -e "${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba"
+    echo -e "${azul} 2)${borra_colores} Modificar permisos ACL"
+    echo -e "${azul}99)${borra_colores} Salir"
     echo ""
     read -rp "Elige una opcion: " opcion
 
