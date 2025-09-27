@@ -77,7 +77,7 @@ echo ""
 echo -e " Comprobando el software necesario."
 echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
-software="which git diff ping apt curl awk" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+software="which git diff ping apt curl awk samba acl" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for paquete in $software
 do
 which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
@@ -164,17 +164,6 @@ exit
 # ========================
 # Funcion crear_total (script completo 1)
 # ========================
-crear_total() {
-#funcion de instalacion paquetes necesarios y actualizacion
-instalacion_paquetes_y_actualizacion(){
-    clear; echo -e "${verde}Actualizando paquetes${borra_colores}"; echo ""
-    sudo apt update -y
-    clear; echo -e "${verde}Actualizando sistema${borra_colores}"; echo ""
-    sudo apt upgradepoli
-    clear; echo -e "${verde}Instalando samba y permisos acl${borra_colores}"; echo ""
-    sudo apt install samba acl -y
-    sleep 2
-}
 
 # Funcion para crear usuarios
 crear_usuarios() {
@@ -381,7 +370,6 @@ configurar_samba(){
 
 
 # Ejecutar las funciones
-instalacion_paquetes_y_actualizacion
 crear_usuarios
 read -p "Pulsa una tecla para continuar" p;
 crear_carpetas
