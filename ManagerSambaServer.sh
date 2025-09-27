@@ -646,6 +646,7 @@ fi
 # ========================
 # Menￃﾺ principal
 # ========================
+menu_info
 while true; do
     clear
     echo ""
