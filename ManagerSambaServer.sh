@@ -650,16 +650,17 @@ clear
 menu_info
 while true; do
     echo ""
-    echo "===== MENU PRINCIPAL ====="
-    echo "1) Crear usuarios, carpetas y permisos Samba"
-    echo "2) Modificar permisos ACL"
-    echo "3) Salir"
+    echo -e "${azul}MENU PRINCIPAL${borra_colores}"
+    echo -e "${azul} 1) Crear usuarios, carpetas y permisos Samba${borra_colores}"
+    echo -e "${azul} 2) Modificar permisos ACL${borra_colores}"
+    echo -e "${azul}99) Salir${borra_colores}"
+    echo ""
     read -rp "Elige una opcion: " opcion
 
     case "$opcion" in
         1) crear_total ;;
         2) permisos_acl ;;
-        3) echo "Saliendo..."; exit 0 ;;
-        *) echo "Opcion invalida." ;;
+        99) ctrl_c ;;
+        *) echo -e "${rojo}Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
     esac
 done
