@@ -3,6 +3,14 @@
 #colores
 #ejemplo: echo -e "${verde} La opcion (-e) es para que pille el color.${borra_colores}"
 
+#compruba la actualizacion y el ssoftware necesario
+clear
+export version="2.0 Actualizado a base debian13 y nuevo software."
+conexion="Sin comprobar"
+software="Sin comprobar"
+actualizado="No se ha podido comprobar la actualizacion del script"
+conexion
+
 rojo="\e[0;31m\033[1m" #rojo
 verde="\e[;32m\033[1m"
 azul="\e[0;34m\033[1m"
@@ -613,13 +621,7 @@ done
 
 }
 
-#compruba la actualizacion y el ssoftware necesario
-clear
-export version="2.0 Actualizado a base debian13 y nuevo software."
-conexion="Sin comprobar"
-software="Sin comprobar"
-actualizado="No se ha podido comprobar la actualizacion del script"
-conexion
+
 
 if [ $var_conexion = "si" ]
 then
