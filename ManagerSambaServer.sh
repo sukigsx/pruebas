@@ -1,5 +1,5 @@
 #!/bin/bash
-#awk
+
 #colores
 #ejemplo: echo -e "${verde} La opcion (-e) es para que pille el color.${borra_colores}"
 
@@ -25,7 +25,7 @@ exit
 menu_info(){
 #muestra el menu de sukigsx
 echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} (Instalacion de software)"
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ( $0 )"
 echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} (Software de instalacion basado en Debian)"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
@@ -36,23 +36,111 @@ echo -e "${azul} Contacto:${borra_colores} (Correo scripts@mbbsistemas.com) (Web
 echo ""
 }
 
+software_necesario(){
+var_software="no"
+echo -e " Verificando software necesario:"
+software="which git diff ping apt curl awk" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+for paquete in $software
+do
+which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa llamado programa
+sino=$? #recojemos el 0 o 1 del resultado de which
+contador="1" #ponemos la variable contador a 1
+    while [ $sino -gt 0 ] #entra en el bicle si variable programa es 0, no lo ha encontrado which
+    do
+        if [ $contador = "4" ] || [ $conexion = "no" ] 2>/dev/null 1>/dev/null 0>/dev/null #si el contador es 4 entre en then y sino en else
+        then #si entra en then es porque el contador es igual a 4 y no ha podido instalar o no hay conexion a internet
+            clear
+            echo ""
+            echo -e " ${amarillo}NO se ha podido instalar ${rojo}$paquete${amarillo}.${borra_colores}"
+            echo -e " ${amarillo}Intentelo usted con la orden: (${borra_colores}sudo apt install $paquete ${amarillo})${borra_colores}"
+            echo -e ""
+            echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
+            read pause
+            exit
+        else #intenta instalar
+            echo " Instalando $paquete. Intento $contador/3."
+            sudo apt install $paquete -y 2>/dev/null 1>/dev/null 0>/dev/null
+            let "contador=contador+1" #incrementa la variable contador en 1
+            which $paquete 2>/dev/null 1>/dev/null 0>/dev/null #comprueba si esta el programa en tu sistema
+            sino=$? ##recojemos el 0 o 1 del resultado de which
+        fi
+    done
+echo -e " [${verde}ok${borra_colores}] $paquete."
+var_software="si"
+done
+}
 
-menu_info
-# ========================
-# Comprobar root
-# ========================
-if [ "$EUID" -ne 0 ]; then
+conexion(){
+if ping -c1 google.com &>/dev/null
+then
+    #echo ""
+    #echo -e " Conexion a internet [${verde}ok${borra_colores}]."
+    var_conexion="si"
+    #echo ""
+else
+    #echo ""
+    #echo -e " Conexion a internet [${rojo}ko${borra_colores}]."
+    var_conexion="no"
     echo ""
-    echo -e "${rojo}Error:${amarillo} este script debe ejecutarse con sudo o como root.${borra_colores}"
-    echo ""; read p
-    ctrl_c
 fi
+}
+
+actualizar_script(){
+archivo_local="ManagerSambaServer.sh" # Nombre del archivo local
+ruta_repositorio="https://github.com/sukigsx/pruebas.git" #ruta del repositorio para actualizar y clonar con git clone
+
+# Obtener la ruta del script
+descarga=$(dirname "$(readlink -f "$0")")
+#descarga="/home/$(whoami)/scripts"
+git clone $ruta_repositorio /tmp/comprobar >/dev/null 2>&1
+
+diff $descarga/$archivo_local /tmp/comprobar/$archivo_local >/dev/null 2>&1
+
+
+if [ $? = 0 ]
+then
+    #esta actualizado, solo lo comprueba
+    echo ""
+    #echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
+    #echo ""
+    var_actualizado="si"
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+else
+    #hay que actualizar, comprueba y actualiza
+    echo ""
+    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
+    echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
+    sleep 3
+    mv /tmp/comprobar/$archivo_local $descarga
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+    echo ""
+    echo -e "${verde} El script se ha actualizado.${borra_colores}"
+    sleep 2
+    exit
+    #kill -9 $(ps -o ppid= -p $$)
+    #xdotool windowkill `xdotool getactivewindow`
+fi
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ========================
-# Funciￃﾳn Opciￃﾳn 1 (script completo 1)
+# Funcion crear_total (script completo 1)
 # ========================
 crear_total() {
-menu_info
 #funcion de instalacion paquetes necesarios y actualizacion
 instalacion_paquetes_y_actualizacion(){
     clear; echo -e "${verde}Actualizando paquetes${borra_colores}"; echo ""
@@ -282,7 +370,7 @@ echo "Proceso completado con Exito."
 }
 
 # ========================
-# Funciￃﾳn Opciￃﾳn 2 (script completo 2)
+# Funcion permisos acl (script completo 2)
 # ========================
 permisos_acl() {
 #!/bin/bash
@@ -524,6 +612,36 @@ while true; do
 done
 
 }
+
+#compruba la actualizacion y el ssoftware necesario
+clear
+export version="2.0 Actualizado a base debian13 y nuevo software."
+conexion="Sin comprobar"
+software="Sin comprobar"
+actualizado="No se ha podido comprobar la actualizacion del script"
+conexion
+
+if [ $var_conexion = "si" ]
+then
+    var_conexion="si"
+    software_necesario
+    actualizar_script
+else
+    var_conexion="no"
+    software_necesario
+    var_software="si"
+    var_actualizado="Imposible comprobar sin conexion a internet"
+fi
+
+# ========================
+# Comprobar root
+# ========================
+if [ "$EUID" -ne 0 ]; then
+    echo ""
+    echo -e "${rojo}Error:${amarillo} este script debe ejecutarse con sudo o como root.${borra_colores}"
+    echo ""; read p
+    ctrl_c
+fi
 
 # ========================
 # Menￃﾺ principal
