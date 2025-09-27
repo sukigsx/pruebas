@@ -652,6 +652,7 @@ while true; do
     menu_info
     echo ""
     echo -e "${azul}MENU PRINCIPAL${borra_colores}"
+    echo ""
     echo -e "${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba"
     echo -e "${azul} 2)${borra_colores} Modificar permisos ACL"
     echo -e "${azul}99)${borra_colores} Salir"
@@ -662,6 +663,6 @@ while true; do
         1) crear_total ;;
         2) permisos_acl ;;
         99) ctrl_c ;;
-        *) echo -e "${rojo}Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
+        *) echo ""; echo -e "${rojo}Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
     esac
 done
