@@ -704,7 +704,7 @@ gestionar_usuarios() {
                     return
                     ;;
                 *)
-                    echo -e "${rojp}Selecciona una opción válida${borra_colores}"
+                    echo -e "${rojp}Selecciona una opción válida${borra_colores}"; sleep 2
                     ;;
             esac
         #done
