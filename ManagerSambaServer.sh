@@ -700,7 +700,7 @@ gestionar_usuarios() {
                     borrar_usuario
                     break
                     ;;
-                3)
+                99)
                     return
                     ;;
                 *)
