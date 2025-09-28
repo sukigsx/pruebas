@@ -435,7 +435,7 @@ done
 # Menￃﾺ principal
 # ========================
 while true; do
-
+    menu_info
     echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
     echo -e "\nCarpeta seleccionada: ${BLUE}$TARGET${NC}\n"
     echo -e "1)${azul} Listar permisos ACL${borra_colores}"
