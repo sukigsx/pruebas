@@ -76,6 +76,7 @@ fi
         [curl]="curl"
         [smbstatus]="samba"
         [getfacl]="acl"
+        [awk]="awk"
     )
 
 software_necesario(){
