@@ -887,6 +887,7 @@ while true; do
     echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Recomendado solo la primera vez)"
     echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL de las carpetas comparitdas por samba"
     echo -e " ${azul} 3)${borra_colores} Crear borrar usuarios samba y del sistema"
+    echo ""
     echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
     read -rp " Elige una opcion: " opcion
