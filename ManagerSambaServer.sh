@@ -751,6 +751,8 @@ crear_usuario() {
             echo "$usuario:$pass" | sudo chpasswd
             printf "$pass\n$pass\n" | sudo smbpasswd -a -s "$usuario"
 
+            sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido
+
             echo -e "${verde}Usuario $usuario creado correctamente.${borra_colores}"
             sleep 1
         done
@@ -816,7 +818,7 @@ actualizar_valid_users() {
     if [[ -z "$current_line" ]]; then
         sed -i "/\[$SHARE_NAME\]/a valid users = $all_users" "$SMB_CONF"
     else
-        sed -i "/^\s*valid users\s*=/c\    valid users = $all_users" "$SMB_CONF"
+        sed -i "/^\s*valid users\s*=/c\    valid users = $all_users" "$SMB_CONF"https://github.com/sukigsx/pruebas.git
     fi
 }
 
