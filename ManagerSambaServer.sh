@@ -674,7 +674,7 @@ echo ""
 read -p "Dime el nombre del recurso compartido en samba: " SHARE_NAME
 if ! grep -q "^\[$SHARE_NAME\]" "$SMB_CONF"; then
         echo ""
-        echo -e "${rojo}El recurso compartido [$SHARE_NAME] no existe en $SMB_CONF.${borra_colores}"; read p
+        echo -e "${rojo}El recurso compartido ${borra_colores}$SHARE_NAME ${rojp}no existe en${borra_colores} $SMB_CONF"; read p
         return
     fi
 
