@@ -681,6 +681,8 @@ if ! grep -q "^\[$SHARE_NAME\]" "$SMB_CONF"; then
 gestionar_usuarios() {
     while true; do
         clear
+        menu_info
+        echo ""
         echo -e "${verde}GESTIÓN DE USUARIOS${borra_colores}"
         echo ""
         echo "¿Qué deseas hacer?"
