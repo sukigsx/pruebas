@@ -685,25 +685,29 @@ gestionar_usuarios() {
         echo ""
         echo -e "${verde}GESTIÓN DE USUARIOS${borra_colores}"
         echo ""
-        echo "¿Qué deseas hacer?"
-        select opcion in "Crear usuario(s)" "Borrar usuario(s)" "Salir"; do
+        #select opcion in "Crear usuario(s)" "Borrar usuario(s)" "Salir"; do
+        echo -e " ${azul}  1)${borra_colores} Crear usuarios(s)"
+        echo -e " ${azul}  2)${borra_colores} Borrar usuarios(s)"
+        echo -e " ${azul} 99)${borra_colores} Atras"
+        echo ""
+        read -p "Selecciona una opcion del menu: " opcion
             case $opcion in
-                "Crear usuario(s)")
+                1)
                     crear_usuario
                     break
                     ;;
-                "Borrar usuario(s)")
+                2)
                     borrar_usuario
                     break
                     ;;
-                "Salir")
-                    exit 0
+                3)
+                    return
                     ;;
                 *)
-                    echo "Selecciona una opción válida (1-3)."
+                    echo -e "${rojp}Selecciona una opción válida${borra_colores}"
                     ;;
             esac
-        done
+        #done
     done
 }
 
