@@ -626,168 +626,6 @@ done
 
 }
 
-#funcion de crear o borrar usuarios
-crearborrarusuarios(){
-#!/bin/bash
-
-# Colores
-verde="\e[32m"
-rojo="\e[31m"
-azul="\e[34m"
-borra_colores="\e[0m"
-
-
-SMB_CONF="/etc/samba/smb.conf"
-
-#valida que este el recurso compartido
-echo ""
-read -p "Dime el nombre del recurso compartido en samba: " SHARE_NAME
-if ! grep -q "^\[$SHARE_NAME\]" "$SMB_CONF"; then
-        echo ""
-	echo -e "${rojo}El recurso compartido [$SHARE_NAME] no existe en $SMB_CONF.${borra_colores}"; read p
-        return
-    fi
-
-gestionar_usuarios() {
-    while true; do
-        clear
-        echo -e "${verde}GESTIÓN DE USUARIOS${borra_colores}"
-        echo ""
-        echo "¿Qué deseas hacer?"
-        select opcion in "Crear usuario(s)" "Borrar usuario(s)" "Salir"; do
-            case $opcion in
-                "Crear usuario(s)")
-                    crear_usuario
-                    break
-                    ;;
-                "Borrar usuario(s)")
-                    borrar_usuario
-                    break
-                    ;;
-                "Salir")
-                    exit 0
-                    ;;
-                *)
-                    echo "Selecciona una opción válida (1-3)."
-                    ;;
-            esac
-        done
-    done
-}
-
-crear_usuario() {
-    while true; do
-        clear
-        echo -e "${verde}CREACIÓN DE USUARIOS${borra_colores}"
-        echo ""
-        echo -e "${azul}Lista de usuarios actuales${borra_colores}"
-        awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
-        echo ""
-
-        read -p "Ingrese los nombres de los usuarios a crear (separados por espacios, o 'ok' para terminar): " usuarios
-        if [ "$usuarios" == "ok" ]; then
-            break
-        fi
-
-        for usuario in $usuarios; do
-            if [[ -z "$usuario" ]]; then
-                echo -e "${rojo}El nombre de usuario no puede estar vacío.${borra_colores}"
-                sleep 1
-                continue
-            elif [[ ! "$usuario" =~ ^[a-zA-Z0-9_]+$ ]]; then
-                echo -e "${rojo}Solo letras, números y guiones bajos permitidos en $usuario.${borra_colores}"
-                sleep 1
-                continue
-            fi
-
-            read -s -p "Ingrese la contraseña para $usuario: " pass
-            echo
-            read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
-
-            if [ "$login" == "n" ]; then
-                sudo useradd -m -s /sbin/nologin "$usuario"
-            else
-                sudo useradd -m -s /bin/bash "$usuario"
-            fi
-
-            echo "$usuario:$pass" | sudo chpasswd
-            printf "$pass\n$pass\n" | sudo smbpasswd -a -s "$usuario"
-
-            echo -e "${verde}Usuario $usuario creado correctamente.${borra_colores}"
-            sleep 1
-        done
-
-        actualizar_valid_users "Añadir" "$usuarios"
-        sudo systemctl reload smbd
-    done
-}
-
-borrar_usuario() {
-    clear
-    echo -e "${rojo}BORRAR USUARIOS${borra_colores}"
-    echo ""
-    echo "Usuarios disponibles en el sistema:"
-    awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
-    echo ""
-
-    read -p "Ingrese los nombres de los usuarios a borrar (separados por espacios): " usuarios
-
-    for usuario in $usuarios; do
-        if ! id "$usuario" &>/dev/null; then
-            echo -e "${rojo}El usuario $usuario no existe. Se omite.${borra_colores}"
-            continue
-        fi
-
-        sudo userdel -r "$usuario"
-        sudo smbpasswd -x "$usuario"
-
-        echo -e "${verde}Usuario $usuario eliminado.${borra_colores}"
-    done
-
-    actualizar_valid_users "Quitar" "$usuarios"
-    sudo systemctl reload smbd
-    sleep 1
-}
-
-actualizar_valid_users() {
-    accion="$1"
-    usuarios="$2"
-
-    if ! grep -q "^\[$SHARE_NAME\]" "$SMB_CONF"; then
-        echo -e "${rojo}El share [$SHARE_NAME] no existe en $SMB_CONF.${borra_colores}"
-        return
-    fi
-
-    current_line=$(awk -v share="[$SHARE_NAME]" '
-        $0 == share {flag=1; next}
-        /^\[/ {flag=0}
-        flag && /^ *valid users *=/ {print; exit}
-    ' "$SMB_CONF")
-
-    existing_users=$(echo "$current_line" | sed 's/^[ \t]*valid users[ \t]*=[ \t]*//')
-
-    if [[ "$accion" == "Añadir" ]]; then
-        all_users=$(echo "$existing_users $usuarios" | tr ' ' '\n' | sort -u | xargs)
-    else
-        all_users="$existing_users"
-        for u in $usuarios; do
-            all_users=$(echo "$all_users" | tr ' ' '\n' | grep -v -x -F "$u" | xargs)
-        done
-    fi
-
-    if [[ -z "$current_line" ]]; then
-        sed -i "/\[$SHARE_NAME\]/a valid users = $all_users" "$SMB_CONF"
-    else
-        sed -i "/^\s*valid users\s*=/c\    valid users = $all_users" "$SMB_CONF"
-    fi
-}
-
-gestionar_usuarios
-
-}
-
-
-
 clear
 menu_info
 conexion
@@ -845,7 +683,6 @@ while true; do
     echo ""
     echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba"
     echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL"
-    echo -e " ${azul} 3)${borra_colores} Crear borrar usuarios samba y sistema"
     echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
     read -rp " Elige una opcion: " opcion
@@ -853,7 +690,6 @@ while true; do
     case "$opcion" in
         1) crear_total ;;
         2) permisos_acl ;;
-        3) crearborrarusuarios ;;
         99) ctrl_c ;;
         *) echo ""; echo -e "${rojo}Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
     esac
