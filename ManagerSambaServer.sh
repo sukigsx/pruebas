@@ -439,9 +439,9 @@ while true; do
     menu_info
     echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
     echo -e "\nCarpeta seleccionada: ${BLUE}$TARGET${NC}\n"
-    echo -e "1)${azul} Listar permisos ACL${borra_colores}"
-    echo -e "2)${azul} Cambiar permisos ACL de un usuario${borra_colores}"
-    echo -e "3)${azul} Atras${borra_colores}"
+    echo -e "${azul}1)${borra_colores} Listar permisos ACL"
+    echo -e "${azul}2)${borra_colores} Cambiar permisos ACL de un usuario"
+    echo -e "${azul}3)${borra_colores} Atras"
     echo ""
     read -rp "Elige una opcion: " option
 
