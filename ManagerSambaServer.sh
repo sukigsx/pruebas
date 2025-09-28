@@ -818,7 +818,7 @@ actualizar_valid_users() {
     if [[ -z "$current_line" ]]; then
         sed -i "/\[$SHARE_NAME\]/a valid users = $all_users" "$SMB_CONF"
     else
-        sed -i "/^\s*valid users\s*=/c\    valid users = $all_users" "$SMB_CONF"https://github.com/sukigsx/pruebas.git
+        sed -i "/^\s*valid users\s*=/c\    valid users = $all_users" "$SMB_CONF"
     fi
 }
 
