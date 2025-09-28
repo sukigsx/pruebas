@@ -458,7 +458,8 @@ while true; do
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             echo -e "\nUsuarios con permisos ACL en '$TARGET':"
-            echo "     0) Mostrar todos"
+            echo ""
+            echo "     0 Mostrar todos"
             echo ""
             echo "$USERS" | nl
 
