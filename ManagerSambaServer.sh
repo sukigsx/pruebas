@@ -418,6 +418,7 @@ translate_perms() {
 # Pedir la ruta al usuario (con validaciￃﾳn)
 # ========================
 clear
+menu_info
 echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
 echo ""
 while true; do
