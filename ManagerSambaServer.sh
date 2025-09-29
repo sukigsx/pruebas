@@ -169,6 +169,7 @@ exit
 crear_total() {
 # Funcion para crear usuarios
 crear_usuarios() {
+menu_info
 while true; do
     clear
     echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
@@ -220,7 +221,7 @@ while true; do
                 sleep 2; break   # sale del bucle porque ya es válido
             elif [[ "$login" =~ ^[nN]$ ]]; then
                 echo ""
-                echo -e "${verde} Has elegido que${borra_colores} $usuario${verde} ${amarillo}NO${verde} tenga acceso al login${borra_colores}"
+                echo -e "${verde}Has elegido que${borra_colores} $usuario${verde} ${amarillo}NO${verde} tenga acceso al login${borra_colores}"
                 sleep 2; break   # sale del bucle porque ya es válido
             else
                 echo -e "${rojo} Opción no válida. Debe ser 's' o 'n'${borra_colores}"
