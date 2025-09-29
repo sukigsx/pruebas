@@ -211,15 +211,22 @@ while true; do
 
         # Preguntar si el usuario tendrá login
         echo ""
-        read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
-        if [[ "$login" == "s" || "$login" == "S" ]]; then
-            echo "Has elegido que $usuario tenga acceso al login."
-        elif [[ "$login" == "n" || "$login" == "N" ]]; then
-            echo "Has elegido que $usuario NO tenga acceso al login."
-        else
-            echo "Opción no válida. Debe ser 's' o 'n'."; sleep 3; return 1; break; exit
-        fi
+        while true; do
+            read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
 
+            if [[ "$login" =~ ^[sS]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario ${amarillo}SI${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            elif [[ "$login" =~ ^[nN]$ ]]; then
+                echo ""
+                echo -e "${verde} Has elegido que${borra_colores} $usuario${verde} ${amarillo}NO${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            else
+                echo -e "${rojo} Opción no válida. Debe ser 's' o 'n'${borra_colores}"
+                sleep 2
+            fi
+        done
 
         # Almacenar los datos en los arrays
         usuarios+=("$usuario")
