@@ -217,7 +217,7 @@ while true; do
         elif [[ "$login" == "n" || "$login" == "N" ]]; then
             echo "Has elegido que $usuario NO tenga acceso al login."
         else
-            echo "Opción no válida. Debe ser 's' o 'n'."; sleep 3; return 1
+            echo "Opción no válida. Debe ser 's' o 'n'."; sleep 3; return 1; break; exit
         fi
 
 
