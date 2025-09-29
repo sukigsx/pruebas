@@ -169,6 +169,7 @@ exit
 crear_total() {
 # Funcion para crear usuarios
 crear_usuarios() {
+clear
 menu_info
 while true; do
     echo ""
@@ -267,6 +268,7 @@ done
 crear_carpetas() {
 while true; do
     clear
+    menu_info
     echo -e "${verde}CREACION DE CARPETAS${borra_colores}"
     echo ""
     echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/home y el nombre que quieras${amarillo})${borra_colores}"
@@ -317,6 +319,7 @@ done
 # Funcion para asignar permisos
 asignar_permisos() {
     clear
+    menu_info
     echo ""
     echo -e "${verde}ASIGNACION DE PERMISOS ACL${borra_colores}"
     echo ""
