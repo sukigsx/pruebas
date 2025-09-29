@@ -171,7 +171,7 @@ crear_total() {
 crear_usuarios() {
 menu_info
 while true; do
-    clear
+    echo ""
     echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
     echo ""
     echo -e "${azul}Lista de usuarios actuales${borra_colores}"; echo ""
