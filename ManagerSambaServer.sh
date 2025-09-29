@@ -212,6 +212,14 @@ while true; do
         # Preguntar si el usuario tendrá login
         echo ""
         read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
+        if [[ "$login" == "s" || "$login" == "S" ]]; then
+            echo "Has elegido que $usuario tenga acceso al login."
+        elif [[ "$login" == "n" || "$login" == "N" ]]; then
+            echo "Has elegido que $usuario NO tenga acceso al login."
+        else
+            echo "Opción no válida. Debe ser 's' o 'n'."; sleep 3; break
+        fi
+
 
         # Almacenar los datos en los arrays
         usuarios+=("$usuario")
@@ -898,6 +906,6 @@ while true; do
         2) permisos_acl ;;
         3) crearborrarusuarios ;;
         99) ctrl_c ;;
-        *) echo ""; echo -e "${rojo}Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
+        *) echo ""; echo -e "${rojo} Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
     esac
 done
