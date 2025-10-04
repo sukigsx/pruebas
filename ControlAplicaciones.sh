@@ -1,27 +1,52 @@
 #!/bin/bash
 
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
 # Preguntar contraseña de sudo al inicio
-sudo -v
+#sudo -v
 
 # Mantener activo el timestamp de sudo mientras el script se ejecute
-(
-    while true; do
-        sudo -v
-        sleep 60
-    done
-) &
-SUDO_KEEPALIVE_PID=$!
+#(
+#    while true; do
+#        sudo -v
+#        sleep 60
+#    done
+#) &
+#SUDO_KEEPALIVE_PID=$!
 
 # Asegurarse de matar el proceso de mantenimiento de sudo al salir
-trap "kill $SUDO_KEEPALIVE_PID" EXIT
+#trap "kill $SUDO_KEEPALIVE_PID" EXIT
 
 # Evitar advertencias de GTK/Zenity en la consola
 export ZENITY_NO_GTK_WARNINGS=1
 
+# Comprobar si el script se ejecuta con privilegios de root
+clear
+if [ "$EUID" -ne 0 ]; then
+  echo ""
+  echo -e "${rojo} Este script necesita permisos de sudo.${borra_colores}"
+  echo ""
+  echo -e "${amarillo} Por favor, ejecútalo con:${borra_colores}"
+  echo -e "   sudo $0"
+  echo -e "   sudo bash $0"
+  echo ""
+  exit 1
+else
+  echo ""
+  echo -e "${amarillo}OK.${borra_colores}"
+fi
+
+
+
 while true; do
     # 1. Seleccionamos un usuario del sistema con login
     usuario=$(getent passwd | awk -F: '$3>=1000 && $7!="/usr/sbin/nologin" {print $1}' | sort | \
-        zenity --list --title="Selecciona un usuario" --text="Usuarios con login:" \
+        zenity --list --title="Diseñado por SUKIGSX" --text="Selecciona el usuario para aplicar los permisos de ejecucion de las aplicaciones del sistema:" \
         --column="Usuario" --height=300 --width=300 --ok-label="Seleccionar" --cancel-label="Salir" 2>/dev/null)
 
     if [ -z "$usuario" ]; then
@@ -53,8 +78,8 @@ while true; do
 
     # Mostramos la lista de binarios
     selected_apps=$(zenity --list --checklist \
-        --title="Selecciona binarios" \
-        --text="Selecciona los binarios para modificar permisos ACL:" \
+        --title="Diseñado por SUKIGSX" \
+        --text="Selecciona las aplicaciones marcando las casillas.\n- Puedes seleccionar una o varias\n- Tambien puedes buscar aplicaciones escribiendo directamente su nombre" \
         --column="Selecciona" --column="Binario" --column="Seleccionada" \
         "${zenity_list[@]}" \
         --height=400 --width=700 \
@@ -65,7 +90,7 @@ while true; do
     fi
 
     # 3. Preguntar acción
-    action=$(zenity --list --title="Acción" --text="Selecciona acción a realizar:" \
+    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Selecciona acción a realizar, para el usuario $usuario:" \
         --radiolist --column="Selecciona" --column="Acción" \
         TRUE "Quitar permisos de ejecución (rw-)" \
         FALSE "Dar permisos de ejecución (rwx)" \
