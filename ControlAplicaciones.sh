@@ -233,34 +233,14 @@ else
 fi
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-rojo="\e[0;31m\033[1m" #rojo
-verde="\e[;32m\033[1m"
-azul="\e[0;34m\033[1m"
-amarillo="\e[0;33m\033[1m"
-rosa="\e[0;35m\033[1m"
-turquesa="\e[0;36m\033[1m"
-borra_colores="\033[0m\e[0m" #borra colores
-
 # Evitar advertencias de GTK/Zenity en la consola
 export ZENITY_NO_GTK_WARNINGS=1
 
 # Comprobar si el script se ejecuta con privilegios de root
 clear
 if [ "$EUID" -ne 0 ]; then
+  clear
+  menu_info
   echo ""
   echo -e "${rojo} Este script necesita permisos de sudo.${borra_colores}"
   echo ""
