@@ -304,13 +304,18 @@ while true; do
     fi
 
     # 3. Preguntar acción
-    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Selecciona acción a realizar, para el usuario $usuario:" \
+
+    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Aplicaciones seleccionadas para el usuario $usuario: $selected_apps" \
         --radiolist --column="Selecciona" --column="Acción" \
         TRUE "Quitar permisos de ejecución (rw-)" \
         FALSE "Dar permisos de ejecución (rwx)" \
         --ok-label="Aplicar" --cancel-label="Salir" 2>/dev/null)
 
-         zenity --info --text="Usuario $usuario. aplicaciones : $selected_apps" 2>/dev/null
+    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Selecciona acción a realizar, para el usuario $usuario:" \
+        --radiolist --column="Selecciona" --column="Acción" \
+        TRUE "Quitar permisos de ejecución (rw-)" \
+        FALSE "Dar permisos de ejecución (rwx)" \
+        --ok-label="Aplicar" --cancel-label="Salir" 2>/dev/null)
 
     if [ -z "$action" ]; then
         exit 0
@@ -329,8 +334,6 @@ while true; do
     done
 
     zenity --info --text="Permisos ACL aplicados correctamente al usuario $usuario." 2>/dev/null
-
-
 
     exit 0
 done
