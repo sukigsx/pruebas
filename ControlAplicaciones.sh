@@ -313,12 +313,6 @@ while true; do
         FALSE "Dar permisos de ejecución (rwx)" \
         --ok-label="Aplicar" --cancel-label="Salir" 2>/dev/null)
 
-    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Selecciona acción a realizar, para el usuario $usuario:" \
-        --radiolist --column="Selecciona" --column="Acción" \
-        TRUE "Quitar permisos de ejecución (rw-)" \
-        FALSE "Dar permisos de ejecución (rwx)" \
-        --ok-label="Aplicar" --cancel-label="Salir" 2>/dev/null)
-
     if [ -z "$action" ]; then
         exit 0
     fi
