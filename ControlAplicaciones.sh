@@ -250,8 +250,9 @@ if [ "$EUID" -ne 0 ]; then
   echo ""; read p
   exit 1
 else
-  echo ""
-  echo -e "${amarillo}OK.${borra_colores}"
+  clear
+  menu_info
+  echo -e "${amarillo}OK. Tenemos permisos sudo${borra_colores}"
 fi
 
 
