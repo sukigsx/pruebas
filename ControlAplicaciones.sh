@@ -33,6 +33,8 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [zenity]="zenity"
         [diff]="diff"
         [ping]="ping"
+        [tr]="coreutils"
+        [sed]="sed"
     )
 
 
@@ -305,7 +307,7 @@ while true; do
 
     # 3. Preguntar acción
 
-    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Aplicaciones seleccionadas para el usuario $usuario:\n $(echo "$selected_apps" | tr '|' '\n' | sed 's/^ *//;s/ *$//')" \
+    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Aplicaciones seleccionadas para el usuario $usuario:\n\n $(echo "$selected_apps" | tr '|' '\n' | sed 's/^ *//;s/ *$//')\n" \
         --radiolist --column="Selecciona" --column="Acción" \
         TRUE "Quitar permisos de ejecución (rw-)" \
         FALSE "Dar permisos de ejecución (rwx)" \
