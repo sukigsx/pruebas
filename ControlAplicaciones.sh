@@ -310,6 +310,8 @@ while true; do
         FALSE "Dar permisos de ejecución (rwx)" \
         --ok-label="Aplicar" --cancel-label="Salir" 2>/dev/null)
 
+         zenity --info --text="Usuario $usuario. aplicaciones : $selected_apps" 2>/dev/null
+
     if [ -z "$action" ]; then
         exit 0
     fi
@@ -328,7 +330,7 @@ while true; do
 
     zenity --info --text="Permisos ACL aplicados correctamente al usuario $usuario." 2>/dev/null
 
-    zenity --info --text="Usuario $usuario. aplicaciones : $selected_apps" 2>/dev/null
+
 
     exit 0
 done
