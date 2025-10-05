@@ -4,11 +4,11 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="ControlAplicaciones"
-export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
-export Correo=""
-export Web=""
-export version="1.0aaasssaasskhbddddttdwwddaaaaaaaaaaaah"
+export NombreScript="$0"
+export DescripcionDelScript="Controla las aplicaciones que puede ejecutar uno o varios usuarios del sistema."
+export Correo="hay que poner el puto correo"
+export Web="y la web "
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
