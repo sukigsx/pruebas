@@ -147,7 +147,7 @@ for comando in "${!requeridos[@]}"; do
                 sino=$?
             fi
         done
-        echo -e " [${verde}ok${borra_colores}] $comando (${requeridos[$comando]})."
+        echo -e " [${verde}ok${borra_colores}] $comando (${requeridos[$comando]})."; software="SI"
     done
 
     echo ""
