@@ -328,5 +328,7 @@ while true; do
 
     zenity --info --text="Permisos ACL aplicados correctamente al usuario $usuario." 2>/dev/null
 
+    zenity --info --text="Usuario $usuario. aplicaciones : $selected_apps" 2>/dev/null
+
     exit 0
 done
