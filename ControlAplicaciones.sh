@@ -232,9 +232,6 @@ else
     fi
 fi
 
-read p
-
-
 
 
 
@@ -270,7 +267,7 @@ if [ "$EUID" -ne 0 ]; then
   echo -e "${amarillo} Por favor, ejecútalo con:${borra_colores}"
   echo -e "   sudo $0"
   echo -e "   sudo bash $0"
-  echo ""
+  echo ""; read p
   exit 1
 else
   echo ""
