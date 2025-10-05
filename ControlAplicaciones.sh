@@ -305,7 +305,7 @@ while true; do
 
     # 3. Preguntar acción
 
-    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Aplicaciones seleccionadas para el usuario $usuario: $selected_apps" \
+    action=$(zenity --list --title="Diseñado por SUKIGSX" --text="Aplicaciones seleccionadas para el usuario $usuario:\n $(echo "$selected_apps" | tr '|' '\n')" \
         --radiolist --column="Selecciona" --column="Acción" \
         TRUE "Quitar permisos de ejecución (rw-)" \
         FALSE "Dar permisos de ejecución (rwx)" \
