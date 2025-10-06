@@ -903,7 +903,7 @@ while true; do
     clear
     menu_info
     echo ""
-    echo -e " ${azul}MENU PRINCIPAL${borra_colores} ip servidor $(hostname -I)"
+    echo -e " ${azul}MENU PRINCIPAL${borra_colores}"
     echo ""
     echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Recomendado solo la primera vez)"
     echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL de las carpetas comparitdas por samba"
@@ -911,7 +911,7 @@ while true; do
     echo ""
     echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
-    read -rp " Elige una opcion: " opcion
+    read -rp " (Ip servidor $(hostanme -I)) Elige una opcion: " opcion
 
     case "$opcion" in
         1) crear_total ;;
