@@ -602,6 +602,7 @@ while true; do
 
             # Pedir selecciￃﾳn con validaciￃﾳn
             while true; do
+                echo ""
                 read -rp "Ingresa los numeros separados por espacios: " FOLDER_CHOICES
                 if [[ "$FOLDER_CHOICES" == "0" ]]; then
                     FOLDERS=("$TARGET")
@@ -744,6 +745,7 @@ gestionar_usuarios() {
 crear_usuario() {
     while true; do
         clear
+        menu_info
         echo -e "${verde}CREACIÓN DE USUARIOS${borra_colores}"
         echo ""
         echo -e "${azul}Lista de usuarios actuales${borra_colores}"
@@ -792,6 +794,7 @@ crear_usuario() {
 
 borrar_usuario() {
     clear
+    menu_info
     echo -e "${rojo}BORRAR USUARIOS${borra_colores}"
     echo ""
     echo "Usuarios disponibles en el sistema:"
