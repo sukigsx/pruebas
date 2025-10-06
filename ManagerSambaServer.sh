@@ -473,6 +473,7 @@ while true; do
             # Listar permisos ACL
             # ========================
             clear
+            menu_info
             echo -e "${verde}LISTAR PERMISOS ACL${borra_colores}"
             echo ""
             USERS=$(find "$TARGET" -type d -exec getfacl -p {} \; 2>/dev/null | \
