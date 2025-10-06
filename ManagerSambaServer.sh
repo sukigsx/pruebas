@@ -504,7 +504,7 @@ while true; do
                 echo -e "${rojo}Opcion invadida. Intenta nuevamente.${borra_colores}"
             done
 
-            echo -e "\nPermisos ACL en '$TARGET' ${amarillo}(Los permisos ACL de la carpeta principal se heredan en todas sus subcarpetas y archivos)${borra_colores}"
+            echo -e "\nPermisos ACL en '$TARGET' ${amarillo}(Los permisos ACL se heredan en todo el contenido de las carpetas principales)${borra_colores}"
             echo "-----------------------------------------------------------------------------------------------------------"
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
