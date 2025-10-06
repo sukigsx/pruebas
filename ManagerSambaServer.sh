@@ -77,6 +77,7 @@ fi
         [smbstatus]="samba"
         [getfacl]="acl"
         [awk]="awk"
+        [hostname]="hostname"
     )
 
 software_necesario(){
@@ -911,7 +912,7 @@ while true; do
     echo ""
     echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
-    read -rp " (Ip servidor $(hostanme -I)) Elige una opcion: " opcion
+    read -rp " (Ip servidor $(hostname -I)) Elige una opcion: " opcion
 
     case "$opcion" in
         1) crear_total ;;
