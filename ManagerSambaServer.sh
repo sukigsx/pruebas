@@ -491,6 +491,7 @@ while true; do
                 if [[ "$choice" =~ ^[0-9]+$ ]]; then
                     if [ "$choice" -eq 0 ]; then
                         FILTER_USER=""
+                        echo ""
                         echo -e "${azul}Mostrando permisos de todos los usuarios${borra_colores}"
                         break
                     elif [ "$choice" -le $(echo "$USERS" | wc -l) ]; then
@@ -503,7 +504,7 @@ while true; do
                 echo -e "${rojo}Opcion invadida. Intenta nuevamente.${borra_colores}"
             done
 
-            echo -e "\nPermisos ACL en '$TARGET' (solo carpetas)"
+            echo -e "\nPermisos ACL en '$TARGET' ${amarillo}(Los permisos ACL de la carpeta principal se heredan en todas sus subcarpetas y archivos)${borra_colores}"
             echo "-----------------------------------------------------------------------------------------------------------"
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
