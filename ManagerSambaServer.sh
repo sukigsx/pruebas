@@ -592,7 +592,7 @@ while true; do
             done
 
             # Mostrar carpetas para seleccionar
-            echo -e "\nSelecciona las carpetas donde aplicar permisos (ej: 1 2 3):"; echo ""
+            echo -e "${azul}\nSelecciona las carpetas donde aplicar permisos (ej: 1 2 3):${borra_colores}"; echo ""
             echo "0) Toda la carpeta raiz y subcarpetas incluyendo ficheros"
             mapfile -t SUBFOLDERS < <(find "$TARGET" -type d)
             echo ""
