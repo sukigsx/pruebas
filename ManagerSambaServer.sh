@@ -491,11 +491,12 @@ while true; do
                 if [[ "$choice" =~ ^[0-9]+$ ]]; then
                     if [ "$choice" -eq 0 ]; then
                         FILTER_USER=""
-                        echo "Mostrando permisos de todos los usuarios"
+                        echo -e "${azul}Mostrando permisos de todos los usuarios${borra_colores}"
                         break
                     elif [ "$choice" -le $(echo "$USERS" | wc -l) ]; then
                         FILTER_USER=$(echo "$USERS" | sed -n "${choice}p")
-                        echo "Filtrando resultados para usuario: ${FILTER_USER}"
+                        echo ""
+                        echo -e "${azul}Filtrando resultados para usuario:${borra_colores} ${FILTER_USER}"
                         break
                     fi
                 fi
