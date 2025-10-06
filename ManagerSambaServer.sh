@@ -540,6 +540,7 @@ while true; do
             # Cambiar permisos ACL
             # ========================
             clear
+            menu_info
             echo -e "\n${verde}MODIFICACION DE PERMISOS ACL POR USUARIO${borra_colores}"
 
             # Obtener lista de usuarios con ACL
@@ -563,7 +564,7 @@ while true; do
             fi
 
             # Mostrar permisos actuales del usuario seleccionado en columnas
-            echo -e "\n${azul}Permisos actuales del usuario${borra_colores} ${USER} ${azul}en la carpeta '${borra_colores}$TARGET${azul}' y subcarpetas:${borra_colores}"; echo ""
+            echo -e "\n${azul}Permisos actuales del usuario${borra_colores} ${USER} ${azul}en la carpeta '${borra_colores}$TARGET${azul}' incluyendo carpetas y ficheros:${borra_colores}"; echo ""
             echo "-----------------------------------------------------------------------------------------------------------"
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
