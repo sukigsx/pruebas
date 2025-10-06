@@ -14,7 +14,7 @@ menu_info(){
 #muestra el menu de sukigsx
 echo ""
 echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores}  $0 "
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de instalacion basado en Debian"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de configuracion/creacion usuarios y permisos samba"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
