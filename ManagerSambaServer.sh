@@ -155,6 +155,7 @@ trap ctrl_c INT
 function ctrl_c()
 {
 clear
+menu_info
 echo ""
 echo -e " ${verde}- Gracias por utilizar mi script -${borra_colores}"
 echo ""
