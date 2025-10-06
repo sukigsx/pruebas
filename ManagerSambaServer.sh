@@ -903,7 +903,7 @@ while true; do
     clear
     menu_info
     echo ""
-    echo -e " ${azul}MENU PRINCIPAL${borra_colores}"
+    echo -e " ${azul}MENU PRINCIPAL${borra_colores}Direccion ip del servidor $(hostname -I)"
     echo ""
     echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Recomendado solo la primera vez)"
     echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL de las carpetas comparitdas por samba"
