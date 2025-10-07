@@ -889,8 +889,9 @@ if [ ${#SHARES[@]} -eq 0 ]; then
     sleep 3
 fi
 
+echo ""
 echo -e "${azul}Recursos compartidos definidos en${borra_colores} $SMB_CONF:"
-echo -e "${azul}---------------------------------------------${borra_colores}"
+echo -e ""
 i=1
 for share in "${SHARES[@]}"; do
     echo "$i) $share"
