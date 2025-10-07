@@ -866,7 +866,7 @@ gestionar_usuarios
 
 borraconfiguracionsamba(){
 #borra el fichero de estado de la configuracion samba
-sudo rm -r /etc/samba/$estado_config
+sudo rm -r $estado_config
 
 SMB_CONF="/etc/samba/smb.conf"
 
