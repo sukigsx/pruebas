@@ -968,6 +968,7 @@ while true; do
           fi ;;
 
         4) listarrecursoscompartidoyusuarios
+            read -p
             ;;
 
         99) ctrl_c ;;
