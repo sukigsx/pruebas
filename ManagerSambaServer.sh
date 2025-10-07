@@ -864,7 +864,90 @@ gestionar_usuarios
 
 }
 
+borraconfiguracionsamba(){
+#borra el fichero de estado de la configuracion samba
+sudo rm -r /etc/samba/$estado_config
 
+SMB_CONF="/etc/samba/smb.conf"
+
+# Si se pasa una ruta alternativa al smb.conf
+if [ -n "$1" ]; then
+    SMB_CONF="$1"
+fi
+
+# Comprobar que el archivo existe
+if [ ! -f "$SMB_CONF" ]; then
+    echo "❌ No se encontró el archivo $SMB_CONF"
+    exit 1
+fi
+
+# Obtener los nombres de los recursos compartidos (excepto [global])
+mapfile -t SHARES < <(grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$')
+
+if [ ${#SHARES[@]} -eq 0 ]; then
+    echo "⚠️ No se encontraron recursos compartidos en $SMB_CONF"
+    exit 0
+fi
+
+echo "Recursos compartidos definidos en $SMB_CONF:"
+echo "---------------------------------------------"
+i=1
+for share in "${SHARES[@]}"; do
+    echo "$i) $share"
+    ((i++))
+done
+
+echo
+read -p "Introduce el número del recurso que quieres eliminar (o 0 para salir): " SELECCION
+
+if [ "$SELECCION" -eq 0 ]; then
+    echo "Cancelado."
+    exit 0
+fi
+
+# Validar selección
+if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+    echo "❌ Selección no válida."
+    exit 1
+fi
+
+SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
+
+echo "🚨 Vas a eliminar el recurso compartido: [$SHARE_A_BORRAR]"
+read -p "¿Confirmas? (s/N): " CONFIRMAR
+
+if [[ ! "$CONFIRMAR" =~ ^[sS]$ ]]; then
+    echo "Operación cancelada."
+    exit 0
+fi
+
+# Crear copia de seguridad
+BACKUP="$SMB_CONF.bak_$(date +%Y%m%d_%H%M%S)"
+cp "$SMB_CONF" "$BACKUP"
+echo "🗂️  Copia de seguridad creada: $BACKUP"
+
+# Obtener línea inicial del bloque
+LINEA_INICIO=$(grep -n "^\[$SHARE_A_BORRAR\]" "$SMB_CONF" | cut -d: -f1)
+
+# Obtener línea del siguiente bloque o final del archivo
+LINEA_SIGUIENTE=$(grep -n "^\[" "$SMB_CONF" | awk -F: -v start="$LINEA_INICIO" '$1 > start {print $1; exit}')
+
+if [ -z "$LINEA_SIGUIENTE" ]; then
+    # Si no hay siguiente bloque, eliminar hasta el final
+    sed -i "${LINEA_INICIO},\$d" "$SMB_CONF"
+else
+    # Eliminar desde la línea de inicio hasta justo antes del siguiente bloque
+    sed -i "${LINEA_INICIO},$((LINEA_SIGUIENTE-1))d" "$SMB_CONF"
+fi
+
+echo "✅ Recurso [$SHARE_A_BORRAR] eliminado del archivo."
+
+# Mostrar los recursos restantes
+echo
+echo "Recursos restantes:"
+grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$'
+
+}
 
 clear
 menu_info
@@ -968,8 +1051,7 @@ while true; do
             sleep 3
           fi ;;
 
-        4) SMB_CONF="/etc/samba/smb.conf"
-        listarrecursoscompartidoyusuarios
+        4) borraconfiguracionsamba
 
             read -p
             ;;
