@@ -875,54 +875,56 @@ fi
 
 # Comprobar que el archivo existe
 if [ ! -f "$SMB_CONF" ]; then
-    echo "❌ No se encontró el archivo $SMB_CONF"
-    exit 1
+    echo ""
+    echo "${rojo}No se encontró el archivo${borra_colores} $SMB_CONF"
+    sleep 3
 fi
 
 # Obtener los nombres de los recursos compartidos (excepto [global])
 mapfile -t SHARES < <(grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$')
 
 if [ ${#SHARES[@]} -eq 0 ]; then
-    echo "⚠️ No se encontraron recursos compartidos en $SMB_CONF"
-    exit 0
+    echo ""
+    echo -e "${amarillo}No se encontraron recursos compartidos en${borra_colores} $SMB_CONF"
+    sleep 3
 fi
 
-echo "Recursos compartidos definidos en $SMB_CONF:"
-echo "---------------------------------------------"
+echo -e "${azul}Recursos compartidos definidos en${borra_colores} $SMB_CONF:"
+echo -e "${azul}---------------------------------------------${borra_colores}"
 i=1
 for share in "${SHARES[@]}"; do
     echo "$i) $share"
     ((i++))
 done
 
-echo
-read -p "Introduce el número del recurso que quieres eliminar (o 0 para salir): " SELECCION
+echo ""
+read -p "Introduce el número del recurso que quieres eliminar (o 0 para ir atras): " SELECCION
 
 if [ "$SELECCION" -eq 0 ]; then
-    echo "Cancelado."
-    exit 0
+    echo ""
 fi
 
 # Validar selección
 if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
-    echo "❌ Selección no válida."
-    exit 1
+    echo -e "${rojo}Selección no válida${borra_colores}"
+    sleep 3
 fi
 
 SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
 
-echo "🚨 Vas a eliminar el recurso compartido: [$SHARE_A_BORRAR]"
-read -p "¿Confirmas? (s/N): " CONFIRMAR
+echo ""
+echo -e "${amarillo}Vas a eliminar el recurso compartido:${borra_colores} $SHARE_A_BORRAR"
+read -p "¿ Estas seguro ? (s/N): " CONFIRMAR
 
 if [[ ! "$CONFIRMAR" =~ ^[sS]$ ]]; then
-    echo "Operación cancelada."
-    exit 0
+    echo ""
 fi
 
 # Crear copia de seguridad
 BACKUP="$SMB_CONF.bak_$(date +%Y%m%d_%H%M%S)"
 cp "$SMB_CONF" "$BACKUP"
-echo "🗂️  Copia de seguridad creada: $BACKUP"
+echo ""
+echo -e "${verde}Copia de seguridad creada:${borra_colores} $BACKUP"
 
 # Obtener línea inicial del bloque
 LINEA_INICIO=$(grep -n "^\[$SHARE_A_BORRAR\]" "$SMB_CONF" | cut -d: -f1)
@@ -938,19 +940,21 @@ else
     sed -i "${LINEA_INICIO},$((LINEA_SIGUIENTE-1))d" "$SMB_CONF"
 fi
 
-echo "✅ Recurso [$SHARE_A_BORRAR] eliminado del archivo."
+echo -e "${verde}Recurso${borra_colores} $SHARE_A_BORRAR ${verdes}eliminado del archivo${borra_colores}"
 
 # Mostrar los recursos restantes
 echo
-echo "Recursos restantes:"
+echo -e "${azul}Recursos restantes:${borra_colores}"
 grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$'
 
 #borra el fichero de estado de la configuracion samba
+echo ""
 read -p "Deseas borrar el estado? (s/n)" sn
 if [[ "$sn" =~ ^[sS]$ ]]; then
     sudo rm -r $estado_config
 else
-    echo "Operación cancelada."
+    echo ""
+    echo -e "${verde}Operación cancelada${borra_colores}"
     sleep 3
 fi
 
