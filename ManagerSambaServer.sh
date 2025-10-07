@@ -907,8 +907,9 @@ fi
 
 # Validar selección
 if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+    echo ""
     echo -e "${rojo}Selección no válida${borra_colores}"
-    sleep 3
+    return
 fi
 
 SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
