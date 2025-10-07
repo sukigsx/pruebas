@@ -397,14 +397,17 @@ configurar_samba(){
 
 # Ejecutar las funciones
 crear_usuarios
-read -p "Pulsa una tecla para continuar" p;
+sleep 1
+#read -p "Pulsa una tecla para continuar" p;
 crear_carpetas
-read -p "Pulsa una tecla para continuar" p;
+sleep 1
+#read -p "Pulsa una tecla para continuar" p;
 asignar_permisos
-read -p "Pulsa una tecla para continuar" p;
+sleep 1
+#read -p "Pulsa una tecla para continuar" p;
 configurar_samba
 echo "Proceso completado con Exito."
-
+sleep 3
 # Marcar que la configuración inicial ha sido completada
 echo "Configuración inicial completada el $(date)" | sudo tee "$estado_config" > /dev/null
 sudo chmod 600 "$estado_config"
