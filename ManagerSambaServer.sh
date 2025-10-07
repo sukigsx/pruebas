@@ -957,7 +957,7 @@ grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$'
 
 #borra el fichero de estado de la configuracion samba
 echo ""
-read -p "Deseas borrar el estado? (s/n)" sn
+read -p "Deseas borrar el estado? (s/n) " sn
 if [[ "$sn" =~ ^[sS]$ ]]; then
     sudo rm -r $estado_config
 else
