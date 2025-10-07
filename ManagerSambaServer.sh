@@ -902,7 +902,7 @@ echo ""
 read -p "Introduce el número del recurso que quieres eliminar (o 0 para ir atras): " SELECCION
 
 if [ "$SELECCION" -eq 0 ]; then
-    echo ""
+    break
 fi
 
 # Validar selección
