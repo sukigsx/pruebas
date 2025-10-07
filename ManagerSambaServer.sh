@@ -1060,9 +1060,6 @@ while true; do
             sleep 4
           fi ;;
 
-            read -p
-            ;;
-
         99) ctrl_c ;;
         *) echo ""; echo -e "${rojo} Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
     esac
