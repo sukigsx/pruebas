@@ -965,7 +965,7 @@ if [[ "$sn" =~ ^[sS]$ ]]; then
     sudo rm -r $estado_config
 else
     echo ""
-    echo -e "${verde}Operación cancelada${borra_colores}"
+    echo -e "${verde}El estado NO se ha borrado${borra_colores}"
     sleep 3
 fi
 
