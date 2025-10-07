@@ -934,6 +934,7 @@ while true; do
     echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Recomendado solo la primera vez)"
     echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL de las carpetas comparitdas por samba"
     echo -e " ${azul} 3)${borra_colores} Crear borrar usuarios samba y del sistema"
+    echo -e " ${azul} 4)${borra_colores} Borrar la configuracion de samba, NO borra datos del disco y usuarios."
     echo ""
     echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
@@ -965,6 +966,9 @@ while true; do
             echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
             sleep 3
           fi ;;
+
+        4) listarrecursoscompartidoyusuarios
+            ;;
 
         99) ctrl_c ;;
         *) echo ""; echo -e "${rojo} Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
