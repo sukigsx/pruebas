@@ -411,7 +411,7 @@ echo -e "${verde}Proceso completado con Exito.${borra_colores}"
 # Marcar que la configuración inicial ha sido completada
 echo -e "${verde}Configuración inicial completada el $(date)${borra_colores}" | sudo tee "$estado_config" > /dev/null
 sudo chmod 600 "$estado_config"
-sleep 3
+sleep 5
 }
 
 # ========================
@@ -902,9 +902,9 @@ for share in "${SHARES[@]}"; do
 done
 
 echo ""
-read -p "Introduce el número del recurso que quieres eliminar (o 0 para ir atras): " SELECCION
+read -p "Introduce el número del recurso que quieres eliminar (o 99 para ir atras): " SELECCION
 
-if [ "$SELECCION" -eq 0 ]; then
+if [ "$SELECCION" -eq 99 ]; then
     return
 fi
 
