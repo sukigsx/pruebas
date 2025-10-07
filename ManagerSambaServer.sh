@@ -917,10 +917,15 @@ SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
 
 echo ""
 echo -e "${amarillo}Vas a eliminar el recurso compartido:${borra_colores} $SHARE_A_BORRAR"
+echo -e "${amarillo}Si lo borras creara una copia de seguridad automatica${borra_colores}"
+echo ""
 read -p "¿ Estas seguro ? (s/N): " CONFIRMAR
 
 if [[ ! "$CONFIRMAR" =~ ^[sS]$ ]]; then
     echo ""
+    echo -e "${amarillo}No se borra nada${borra_colores}"
+    sleep 3
+    return
 fi
 
 # Crear copia de seguridad
