@@ -1039,7 +1039,7 @@ while true; do
             echo ""
             echo -e "${rojo}No puedes acceder a esta opción.${borra_colores}"
             echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
-            sleep 3
+            sleep 4
           fi ;;
 
         3) if [ "$configurado" == "SI" ]; then
@@ -1048,10 +1048,17 @@ while true; do
             echo ""
             echo -e "${rojo}No puedes acceder a esta opción.${borra_colores}"
             echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
-            sleep 3
+            sleep 4
           fi ;;
 
-        4) borraconfiguracionsamba
+        4) if [ "$configurado" == "SI" ]; then
+            borraconfiguracionsamba
+           else
+            echo ""
+            echo -e "${rojo}No puedes acceder a esta opción.${borra_colores}"
+            echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
+            sleep 4
+          fi ;;
 
             read -p
             ;;
