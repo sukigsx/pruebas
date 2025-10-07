@@ -865,8 +865,6 @@ gestionar_usuarios
 }
 
 borraconfiguracionsamba(){
-#borra el fichero de estado de la configuracion samba
-sudo rm -r $estado_config
 
 SMB_CONF="/etc/samba/smb.conf"
 
@@ -946,6 +944,15 @@ echo "✅ Recurso [$SHARE_A_BORRAR] eliminado del archivo."
 echo
 echo "Recursos restantes:"
 grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$'
+
+#borra el fichero de estado de la configuracion samba
+read -p "Deseas borrar el estado? (s/n)" sn
+if [[ "$sn" =~ ^[sS]$ ]]; then
+    sudo rm -r $estado_config
+else
+    echo "Operación cancelada."
+    exit 0
+fi
 
 }
 
