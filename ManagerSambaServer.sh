@@ -951,7 +951,7 @@ if [[ "$sn" =~ ^[sS]$ ]]; then
     sudo rm -r $estado_config
 else
     echo "Operación cancelada."
-    exit 0
+    sleep 3
 fi
 
 }
