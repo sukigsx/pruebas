@@ -967,7 +967,31 @@ while true; do
             sleep 3
           fi ;;
 
-        4) listarrecursoscompartidoyusuarios
+        4) awk '
+            BEGIN {
+    azul = "\033[34m"
+    reset = "\033[0m"
+    print azul "Recurso compartido\tUsuarios del recurso" reset
+    print azul "------------------\t--------------------" reset
+}
+/^\[.*\]$/ {
+    if (share != "") {
+        print share "\t" (valid ? valid : "")
+    }
+    share = substr($0, 2, length($0)-2)
+    valid = ""
+}
+/^[ \t]*valid users/ {
+    # Quitar "valid users =" y dejar solo los nombres
+    sub(/^[ \t]*valid users[ \t]*=[ \t]*/, "", $0)
+    valid = $0
+}
+END {
+    if (share != "") {
+        print share "\t" (valid ? valid : "")
+    }
+}
+' $SMB_CONF | column -t -s $'\t'
             read -p
             ;;
 
