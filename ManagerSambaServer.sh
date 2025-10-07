@@ -406,12 +406,12 @@ asignar_permisos
 sleep 1
 #read -p "Pulsa una tecla para continuar" p;
 configurar_samba
-echo "Proceso completado con Exito."
-sleep 3
+echo ""
+echo -e "${verde}Proceso completado con Exito.${borra_colores}"
 # Marcar que la configuración inicial ha sido completada
-echo "Configuración inicial completada el $(date)" | sudo tee "$estado_config" > /dev/null
+echo -e "${verde}Configuración inicial completada el $(date)${borra_colores}" | sudo tee "$estado_config" > /dev/null
 sudo chmod 600 "$estado_config"
-
+sleep 3
 }
 
 # ========================
