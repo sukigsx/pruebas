@@ -1023,17 +1023,10 @@ while true; do
     echo ""
     read -rp " Elige una opcion: " opcion
 
-    # Comprobar si la configuración inicial ya se realizó
-    if [ -f "$estado_config" ]; then
-        configurado="SI"
-    else
-        configurado="NO"
-    fi
-
     case "$opcion" in
         1) crear_total ;;
 
-        2) if [ "$configurado" == "SI" ]; then
+        2) if [ -f "$estado_config" ]; then
             permisos_acl
            else
             echo ""
@@ -1042,7 +1035,7 @@ while true; do
             sleep 4
           fi ;;
 
-        3) if [ "$configurado" == "SI" ]; then
+        3) if [ -f "$estado_config" ]; then
             crearborrarusuarios
            else
             echo ""
@@ -1051,7 +1044,7 @@ while true; do
             sleep 4
           fi ;;
 
-        4) if [ "$configurado" == "SI" ]; then
+        4) if [ -f "$estado_config" ]; then
             borraconfiguracionsamba
            else
             echo ""
