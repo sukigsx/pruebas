@@ -894,7 +894,7 @@ echo -e "${azul}Recursos compartidos definidos en${borra_colores} $SMB_CONF:"
 echo -e ""
 i=1
 for share in "${SHARES[@]}"; do
-    echo "$i) $share"
+    echo -e "${azul}$i)${borra_colores} $share"
     ((i++))
 done
 
@@ -909,6 +909,7 @@ fi
 if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
     echo ""
     echo -e "${rojo}Selección no válida${borra_colores}"
+    sleep 3
     return
 fi
 
