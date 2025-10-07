@@ -1006,9 +1006,9 @@ while true; do
     echo ""
 
     if [ -f "$estado_config" ]; then
-        echo -e " ${verde}Estado:${borra_colores} Configuración inicial completada ✅"
+        echo -e " ${verde}Estado:${borra_colores} Configuración inicial completada"
     else
-        echo -e " ${rojo}Estado:${borra_colores} Configuración inicial pendiente ⚠️"
+        echo -e " ${rojo}Estado:${borra_colores} Configuración inicial pendiente"
     fi
 
     echo ""
