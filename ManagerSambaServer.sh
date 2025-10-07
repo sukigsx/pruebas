@@ -949,6 +949,7 @@ while true; do
 
     case "$opcion" in
         1) crear_total ;;
+
         2) if [ "$configurado" == "SI" ]; then
             permisos_acl
            else
@@ -967,31 +968,9 @@ while true; do
             sleep 3
           fi ;;
 
-        4) awk '
-            BEGIN {
-    azul = "\033[34m"
-    reset = "\033[0m"
-    print azul "Recurso compartido\tUsuarios del recurso" reset
-    print azul "------------------\t--------------------" reset
-}
-/^\[.*\]$/ {
-    if (share != "") {
-        print share "\t" (valid ? valid : "")
-    }
-    share = substr($0, 2, length($0)-2)
-    valid = ""
-}
-/^[ \t]*valid users/ {
-    # Quitar "valid users =" y dejar solo los nombres
-    sub(/^[ \t]*valid users[ \t]*=[ \t]*/, "", $0)
-    valid = $0
-}
-END {
-    if (share != "") {
-        print share "\t" (valid ? valid : "")
-    }
-}
-' $SMB_CONF | column -t -s $'\t'
+        4) SMB_CONF="/etc/samba/smb.conf"
+        listarrecursoscompartidoyusuarios
+
             read -p
             ;;
 
