@@ -912,10 +912,6 @@ echo -e "${amarillo} Ten en cuenta que si esta habilitado el recurso [homes]${bo
 echo -e "${amarillo} en la configuracion de samba en /etc/samba/smb.conf${borra_colores}"
 echo -e "${amarillo} puede ser que se muestre el home de algun usuario.${borra_colores}"
 echo ""
-echo -e "${amarillo} Puedes eliminarlo en la opcion 4 Borrar configuracion de samba.${borra_colores}"
-echo ""
-read -p "Pulsa una tecla para continuar." pause
-echo ""
 read -p "Introduce el número del recurso que quieres eliminar (o 99 para ir atras): " SELECCION
 
 if [ "$SELECCION" -eq 99 ]; then
