@@ -558,7 +558,7 @@ while true; do
 
         2)
             # ========================
-            # Cambiar permisos ACL
+            #  Cambiar permisos ACL
             # ========================
             clear
             menu_info
