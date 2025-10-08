@@ -526,11 +526,18 @@ while true; do
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
 
-            find "$TARGET" -type d | while IFS= read -r dir; do
-                getfacl -p "$dir" 2>/dev/null | grep -E '^(user|group|other)' | while IFS= read -r line; do
-                    entry=$(echo "$line" | cut -d: -f1)
-                    who=$(echo "$line" | cut -d: -f2)
-                    perms=$(echo "$line" | cut -d: -f3)
+            #find "$TARGET" -type d | while IFS= read -r dir; do
+            #    getfacl -p "$dir" 2>/dev/null | grep -E '^(user|group|other)' | while IFS= read -r line; do
+            #        entry=$(echo "$line" | cut -d: -f1)
+            #        who=$(echo "$line" | cut -d: -f2)
+            #        perms=$(echo "$line" | cut -d: -f3)
+
+            find "$TARGET" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r dir; do
+            getfacl -p "$dir" 2>/dev/null | grep -E '^(user|group|other)' | while IFS= read -r line; do
+            entry=$(echo "$line" | cut -d: -f1)
+            who=$(echo "$line" | cut -d: -f2)
+            perms=$(echo "$line" | cut -d: -f3)
+            echo "Dir: $dir | $entry:$who:$perms"
 
                     readable_perms=$(translate_perms "$perms")
 
