@@ -667,6 +667,7 @@ while true; do
             ;;
 
         *)
+            echo ""
             echo -e "${rojo}Opcion invalida.${borra_colores}"; sleep 2
             ;;
     esac
