@@ -276,16 +276,16 @@ while true; do
     menu_info
     echo -e "${verde}CREACION DE CARPETAS${borra_colores}"
     echo ""
-    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/home y el nombre que quieras${amarillo})${borra_colores}"
+    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/srv/samba y el nombre que quieras${amarillo})${borra_colores}"
     echo -e "${verde}Listado de las carpetas de tu /home por si ya tienes una que quieres utilizar${borra_colores}"
     echo ""
-    ls /home/
+    ls /srv/samba/
     echo ""
 
     # Validar que recurso_compartido no esté vacío
     while true; do
         read -p "Ingresa el nombre del recurso compartido (Servidor_smb): " recurso_compartido
-        if [ -n "$recurso_compartido" ]; then
+        if [ -n "/srv/samba/$recurso_compartido" ]; then
             break
         else
             echo ""
@@ -293,16 +293,16 @@ while true; do
         fi
     done
     echo ""
-    echo -e "Ingrese las carpetas a crear dentro de /home/$recurso_compartido (separadas por espacio, por ejemplo: Descargas Video Photo)"
+    echo -e "Ingrese las carpetas a crear dentro de /srv/samba/$recurso_compartido (separadas por espacio, por ejemplo: Descargas Video Photo)"
     read -p "Si el recurso compartido ya tiene las carpetas, presiona Enter: " carpetas
     echo ""
 
-    echo -e "${verde}Carpeta de recurso compartido =${borra_colores} /home/$recurso_compartido"
+    echo -e "${verde}Carpeta de recurso compartido =${borra_colores} /srv/samba/$recurso_compartido"
 
     if [ -z "$carpetas" ]; then
-        echo -e "${verde}Carpetas dentro de /home/$recurso_compartido =${borra_colores} $(for dir in /home/$recurso_compartido/*/; do basename "$dir"; done | tr '\n' ' ')"
+        echo -e "${verde}Carpetas dentro de /srv/samba/$recurso_compartido =${borra_colores} $(for dir in /home/$recurso_compartido/*/; do basename "$dir"; done | tr '\n' ' ')"
     else
-        echo -e "${verde}Carpetas dentro de /home/$recurso_compartido =${borra_colores} $carpetas"
+        echo -e "${verde}Carpetas dentro de /srv/samba/$recurso_compartido =${borra_colores} $carpetas"
     fi
 
     echo ""
@@ -310,7 +310,7 @@ while true; do
     if [[ "$sn" == "s" || "$sn" == "S" ]]; then
         # Crear las carpetas
         for carpeta in $carpetas; do
-            sudo mkdir -p /home/$recurso_compartido/$carpeta
+            sudo mkdir -p /srv/samba/$recurso_compartido/$carpeta
         done
         echo ""
         echo -e "${verde}Carpetas creadas con éxito${borra_colores}"
