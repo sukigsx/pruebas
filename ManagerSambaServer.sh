@@ -569,7 +569,7 @@ while true; do
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             if [ -z "$USERS" ]; then
-                read -rp "No hay usuarios con ACL. Ingresa el nombre del usuario: " USER
+                read -rp "No hay usuarios con ACL. Ingresa el nombre del usuario: " USER; read p
             else
                 echo -e "\nUsuarios con ACL en '$TARGET':"; echo ""
                 echo "$USERS" | nl
