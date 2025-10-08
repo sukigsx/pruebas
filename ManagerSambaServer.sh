@@ -1036,7 +1036,7 @@ while true; do
     echo ""
     echo -e "  ${verde}Info Ip server${borra_colores} $(hostname -I)"
     echo ""
-    echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Recomendado solo la primera vez)"
+    echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Configuracion inicial)"
     echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL de las carpetas comparitdas por samba"
     echo -e " ${azul} 3)${borra_colores} Crear borrar usuarios samba y del sistema"
     echo -e " ${azul} 4)${borra_colores} Borrar la configuracion de samba, NO borra datos del disco y usuarios."
