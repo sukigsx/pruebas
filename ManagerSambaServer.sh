@@ -638,7 +638,7 @@ while true; do
                 if $VALID; then
                     break
                 else
-                    echo "Entrada invalida. Ingresa solo nￃﾺmeros vￃﾡlidos separados por espacios o 0 para toda la raￃﾭz."
+                    echo -e "${rojo}Entrada invalida.${amarillo} Ingresa solo numeros validos separados por espacios o 0 para seleccionar todos.${borra_colores}"
                 fi
             done
 
@@ -654,20 +654,20 @@ while true; do
                 fi
 
                 if [ $? -eq 0 ]; then
-                    echo "Permisos aplicados correctamente a: $FOLDER"
+                    echo -e "${verde}Permisos aplicados correctamente a:${borra_colores} $FOLDER"
                 else
-                    echo "Error al aplicar permisos en: $FOLDER"
+                    echo -e "${rojo}Error al aplicar permisos en:${borra_colores} $FOLDER"
                 fi
             done
             ;;
 
         99)
-            echo -e "\nSaliendo..."
+            echo -e "\n${verde}Saliendo...${borra_colores}"; sleep 2
             break
             ;;
 
         *)
-            echo "Opcion invalida."
+            echo -e "${rojp}Opcion invalida.${borra_colores}"; sleep 2
             ;;
     esac
 done
