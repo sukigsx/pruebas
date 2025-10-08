@@ -460,9 +460,9 @@ menu_info
 echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
 echo ""
 echo -e "${azul}Listado de las carpetas de ${borra_colores}/home ${azul}de tu sistema${borra_colores}"
-echo ""
+echo -e "${rojo}"
 ls -d /home/*/ | xargs -n 1 basename
-echo ""
+echo -e "${borra_colores}"
 while true; do
     read -rp "Ingresa la ruta absoluta de la carpeta compartida: " TARGET
     if [ -d "$TARGET" ]; then
