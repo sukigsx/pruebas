@@ -569,7 +569,7 @@ while true; do
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             if [ -z "$USERS" ]; then
-                #read -rp "No hay usuarios con ACL. Ingresa el nombre del usuario: " USER
+                echo ""
                 echo -e "${rojo}No hay usuarios con permisos ACL en la carpeta $TARGET${borra_colores}"; sleep 3
                 return
             else
