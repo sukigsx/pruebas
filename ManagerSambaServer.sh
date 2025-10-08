@@ -914,7 +914,7 @@ echo -e "${amarillo} puede ser que se muestre el home de algun usuario.${borra_c
 echo ""
 read -p "Introduce el número del recurso que quieres eliminar (o 99 para ir atras): " SELECCION
 
-if [ "$SELECCION" -eq 99 ]; then
+if [ "$SELECCION" -eq 99 ] /dev/null 2>&1; then
     return
 fi
 
