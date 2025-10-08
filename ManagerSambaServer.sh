@@ -560,7 +560,7 @@ while true; do
             echo -e "\n${verde}MODIFICACION DE PERMISOS ACL POR USUARIO${borra_colores}"
 
             # Obtener lista de usuarios con ACL
-            USERS=$(find "$TARGET" -type d -exec getfacl -p {} \; 2>/dev/null | \
+            USERS=$(find "$TARGET" -mindepth 1 -maxdepth 1 -type d -exec getfacl -p {} \; 2>/dev/null | \
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             if [ -z "$USERS" ]; then
