@@ -919,12 +919,32 @@ if [ "$SELECCION" -eq 99 ]; then
 fi
 
 # Validar selección
-if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+if ! [[ "$SELECCION" =~ ^[0-9]+$ ]]; then
     echo ""
-    echo -e "${rojo}Selección no válida${borra_colores}"
+    echo -e "${rojo}Selección no válida (no es un número)${borra_colores}"
     sleep 3
     return
 fi
+
+# Validar rango
+if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+    echo ""
+    echo -e "${rojo}Selección no válida (fuera de rango)${borra_colores}"
+    sleep 3
+    return
+fi
+
+SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
+
+
+
+
+#if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+#    echo ""
+#    echo -e "${rojo}Selección no válida${borra_colores}"
+#    sleep 3
+#    return
+#fi
 
 SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
 
