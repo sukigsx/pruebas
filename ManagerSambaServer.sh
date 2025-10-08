@@ -605,8 +605,12 @@ while true; do
             # Pedir los nuevos permisos
             while true; do
                 echo ""
-                echo -e "${amarillo}Solo lectura =${borra_colores} --- ${amarillo}Lectura escritura =${borra_colores} rwx ${amarillo}Sin acceso =${borra_colores} ---"
-                read -rp "Ingresa los nuevos permisos (r, w, x - ej: rwx, r--): " PERMS
+                echo -e "${amarillo}Solo lectura =${borra_colores} r-- ${amarillo}Lectura escritura =${borra_colores} rwx ${amarillo}Sin acceso =${borra_colores} ---"
+                read -rp "Ingresa los nuevos permisos (99 = atras): " PERMS
+                if [ $PERMS = "99" ]; then
+                    return
+                fi
+
                 if [[ "$PERMS" =~ ^[r-][w-][x-]$ ]]; then
                     break
                 fi
