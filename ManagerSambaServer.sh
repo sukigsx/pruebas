@@ -606,6 +606,7 @@ while true; do
             while true; do
                 echo ""
                 read -rp "Ingresa los nuevos permisos (r, w, x - ej: rwx, r--): " PERMS
+                read -rp "Ingresa los nuevos permisos (r, w, x - ej: rwx, r--): " PERMS
                 if [[ "$PERMS" =~ ^[r-][w-][x-]$ ]]; then
                     break
                 fi
