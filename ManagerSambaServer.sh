@@ -570,7 +570,8 @@ while true; do
 
             if [ -z "$USERS" ]; then
                 #read -rp "No hay usuarios con ACL. Ingresa el nombre del usuario: " USER
-                echo -e "${rojp}No hay usuarios con permisos ACL en la carpeta $TARGET${borra_colores}"; sleep 3
+                echo -e "${rojo}No hay usuarios con permisos ACL en la carpeta $TARGET${borra_colores}"; sleep 3
+                return
             else
                 echo -e "\nUsuarios con ACL en '$TARGET':"; echo ""
                 echo "$USERS" | nl
