@@ -459,6 +459,10 @@ clear
 menu_info
 echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
 echo ""
+echo -e "${azul}Listado de las carpetas de ${borra_colores}/home ${azul}de tu sistema${borra_colores}"
+echo ""
+ls /home
+echo ""
 while true; do
     read -rp "Ingresa la ruta absoluta de la carpeta compartida: " TARGET
     if [ -d "$TARGET" ]; then
@@ -662,7 +666,6 @@ while true; do
             ;;
 
         99)
-            echo -e "\n${verde}Saliendo...${borra_colores}"; sleep 2
             break
             ;;
 
