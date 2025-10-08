@@ -560,7 +560,7 @@ while true; do
             echo -e "\n${verde}MODIFICACION DE PERMISOS ACL POR USUARIO${borra_colores}"
 
             # Obtener lista de usuarios con ACL
-            USERS=$(find "$TARGET" -mindepth 1 -maxdepth 1 -type d -exec getfacl -p {} \; 2>/dev/null | \
+            USERS=$(find "$TARGET" -type d -exec getfacl -p {} \; 2>/dev/null | \
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             if [ -z "$USERS" ]; then
@@ -585,7 +585,7 @@ while true; do
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
 
-            find "$TARGET" -type d | while IFS= read -r dir; do
+            find "$TARGET" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r dir; do
                 getfacl -p "$dir" 2>/dev/null | grep "^user" | while IFS=: read -r _ who perms; do
                     # Mostrar solo si es el usuario seleccionado o si es propietario y coincide con el usuario
                     owner=$(stat -c '%U' "$dir")
