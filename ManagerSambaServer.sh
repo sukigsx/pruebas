@@ -316,7 +316,7 @@ while true; do
         echo -e "${verde}Carpetas creadas con éxito${borra_colores}"
         break
     else
-        echo -e "${rojo}No se crea nada ni se modifica,"; read p
+        echo -e "${rojo}No se crea nada ni se modifica${borra_colores}"; sleep 3
     fi
 done
 }
