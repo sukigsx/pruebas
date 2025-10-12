@@ -276,16 +276,16 @@ while true; do
     menu_info
     echo -e "${verde}CREACION DE CARPETAS${borra_colores}"
     echo ""
-    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/home/ y el nombre que quieras${amarillo})${borra_colores}"
-    echo -e "${verde}Listado de las carpetas de tu /home por si ya tienes una que quieres utilizar${borra_colores}"
+    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/srv ${amarillo}y el nombre que quieras)${borra_colores}"
+    echo -e "${verde}Listado de las carpetas de tu${borra_colores} /srv${verde} por si ya tienes una que quieres utilizar${borra_colores}"
     echo ""
-    ls /home/
+    ls /srv/
     echo ""
 
     # Validar que recurso_compartido no esté vacío
     while true; do
         read -p "Ingresa el nombre del recurso compartido (Servidor_smb): " recurso_compartido
-        if [ -n "/home/$recurso_compartido" ]; then
+        if [ -n "/srv/$recurso_compartido" ]; then
             break
         else
             echo ""
@@ -293,16 +293,16 @@ while true; do
         fi
     done
     echo ""
-    echo -e "Ingrese las carpetas a crear dentro de /home/$recurso_compartido (separadas por espacio, por ejemplo: Descargas Video Photo)"
+    echo -e "Ingrese las carpetas a crear dentro de /srv/$recurso_compartido (separadas por espacio, por ejemplo: Descargas Video Photo)"
     read -p "Si el recurso compartido ya tiene las carpetas, presiona Enter: " carpetas
     echo ""
 
-    echo -e "${verde}Carpeta de recurso compartido =${borra_colores} /home/$recurso_compartido"
+    echo -e "${verde}Carpeta de recurso compartido =${borra_colores} /srv/$recurso_compartido"
 
     if [ -z "$carpetas" ]; then
-        echo -e "${verde}Carpetas dentro de /home/$recurso_compartido =${borra_colores} $(for dir in /home/$recurso_compartido/*/; do basename "$dir"; done | tr '\n' ' ')"
+        echo -e "${verde}Carpetas dentro de /srv/$recurso_compartido =${borra_colores} $(for dir in /srv/$recurso_compartido/*/; do basename "$dir"; done | tr '\n' ' ')"
     else
-        echo -e "${verde}Carpetas dentro de /home/$recurso_compartido =${borra_colores} $carpetas"
+        echo -e "${verde}Carpetas dentro de /srv/$recurso_compartido =${borra_colores} $carpetas"
     fi
 
     echo ""
@@ -310,7 +310,7 @@ while true; do
     if [[ "$sn" == "s" || "$sn" == "S" ]]; then
         # Crear las carpetas
         for carpeta in $carpetas; do
-            sudo mkdir -p /home/$recurso_compartido/$carpeta
+            sudo mkdir -p /srv/$recurso_compartido/$carpeta
         done
         echo ""
         echo -e "${verde}Carpetas creadas con éxito${borra_colores}"
@@ -331,7 +331,7 @@ asignar_permisos() {
 
     # Obtener usuarios y carpetas
     usuarios=($(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd))
-    carpetas=$(ls /home/$recurso_compartido)
+    carpetas=$(ls /srv/$recurso_compartido)
 
     # Iterar sobre los usuarios y carpetas para asignar permisos
     for usuario in "${usuarios[@]}"; do
@@ -343,13 +343,13 @@ asignar_permisos() {
 
                 # Validar permisos
                 if [[ "$permisos" == "rwx" ]]; then
-                    sudo setfacl -R -m u:$usuario:rwx /home/$recurso_compartido/$carpeta
+                    sudo setfacl -R -m u:$usuario:rwx /srv/$recurso_compartido/$carpeta
                     break
                 elif [[ "$permisos" == "rx" ]]; then
-                    sudo setfacl -R -m u:$usuario:rx /home/$recurso_compartido/$carpeta
+                    sudo setfacl -R -m u:$usuario:rx /srv/$recurso_compartido/$carpeta
                     break
                 elif [[ "$permisos" == "-" ]]; then
-                    sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido/$carpeta
+                    sudo setfacl -R -m u:$usuario:--- /srv/$recurso_compartido/$carpeta
                     break
                 else
                     echo ""
@@ -370,7 +370,7 @@ configurar_samba(){
     SAMBA_CONF="/etc/samba/smb.conf"
     # Bloque de configuraciￃﾳn a aￃﾱadir
     CONFIG="[$recurso_compartido]
-    path = /home/$recurso_compartido
+    path = /srv/$recurso_compartido
     valid users = ${usuarios[@]}
     read only = no
     browsable = yes
@@ -459,13 +459,13 @@ clear
 menu_info
 echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
 echo ""
-echo -e "${azul}Listado de las carpetas de ${borra_colores}/home ${azul}de tu sistema${borra_colores}"
+echo -e "${azul}Listado de las carpetas de ${borra_colores}/srv ${azul}de tu sistema${borra_colores}"
 echo -e "${turquesa}"
-ls -d /home/*/ | xargs -n 1 basename
+ls -d /srv/*/ | xargs -n 1 basename
 echo -e "${borra_colores}"
 while true; do
     read -rp "Ingresa la ruta absoluta de la carpeta compartida: " TARGET_carpeta
-    TARGET="/home/$TARGET_carpeta"
+    TARGET="/srv/$TARGET_carpeta"
     if [ -d "$TARGET" ]; then
         break
     else
@@ -607,7 +607,7 @@ while true; do
             # Pedir los nuevos permisos
             while true; do
                 echo ""
-                echo -e "${amarillo}Solo lectura =${borra_colores} r-- ${amarillo}Lectura escritura =${borra_colores} rwx ${amarillo}Sin acceso =${borra_colores} ---"
+                echo -e "${amarillo}Solo lectura =${borra_colores} r-x ${amarillo}Lectura escritura =${borra_colores} rwx ${amarillo}Sin acceso =${borra_colores} ---"
                 read -rp "Ingresa los nuevos permisos (99 = atras): " PERMS
                 if [ $PERMS = "99" ]; then
                     return
@@ -771,53 +771,100 @@ gestionar_usuarios() {
 }
 
 crear_usuario() {
-    while true; do
-        clear
-        menu_info
-        echo -e "${verde}CREACIÓN DE USUARIOS${borra_colores}"
-        echo ""
-        echo -e "${azul}Lista de usuarios actuales${borra_colores}"
-        awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
+menu_info
+while true; do
+    echo ""
+    echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
+    echo ""
+    echo -e "${azul}Lista de usuarios actuales${borra_colores}"; echo ""
+    awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
+
+    usuarios=()      # Array para almacenar los nombres de usuario
+    contrasenas=()   # Array para almacenar las contraseñas
+    login_enabled=() # Array para almacenar si el usuario tendrá login
+
+    #while true; do
         echo ""
 
-        read -p "Ingrese los nombres de los usuarios a crear (separados por espacios, o 'ok' para terminar): " usuarios
-        if [ "$usuarios" == "ok" ]; then
-            break
-        fi
+        # Validar nombre de usuario
+        while true; do
+            read -p "Ingrese el nombre del usuario (o 'ok' para terminar): " usuario
 
-        for usuario in $usuarios; do
+            if [ "$usuario" == "ok" ]; then
+                break 2  # Salir del while principal
+            fi
+
+            # Comprobar que no esté vacío y solo contenga caracteres válidos
             if [[ -z "$usuario" ]]; then
+                echo ""
                 echo -e "${rojo}El nombre de usuario no puede estar vacío.${borra_colores}"
-                sleep 1
-                continue
             elif [[ ! "$usuario" =~ ^[a-zA-Z0-9_]+$ ]]; then
-                echo -e "${rojo}Solo letras, números y guiones bajos permitidos en $usuario.${borra_colores}"
-                sleep 1
-                continue
-            fi
-
-            read -s -p "Ingrese la contraseña para $usuario: " pass
-            echo
-            read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
-
-            if [ "$login" == "n" ]; then
-                sudo useradd -m -s /sbin/nologin "$usuario"
+                echo ""
+                echo -e "${rojo}El nombre de usuario solo puede contener letras, números y guiones bajos.${borra_colores}"
             else
-                sudo useradd -m -s /bin/bash "$usuario"
+                break
             fi
-
-            echo "$usuario:$pass" | sudo chpasswd
-            printf "$pass\n$pass\n" | sudo smbpasswd -a -s "$usuario"
-
-            sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido
-
-            echo -e "${verde}Usuario $usuario creado correctamente.${borra_colores}"
-            sleep 1
         done
 
-        actualizar_valid_users "Añadir" "$usuarios"
-        sudo systemctl reload smbd
+        # Preguntar por la contraseña del usuario
+        read -p "Ingrese la contraseña para $usuario: " pass
+
+        # Añadir el usuario a Samba
+        echo "$pass" | sudo smbpasswd -a "$usuario"
+
+        # Preguntar si el usuario tendrá login
+        echo ""
+        while true; do
+            read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
+
+            if [[ "$login" =~ ^[sS]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario ${amarillo}SI${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            elif [[ "$login" =~ ^[nN]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario${verde} ${amarillo}NO${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            else
+                echo -e "${rojo} Opción no válida. Debe ser 's' o 'n'${borra_colores}"
+                sleep 2
+            fi
+        done
+
+        # Almacenar los datos en los arrays
+        usuarios+=("$usuario")
+        contrasenas+=("$pass")
+        login_enabled+=("$login")
+
+        echo -e "${verde}Usuario agregado correctamente.${borra_colores}"; sleep 1
+    #done
+
+    # Crear los usuarios y asignarles las contraseñas
+    for i in "${!usuarios[@]}"; do
+        usuario="${usuarios[$i]}"
+        pass="${contrasenas[$i]}"
+        login="${login_enabled[$i]}"
+
+        if [ "$login" == "n" ]; then
+            # Si no desea login, bloquear la cuenta
+            sudo useradd -s /sbin/nologin "$usuario"
+        else
+            # Si desea login, asignar /bin/bash como shell
+            sudo useradd -s /bin/bash "$usuario"
+        fi
+
+        # Crear usuario en Samba
+        printf "$pass\n$pass\n" | sudo smbpasswd -a -s "$usuario"
+
+        # Asignar la contraseña al usuario del sistema
+        echo "$usuario:$pass" | sudo chpasswd
     done
+
+    echo ""
+    actualizar_valid_users "Añadir" "$usuarios"
+    sudo systemctl reload smbd
+    echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
+done
 }
 
 borrar_usuario() {
