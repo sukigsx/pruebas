@@ -863,7 +863,7 @@ while true; do
     echo ""
     echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
 done
-
+read p
 actualizar_valid_users "Añadir" "$usuarios"
 sudo systemctl reload smbd
 }
