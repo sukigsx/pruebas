@@ -1166,9 +1166,19 @@ while true; do
 
         5) echo "listado de 555555555"; read p ;;
 
-        6)  echo -e "${verde}"
-            sudo pdbedit -L | cut -d: -f1
-            echo -e "${borra_colores}"; read p
+        6)  #listado de usuarios de samba
+            usuarios=$(sudo pdbedit -L | cut -d: -f1)
+            # Comprobar si la lista está vacía
+            if [ -z "$usuarios" ]; then
+                echo ""
+                echo -e "${amarillo} No hay usuarios registrados en Samba.${borra_colores}"; sleep 3
+            else
+                echo ""
+                echo -e "${azul} Usuarios Samba encontrados:${borra_colores}"
+                echo ""
+                echo "${cerde} $usuarios ${borra_colores}"
+                read p
+            fi
             ;;
 
         99) ctrl_c ;;
