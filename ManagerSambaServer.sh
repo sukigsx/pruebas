@@ -771,8 +771,6 @@ gestionar_usuarios() {
 }
 
 crear_usuario() {
-    while true; do
-        clear
 menu_info
 while true; do
     echo ""
@@ -866,9 +864,8 @@ while true; do
     echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
 done
 
-        actualizar_valid_users "Añadir" "$usuarios"
-        sudo systemctl reload smbd
-    done
+actualizar_valid_users "Añadir" "$usuarios"
+sudo systemctl reload smbd
 }
 
 borrar_usuario() {
