@@ -284,7 +284,7 @@ while true; do
 
     # Validar que recurso_compartido no esté vacío
     while true; do
-        read -p "Ingresa el nombre del recurso compartido (Servidor_smb): " recurso_compartido
+        read -p "Ingresa el nombre del recurso compartido (ej. Servidor_smb): " recurso_compartido
         if [ -n "/srv/$recurso_compartido" ]; then
             break
         else
