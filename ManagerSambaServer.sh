@@ -1166,7 +1166,10 @@ while true; do
 
         5) echo "listado de 555555555"; read p ;;
 
-        6) echo "listado 66666666666"; read p ;;
+        6)  echo -e "${verde}"
+            sudo pdbedit -L | cut -d: -f1
+            echo -e "${borra_colores}"; read p
+            ;;
 
         99) ctrl_c ;;
         *) echo ""; echo -e "${rojo} Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
