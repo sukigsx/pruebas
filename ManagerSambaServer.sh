@@ -773,47 +773,98 @@ gestionar_usuarios() {
 crear_usuario() {
     while true; do
         clear
-        menu_info
-        echo -e "${verde}CREACIÓN DE USUARIOS${borra_colores}"
-        echo ""
-        echo -e "${azul}Lista de usuarios actuales${borra_colores}"
-        awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
+menu_info
+while true; do
+    echo ""
+    echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
+    echo ""
+    echo -e "${azul}Lista de usuarios actuales${borra_colores}"; echo ""
+    awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
+
+    usuarios=()      # Array para almacenar los nombres de usuario
+    contrasenas=()   # Array para almacenar las contraseñas
+    login_enabled=() # Array para almacenar si el usuario tendrá login
+
+    #while true; do
         echo ""
 
-        read -p "Ingrese los nombres de los usuarios a crear (separados por espacios, o 'ok' para terminar): " usuarios
-        if [ "$usuarios" == "ok" ]; then
-            break
-        fi
+        # Validar nombre de usuario
+        while true; do
+            read -p "Ingrese el nombre del usuario (o 'ok' para terminar): " usuario
 
-        for usuario in $usuarios; do
-            if [[ -z "$usuario" ]]; then
-                echo -e "${rojo}El nombre de usuario no puede estar vacío.${borra_colores}"
-                sleep 1
-                continue
-            elif [[ ! "$usuario" =~ ^[a-zA-Z0-9_]+$ ]]; then
-                echo -e "${rojo}Solo letras, números y guiones bajos permitidos en $usuario.${borra_colores}"
-                sleep 1
-                continue
+            if [ "$usuario" == "ok" ]; then
+                break 2  # Salir del while principal
             fi
 
-            read -s -p "Ingrese la contraseña para $usuario: " pass
-            echo
+            # Comprobar que no esté vacío y solo contenga caracteres válidos
+            if [[ -z "$usuario" ]]; then
+                echo ""
+                echo -e "${rojo}El nombre de usuario no puede estar vacío.${borra_colores}"
+            elif [[ ! "$usuario" =~ ^[a-zA-Z0-9_]+$ ]]; then
+                echo ""
+                echo -e "${rojo}El nombre de usuario solo puede contener letras, números y guiones bajos.${borra_colores}"
+            else
+                break
+            fi
+        done
+
+        # Preguntar por la contraseña del usuario
+        read -p "Ingrese la contraseña para $usuario: " pass
+
+        # Añadir el usuario a Samba
+        echo "$pass" | sudo smbpasswd -a "$usuario"
+
+        # Preguntar si el usuario tendrá login
+        echo ""
+        while true; do
             read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
 
-            if [ "$login" == "n" ]; then
-                sudo useradd -m -s /sbin/nologin "$usuario"
+            if [[ "$login" =~ ^[sS]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario ${amarillo}SI${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            elif [[ "$login" =~ ^[nN]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario${verde} ${amarillo}NO${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
             else
-                sudo useradd -m -s /bin/bash "$usuario"
+                echo -e "${rojo} Opción no válida. Debe ser 's' o 'n'${borra_colores}"
+                sleep 2
             fi
-
-            echo "$usuario:$pass" | sudo chpasswd
-            printf "$pass\n$pass\n" | sudo smbpasswd -a -s "$usuario"
-
-            sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido
-
-            echo -e "${verde}Usuario $usuario creado correctamente.${borra_colores}"
-            sleep 1
         done
+
+        # Almacenar los datos en los arrays
+        usuarios+=("$usuario")
+        contrasenas+=("$pass")
+        login_enabled+=("$login")
+
+        echo -e "${verde}Usuario agregado correctamente.${borra_colores}"; sleep 1
+    #done
+
+    # Crear los usuarios y asignarles las contraseñas
+    for i in "${!usuarios[@]}"; do
+        usuario="${usuarios[$i]}"
+        pass="${contrasenas[$i]}"
+        login="${login_enabled[$i]}"
+
+        if [ "$login" == "n" ]; then
+            # Si no desea login, bloquear la cuenta
+            sudo useradd -s /sbin/nologin "$usuario"
+        else
+            # Si desea login, asignar /bin/bash como shell
+            sudo useradd -s /bin/bash "$usuario"
+        fi
+
+        # Crear usuario en Samba
+        printf "$pass\n$pass\n" | sudo smbpasswd -a -s "$usuario"
+
+        # Asignar la contraseña al usuario del sistema
+        echo "$usuario:$pass" | sudo chpasswd
+    done
+
+    echo ""
+    echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
+done
 
         actualizar_valid_users "Añadir" "$usuarios"
         sudo systemctl reload smbd
