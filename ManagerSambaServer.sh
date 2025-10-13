@@ -813,8 +813,8 @@ while true; do
         echo "$pass" | sudo smbpasswd -a "$usuario"
         echo "Comando a ejecutar: sudo setfacl -R -m u:$usuario:--- /srv/$SHARE_NAME"
         read -p "paradoooooooooooooooooo" pp
-        #sudo setfacl -R -m u:$usuario:--- /srv/$SHARE_NAME
-        read -p "paradoooooooooooooooooo" pp
+        sudo setfacl -R -m u:"$usuario":--- "/srv/$SHARE_NAME"
+
         # Preguntar si el usuario tendrá login
         echo ""
         while true; do
