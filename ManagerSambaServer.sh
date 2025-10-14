@@ -810,14 +810,6 @@ validar_usuario() {
   return 0
 }
 
-# Pedir carpeta compartida Samba
-read -p "Introduce la ruta completa de la carpeta compartida Samba: " carpeta
-echo $SHARE_NAME; read -p "lo paro" p
-
-if [[ ! -d "$SHARE_NAME" ]]; then
-  echo " La carpeta no existe."
-  exit 1
-fi
 
 # Bucle para crear usuarios
 for user in "${usuarios[@]}"; do
@@ -849,11 +841,11 @@ for user in "${usuarios[@]}"; do
   smbpasswd -e "$user"
 
   # Asignar permisos ACL a la carpeta compartida
-  setfacl -R -m u:"$user":--- "$SHARE_NAME"
-  setfacl -R -d -m u:"$user":--- "$SHARE_NAME"
+  setfacl -R -m u:"$user":--- "/srv/$SHARE_NAME"
+  setfacl -R -d -m u:"$user":--- "/srv/$SHARE_NAME"
 
   echo " Usuario '$user' creado con éxito (Linux + Samba)."
-  echo " ACL aplicados en '$SHARE_NAME'."
+  echo " ACL aplicados en '/srv/$SHARE_NAME'."
 done
 
 echo " Todos los usuarios procesados correctamente."
