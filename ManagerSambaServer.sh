@@ -848,15 +848,9 @@ for user in "${usuarios[@]}"; do
   echo " ACL aplicados en '/srv/$SHARE_NAME'."
 done
 
+sudo systemctl reload smbd
 echo " Todos los usuarios procesados correctamente."
-read p
 break
-
-
-#    echo ""
-#    actualizar_valid_users "Añadir" "$usuarios"
-    sudo systemctl reload smbd
-#    echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
 done
 }
 
