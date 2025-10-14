@@ -379,7 +379,7 @@ asignar_permisos() {
 configurar_samba(){
     #aￃﾱado la configuracion a samba
     # Ruta del archivo de configuraciￃﾳn de Samba
-    clear; echo "Configuramos el servidor de samba"; echo ""
+    clear; echo -e "${verde}Configuramos el servidor de samba${borra_colores}"; echo ""
     SAMBA_CONF="/etc/samba/smb.conf"
     # Bloque de configuraciￃﾳn a aￃﾱadir
     CONFIG="[$recurso_compartido]
