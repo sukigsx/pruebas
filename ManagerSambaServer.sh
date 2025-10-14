@@ -1191,7 +1191,7 @@ while true; do
                 echo ""
                 echo -e "${azul} Usuarios Samba encontrados:${borra_colores}"
                 echo ""
-                echo "${verde} $usuarios ${borra_colores}"
+                echo -e "${verde} $usuarios ${borra_colores}"
                 read p
             fi
             ;;
