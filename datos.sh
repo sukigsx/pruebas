@@ -10,11 +10,14 @@ conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
 
+# Archivo de estado para controlar si ya se realizó la configuración inicial
+estado_config="/etc/samba/.config_inicial_ok"
+
 menu_info(){
 #muestra el menu de sukigsx
 echo ""
 echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores}  $0 "
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de instalacion basado en Debian"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} Software de configuracion/creacion usuarios y permisos samba"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
@@ -76,6 +79,8 @@ fi
         [curl]="curl"
         [smbstatus]="samba"
         [getfacl]="acl"
+        [awk]="awk"
+        [hostname]="hostname"
     )
 
 software_necesario(){
@@ -154,6 +159,7 @@ trap ctrl_c INT
 function ctrl_c()
 {
 clear
+menu_info
 echo ""
 echo -e " ${verde}- Gracias por utilizar mi script -${borra_colores}"
 echo ""
@@ -168,8 +174,10 @@ exit
 crear_total() {
 # Funcion para crear usuarios
 crear_usuarios() {
+clear
+menu_info
 while true; do
-    clear
+    echo ""
     echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
     echo ""
     echo -e "${azul}Lista de usuarios actuales${borra_colores}"; echo ""
@@ -210,7 +218,22 @@ while true; do
 
         # Preguntar si el usuario tendrá login
         echo ""
-        read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
+        while true; do
+            read -p "Desea que $usuario tenga acceso al login del sistema? (s/n): " login
+
+            if [[ "$login" =~ ^[sS]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario ${amarillo}SI${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            elif [[ "$login" =~ ^[nN]$ ]]; then
+                echo ""
+                echo -e "${verde}Has elegido que${borra_colores} $usuario${verde} ${amarillo}NO${verde} tenga acceso al login${borra_colores}"
+                sleep 2; break   # sale del bucle porque ya es válido
+            else
+                echo -e "${rojo} Opción no válida. Debe ser 's' o 'n'${borra_colores}"
+                sleep 2
+            fi
+        done
 
         # Almacenar los datos en los arrays
         usuarios+=("$usuario")
@@ -250,18 +273,32 @@ done
 crear_carpetas() {
 while true; do
     clear
+    menu_info
     echo -e "${verde}CREACION DE CARPETAS${borra_colores}"
     echo ""
-    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/home y el nombre que quieras${amarillo})${borra_colores}"
-    echo -e "${verde}Listado de las carpetas de tu /home por si ya tienes una que quieres utilizar${borra_colores}"
-    echo ""
-    ls /home/
-    echo ""
+    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/srv/${amarillo}y el nombre que quieras)${borra_colores}"
+    echo -e "${verde}Listado de las carpetas de tu${borra_colores} /srv${verde} por si ya tienes una que quieres utilizar${borra_colores}"
+
+    # Buscar solo directorios dentro de /srv
+    carpetas=($(find "/srv" -mindepth 1 -maxdepth 1 -type d 2>/dev/null))
+
+    # Comprobar si el array está vacío
+    if [ ${#carpetas[@]} -eq 0 ]; then
+        echo ""
+        echo -e "${amarillo}No hay ninguna carpeta en ${borra_colores}/srv"
+        echo -e ""
+    else
+        for carpeta in "${carpetas[@]}"; do
+            echo -e ""
+            echo -e " -${azul} $(basename "$carpeta")${borra_colores}"
+            echo -e ""
+        done
+    fi
 
     # Validar que recurso_compartido no esté vacío
     while true; do
-        read -p "Ingresa el nombre del recurso compartido (Servidor_smb): " recurso_compartido
-        if [ -n "$recurso_compartido" ]; then
+        read -p "Ingresa el nombre del recurso compartido (ej. Servidor_smb): " recurso_compartido
+        if [ -n "/srv/$recurso_compartido" ]; then
             break
         else
             echo ""
@@ -269,16 +306,16 @@ while true; do
         fi
     done
     echo ""
-    echo -e "Ingrese las carpetas a crear dentro de /home/$recurso_compartido (separadas por espacio, por ejemplo: Descargas Video Photo)"
+    echo -e "Ingrese las carpetas a crear dentro de /srv/$recurso_compartido (separadas por espacio, por ejemplo: Descargas Video Photo)"
     read -p "Si el recurso compartido ya tiene las carpetas, presiona Enter: " carpetas
     echo ""
 
-    echo -e "${verde}Carpeta de recurso compartido =${borra_colores} /home/$recurso_compartido"
+    echo -e "${verde}Carpeta de recurso compartido =${borra_colores} /srv/$recurso_compartido"
 
     if [ -z "$carpetas" ]; then
-        echo -e "${verde}Carpetas dentro de /home/$recurso_compartido =${borra_colores} $(for dir in /home/$recurso_compartido/*/; do basename "$dir"; done | tr '\n' ' ')"
+        echo -e "${verde}Carpetas dentro de /srv/$recurso_compartido =${borra_colores} $(for dir in /srv/$recurso_compartido/*/; do basename "$dir"; done | tr '\n' ' ')"
     else
-        echo -e "${verde}Carpetas dentro de /home/$recurso_compartido =${borra_colores} $carpetas"
+        echo -e "${verde}Carpetas dentro de /srv/$recurso_compartido =${borra_colores} $carpetas"
     fi
 
     echo ""
@@ -286,13 +323,13 @@ while true; do
     if [[ "$sn" == "s" || "$sn" == "S" ]]; then
         # Crear las carpetas
         for carpeta in $carpetas; do
-            sudo mkdir -p /home/$recurso_compartido/$carpeta
+            sudo mkdir -p /srv/$recurso_compartido/$carpeta
         done
         echo ""
         echo -e "${verde}Carpetas creadas con éxito${borra_colores}"
         break
     else
-        echo -e "${rojo}No se crea nada ni se modifica,"; read p
+        echo -e "${rojo}No se crea nada ni se modifica${borra_colores}"; sleep 3
     fi
 done
 }
@@ -300,13 +337,14 @@ done
 # Funcion para asignar permisos
 asignar_permisos() {
     clear
+    menu_info
     echo ""
     echo -e "${verde}ASIGNACION DE PERMISOS ACL${borra_colores}"
     echo ""
 
     # Obtener usuarios y carpetas
     usuarios=($(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd))
-    carpetas=$(ls /home/$recurso_compartido)
+    carpetas=$(ls /srv/$recurso_compartido)
 
     # Iterar sobre los usuarios y carpetas para asignar permisos
     for usuario in "${usuarios[@]}"; do
@@ -318,13 +356,13 @@ asignar_permisos() {
 
                 # Validar permisos
                 if [[ "$permisos" == "rwx" ]]; then
-                    sudo setfacl -R -m u:$usuario:rwx /home/$recurso_compartido/$carpeta
+                    sudo setfacl -R -m u:$usuario:rwx /srv/$recurso_compartido/$carpeta
                     break
                 elif [[ "$permisos" == "rx" ]]; then
-                    sudo setfacl -R -m u:$usuario:rx /home/$recurso_compartido/$carpeta
+                    sudo setfacl -R -m u:$usuario:rx /srv/$recurso_compartido/$carpeta
                     break
                 elif [[ "$permisos" == "-" ]]; then
-                    sudo setfacl -R -m u:$usuario:--- /home/$recurso_compartido/$carpeta
+                    sudo setfacl -R -m u:$usuario:--- /srv/$recurso_compartido/$carpeta
                     break
                 else
                     echo ""
@@ -341,11 +379,11 @@ asignar_permisos() {
 configurar_samba(){
     #aￃﾱado la configuracion a samba
     # Ruta del archivo de configuraciￃﾳn de Samba
-    clear; echo "Configuramos el servidor de samba"; echo ""
+    clear; echo -e "${verde}Configuramos el servidor de samba${borra_colores}"; echo ""
     SAMBA_CONF="/etc/samba/smb.conf"
     # Bloque de configuraciￃﾳn a aￃﾱadir
     CONFIG="[$recurso_compartido]
-    path = /home/$recurso_compartido
+    path = /srv/$recurso_compartido
     valid users = ${usuarios[@]}
     read only = no
     browsable = yes
@@ -372,14 +410,28 @@ configurar_samba(){
 
 # Ejecutar las funciones
 crear_usuarios
-read -p "Pulsa una tecla para continuar" p;
+sleep 1
+#read -p "Pulsa una tecla para continuar" p;
 crear_carpetas
-read -p "Pulsa una tecla para continuar" p;
+sleep 1
+#read -p "Pulsa una tecla para continuar" p;
 asignar_permisos
-read -p "Pulsa una tecla para continuar" p;
+sleep 1
+#read -p "Pulsa una tecla para continuar" p;
 configurar_samba
-echo "Proceso completado con Exito."
-
+echo ""
+echo -e "${verde}Proceso completado con Exito.${borra_colores}"
+# Marcar que la configuración inicial ha sido completada
+echo -e "${verde}Configuración inicial completada el $(date)${borra_colores}" | sudo tee "$estado_config" > /dev/null
+echo ""
+echo -e "${amarillo} Ten en cuenta que si esta habilitado el recurso [homes]${borra_colores}"
+echo -e "${amarillo} en la configuracion de samba en /etc/samba/smb.conf${borra_colores}"
+echo -e "${amarillo} puede ser que se muestre el home de algun usuario.${borra_colores}"
+echo ""
+echo -e "${amarillo} Puedes eliminarlo en la opcion 4 Borrar configuracion de samba.${borra_colores}"
+sudo chmod 600 "$estado_config"
+echo ""
+read -p "Pulsa una tecla para continuar." pause
 }
 
 # ========================
@@ -417,10 +469,16 @@ translate_perms() {
 # Pedir la ruta al usuario (con validaciￃﾳn)
 # ========================
 clear
+menu_info
 echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
 echo ""
+echo -e "${azul}Listado de las carpetas de ${borra_colores}/srv ${azul}de tu sistema${borra_colores}"
+echo -e "${turquesa}"
+ls -d /srv/*/ | xargs -n 1 basename
+echo -e "${borra_colores}"
 while true; do
-    read -rp "Ingresa la ruta absoluta de la carpeta compartida: " TARGET
+    read -rp "Ingresa la ruta absoluta de la carpeta compartida: " TARGET_carpeta
+    TARGET="/srv/$TARGET_carpeta"
     if [ -d "$TARGET" ]; then
         break
     else
@@ -434,11 +492,13 @@ done
 # ========================
 while true; do
     clear
+    menu_info
     echo -e "${verde}MODIFICAR PERMISOS ACL${borra_colores}"
     echo -e "\nCarpeta seleccionada: ${BLUE}$TARGET${NC}\n"
-    echo -e "1)${azul} Listar permisos ACL${borra_colores}"
-    echo -e "2)${azul} Cambiar permisos ACL de un usuario${borra_colores}"
-    echo -e "3)${azul} Atras${borra_colores}"
+    echo -e "${azul} 1)${borra_colores} Listar permisos ACL"
+    echo -e "${azul} 2)${borra_colores} Cambiar permisos ACL de un usuario"
+    echo ""
+    echo -e "${azul}99)${borra_colores} Atras"
     echo ""
     read -rp "Elige una opcion: " option
 
@@ -448,15 +508,17 @@ while true; do
             # Listar permisos ACL
             # ========================
             clear
+            menu_info
             echo -e "${verde}LISTAR PERMISOS ACL${borra_colores}"
             echo ""
             USERS=$(find "$TARGET" -type d -exec getfacl -p {} \; 2>/dev/null | \
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             echo -e "\nUsuarios con permisos ACL en '$TARGET':"
-            echo "$USERS" | nl
             echo ""
-            echo "     0) Mostrar todos"
+            echo "     0 Mostrar todos"
+            echo ""
+            echo "$USERS" | nl
 
             while true; do
                 echo ""
@@ -464,28 +526,29 @@ while true; do
                 if [[ "$choice" =~ ^[0-9]+$ ]]; then
                     if [ "$choice" -eq 0 ]; then
                         FILTER_USER=""
-                        echo "Mostrando permisos de todos los usuarios"
+                        echo ""
+                        echo -e "${azul}Mostrando permisos de todos los usuarios${borra_colores}"
                         break
                     elif [ "$choice" -le $(echo "$USERS" | wc -l) ]; then
                         FILTER_USER=$(echo "$USERS" | sed -n "${choice}p")
-                        echo "Filtrando resultados para usuario: ${FILTER_USER}"
+                        echo ""
+                        echo -e "${azul}Filtrando resultados para usuario:${borra_colores} ${FILTER_USER}"
                         break
                     fi
                 fi
                 echo -e "${rojo}Opcion invadida. Intenta nuevamente.${borra_colores}"
             done
 
-            echo -e "\nPermisos ACL en '$TARGET' (solo carpetas)"
+            echo -e "\nPermisos ACL en '$TARGET' ${amarillo}(Los permisos ACL se heredan en todo el contenido de las carpetas principales)${borra_colores}"
             echo "-----------------------------------------------------------------------------------------------------------"
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
 
-            find "$TARGET" -type d | while IFS= read -r dir; do
+            find "$TARGET" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r dir; do
                 getfacl -p "$dir" 2>/dev/null | grep -E '^(user|group|other)' | while IFS= read -r line; do
                     entry=$(echo "$line" | cut -d: -f1)
                     who=$(echo "$line" | cut -d: -f2)
                     perms=$(echo "$line" | cut -d: -f3)
-
                     readable_perms=$(translate_perms "$perms")
 
                     if [ -n "$FILTER_USER" ] && [ "$who" != "$FILTER_USER" ]; then
@@ -508,9 +571,10 @@ while true; do
 
         2)
             # ========================
-            # Cambiar permisos ACL
+            #  Cambiar permisos ACL
             # ========================
             clear
+            menu_info
             echo -e "\n${verde}MODIFICACION DE PERMISOS ACL POR USUARIO${borra_colores}"
 
             # Obtener lista de usuarios con ACL
@@ -518,7 +582,9 @@ while true; do
                     grep '^user:' | cut -d: -f2 | sort -u | grep -v '^$')
 
             if [ -z "$USERS" ]; then
-                read -rp "No hay usuarios con ACL. Ingresa el nombre del usuario: " USER
+                echo ""
+                echo -e "${rojo}No hay usuarios con permisos ACL en la carpeta $TARGET${borra_colores}"; sleep 3
+                return
             else
                 echo -e "\nUsuarios con ACL en '$TARGET':"; echo ""
                 echo "$USERS" | nl
@@ -534,12 +600,12 @@ while true; do
             fi
 
             # Mostrar permisos actuales del usuario seleccionado en columnas
-            echo -e "\n${azul}Permisos actuales del usuario${borra_colores} ${USER} ${azul}en la carpeta '${borra_colores}$TARGET${azul}' y subcarpetas:${borra_colores}"; echo ""
+            echo -e "\n${azul}Permisos actuales del usuario${borra_colores} ${USER} ${azul}en la carpeta '${borra_colores}$TARGET${azul}' incluyendo carpetas y ficheros:${borra_colores}"; echo ""
             echo "-----------------------------------------------------------------------------------------------------------"
             printf "%-40s    %-22s  %-100s\n" "Carpeta" "Usuario/Grupo" "Permisos"
             echo "-----------------------------------------------------------------------------------------------------------"
 
-            find "$TARGET" -type d | while IFS= read -r dir; do
+            find "$TARGET" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r dir; do
                 getfacl -p "$dir" 2>/dev/null | grep "^user" | while IFS=: read -r _ who perms; do
                     # Mostrar solo si es el usuario seleccionado o si es propietario y coincide con el usuario
                     owner=$(stat -c '%U' "$dir")
@@ -554,7 +620,12 @@ while true; do
             # Pedir los nuevos permisos
             while true; do
                 echo ""
-                read -rp "Ingresa los nuevos permisos (r, w, x - ej: rwx, r--): " PERMS
+                echo -e "${amarillo}Solo lectura =${borra_colores} r-x ${amarillo}Lectura escritura =${borra_colores} rwx ${amarillo}Sin acceso =${borra_colores} ---"
+                read -rp "Ingresa los nuevos permisos (99 = atras): " PERMS
+                if [ $PERMS = "99" ]; then
+                    return
+                fi
+
                 if [[ "$PERMS" =~ ^[r-][w-][x-]$ ]]; then
                     break
                 fi
@@ -562,15 +633,17 @@ while true; do
             done
 
             # Mostrar carpetas para seleccionar
-            echo -e "\nSelecciona las carpetas donde aplicar permisos (ej: 1 2 3):"
-            echo "0) Toda la carpeta raiz y subcarpetas"
-            mapfile -t SUBFOLDERS < <(find "$TARGET" -type d)
+            echo -e "${azul}\nSelecciona las carpetas donde aplicar permisos (ej: 1 2 3):${borra_colores}"; echo ""
+            echo "0) Toda la carpeta raiz y subcarpetas incluyendo ficheros"
+            mapfile -t SUBFOLDERS < <(find "$TARGET" -mindepth 1 -maxdepth 1 -type d)
+            echo ""
             for i in "${!SUBFOLDERS[@]}"; do
                 echo "$((i+1))) ${SUBFOLDERS[$i]}"
             done
 
             # Pedir selecciￃﾳn con validaciￃﾳn
             while true; do
+                echo ""
                 read -rp "Ingresa los numeros separados por espacios: " FOLDER_CHOICES
                 if [[ "$FOLDER_CHOICES" == "0" ]]; then
                     FOLDERS=("$TARGET")
@@ -590,7 +663,7 @@ while true; do
                 if $VALID; then
                     break
                 else
-                    echo "Entrada invalida. Ingresa solo nￃﾺmeros vￃﾡlidos separados por espacios o 0 para toda la raￃﾭz."
+                    echo -e "${rojo}Entrada invalida.${amarillo} Ingresa solo numeros validos separados por espacios o 0 para seleccionar todos.${borra_colores}"
                 fi
             done
 
@@ -606,23 +679,374 @@ while true; do
                 fi
 
                 if [ $? -eq 0 ]; then
-                    echo "Permisos aplicados correctamente a: $FOLDER"
+                    echo -e "${verde}Permisos aplicados correctamente a:${borra_colores} $FOLDER"
                 else
-                    echo "Error al aplicar permisos en: $FOLDER"
+                    echo -e "${rojo}Error al aplicar permisos en:${borra_colores} $FOLDER"
                 fi
             done
             ;;
 
-        3)
-            echo -e "\nSaliendo..."
+        99)
             break
             ;;
 
         *)
-            echo "Opcion invalida."
+            echo ""
+            echo -e "${rojo}Opcion invalida.${borra_colores}"; sleep 2
             ;;
     esac
 done
+
+}
+
+#funcion de crear o borrar usuarios
+crearborrarusuarios(){
+#!/bin/bash
+
+# Colores
+verde="\e[32m"
+rojo="\e[31m"
+azul="\e[34m"
+borra_colores="\e[0m"
+
+listarrecursoscompartidoyusuarios(){
+awk '
+BEGIN {
+    azul = "\033[34m"
+    reset = "\033[0m"
+    print azul "Recurso compartido\tUsuarios del recurso" reset
+    print azul "------------------\t--------------------" reset
+}
+/^\[.*\]$/ {
+    if (share != "") {
+        print share "\t" (valid ? valid : "")
+    }
+    share = substr($0, 2, length($0)-2)
+    valid = ""
+}
+/^[ \t]*valid users/ {
+    # Quitar "valid users =" y dejar solo los nombres
+    sub(/^[ \t]*valid users[ \t]*=[ \t]*/, "", $0)
+    valid = $0
+}
+END {
+    if (share != "") {
+        print share "\t" (valid ? valid : "")
+    }
+}
+' $SMB_CONF | column -t -s $'\t'
+}
+
+SMB_CONF="/etc/samba/smb.conf"
+
+#valida que este el recurso compartido
+echo ""
+listarrecursoscompartidoyusuarios
+echo ""
+read -p "Dime el nombre del recurso compartido en samba: " SHARE_NAME
+if ! grep -q "^\[$SHARE_NAME\]" "$SMB_CONF"; then
+        echo ""
+        echo -e "${rojo}El recurso compartido ${borra_colores}$SHARE_NAME ${rojo}no existe en${borra_colores} $SMB_CONF"; sleep 3
+        return
+    fi
+
+gestionar_usuarios() {
+    while true; do
+        clear
+        menu_info
+        echo ""
+        echo -e "${verde}GESTIÓN DE USUARIOS${borra_colores}"
+        echo ""
+        #select opcion in "Crear usuario(s)" "Borrar usuario(s)" "Salir"; do
+        echo -e " ${azul}  1)${borra_colores} Crear usuarios(s)"
+        echo -e " ${azul}  2)${borra_colores} Borrar usuarios(s)"
+        echo -e " ${azul} 99)${borra_colores} Atras"
+        echo ""
+        read -p "Selecciona una opcion del menu: " opcion
+            case $opcion in
+                1)
+                    crear_usuario
+                    break
+                    ;;
+                2)
+                    borrar_usuario
+                    break
+                    ;;
+                99)
+                    return
+                    ;;
+                *)
+                    echo -e "${rojp}Selecciona una opción válida${borra_colores}"; sleep 2
+                    ;;
+            esac
+        #done
+    done
+}
+
+crear_usuario() {
+while true; do
+    clear
+    menu_info
+    echo ""
+    echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
+    echo ""
+    echo -e "${azul}Lista de usuarios actuales${borra_colores}"; echo ""
+    awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
+
+    echo ""
+read -p "Introduce los nombres de usuario separados por espacio: " -a usuarios
+
+# Función para validar nombres de usuario
+validar_usuario() {
+  local user=$1
+  if [[ ! $user =~ ^[a-z_][a-z0-9_-]*[$]?$ ]]; then
+    echo " Nombre de usuario inválido: '$user'"
+    return 1
+  fi
+  if id "$user" &>/dev/null; then
+    echo " El usuario '$user' ya existe."
+    return 1
+  fi
+  return 0
+}
+
+
+# Bucle para crear usuarios
+for user in "${usuarios[@]}"; do
+  echo "---- Creando usuario '$user' ----"
+  validar_usuario "$user" || continue
+
+  read -s -p "Introduce la contraseña para '$user': " password
+  echo
+  read -s -p "Confirma la contraseña para '$user': " password2
+  echo
+
+  if [[ "$password" != "$password2" ]]; then
+    echo " Las contraseñas no coinciden. Saltando usuario '$user'."
+    continue
+  fi
+
+  read -p "¿Deseas que '$user' tenga acceso de login al sistema? (s/n): " login
+  if [[ "$login" =~ ^[sS]$ ]]; then
+    useradd -m "$user"
+  else
+    useradd -M -s /usr/sbin/nologin "$user"
+  fi
+
+  # Establecer contraseña Linux
+  echo "$user:$password" | chpasswd
+
+  # Crear usuario Samba con la misma contraseña
+  (echo "$password"; echo "$password") | smbpasswd -a -s "$user"
+  smbpasswd -e "$user"
+
+  # Asignar permisos ACL a la carpeta compartida
+  setfacl -R -m u:"$user":--- "/srv/$SHARE_NAME"
+  setfacl -R -d -m u:"$user":--- "/srv/$SHARE_NAME"
+
+  echo " Usuario '$user' creado con éxito (Linux + Samba)."
+  echo " ACL aplicados en '/srv/$SHARE_NAME'."
+
+  actualizar_valid_users "Añadir" "$user"
+done
+
+echo ""
+#actualizar_valid_users "Añadir" "$usuarios"
+sudo systemctl reload smbd
+echo -e "${verde}Usuarios creados con éxito.${borra_colores}"; read p
+break
+done
+}
+
+borrar_usuario() {
+    clear
+    menu_info
+    echo -e "${rojo}BORRAR USUARIOS${borra_colores}"
+    echo ""
+    echo "Usuarios disponibles en el sistema:"
+    awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
+    echo ""
+
+    read -p "Ingrese los nombres de los usuarios a borrar (separados por espacios): " usuarios
+
+    for usuario in $usuarios; do
+        if ! id "$usuario" &>/dev/null; then
+            echo -e "${rojo}El usuario $usuario no existe. Se omite.${borra_colores}"
+            continue
+        fi
+
+        sudo userdel -r "$usuario"
+        sudo smbpasswd -x "$usuario"
+
+        echo -e "${verde}Usuario $usuario eliminado.${borra_colores}"
+    done
+
+    actualizar_valid_users "Quitar" "$usuarios"
+    sudo systemctl reload smbd
+    sleep 1; read p
+}
+
+actualizar_valid_users() {
+    accion="$1"
+    usuarios="$2"
+
+    if ! grep -q "^\[$SHARE_NAME\]" "$SMB_CONF"; then
+        echo -e "${rojo}El share [$SHARE_NAME] no existe en $SMB_CONF.${borra_colores}"
+        return
+    fi
+
+    current_line=$(awk -v share="[$SHARE_NAME]" '
+        $0 == share {flag=1; next}
+        /^\[/ {flag=0}
+        flag && /^ *valid users *=/ {print; exit}
+    ' "$SMB_CONF")
+
+    existing_users=$(echo "$current_line" | sed 's/^[ \t]*valid users[ \t]*=[ \t]*//')
+
+    if [[ "$accion" == "Añadir" ]]; then
+        all_users=$(echo "$existing_users $usuarios" | tr ' ' '\n' | sort -u | xargs)
+    else
+        all_users="$existing_users"
+        for u in $usuarios; do
+            all_users=$(echo "$all_users" | tr ' ' '\n' | grep -v -x -F "$u" | xargs)
+        done
+    fi
+
+    if [[ -z "$current_line" ]]; then
+        sed -i "/\[$SHARE_NAME\]/a valid users = $all_users" "$SMB_CONF"
+    else
+        sed -i "/^\s*valid users\s*=/c\    valid users = $all_users" "$SMB_CONF"
+    fi
+}
+
+gestionar_usuarios
+
+}
+
+borraconfiguracionsamba(){
+
+SMB_CONF="/etc/samba/smb.conf"
+
+# Si se pasa una ruta alternativa al smb.conf
+if [ -n "$1" ]; then
+    SMB_CONF="$1"
+fi
+
+# Comprobar que el archivo existe
+if [ ! -f "$SMB_CONF" ]; then
+    echo ""
+    echo "${rojo}No se encontró el archivo${borra_colores} $SMB_CONF"
+    sleep 3
+fi
+
+# Obtener los nombres de los recursos compartidos (excepto [global])
+mapfile -t SHARES < <(grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$')
+
+if [ ${#SHARES[@]} -eq 0 ]; then
+    echo ""
+    echo -e "${amarillo}No se encontraron recursos compartidos en${borra_colores} $SMB_CONF"
+    sleep 3
+fi
+
+echo ""
+echo -e "${azul}Recursos compartidos definidos en${borra_colores} $SMB_CONF:"
+echo -e ""
+i=1
+for share in "${SHARES[@]}"; do
+    echo -e "${azul}$i)${borra_colores} $share"
+    ((i++))
+done
+echo ""
+echo -e "${amarillo} Ten en cuenta que si esta habilitado el recurso [homes]${borra_colores}"
+echo -e "${amarillo} en la configuracion de samba en /etc/samba/smb.conf${borra_colores}"
+echo -e "${amarillo} puede ser que se muestre el home de algun usuario.${borra_colores}"
+echo ""
+read -p "Introduce el número del recurso que quieres eliminar (o 99 para ir atras): " SELECCION
+
+if [ "$SELECCION" -eq 99 ] 2> /dev/null; then
+    return
+fi
+
+# Validar selección
+if ! [[ "$SELECCION" =~ ^[0-9]+$ ]]; then
+    echo ""
+    echo -e "${rojo}Selección no válida (no es un número)${borra_colores}"
+    sleep 3
+    return
+fi
+
+# Validar rango
+if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+    echo ""
+    echo -e "${rojo}Selección no válida (fuera de rango)${borra_colores}"
+    sleep 3
+    return
+fi
+
+SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
+
+
+
+
+#if [ "$SELECCION" -lt 1 ] || [ "$SELECCION" -gt "${#SHARES[@]}" ]; then
+#    echo ""
+#    echo -e "${rojo}Selección no válida${borra_colores}"
+#    sleep 3
+#    return
+#fi
+
+SHARE_A_BORRAR="${SHARES[$((SELECCION-1))]}"
+
+echo ""
+echo -e "${amarillo}Vas a eliminar el recurso compartido:${borra_colores} $SHARE_A_BORRAR"
+echo -e "${amarillo}Si lo borras creara una copia de seguridad automatica${borra_colores}"
+echo ""
+read -p "¿ Estas seguro ? (s/N): " CONFIRMAR
+
+if [[ ! "$CONFIRMAR" =~ ^[sS]$ ]]; then
+    echo ""
+    echo -e "${amarillo}No se borra nada${borra_colores}"
+    sleep 3
+    return
+fi
+
+# Crear copia de seguridad
+BACKUP="$SMB_CONF.bak_$(date +%Y%m%d_%H%M%S)"
+cp "$SMB_CONF" "$BACKUP"
+echo ""
+echo -e "${verde}Copia de seguridad creada:${borra_colores} $BACKUP"
+
+# Obtener línea inicial del bloque
+LINEA_INICIO=$(grep -n "^\[$SHARE_A_BORRAR\]" "$SMB_CONF" | cut -d: -f1)
+
+# Obtener línea del siguiente bloque o final del archivo
+LINEA_SIGUIENTE=$(grep -n "^\[" "$SMB_CONF" | awk -F: -v start="$LINEA_INICIO" '$1 > start {print $1; exit}')
+
+if [ -z "$LINEA_SIGUIENTE" ]; then
+    # Si no hay siguiente bloque, eliminar hasta el final
+    sed -i "${LINEA_INICIO},\$d" "$SMB_CONF"
+else
+    # Eliminar desde la línea de inicio hasta justo antes del siguiente bloque
+    sed -i "${LINEA_INICIO},$((LINEA_SIGUIENTE-1))d" "$SMB_CONF"
+fi
+
+echo -e "${verde}Recurso${borra_colores} $SHARE_A_BORRAR ${verdes}eliminado del archivo${borra_colores}"
+
+# Mostrar los recursos restantes
+echo
+echo -e "${azul}Recursos restantes:${borra_colores}"
+grep -E '^\[[^]]+\]' "$SMB_CONF" | sed -E 's/^\[|\]$//g' | grep -vi '^global$'
+
+#borra el fichero de estado de la configuracion samba
+echo ""
+read -p "Deseas borrar el estado? (s/n) " sn
+if [[ "$sn" =~ ^[sS]$ ]]; then
+    sudo rm -r $estado_config
+else
+    echo ""
+    echo -e "${verde}El estado NO se ha borrado${borra_colores}"
+    sleep 3
+fi
 
 }
 
@@ -681,16 +1105,75 @@ while true; do
     echo ""
     echo -e " ${azul}MENU PRINCIPAL${borra_colores}"
     echo ""
-    echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba"
-    echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL"
+
+    if [ -f "$estado_config" ]; then
+        echo -e " ${verde}Estado:${borra_colores} Configuración inicial completada,${verde} Ya tienes acceso a los menus 2,3,4${borra_colores}"
+    else
+        echo -e " ${rojo}Estado:${borra_colores} Configuración inicial pendiente,${amarillo} NO tienes acceso a los menus 2,3,4${borra_colores}"
+    fi
+
+    echo ""
+    echo -e "  ${verde}Info Ip server${borra_colores} $(hostname -I)"
+    echo ""
+    echo -e " ${azul} 1)${borra_colores} Crear usuarios, carpetas y permisos Samba (Configuracion inicial)"
+    echo -e " ${azul} 2)${borra_colores} Modificar permisos ACL de las carpetas comparitdas por samba"
+    echo -e " ${azul} 3)${borra_colores} Crear borrar usuarios samba y del sistema"
+    echo -e " ${azul} 4)${borra_colores} Borrar la configuracion de samba, NO borra datos del disco y usuarios."
+    echo -e " ${azul} 5)${borra_colores} Listar tu fichero de configuracion de samba."
+    echo -e " ${azul} 6)${borra_colores} Listar los usuarios de samba."
     echo -e " ${azul}99)${borra_colores} Salir"
     echo ""
     read -rp " Elige una opcion: " opcion
 
     case "$opcion" in
         1) crear_total ;;
-        2) permisos_acl ;;
+
+        2) if [ -f "$estado_config" ]; then
+            permisos_acl
+           else
+            echo ""
+            echo -e "${rojo}No puedes acceder a esta opción.${borra_colores}"
+            echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
+            sleep 4
+          fi ;;
+
+        3) if [ -f "$estado_config" ]; then
+            crearborrarusuarios
+           else
+            echo ""
+            echo -e "${rojo}No puedes acceder a esta opción.${borra_colores}"
+            echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
+            sleep 4
+          fi ;;
+
+        4) if [ -f "$estado_config" ]; then
+            borraconfiguracionsamba
+           else
+            echo ""
+            echo -e "${rojo}No puedes acceder a esta opción.${borra_colores}"
+            echo -e "${amarillo}Primero ejecuta la opción 1 para configurar Samba.${borra_colores}"
+            sleep 4
+          fi ;;
+
+        5) echo "listado de 555555555"; read p ;;
+
+        6)  #listado de usuarios de samba
+            usuarios=$(sudo pdbedit -L | cut -d: -f1)
+            # Comprobar si la lista está vacía
+            if [ -z "$usuarios" ]; then
+                echo ""
+                echo -e "${amarillo} No hay usuarios registrados en Samba.${borra_colores}"; sleep 3
+            else
+                echo ""
+                echo -e "${azul} Usuarios Samba encontrados:${borra_colores}"
+                echo ""
+                echo -e "${verde}$usuarios ${borra_colores}"
+                echo ""
+                read -p " Pulsa una tecla para continuar" pause
+            fi
+            ;;
+
         99) ctrl_c ;;
-        *) echo ""; echo -e "${rojo}Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
+        *) echo ""; echo -e "${rojo} Opcion del menu invalida.${borra_colores}"; sleep 2 ;;
     esac
 done
