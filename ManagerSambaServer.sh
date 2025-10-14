@@ -785,6 +785,7 @@ gestionar_usuarios() {
 
 crear_usuario() {
 while true; do
+    clear
     menu_info
     echo ""
     echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
@@ -792,7 +793,7 @@ while true; do
     echo -e "${azul}Lista de usuarios actuales${borra_colores}"; echo ""
     awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd
 
-    echo "=== CREACIÓN DE USUARIOS LINUX + SAMBA ==="
+    echo ""
 read -p "Introduce los nombres de usuario separados por espacio: " -a usuarios
 
 # Función para validar nombres de usuario
@@ -812,7 +813,7 @@ validar_usuario() {
 # Pedir carpeta compartida Samba
 read -p "Introduce la ruta completa de la carpeta compartida Samba: " carpeta
 
-if [[ ! -d "$carpeta" ]]; then
+if [[ ! -d "$SHARE_NAME" ]]; then
   echo " La carpeta no existe."
   exit 1
 fi
@@ -847,11 +848,11 @@ for user in "${usuarios[@]}"; do
   smbpasswd -e "$user"
 
   # Asignar permisos ACL a la carpeta compartida
-  setfacl -R -m u:"$user":--- "$carpeta"
-  setfacl -R -d -m u:"$user":--- "$carpeta"
+  setfacl -R -m u:"$user":--- "$SHARE_NAME"
+  setfacl -R -d -m u:"$user":--- "$SHARE_NAME"
 
   echo " Usuario '$user' creado con éxito (Linux + Samba)."
-  echo " ACL aplicados en '$carpeta'."
+  echo " ACL aplicados en '$SHARE_NAME'."
 done
 
 echo " Todos los usuarios procesados correctamente."
