@@ -812,6 +812,7 @@ validar_usuario() {
 
 # Pedir carpeta compartida Samba
 read -p "Introduce la ruta completa de la carpeta compartida Samba: " carpeta
+echo $SHARE_NAME; read -p "lo paro" p
 
 if [[ ! -d "$SHARE_NAME" ]]; then
   echo " La carpeta no existe."
