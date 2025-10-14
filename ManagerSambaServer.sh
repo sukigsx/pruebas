@@ -276,7 +276,7 @@ while true; do
     menu_info
     echo -e "${verde}CREACION DE CARPETAS${borra_colores}"
     echo ""
-    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/srv ${amarillo}y el nombre que quieras)${borra_colores}"
+    echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/srv/${amarillo}y el nombre que quieras)${borra_colores}"
     echo -e "${verde}Listado de las carpetas de tu${borra_colores} /srv${verde} por si ya tienes una que quieres utilizar${borra_colores}"
     echo ""
     ls /srv/
