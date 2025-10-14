@@ -278,15 +278,15 @@ while true; do
     echo ""
     echo -e "${amarillo}La carpeta principal se creará en (${borra_colores}/srv/${amarillo}y el nombre que quieras)${borra_colores}"
     echo -e "${verde}Listado de las carpetas de tu${borra_colores} /srv${verde} por si ya tienes una que quieres utilizar${borra_colores}"
-    echo ""
+
     # Buscar solo directorios dentro de /srv
     carpetas=($(find "/srv" -mindepth 1 -maxdepth 1 -type d 2>/dev/null))
 
     # Comprobar si el array está vacío
     if [ ${#carpetas[@]} -eq 0 ]; then
-        echo -e "${amarillo}"
-        echo "No hay ninguna carpeta en $DIR."
-        echo -e "${borra_colores}"
+        echo ""
+        echo -e "${amarillo}No hay ninguna carpeta en ${borra_colores}/srv"
+        echo -e ""
     else
         for carpeta in "${carpetas[@]}"; do
             echo -e "${verde}"
