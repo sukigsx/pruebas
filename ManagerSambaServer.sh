@@ -849,6 +849,7 @@ for user in "${usuarios[@]}"; do
 done
 
 echo " Todos los usuarios procesados correctamente."
+read p
 
 
 #    echo ""
