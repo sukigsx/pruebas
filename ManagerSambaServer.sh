@@ -784,8 +784,8 @@ gestionar_usuarios() {
 }
 
 crear_usuario() {
-menu_info
 while true; do
+    menu_info
     echo ""
     echo -e "${verde}CREACION DE USUARIOS${borra_colores}"
     echo ""

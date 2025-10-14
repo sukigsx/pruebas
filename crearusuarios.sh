@@ -1,13 +1,3 @@
-#!/bin/bash
-# Script para crear usuarios Linux + Samba con la misma contraseña individual
-# Autor: GPT-5
-
-# Comprobar si se ejecuta como root
-if [[ $EUID -ne 0 ]]; then
-  echo "❌ Este script debe ejecutarse como root."
-  exit 1
-fi
-
 echo "=== CREACIÓN DE USUARIOS LINUX + SAMBA ==="
 read -p "Introduce los nombres de usuario separados por espacio: " -a usuarios
 
@@ -29,7 +19,7 @@ validar_usuario() {
 read -p "Introduce la ruta completa de la carpeta compartida Samba: " carpeta
 
 if [[ ! -d "$carpeta" ]]; then
-  echo "❌ La carpeta no existe."
+  echo " La carpeta no existe."
   exit 1
 fi
 
@@ -44,7 +34,7 @@ for user in "${usuarios[@]}"; do
   echo
 
   if [[ "$password" != "$password2" ]]; then
-    echo "❌ Las contraseñas no coinciden. Saltando usuario '$user'."
+    echo " Las contraseñas no coinciden. Saltando usuario '$user'."
     continue
   fi
 
@@ -63,8 +53,8 @@ for user in "${usuarios[@]}"; do
   smbpasswd -e "$user"
 
   # Asignar permisos ACL a la carpeta compartida
-  setfacl -R -m u:"$user":rwx "$carpeta"
-  setfacl -R -d -m u:"$user":rwx "$carpeta"
+  setfacl -R -m u:"$user":--- "$carpeta"
+  setfacl -R -d -m u:"$user":--- "$carpeta"
 
   echo "✅ Usuario '$user' creado con éxito (Linux + Samba)."
   echo "🔐 ACL aplicados en '$carpeta'."
