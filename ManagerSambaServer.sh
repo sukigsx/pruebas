@@ -853,7 +853,7 @@ done
 echo ""
 #actualizar_valid_users "Añadir" "$usuarios"
 sudo systemctl reload smbd
-echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
+echo -e "${verde}Usuarios creados con éxito.${borra_colores}"; read p
 break
 done
 }
