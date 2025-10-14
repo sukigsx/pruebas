@@ -1192,7 +1192,8 @@ while true; do
                 echo -e "${azul} Usuarios Samba encontrados:${borra_colores}"
                 echo ""
                 echo -e "${verde}$usuarios ${borra_colores}"
-                read p
+                echo ""
+                read -p " Pulsa una tecla para continuar" pause
             fi
             ;;
 
