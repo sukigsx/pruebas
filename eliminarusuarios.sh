@@ -27,6 +27,11 @@ for user in "${usuarios[@]}"; do
     continue
   fi
 
+  echo "eliminando permisos acl"
+  sudo find /srv/smb -exec setfacl -x u:$user {} +
+  #sudo setfacl -x  u:$user "/srv/smb"
+
+
   echo "🚮 Eliminando usuario Samba..."
   smbpasswd -x "$user" &>/dev/null
 
