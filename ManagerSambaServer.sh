@@ -289,9 +289,9 @@ while true; do
         echo -e ""
     else
         for carpeta in "${carpetas[@]}"; do
-            echo -e "${verde}"
-            echo " - $(basename "$carpeta")"
-            echo -e "${borra_colores}"
+            echo -e ""
+            echo " -${azul} $(basename "$carpeta")${borra_colores}"
+            echo -e ""
         done
     fi
 
