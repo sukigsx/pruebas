@@ -850,6 +850,7 @@ done
 
 echo " Todos los usuarios procesados correctamente."
 read p
+break
 
 
 #    echo ""
