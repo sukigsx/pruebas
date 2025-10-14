@@ -846,10 +846,12 @@ for user in "${usuarios[@]}"; do
 
   echo " Usuario '$user' creado con éxito (Linux + Samba)."
   echo " ACL aplicados en '/srv/$SHARE_NAME'."
+
+  actualizar_valid_users "Añadir" "$user"
 done
 
 echo ""
-actualizar_valid_users "Añadir" "$usuarios"
+#actualizar_valid_users "Añadir" "$usuarios"
 sudo systemctl reload smbd
 echo -e "${verde}Usuarios creados con éxito.${borra_colores}"
 break
