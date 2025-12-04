@@ -13,6 +13,28 @@
 archivo_local="CronManager.sh" # Nombre del archivo local
 ruta_repositorio="https://github.com/sukigsx/pruebas.git" #ruta del repositorio para actualizar y clonar con git clone
 
+#toma el control al pulsar control + c
+trap ctrl_c INT
+function ctrl_c()
+{
+clear
+figlet -c Gracias por
+figlet -c utilizar mi
+figlet -c script
+wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz
+exit
+}
+
+#colores
+#ejemplo: echo -e "${verde} La opcion (-e) es para que pille el color.${borra_colores}"
+rojo="\e[0;31m\033[1m" #rojo
+verde="\e[;32m\033[1m"
+azul="\e[0;34m\033[1m"
+amarillo="\e[0;33m\033[1m"
+rosa="\e[0;35m\033[1m"
+turquesa="\e[0;36m\033[1m"
+borra_colores="\033[0m\e[0m" #borra colores
+
 actualizar_script(){
 # Obtener la ruta del script
 descarga=$(dirname "$(readlink -f "$0")")
@@ -91,4 +113,3 @@ for comando in "${!requeridos[@]}"; do
 }
 actualizar_script
 
-echo "ok"
