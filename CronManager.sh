@@ -358,18 +358,29 @@ load_cron() {
 
 # --- Menú ---
 show_menu() {
-    cat <<'EOS'
-===============================
-     GESTOR DE CRONTAB
-===============================
-1) Ver tareas programadas
-2) Crear nueva tarea
-3) Modificar una tarea
-4) Eliminar una tarea
-5) Salir
-===============================
-EOS
-    read -rp "Seleccione una opción: " opt
+    while true; do
+        clear
+        menu_info
+        echo -e "${azul} Menu de opciones de ${borra_colores}$0"; echo ""
+        echo -e "${azul}  1)${borra_colores} Ver tareas programadas"
+        echo -e "${azul}  2)${borra_colores} Crear nueva tarea"
+        echo -e "${azul}  3)${borra_colores} Modificar una tarea"
+        echo -e "${azul}  4)${borra_colores} Eliminar una tarea"
+        echo ""
+        echo -e "${azul} 99)${borra_colores} Salir"
+        echo ""
+        read -p "$(echo -e "${azul} Seleccione una opción: ${borra_colores}")" opt
+
+        case $opt in
+            1) list_tasks ;;
+            2) create_task ;;
+            3) modify_task ;;
+            4) delete_task ;;
+            99) echo "Saliendo..."; exit 0 ;;
+            *) echo "Opción inválida." ;;
+            *) echo -e "\033[1A\033[2K${amarillo} Opción no válida${borra_colores}"; sleep 2 ;;
+        esac
+    done
 }
 
 list_tasks() {
@@ -506,17 +517,4 @@ delete_task() {
     crontab "$CRONTMP"
     echo "✔ Tarea eliminada."
 }
-
-# --- Bucle principal ---
-while true; do
-    show_menu
-    case "${opt:-}" in
-        1) list_tasks ;;
-        2) create_task ;;
-        3) modify_task ;;
-        4) delete_task ;;
-        5) echo "Saliendo..."; exit 0 ;;
-        *) echo "Opción inválida." ;;
-    esac
-    echo
-done
+show_menu
