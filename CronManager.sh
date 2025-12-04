@@ -57,8 +57,8 @@ exit
 menu_info(){
 # muestra el menu de sukigsx
 echo ""
-echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} ($NombreScript)"
-echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} ($DescripcionDelScript)"
+echo -e "${rosa}            _    _                  ${azul}   Nombre del script${borra_colores} $NombreScript"
+echo -e "${rosa}  ___ _   _| | _(_) __ _ _____  __  ${azul}   Descripcion${borra_colores} $DescripcionDelScript"
 echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version            =${borra_colores} $version"
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
@@ -149,6 +149,7 @@ for comando in "${!requeridos[@]}"; do
 
     echo ""
     echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
+    $software="SI"
     sleep 2
 }
 
