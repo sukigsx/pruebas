@@ -4,8 +4,8 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="Linux User Manager"
-export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
+export NombreScript="CronManager"
+export DescripcionDelScript="Herramienta de configuracion de tareas Cron de linux"
 export Correo=""
 export Web=""
 export version="1.0"
