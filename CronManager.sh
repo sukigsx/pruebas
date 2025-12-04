@@ -307,7 +307,7 @@ ask_schedule() {
     echo
     echo "Puedes usar expresiones especiales de cron:"
     show_special_help
-    echo; read p
+    echo
 
     while true; do
         read -p "¿Usar una expresión especial (@reboot, @daily, ...)? (s/n): " choice
@@ -390,6 +390,7 @@ list_tasks() {
 
 create_task() {
     echo "Crear nueva tarea"
+    show_special_help
     schedule="$(ask_schedule)" || return
     while true; do
         read -rp "Comando a ejecutar: " CMD
