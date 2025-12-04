@@ -288,7 +288,6 @@ _is_token_valid() {
 }
 
 validate_cron_field() {
-validate_cron_field() {
     local field="$1"
     local min="$2"
     local max="$3"
@@ -335,8 +334,6 @@ validate_cron_field() {
     done
 
     return 0
-}
-
 }
 
 # --- Pedir expresión de programación ---
@@ -572,3 +569,6 @@ delete_task() {
     echo ""; echo -e "${verde} Tarea eliminada.${borra_colores}"
 }
 show_menu
+#hola
+
+
