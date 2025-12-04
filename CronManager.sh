@@ -229,4 +229,6 @@ else
     fi
 fi
 
+clear
+menu_info
 echo "continuo ejecutando"
