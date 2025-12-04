@@ -194,7 +194,7 @@ fi
 
 clear
 menu_info
-conexion
+#conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
     if [ $actualizado = "SI" ]; then
