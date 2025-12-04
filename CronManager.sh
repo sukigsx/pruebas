@@ -91,4 +91,4 @@ for comando in "${!requeridos[@]}"; do
 }
 actualizar_script
 
-echo "sitio"
+echo "ok"
