@@ -194,7 +194,7 @@ fi
 
 clear
 menu_info
-#conexion
+conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
     if [ $actualizado = "SI" ]; then
@@ -232,4 +232,299 @@ fi
 
 clear
 menu_info
-echo "continuo ejecutando"
+#!/usr/bin/env bash
+set -euo pipefail
+
+# cron_manager.sh
+# Gestor de crontab con validación y soporte para @reboot y otras @-expresiones.
+
+CRONTMP="$(mktemp /tmp/cronmgr.XXXXXX)"
+
+cleanup() {
+    rm -f "$CRONTMP"
+}
+trap cleanup EXIT
+
+# --- Helpers de validación ---
+
+# Lista de expresiones especiales aceptadas
+is_valid_special() {
+    local v="$1"
+    case "$v" in
+        @reboot|@yearly|@annually|@monthly|@weekly|@daily|@hourly|@midnight) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# Valida un token individual de cron (sin comas)
+# Soporta: "*", "*/N", "N", "N/M", "A-B", "A-B/N"
+_is_token_valid() {
+    local tok="$1"
+    local min="$2"
+    local max="$3"
+
+    if [[ "$tok" == "*" ]]; then
+        return 0
+    fi
+    if [[ "$tok" =~ ^\*/[0-9]+$ ]]; then
+        return 0
+    fi
+    if [[ "$tok" =~ ^[0-9]+$ ]]; then
+        local n=${tok}
+        (( n >= min && n <= max )) && return 0 || return 1
+    fi
+    if [[ "$tok" =~ ^[0-9]+/[0-9]+$ ]]; then
+        local n=${tok%%/*}
+        (( n >= min && n <= max )) && return 0 || return 1
+    fi
+    if [[ "$tok" =~ ^[0-9]+-[0-9]+(/[0-9]+)?$ ]]; then
+        local range=${tok%%/*}
+        local a=${range%-*}
+        local b=${range#*-}
+        if (( a < min || b > max || a > b )); then
+            return 1
+        fi
+        return 0
+    fi
+
+    return 1
+}
+
+# Valida campo cron completo (puede incluir comas)
+# min/max según el campo (minuto 0-59, hora 0-23, dom 1-31, mes 1-12, dow 0-6)
+validate_cron_field() {
+    local value="$1"
+    local min="$2"
+    local max="$3"
+    # permitir exactamente "*" o combinaciones separadas por comas
+    IFS=',' read -r -a tokens <<< "$value"
+    for tok in "${tokens[@]}"; do
+        tok="${tok//[[:space:]]/}"  # quitar espacios
+        if ! _is_token_valid "$tok" "$min" "$max"; then
+            return 1
+        fi
+    done
+    return 0
+}
+
+# --- Interacción para pedir la expresión de programación ---
+ask_schedule() {
+    # Devuelve por stdout la programación (o una @-expresión)
+    while true; do
+        read -p "¿Usar una expresión especial (@reboot, @daily, ...)? (s/n): " choice
+        case "$choice" in
+            [sS])
+                while true; do
+                    read -p "Introduce la expresión especial (ej: @reboot, @daily): " special
+                    if is_valid_special "$special"; then
+                        echo "$special"
+                        return 0
+                    else
+                        echo "Valor especial inválido. Opciones válidas: @reboot @yearly/@annually @monthly @weekly @daily @hourly @midnight"
+                    fi
+                done
+                ;;
+            [nN])
+                # Pedir cada campo con validación (aceptamos tokens complejos y '*')
+                local MIN HOUR DOM MONTH DOW
+                while true; do
+                    read -p "Minuto (0-59, admite */n, ranges y listas): " MIN
+                    if validate_cron_field "$MIN" 0 59; then break; else echo "Minuto inválido."; fi
+                done
+                while true; do
+                    read -p "Hora (0-23, admite */n, ranges y listas): " HOUR
+                    if validate_cron_field "$HOUR" 0 23; then break; else echo "Hora inválida."; fi
+                done
+                while true; do
+                    read -p "Día del mes (1-31, admite *, */n, ranges y listas): " DOM
+                    if validate_cron_field "$DOM" 1 31; then break; else echo "Día del mes inválido."; fi
+                done
+                while true; do
+                    read -p "Mes (1-12, admite *, */n, ranges y listas): " MONTH
+                    if validate_cron_field "$MONTH" 1 12; then break; else echo "Mes inválido."; fi
+                done
+                while true; do
+                    read -p "Día de la semana (0-6, 0=Dom, admite *, */n, ranges y listas): " DOW
+                    if validate_cron_field "$DOW" 0 6; then break; else echo "Día de la semana inválido."; fi
+                done
+
+                echo "$MIN $HOUR $DOM $MONTH $DOW"
+                return 0
+                ;;
+            *)
+                echo "Responde 's' o 'n'."
+                ;;
+        esac
+    done
+}
+
+# --- Cargar crontab actual (sin comentarios) ---
+load_cron() {
+    crontab -l 2>/dev/null | sed '/^#/d' > "$CRONTMP" || true
+}
+
+# --- Menú ---
+show_menu() {
+    cat <<'EOS'
+===============================
+     GESTOR DE CRONTAB
+===============================
+1) Ver tareas programadas
+2) Crear nueva tarea
+3) Modificar una tarea
+4) Eliminar una tarea
+5) Salir
+===============================
+EOS
+    read -rp "Seleccione una opción: " opt
+}
+
+list_tasks() {
+    load_cron
+    if [ ! -s "$CRONTMP" ]; then
+        echo "No hay tareas programadas."
+        return
+    fi
+    echo
+    echo "Tareas actuales:"
+    nl -ba "$CRONTMP"
+    echo
+}
+
+create_task() {
+    echo "Crear nueva tarea"
+    schedule="$(ask_schedule)" || return
+    while true; do
+        read -rp "Comando a ejecutar: " CMD
+        [[ -n "${CMD// }" ]] && break
+        echo "El comando no puede estar vacío."
+    done
+
+    NEW_ENTRY="$schedule $CMD"
+    load_cron
+    # Evitar duplicados exactos
+    if grep -Fxq "$NEW_ENTRY" "$CRONTMP" 2>/dev/null; then
+        echo "La entrada ya existe en el crontab. No se agregó."
+        return
+    fi
+    echo "$NEW_ENTRY" >> "$CRONTMP"
+    crontab "$CRONTMP"
+    echo "✔ Tarea agregada:"
+    echo "  $NEW_ENTRY"
+}
+
+modify_task() {
+    load_cron
+    if [ ! -s "$CRONTMP" ]; then
+        echo "No hay tareas para modificar."
+        return
+    fi
+    list_tasks
+    read -rp "Número de la tarea a modificar: " num
+    TOTAL=$(wc -l < "$CRONTMP")
+    if ! [[ "$num" =~ ^[0-9]+$ ]] || [ "$num" -lt 1 ] || [ "$num" -gt "$TOTAL" ]; then
+        echo "Número inválido."
+        return
+    fi
+
+    OLD_LINE=$(sed -n "${num}p" "$CRONTMP")
+    echo "Tarea actual: $OLD_LINE"
+    echo
+
+    # Detectar si la línea comienza por @
+    first_token="${OLD_LINE%% *}"
+    if [[ "$first_token" == @* ]]; then
+        echo "La tarea actual usa una @-expresión ($first_token)."
+        while true; do
+            read -rp "¿Deseas usar una @-expresión (s) o cambiar a expresión cron completa (n)? (s/n): " ch
+            case "$ch" in
+                [sS])
+                    while true; do
+                        read -rp "Nueva @-expresión: " sp
+                        if is_valid_special "$sp"; then
+                            schedule="$sp"
+                            break
+                        else
+                            echo "Expresión especial inválida."
+                        fi
+                    done
+                    break
+                    ;;
+                [nN])
+                    schedule="$(ask_schedule)" || return
+                    break
+                    ;;
+                *) echo "Responde s o n." ;;
+            esac
+        done
+    else
+        # Línea cron normal — preguntar si mantener formato cron o usar @-expresión
+        while true; do
+            read -rp "¿Mantener formato cron (min hora dom mes dow) o usar @-expresión? (cron/@): " ch
+            case "$ch" in
+                cron)
+                    schedule="$(ask_schedule)" || return
+                    break
+                    ;;
+                @)
+                    while true; do
+                        read -rp "Nueva @-expresión: " sp
+                        if is_valid_special "$sp"; then
+                            schedule="$sp"
+                            break
+                        else
+                            echo "Expresión especial inválida."
+                        fi
+                    done
+                    break
+                    ;;
+                *) echo "Responde 'cron' o '@'." ;;
+            esac
+        done
+    fi
+
+    while true; do
+        read -rp "Nuevo comando: " CMD
+        [[ -n "${CMD// }" ]] && break
+        echo "El comando no puede estar vacío."
+    done
+
+    NEW_ENTRY="$schedule $CMD"
+    # Reemplazar línea
+    sed -i "${num}s~.*~$NEW_ENTRY~" "$CRONTMP"
+    crontab "$CRONTMP"
+    echo "✔ Tarea modificada:"
+    echo "  $NEW_ENTRY"
+}
+
+delete_task() {
+    load_cron
+    if [ ! -s "$CRONTMP" ]; then
+        echo "No hay tareas para eliminar."
+        return
+    fi
+    list_tasks
+    read -rp "Número de la tarea a eliminar: " num
+    TOTAL=$(wc -l < "$CRONTMP")
+    if ! [[ "$num" =~ ^[0-9]+$ ]] || [ "$num" -lt 1 ] || [ "$num" -gt "$TOTAL" ]; then
+        echo "Número inválido."
+        return
+    fi
+    sed -i "${num}d" "$CRONTMP"
+    crontab "$CRONTMP"
+    echo "✔ Tarea eliminada."
+}
+
+# --- Bucle principal ---
+while true; do
+    show_menu
+    case "${opt:-}" in
+        1) list_tasks ;;
+        2) create_task ;;
+        3) modify_task ;;
+        4) delete_task ;;
+        5) echo "Saliendo..."; exit 0 ;;
+        *) echo "Opción inválida." ;;
+    esac
+    echo
+done
