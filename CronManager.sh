@@ -372,12 +372,11 @@ show_menu() {
         read -p "$(echo -e "${azul} Seleccione una opción: ${borra_colores}")" opt
 
         case $opt in
-            1) list_tasks ;;
-            2) create_task ;;
-            3) modify_task ;;
-            4) delete_task ;;
-            99) echo "Saliendo..."; exit 0 ;;
-            *) echo "Opción inválida." ;;
+            1)  list_tasks ;;
+            2)  create_task ;;
+            3)  modify_task ;;
+            4)  delete_task ;;
+            99) ctrl_c ;;
             *) echo -e "\033[1A\033[2K${amarillo} Opción no válida${borra_colores}"; sleep 2 ;;
         esac
     done
