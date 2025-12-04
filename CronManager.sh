@@ -246,20 +246,17 @@ trap cleanup EXIT
 
 show_special_help() {
     cat <<'EOF'
-Expresiones especiales disponibles:
+ Expresiones especiales disponibles:
 
-  @reboot     → Ejecuta el comando cada vez que el sistema arranca.
-  @yearly     → Ejecuta una vez al año (equivale a "0 0 1 1 *").
-  @annually   → Alias de @yearly.
-  @monthly    → Ejecuta una vez al mes (equivale a "0 0 1 * *").
-  @weekly     → Ejecuta una vez a la semana (equivale a "0 0 * * 0").
-  @daily      → Ejecuta una vez al día (equivale a "0 0 * * *").
-  @midnight   → Alias de @daily.
-  @hourly     → Ejecuta una vez por hora (equivale a "0 * * * *").
+   @reboot     → Ejecuta el comando cada vez que el sistema arranca.
+   @yearly     → Ejecuta una vez al año (equivale a "0 0 1 1 *").
+   @annually   → Alias de @yearly.
+   @monthly    → Ejecuta una vez al mes (equivale a "0 0 1 * *").
+   @weekly     → Ejecuta una vez a la semana (equivale a "0 0 * * 0").
+   @daily      → Ejecuta una vez al día (equivale a "0 0 * * *").
+   @midnight   → Alias de @daily.
+   @hourly     → Ejecuta una vez por hora (equivale a "0 * * * *").
 
-Estas expresiones sustituyen completamente la parte “min hora día mes dow”.
-Ejemplo:
-    @reboot echo "Sistema iniciado" >> /tmp/log.txt
 EOF
 }
 
@@ -306,7 +303,6 @@ validate_cron_field() {
 ask_schedule() {
     echo
     echo "Puedes usar expresiones especiales de cron:"
-    show_special_help
     echo
 
     while true; do
