@@ -396,13 +396,24 @@ list_tasks() {
 
 create_task() {
     echo "Crear nueva tarea"
-    show_special_help
     schedule="$(ask_schedule)" || return
     while true; do
         read -rp "Comando a ejecutar: " CMD
-        [[ -n "${CMD// }" ]] && break
+        CMD="$(echo "$CMD" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+        [[ -n "$CMD" ]] && break
         echo "El comando no puede estar vacío."
     done
+
+    # Si es expresión normal (no @-expresión), limpiar espacios
+    if [[ "$schedule" != @* ]]; then
+        read -r MIN HOUR DOM MONTH DOW <<< "$schedule"
+        MIN="${MIN//[[:space:]]/}"
+        HOUR="${HOUR//[[:space:]]/}"
+        DOM="${DOM//[[:space:]]/}"
+        MONTH="${MONTH//[[:space:]]/}"
+        DOW="${DOW//[[:space:]]/}"
+        schedule="$MIN $HOUR $DOM $MONTH $DOW"
+    fi
 
     NEW_ENTRY="$schedule $CMD"
     load_cron
@@ -506,7 +517,7 @@ delete_task() {
         return
     fi
     list_tasks
-    read -rp "Número de la tarea a eliminar: (99 = Regresar)" num
+    read -rp "Número de la tarea a eliminar (99 = Regresar): " num
     TOTAL=$(wc -l < "$CRONTMP")
     if [ "$num" = "99" ]; then
         return
