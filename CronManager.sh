@@ -8,7 +8,7 @@ export NombreScript="Linux User Manager"
 export DescripcionDelScript="Herramienta configuracion usuarios, carpetas y permisos, configuracion samba"
 export Correo=""
 export Web=""
-export version="1.0aaasssaasskhbddddttdwwddaaaaaaaaaaaah"
+export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -198,7 +198,7 @@ if [ $conexion = "SI" ]; then
     actualizar_script
     if [ $actualizado = "SI" ]; then
         software_necesario
-        if [ $software = "SI" ]; then
+        if [ "$software" = "SI" ]; then
             export software="SI"
             export conexion="SI"
             export actualizado="SI"
