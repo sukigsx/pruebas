@@ -307,7 +307,7 @@ ask_schedule() {
     echo
     echo "Puedes usar expresiones especiales de cron:"
     show_special_help
-    echo
+    echo; read p
 
     while true; do
         read -p "¿Usar una expresión especial (@reboot, @daily, ...)? (s/n): " choice
