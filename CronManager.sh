@@ -235,9 +235,6 @@ menu_info
 #!/usr/bin/env bash
 set -euo pipefail
 
-# cron_manager.sh
-# Gestor de crontab con validación y soporte para @reboot y otras @-expresiones.
-
 CRONTMP="$(mktemp /tmp/cronmgr.XXXXXX)"
 
 cleanup() {
@@ -245,9 +242,27 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# --- Helpers de validación ---
+# --- Funciones de ayuda ---
 
-# Lista de expresiones especiales aceptadas
+show_special_help() {
+    cat <<'EOF'
+Expresiones especiales disponibles:
+
+  @reboot     → Ejecuta el comando cada vez que el sistema arranca.
+  @yearly     → Ejecuta una vez al año (equivale a "0 0 1 1 *").
+  @annually   → Alias de @yearly.
+  @monthly    → Ejecuta una vez al mes (equivale a "0 0 1 * *").
+  @weekly     → Ejecuta una vez a la semana (equivale a "0 0 * * 0").
+  @daily      → Ejecuta una vez al día (equivale a "0 0 * * *").
+  @midnight   → Alias de @daily.
+  @hourly     → Ejecuta una vez por hora (equivale a "0 * * * *").
+
+Estas expresiones sustituyen completamente la parte “min hora día mes dow”.
+Ejemplo:
+    @reboot echo "Sistema iniciado" >> /tmp/log.txt
+EOF
+}
+
 is_valid_special() {
     local v="$1"
     case "$v" in
@@ -256,76 +271,59 @@ is_valid_special() {
     esac
 }
 
-# Valida un token individual de cron (sin comas)
-# Soporta: "*", "*/N", "N", "N/M", "A-B", "A-B/N"
+# --- Validación de tokens cron ---
 _is_token_valid() {
     local tok="$1"
     local min="$2"
     local max="$3"
 
-    if [[ "$tok" == "*" ]]; then
-        return 0
-    fi
-    if [[ "$tok" =~ ^\*/[0-9]+$ ]]; then
-        return 0
-    fi
-    if [[ "$tok" =~ ^[0-9]+$ ]]; then
-        local n=${tok}
-        (( n >= min && n <= max )) && return 0 || return 1
-    fi
-    if [[ "$tok" =~ ^[0-9]+/[0-9]+$ ]]; then
-        local n=${tok%%/*}
-        (( n >= min && n <= max )) && return 0 || return 1
-    fi
+    if [[ "$tok" == "*" ]]; then return 0; fi
+    if [[ "$tok" =~ ^\*/[0-9]+$ ]]; then return 0; fi
+    if [[ "$tok" =~ ^[0-9]+$ ]]; then (( tok >= min && tok <= max )) && return 0 || return 1; fi
+    if [[ "$tok" =~ ^[0-9]+/[0-9]+$ ]]; then local n=${tok%%/*}; (( n >= min && n <= max )) && return 0 || return 1; fi
     if [[ "$tok" =~ ^[0-9]+-[0-9]+(/[0-9]+)?$ ]]; then
         local range=${tok%%/*}
         local a=${range%-*}
         local b=${range#*-}
-        if (( a < min || b > max || a > b )); then
-            return 1
-        fi
-        return 0
+        (( a >= min && b <= max && a <= b )) && return 0 || return 1
     fi
-
     return 1
 }
 
-# Valida campo cron completo (puede incluir comas)
-# min/max según el campo (minuto 0-59, hora 0-23, dom 1-31, mes 1-12, dow 0-6)
 validate_cron_field() {
     local value="$1"
     local min="$2"
     local max="$3"
-    # permitir exactamente "*" o combinaciones separadas por comas
     IFS=',' read -r -a tokens <<< "$value"
     for tok in "${tokens[@]}"; do
-        tok="${tok//[[:space:]]/}"  # quitar espacios
-        if ! _is_token_valid "$tok" "$min" "$max"; then
-            return 1
-        fi
+        tok="${tok//[[:space:]]/}"
+        if ! _is_token_valid "$tok" "$min" "$max"; then return 1; fi
     done
     return 0
 }
 
-# --- Interacción para pedir la expresión de programación ---
+# --- Pedir expresión de programación ---
 ask_schedule() {
-    # Devuelve por stdout la programación (o una @-expresión)
+    echo
+    echo "Puedes usar expresiones especiales de cron:"
+    show_special_help
+    echo
+
     while true; do
         read -p "¿Usar una expresión especial (@reboot, @daily, ...)? (s/n): " choice
         case "$choice" in
             [sS])
                 while true; do
-                    read -p "Introduce la expresión especial (ej: @reboot, @daily): " special
+                    read -p "Introduce la expresión especial: " special
                     if is_valid_special "$special"; then
                         echo "$special"
                         return 0
                     else
-                        echo "Valor especial inválido. Opciones válidas: @reboot @yearly/@annually @monthly @weekly @daily @hourly @midnight"
+                        echo "Expresión especial inválida. Opciones válidas: @reboot @yearly/@annually @monthly @weekly @daily @hourly @midnight"
                     fi
                 done
                 ;;
             [nN])
-                # Pedir cada campo con validación (aceptamos tokens complejos y '*')
                 local MIN HOUR DOM MONTH DOW
                 while true; do
                     read -p "Minuto (0-59, admite */n, ranges y listas): " MIN
@@ -347,7 +345,6 @@ ask_schedule() {
                     read -p "Día de la semana (0-6, 0=Dom, admite *, */n, ranges y listas): " DOW
                     if validate_cron_field "$DOW" 0 6; then break; else echo "Día de la semana inválido."; fi
                 done
-
                 echo "$MIN $HOUR $DOM $MONTH $DOW"
                 return 0
                 ;;
@@ -358,7 +355,7 @@ ask_schedule() {
     done
 }
 
-# --- Cargar crontab actual (sin comentarios) ---
+# --- Cargar crontab ---
 load_cron() {
     crontab -l 2>/dev/null | sed '/^#/d' > "$CRONTMP" || true
 }
@@ -402,7 +399,6 @@ create_task() {
 
     NEW_ENTRY="$schedule $CMD"
     load_cron
-    # Evitar duplicados exactos
     if grep -Fxq "$NEW_ENTRY" "$CRONTMP" 2>/dev/null; then
         echo "La entrada ya existe en el crontab. No se agregó."
         return
@@ -431,12 +427,12 @@ modify_task() {
     echo "Tarea actual: $OLD_LINE"
     echo
 
-    # Detectar si la línea comienza por @
     first_token="${OLD_LINE%% *}"
     if [[ "$first_token" == @* ]]; then
         echo "La tarea actual usa una @-expresión ($first_token)."
+        show_special_help
         while true; do
-            read -rp "¿Deseas usar una @-expresión (s) o cambiar a expresión cron completa (n)? (s/n): " ch
+            read -rp "Deseas usar una @-expresión (s) o cambiar a expresión cron completa (n)? (s/n): " ch
             case "$ch" in
                 [sS])
                     while true; do
@@ -458,15 +454,15 @@ modify_task() {
             esac
         done
     else
-        # Línea cron normal — preguntar si mantener formato cron o usar @-expresión
         while true; do
-            read -rp "¿Mantener formato cron (min hora dom mes dow) o usar @-expresión? (cron/@): " ch
+            read -rp "Mantener formato cron (min hora dom mes dow) o usar @-expresión? (cron/@): " ch
             case "$ch" in
                 cron)
                     schedule="$(ask_schedule)" || return
                     break
                     ;;
                 @)
+                    show_special_help
                     while true; do
                         read -rp "Nueva @-expresión: " sp
                         if is_valid_special "$sp"; then
@@ -490,7 +486,6 @@ modify_task() {
     done
 
     NEW_ENTRY="$schedule $CMD"
-    # Reemplazar línea
     sed -i "${num}s~.*~$NEW_ENTRY~" "$CRONTMP"
     crontab "$CRONTMP"
     echo "✔ Tarea modificada:"
