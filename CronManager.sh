@@ -502,18 +502,22 @@ modify_task() {
 delete_task() {
     load_cron
     if [ ! -s "$CRONTMP" ]; then
-        echo "No hay tareas para eliminar."
+        echo ""; echo -e "${amarillo} No hay tareas para eliminar.${borra_colores}"; sleep 2
         return
     fi
     list_tasks
-    read -rp "Número de la tarea a eliminar: " num
+    read -rp "Número de la tarea a eliminar: (99 = Regresar)" num
     TOTAL=$(wc -l < "$CRONTMP")
+    if [ "$num" = "99" ]; then
+        return
+    fi
+
     if ! [[ "$num" =~ ^[0-9]+$ ]] || [ "$num" -lt 1 ] || [ "$num" -gt "$TOTAL" ]; then
-        echo "Número inválido."
+        echo ""; echo -e "${rojo}Número inválido.${borra_colores}"; sleep 2
         return
     fi
     sed -i "${num}d" "$CRONTMP"
     crontab "$CRONTMP"
-    echo "✔ Tarea eliminada."
+    echo ""; echo -e "${verde} Tarea eliminada.${borra_colores}"
 }
 show_menu
