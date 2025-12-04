@@ -29,7 +29,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [nano]="nano"
         [curl]="curl"
         [konsole]="konsole"
-        [getfacl]="acl"
+        [getfacll]="acll"
     )
 
 
