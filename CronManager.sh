@@ -90,3 +90,5 @@ for comando in "${!requeridos[@]}"; do
     sleep 2
 }
 actualizar_script
+
+echo "sitio"
