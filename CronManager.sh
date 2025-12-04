@@ -288,15 +288,55 @@ _is_token_valid() {
 }
 
 validate_cron_field() {
-    local value="$1"
+validate_cron_field() {
+    local field="$1"
     local min="$2"
     local max="$3"
-    IFS=',' read -r -a tokens <<< "$value"
+
+    # Quitar espacios
+    field="${field//[[:space:]]/}"
+
+    # Rechazar vacío
+    if [[ -z "$field" ]]; then
+        return 1
+    fi
+
+    # Rechazar caracteres no permitidos
+    if [[ ! "$field" =~ ^[0-9\*\-/\,]+$ ]]; then
+        return 1
+    fi
+
+    # Separar por comas
+    IFS=',' read -ra tokens <<< "$field"
     for tok in "${tokens[@]}"; do
-        tok="${tok//[[:space:]]/}"
-        if ! _is_token_valid "$tok" "$min" "$max"; then return 1; fi
+        # *
+        if [[ "$tok" == "*" ]]; then continue; fi
+        # */n
+        if [[ "$tok" =~ ^\*/([0-9]+)$ ]]; then
+            step=${BASH_REMATCH[1]}
+            (( step >= 1 && step <= max )) || return 1
+            continue
+        fi
+        # n-m o n-m/x
+        if [[ "$tok" =~ ^([0-9]+)-([0-9]+)(/([0-9]+))?$ ]]; then
+            start=${BASH_REMATCH[1]}
+            end=${BASH_REMATCH[2]}
+            step=${BASH_REMATCH[4]:-1}
+            (( start >= min && end <= max && start <= end && step >= 1 )) || return 1
+            continue
+        fi
+        # n
+        if [[ "$tok" =~ ^[0-9]+$ ]]; then
+            (( tok >= min && tok <= max )) || return 1
+            continue
+        fi
+        # cualquier otro caso -> inválido
+        return 1
     done
+
     return 0
+}
+
 }
 
 # --- Pedir expresión de programación ---
