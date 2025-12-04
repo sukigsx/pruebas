@@ -1,115 +1,193 @@
 #!/bin/bash
 
-#VARIABLES DE SOFTWARE NECESARIO
-# Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
-    declare -A requeridos
-    requeridos=(
-        [which]="which"
-        [git]="git"
-        [nano]="nano"
-        [curl]="curl"
-        [diff]="diff"
-    )
-archivo_local="CronManager.sh" # Nombre del archivo local
-ruta_repositorio="https://github.com/sukigsx/pruebas.git" #ruta del repositorio para actualizar y clonar con git clone
+CRONTMP="/tmp/cronmgr_$$"
 
-#toma el control al pulsar control + c
-trap ctrl_c INT
-function ctrl_c()
-{
-clear
-figlet -c Gracias por
-figlet -c utilizar mi
-figlet -c script
-wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz
-exit
+# --- Funciones de validación ---
+
+validate_field() {
+    local value="$1"
+    local min="$2"
+    local max="$3"
+    local allow_star="$4"
+
+    # Permitir *
+    if [[ "$allow_star" == "yes" && "$value" == "*" ]]; then
+        return 0
+    fi
+
+    # Validar número
+    if ! [[ "$value" =~ ^[0-9]+$ ]]; then
+        return 1
+    fi
+
+    # Validar rango
+    if (( value < min || value > max )); then
+        return 1
+    fi
+
+    return 0
 }
 
-#colores
-#ejemplo: echo -e "${verde} La opcion (-e) es para que pille el color.${borra_colores}"
-rojo="\e[0;31m\033[1m" #rojo
-verde="\e[;32m\033[1m"
-azul="\e[0;34m\033[1m"
-amarillo="\e[0;33m\033[1m"
-rosa="\e[0;35m\033[1m"
-turquesa="\e[0;36m\033[1m"
-borra_colores="\033[0m\e[0m" #borra colores
+ask_field() {
+    local label="$1"
+    local min="$2"
+    local max="$3"
+    local allow_star="$4"
+    local input=""
 
-actualizar_script(){
-# Obtener la ruta del script
-descarga=$(dirname "$(readlink -f "$0")")
-git clone $ruta_repositorio /tmp/comprobar >/dev/null 2>&1
+    while true; do
+        read -p "$label ($min-$max$( [[ "$allow_star" == "yes" ]] && echo " o *" )): " input
 
-diff $descarga/$archivo_local /tmp/comprobar/$archivo_local >/dev/null 2>&1
-
-
-if [ $? = 0 ]
-then
-    #esta actualizado, solo lo comprueba
-    echo ""
-    echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
-    echo ""
-    chmod -R +w /tmp/comprobar
-    rm -R /tmp/comprobar
-    actualizado="SI"
-else
-    #hay que actualizar, comprueba y actualiza
-    echo ""
-    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
-    echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
-    sleep 3
-    mv /tmp/comprobar/$archivo_local $descarga
-    chmod -R +w /tmp/comprobar
-    rm -R /tmp/comprobar
-    echo ""
-    echo -e "${amarillo} El script se ha actualizado, es necesario cargarlo de nuevo.${borra_colores}"
-    echo -e ""
-    read -p " Pulsa una tecla para continuar." pause
-    exit
-fi
+        if validate_field "$input" "$min" "$max" "$allow_star"; then
+            echo "$input"
+            return
+        else
+            echo "❌ Valor inválido. Intente nuevamente."
+        fi
+    done
 }
 
-software_necesario(){
-#funcion software necesario
-#para que funcione necesita:
-#   conexion a internet
-#   la paleta de colores
-#   software: which
+# --- Cargar crontab ---
+load_cron() {
+    crontab -l 2>/dev/null | sed '/^#/d' > "$CRONTMP"
+}
 
-echo ""
-echo -e "${azul} Comprobando el software necesario.${borra_colores}"
-echo ""
-#which git diff ping figlet xdotool wmctrl nano fzf
-#########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
-for comando in "${!requeridos[@]}"; do
-        which $comando &>/dev/null
-        sino=$?
-        contador=1
-        while [ $sino -ne 0 ]; do
-            if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
-                clear
-                echo ""
-                echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
-                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}sudo apt install ${requeridos[$comando]}${amarillo})${borra_colores}"
-                echo -e ""
-                echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
-                echo ""; read p
-                echo ""
-                exit 1
-            else
-                echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
-                sudo apt install ${requeridos[$comando]} -y &>/dev/null
-                let "contador=contador+1"
-                which $comando &>/dev/null
-                sino=$?
-            fi
-        done
-        echo -e " [${verde}ok${borra_colores}] $comando (${requeridos[$comando]})."
+# --- Menú ---
+show_menu() {
+    echo "==============================="
+    echo "     GESTOR DE CRONTAB"
+    echo "==============================="
+    echo "1) Ver tareas programadas"
+    echo "2) Crear nueva tarea"
+    echo "3) Modificar una tarea"
+    echo "4) Eliminar una tarea"
+    echo "5) Salir"
+    echo "==============================="
+    read -p "Seleccione una opción: " opt
+}
+
+# --- Listar tareas ---
+list_tasks() {
+    load_cron
+    local NL
+    NL=$(wc -l < "$CRONTMP")
+
+    if [ "$NL" -eq 0 ]; then
+        echo "No hay tareas programadas."
+        return
+    fi
+
+    echo
+    echo "Tareas actuales:"
+    nl -ba "$CRONTMP"
+    echo
+}
+
+# --- Crear tarea ---
+create_task() {
+    echo "Crear nueva tarea"
+    echo
+
+    MIN=$(ask_field "Minuto" 0 59 "no")
+    HOUR=$(ask_field "Hora" 0 23 "no")
+    DOM=$(ask_field "Día del mes" 1 31 "yes")
+    MONTH=$(ask_field "Mes" 1 12 "yes")
+    DOW=$(ask_field "Día de la semana (0=Dom)" 0 6 "yes")
+
+    while true; do
+        read -p "Comando a ejecutar: " CMD
+        [[ -n "$CMD" ]] && break
+        echo "❌ El comando no puede estar vacío."
     done
 
-    echo ""
-    echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
-    sleep 2
+    NEW_ENTRY="$MIN $HOUR $DOM $MONTH $DOW $CMD"
+
+    load_cron
+    echo "$NEW_ENTRY" >> "$CRONTMP"
+    crontab "$CRONTMP"
+
+    echo
+    echo "✔ Tarea agregada:"
+    echo "  $NEW_ENTRY"
+    echo
 }
-actualizar_script
+
+# --- Modificar tarea ---
+modify_task() {
+    load_cron
+    list_tasks
+
+    read -p "Número de la tarea a modificar: " num
+
+    local TOTAL
+    TOTAL=$(wc -l < "$CRONTMP")
+
+    if ! [[ "$num" =~ ^[0-9]+$ ]] || [ "$num" -lt 1 ] || [ "$num" -gt "$TOTAL" ]; then
+        echo "Número inválido."
+        return
+    fi
+
+    OLD_LINE=$(sed -n "${num}p" "$CRONTMP")
+    echo "Tarea actual:"
+    echo "$OLD_LINE"
+    echo
+
+    MIN=$(ask_field "Nuevo minuto" 0 59 "no")
+    HOUR=$(ask_field "Nueva hora" 0 23 "no")
+    DOM=$(ask_field "Nuevo día del mes" 1 31 "yes")
+    MONTH=$(ask_field "Nuevo mes" 1 12 "yes")
+    DOW=$(ask_field "Nuevo día semana" 0 6 "yes")
+
+    while true; do
+        read -p "Nuevo comando: " CMD
+        [[ -n "$CMD" ]] && break
+        echo "❌ El comando no puede estar vacío."
+    done
+
+    NEW_ENTRY="$MIN $HOUR $DOM $MONTH $DOW $CMD"
+
+    sed -i "${num}s~.*~$NEW_ENTRY~" "$CRONTMP"
+    crontab "$CRONTMP"
+
+    echo
+    echo "✔ Tarea modificada:"
+    echo "  $NEW_ENTRY"
+    echo
+}
+
+# --- Eliminar tarea ---
+delete_task() {
+    load_cron
+    list_tasks
+
+    read -p "Número de la tarea a eliminar: " num
+
+    local TOTAL
+    TOTAL=$(wc -l < "$CRONTMP")
+
+    if ! [[ "$num" =~ ^[0-9]+$ ]] || [ "$num" -lt 1 ] || [ "$num" -gt "$TOTAL" ]; then
+        echo "Número inválido."
+        return
+    fi
+
+    sed -i "${num}d" "$CRONTMP"
+    crontab "$CRONTMP"
+
+    echo "✔ Tarea eliminada."
+}
+
+# --- Bucle principal ---
+while true; do
+    show_menu
+    case "$opt" in
+        1) list_tasks ;;
+        2) create_task ;;
+        3) modify_task ;;
+        4) delete_task ;;
+        5) echo "Saliendo..."; exit 0 ;;
+        *) echo "Opción inválida." ;;
+    esac
+    echo
+done
+
 
