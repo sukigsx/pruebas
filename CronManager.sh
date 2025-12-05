@@ -496,7 +496,7 @@ while true; do
          2) crear_tarea ;;
          3) borrar_tarea ;;
          4) ayuda_cron ;;
-        99) echo "Saliendo..."; exit 0 ;;
-        *) echo "Opción inválida" ;;
+        99) ctrl_c ;;
+        *) echo ""; echo -e "${amarillo} Opción inválida${borra_colores}"; sleep 2 ;;
     esac
 done
