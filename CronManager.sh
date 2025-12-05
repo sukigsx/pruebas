@@ -320,6 +320,7 @@ validar_semana() {
 crear_tarea() {
     clear
     menu_info
+    listar_cron
     echo
     echo -e "${turquesa} Opcion: Crear tarea nueva${borra_colores}"
     echo ""
