@@ -326,8 +326,7 @@ crear_tarea() {
     listar_cron
     # Preguntar si usar macro (s/S)
     echo ""
-    read -p "$(echo -e " ${azul}¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n) (99 = Atras):  ${borra_colores}")" usar_macro
-    #read -rp " ¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n) (99 = Atras): " usar_macro
+    read -rp " ¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n) (99 = Atras): " usar_macro
     if [[ "$usar_macro" =~ "99" ]]; then
         return
     fi
@@ -354,7 +353,7 @@ crear_tarea() {
                 break
             fi
 
-            echo ""; echo "Macro inválida. Selecciona una de la lista:"
+            echo ""; echo -e " ${rojo}Macro inválida.${amarillo} Selecciona una de la lista:${borra_colores}"
             echo ""
             printf "  %s\n" "${MACROS_VALIDAS[@]}"
             echo ""
