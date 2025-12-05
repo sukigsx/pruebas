@@ -471,19 +471,6 @@ borrar_tarea() {
         echo ""
         echo "Tarea eliminada."; sleep 2
     fi
-
-
-    #crontab -l 2>/dev/null > $CRON_TMP || { echo "No hay tareas."; return; }
-    #nl -ba $CRON_TMP
-    #echo ""
-    #read -p "Número de la tarea a borrar: " num
-
-    #total=$(wc -l < $CRON_TMP)
-    #[[ $num -ge 1 && $num -le $total ]] || { echo "Número inválido."; return; }
-
-    #sed -i "${num}d" $CRON_TMP
-    #crontab $CRON_TMP
-    #echo "Tarea eliminada."
 }
 
 # Bucle principal
