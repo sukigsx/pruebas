@@ -320,10 +320,10 @@ validar_semana() {
 crear_tarea() {
     clear
     menu_info
-    listar_cron
     echo
-    echo -e "${turquesa} Opcion: Crear tarea nueva${borra_colores}"
+    echo -e "${azul} Opcion: Crear tarea nueva${borra_colores}"
     echo ""
+    listar_cron
     # Preguntar si usar macro (s/S)
     read -rp "¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n): " usar_macro
     if [[ "$usar_macro" =~ ^[sS]$ ]]; then
