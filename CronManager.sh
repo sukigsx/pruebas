@@ -326,7 +326,8 @@ crear_tarea() {
     listar_cron
     # Preguntar si usar macro (s/S)
     echo ""
-    read -rp "¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n) (99 = Atras): " usar_macro
+    read -p "$(echo -e " ${azul}¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n) (99 = Atras):  ${borra_colores}")" usar_macro
+    #read -rp " ¿Deseas usar una macro especial como @reboot, @daily, etc? (s/n) (99 = Atras): " usar_macro
     if [[ "$usar_macro" =~ "99" ]]; then
         return
     fi
