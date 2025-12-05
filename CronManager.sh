@@ -248,7 +248,8 @@ mostrar_menu() {
     echo
     listar_cron
     echo ""
-    read -p " Seleccione una opción: " opcion
+    read -p "$(echo -e " ${azul}Selecciona una opcion: ${borra_colores}")" opcion
+    #read -p " Seleccione una opción: " opcion
 }
 
 listar_cron() {
