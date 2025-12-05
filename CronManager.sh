@@ -488,6 +488,7 @@ borrar_tarea() {
 
 # Bucle principal
 while true; do
+    clear
     menu_info
     mostrar_menu
     case $opcion in
