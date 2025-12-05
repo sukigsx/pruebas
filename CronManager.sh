@@ -254,11 +254,11 @@ mostrar_menu() {
 listar_cron() {
     CRON_CONTENT=$(crontab -l 2>/dev/null | grep -v '^\s*$' | grep -v '^#' | sed 's/^/   /')
     if [[ -z "$CRON_CONTENT" ]]; then
-        echo "No hay tareas programadas en el crontab de $(whoami)"
+        echo -e " ${amarillo}No hay tareas programadas en el crontab de${borra_colores} $(whoami)"
     else
-        echo "Listado de tareas del cron de usurio $(whoami)"
+        echo -e " ${azul}Listado de tareas del cron de usurio${borra_colores} $(whoami)"
         echo ""
-        echo "$CRON_CONTENT"
+        echo -e "${turquesa}$CRON_CONTENT${borra_colores}"
     fi
 }
 
