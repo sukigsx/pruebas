@@ -238,18 +238,17 @@ fi
 CRON_TMP="/tmp/cron_$$"
 
 mostrar_menu() {
-    echo "==============================="
-    echo "      GESTOR DE CRONTAB"
+    echo -e "${azul}      GESTOR DE CRONTAB${borra_colores}"
     echo ""
-    echo " 1) Listar tareas del cron"
-    echo " 2) Crear nueva tarea"
-    echo " 3) Borrar una tarea"
-    echo " 4) Ayuda cron (@reboot, @yearly...)"
-    echo "99) Salir"
+    echo -e "  ${azul}1)${borra_colores} Listar tareas del cron"
+    echo -e "  ${azul}2)${borra_colores} Crear nueva tarea"
+    echo -e "  ${azul}3)${borra_colores} Borrar una tarea"
+    echo -e "  ${azul}4)${borra_colores} Ayuda cron (@reboot, @yearly...)"
+    echo -e " ${azul}99)${borra_colores} Salir"
     echo
     listar_cron
     echo ""
-    read -p "Seleccione una opción: " opcion
+    read -p " Seleccione una opción: " opcion
 }
 
 listar_cron() {
