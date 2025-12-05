@@ -238,7 +238,6 @@ fi
 CRON_TMP="/tmp/cron_$$"
 
 mostrar_menu() {
-    clear
     echo "==============================="
     echo "      GESTOR DE CRONTAB"
     echo ""
