@@ -360,8 +360,11 @@ crear_tarea() {
             read -p " Pulsa una tecla para continuar." p
             submenu() {
                 clear
+                menu_info
                 echo
-                echo " Opcion: CREAR NUEVA TAREA ====="
+                echo -e "${azul} Opcion: Crear tarea nuevaaaaaaaaaaaaaaaaaa${borra_colores}"
+                echo ""
+                listar_cron
             }
         done
 
