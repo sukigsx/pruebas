@@ -357,11 +357,11 @@ crear_tarea() {
             echo ""
             printf "  %s\n" "${MACROS_VALIDAS[@]}"
             echo ""
-            read -p "Pulsa una tecla para continuar." p
+            read -p " Pulsa una tecla para continuar." p
             submenu() {
                 clear
                 echo
-                echo "Opcion: CREAR NUEVA TAREA ====="
+                echo " Opcion: CREAR NUEVA TAREA ====="
             }
         done
 
