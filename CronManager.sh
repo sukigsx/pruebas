@@ -369,7 +369,7 @@ crear_tarea() {
                 clear
                 menu_info
                 echo
-                echo -e "${azul} Opcion: Crear tarea nuevaaaaaaaaaaaaaaaaaa${borra_colores}"
+                echo -e "${azul} Opcion: Crear tarea nueva${borra_colores}"
                 echo ""
                 listar_cron
             }
@@ -377,9 +377,9 @@ crear_tarea() {
 
         # Validación de comando no vacío
         while true; do
-            read -rp "Comando a ejecutar: " comando
+            read -rp " Comando a ejecutar: " comando
             [[ -n "$comando" ]] && break
-            echo "El comando no puede estar vacío."
+            echo -e "${rojo}El comando no puede estar vacío.${borra_colores}"
         done
 
         # Añadir cron
@@ -387,7 +387,8 @@ crear_tarea() {
         echo "$macro $comando" >> "$CRON_TMP"
         crontab "$CRON_TMP"
 
-        echo "Tarea creada con macro."
+        echo "${verde}Tarea creada con macro.${borra_colores}"
+        sleep 2
         return
     fi
 
