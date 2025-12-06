@@ -342,9 +342,11 @@ crear_tarea() {
         # Pedir macro hasta que sea válida
         while true; do
             submenu 2>/dev/null
-            echo ""
+
+            echo -e "${turquesa}"
             printf "%s\n" "${MACROS_VALIDAS[@]}"
-            echo ""
+            echo "${borra_colores}"
+
             read -rp "Introduce la macro (99 = atras ): " macro
 
             if [ "$macro" = "99" ]; then
@@ -356,10 +358,10 @@ crear_tarea() {
             fi
 
             echo ""; echo -e " ${rojo}Macro inválida.${amarillo} Selecciona una de la lista:${borra_colores}"
-            echo ""
-            printf "  %s\n" "${MACROS_VALIDAS[@]}"
-            echo ""
-            read -p " Pulsa una tecla para continuar." p
+            sleep 2
+            #printf "  %s\n" "${MACROS_VALIDAS[@]}"
+            #echo ""
+            #read -p " Pulsa una tecla para continuar." p
             submenu() {
                 clear
                 menu_info
