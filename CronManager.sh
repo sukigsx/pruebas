@@ -362,9 +362,7 @@ crear_tarea() {
 
             echo ""; echo -e " ${rojo}Macro inválida.${amarillo} Selecciona una de la lista${borra_colores}"
             sleep 2
-            #printf "  %s\n" "${MACROS_VALIDAS[@]}"
-            #echo ""
-            #read -p " Pulsa una tecla para continuar." p
+
             submenu() {
                 clear
                 menu_info
@@ -377,6 +375,7 @@ crear_tarea() {
 
         # Validación de comando no vacío
         while true; do
+            echo ""
             read -rp " Comando a ejecutar: " comando
             [[ -n "$comando" ]] && break
             echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
