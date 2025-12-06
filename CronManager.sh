@@ -360,7 +360,7 @@ crear_tarea() {
                 break
             fi
 
-            echo ""; echo -e " ${rojo}Macro inválida.${amarillo} Selecciona una de la lista:${borra_colores}"
+            echo ""; echo -e " ${rojo}Macro inválida.${amarillo} Selecciona una de la lista${borra_colores}"
             sleep 2
             #printf "  %s\n" "${MACROS_VALIDAS[@]}"
             #echo ""
@@ -379,7 +379,7 @@ crear_tarea() {
         while true; do
             read -rp " Comando a ejecutar: " comando
             [[ -n "$comando" ]] && break
-            echo -e "${rojo}El comando no puede estar vacío.${borra_colores}"
+            echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
         done
 
         # Añadir cron
@@ -387,7 +387,7 @@ crear_tarea() {
         echo "$macro $comando" >> "$CRON_TMP"
         crontab "$CRON_TMP"
 
-        echo "${verde}Tarea creada con macro.${borra_colores}"
+        echo -e "${verde}Tarea creada con macro.${borra_colores}"
         sleep 2
         return
     fi
