@@ -347,7 +347,7 @@ crear_tarea() {
             echo -e "${azul} Listado de macros para cron ${turquesa}"
             echo ""
 
-            printf "%4s\n" "${MACROS_VALIDAS[@]}"
+            printf "%15s\n" "${MACROS_VALIDAS[@]}"
             echo -e "${borra_colores}"
 
             read -rp " Introduce la macro (99 = atras ): " macro
