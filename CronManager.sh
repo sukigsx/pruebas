@@ -343,6 +343,8 @@ crear_tarea() {
         while true; do
             submenu 2>/dev/null
             echo ""
+            printf "%s\n" "${MACROS_VALIDAS[@]}"
+            echo ""
             read -rp "Introduce la macro (99 = atras ): " macro
 
             if [ "$macro" = "99" ]; then
