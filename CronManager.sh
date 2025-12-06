@@ -386,7 +386,7 @@ crear_tarea() {
         echo "$macro $comando" >> "$CRON_TMP"
         crontab "$CRON_TMP"
 
-        echo -e "${verde}Tarea creada con macro.${borra_colores}"
+        echo -e "${verde} Tarea creada con macro.${borra_colores}"
         sleep 2
         return
     fi
@@ -397,63 +397,63 @@ crear_tarea() {
 
     while true; do
         echo ""
-        read -rp "Minuto 0-59 o *, (99 = Atras): " min
+        read -rp " Minuto 0-59 o *, (99 = Atras): " min
         if [ "$min" = "99" ]; then
             return
         fi
         validar_minuto "$min" && break
-        echo "Valor inválido. Debe ser 0-59 o *"
+        echo -e "${rojo} Valor inválido.${amarillo} Debe ser 0-59 o *${borra_colores}"
     done
 
     while true; do
         echo ""
-        read -rp "Hora 0-23 o *, (99 = Atras): " hora
+        read -rp " Hora 0-23 o *, (99 = Atras): " hora
         if [ "$hora" = "99" ]; then
             return
         fi
         validar_hora "$hora" && break
-        echo "Valor inválido. Debe ser 0-23 o *"
+        echo -e "${rojp} Valor inválido.${amarillo} Debe ser 0-23 o *${borra_colores}"
     done
 
     while true; do
         echo ""
-        read -rp "Día del mes 1-31 o *, (99 = Atras): " dia
+        read -rp " Día del mes 1-31 o *, (99 = Atras): " dia
         if [ "$dia" = "99" ]; then
             return
         fi
         validar_dia "$dia" && break
-        echo "Valor inválido. Debe ser 1-31 o *"
+        echo -e "${rojo} Valor inválido.${amarillo} Debe ser 1-31 o *${borra_colores}"
     done
 
     while true; do
         echo ""
-        read -rp "Mes 1-12 o *, (99 = Atras): " mes
+        read -rp " Mes 1-12 o *, (99 = Atras): " mes
         if [ "$mes" = "99" ]; then
             return
         fi
         validar_mes "$mes" && break
-        echo "Valor inválido. Debe ser 1-12 o *"
+        echo -e "${rojo} Valor inválido.${amarillo} Debe ser 1-12 o *${borra_colores}"
     done
 
     while true; do
         echo ""
-        read -rp "Día de la semana 1-7 o *, (99 = Atras): " semana
+        read -rp " Día de la semana 1-7 o *, (99 = Atras): " semana
         if [ "$semana" = "99" ]; then
             return
         fi
         validar_semana "$semana" && break
-        echo "Valor inválido. Debe ser 1-7 o *"
+        echo -e "${rojo} Valor inválido.${amarillo} Debe ser 1-7 o *${borra_colores}"
     done
 
     # Validación del comando
     while true; do
         echo ""
-        read -rp "Comando a ejecutar (99 = Atras): " comando
+        read -rp " Comando a ejecutar (99 = Atras): " comando
         if [ "$comando" = "99" ]; then
             return
         fi
         [[ -n "$comando" ]] && break
-        echo "El comando no puede estar vacío."
+        echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
     done
 
     # Añadir nueva tarea cron
@@ -461,7 +461,7 @@ crear_tarea() {
     echo "$min $hora $dia $mes $semana $comando" >> "$CRON_TMP"
     crontab "$CRON_TMP"
     echo ""
-    echo "Tarea creada."; sleep 2
+    echo -e "${verde} Tarea creada.${borra_colores}"; sleep 2
 }
 
 
