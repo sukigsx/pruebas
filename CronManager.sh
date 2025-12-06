@@ -343,9 +343,11 @@ crear_tarea() {
         while true; do
             submenu 2>/dev/null
 
-            echo -e "${turquesa}"
+            echo ""
+            echo -e "${azul} Listado de macros para cron ${turquesa}"
+
             printf "%s\n" "${MACROS_VALIDAS[@]}"
-            echo "${borra_colores}"
+            echo -e "${borra_colores}"
 
             read -rp "Introduce la macro (99 = atras ): " macro
 
