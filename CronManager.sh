@@ -240,10 +240,10 @@ CRON_TMP="/tmp/cron_$$"
 mostrar_menu() {
     echo -e "${azul}      GESTOR DE CRONTAB${borra_colores}"
     echo ""
-    echo -e "  ${azul}1)${borra_colores} Listar tareas del cron"
-    echo -e "  ${azul}2)${borra_colores} Crear nueva tarea"
-    echo -e "  ${azul}3)${borra_colores} Borrar una tarea"
-    echo -e "  ${azul}4)${borra_colores} Ayuda cron (@reboot, @yearly...)"
+    echo -e "  ${azul}1)${borra_colores} Crear nueva tarea"
+    echo -e "  ${azul}2)${borra_colores} Borrar una tarea"
+    echo -e "  ${azul}3)${borra_colores} Ayuda cron (@reboot, @yearly...)"
+    echo ""
     echo -e " ${azul}99)${borra_colores} Salir"
     echo
     listar_cron
@@ -468,11 +468,10 @@ crear_tarea() {
     echo -e "${verde} Tarea creada.${borra_colores}"; sleep 2
 }
 
-
 borrar_tarea() {
     clear
     echo ""
-    echo "Opcion: Borrar una tarea del usuario $(whoami)"
+    echo "Opción: Borrar tareas del usuario $(whoami)"
     echo ""
 
     CRON_CONTENT=$(crontab -l 2>/dev/null | grep -v '^\s*$' | grep -v '^#' | sed 's/^/   /')
@@ -482,17 +481,61 @@ borrar_tarea() {
         crontab -l 2>/dev/null > $CRON_TMP || { echo "No hay tareas."; return; }
         nl -ba $CRON_TMP
         echo ""
-        read -p "Número de la tarea a borrar: " num
+
+        read -p "Números de las tareas a borrar (separados por espacios): " nums
+
+        # Convertir a array
+        nums_array=($nums)
 
         total=$(wc -l < $CRON_TMP)
-        [[ $num -ge 1 && $num -le $total ]] || { echo "Número inválido."; return; }
 
-        sed -i "${num}d" $CRON_TMP
-        crontab $CRON_TMP
+        # Validar cada número
+        for n in "${nums_array[@]}"; do
+            if ! [[ "$n" =~ ^[0-9]+$ ]] || (( n < 1 || n > total )); then
+                echo "Número inválido: $n"
+                return
+            fi
+        done
+
+        # Ordenar de mayor a menor
+        nums_sorted=($(printf "%s\n" "${nums_array[@]}" | sort -rn))
+
+        # Borrar líneas
+        for n in "${nums_sorted[@]}"; do
+            sed -i "${n}d" "$CRON_TMP"
+        done
+
+        crontab "$CRON_TMP"
         echo ""
-        echo "Tarea eliminada."; sleep 2
+        echo "Tareas eliminadas."; sleep 2
     fi
 }
+
+
+#borrar_tarea() {
+#    clear
+#    echo ""
+#    echo "Opcion: Borrar una tarea del usuario $(whoami)"
+#    echo ""
+#
+#    CRON_CONTENT=$(crontab -l 2>/dev/null | grep -v '^\s*$' | grep -v '^#' | sed 's/^/   /')
+#    if [[ -z "$CRON_CONTENT" ]]; then
+#        echo "No hay tareas programadas en el crontab de $(whoami)"; sleep 3
+#    else
+#        crontab -l 2>/dev/null > $CRON_TMP || { echo "No hay tareas."; return; }
+#        nl -ba $CRON_TMP
+#        echo ""
+#        read -p "Número de la tarea a borrar: " num
+#
+#        total=$(wc -l < $CRON_TMP)
+#        [[ $num -ge 1 && $num -le $total ]] || { echo "Número inválido."; return; }
+#
+#        sed -i "${num}d" $CRON_TMP
+#        crontab $CRON_TMP
+#        echo ""
+#        echo "Tarea eliminada."; sleep 2
+#    fi
+#}
 
 # Bucle principal
 while true; do
@@ -500,10 +543,9 @@ while true; do
     menu_info
     mostrar_menu
     case $opcion in
-         1) listar_cron ;;
-         2) crear_tarea ;;
-         3) borrar_tarea ;;
-         4) ayuda_cron ;;
+         1) crear_tarea ;;
+         2) borrar_tarea ;;
+         3) ayuda_cron ;;
         99) ctrl_c ;;
         *) echo ""; echo -e "${amarillo} Opción inválida${borra_colores}"; sleep 2 ;;
     esac
