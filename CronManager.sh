@@ -287,9 +287,11 @@ ayuda_cron() {
     echo -e "    Mes             1–12, * Mes (1=enero)"
     echo -e "    Día de semana   0–7 , * (0 y 7 = domingo)"
     echo -e ""
-    echo -e "${rosa}    Ejemplo usando macros: @reboot /usr/bin/wakeonlan AA:BB:CC:DD:EE:FF #ejecuta en cada reinicio.${borra_colores}"
+    echo -e "${rosa} Ejemplos usando macros y programacion:${borra_colores}"
+    echo -e "   @reboot /usr/bin/wakeonlan AA:BB:CC:DD:EE:FF #ejecuta en cada reinicio."
+    echo -e "   * * * * * bash /home/script.sh #ejecuta a todos los minutos del dia"
     echo ""
-    read -p " Pulsa una tecla para continuar" p
+    read -p "$(echo -e "${azul} Pulsa una tecla para continuar ${borra_colores}")" pause
 }
 
 # ================================
