@@ -331,8 +331,7 @@ crear_tarea() {
         return
     fi
 
-    if [[ "$usar_macro" =~ ^[sS]$ ]]; then
-
+    [sS])
         # Lista de macros válidas
         MACROS_VALIDAS=(
             "@reboot" "@yearly" "@annually" "@monthly"
@@ -389,9 +388,9 @@ crear_tarea() {
         echo -e "${verde} Tarea creada con macro.${borra_colores}"
         sleep 2
         return
-    fi
+    fi ;;
 
-    if [ "$usar_macro" =~ ^[nN]$ ]; then
+    [nN])
     # ================================
     # Validación repetitiva campos cron
     # ================================
@@ -455,12 +454,10 @@ crear_tarea() {
         fi
         [[ -n "$comando" ]] && break
         echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
-    done
-    fi
+    done ;;
 
-    if [ "$usar_macro" = "" ]; then
-        echo -e "no puede estar en blanco"
-    fi
+    *)  echo "Opción inválida" ;;
+    done
 
     # Añadir nueva tarea cron
     crontab -l 2>/dev/null > "$CRON_TMP"
