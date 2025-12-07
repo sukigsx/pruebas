@@ -391,6 +391,7 @@ crear_tarea() {
         return
     fi
 
+    if [ "$usar_macro" =~ ^[nN]$ ]; then
     # ================================
     # Validación repetitiva campos cron
     # ================================
@@ -412,7 +413,7 @@ crear_tarea() {
             return
         fi
         validar_hora "$hora" && break
-        echo -e "${rojp} Valor inválido.${amarillo} Debe ser 0-23 o *${borra_colores}"
+        echo -e "${rojo} Valor inválido.${amarillo} Debe ser 0-23 o *${borra_colores}"
     done
 
     while true; do
@@ -455,6 +456,11 @@ crear_tarea() {
         [[ -n "$comando" ]] && break
         echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
     done
+    fi
+
+    if [ "$usar_macro" = "" ]; then
+        echo -e "no puede estar en blanco"
+    fi
 
     # Añadir nueva tarea cron
     crontab -l 2>/dev/null > "$CRON_TMP"
