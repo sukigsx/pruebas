@@ -50,7 +50,6 @@ clear
 echo ""
 echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
 echo ""
-sleep 1
 exit
 }
 
@@ -269,27 +268,28 @@ ayuda_cron() {
     echo
     echo -e "${azul} Opcion: Ayuda de cron${borra_colores}"
     echo ""
-    echo -e "Macros especiales de cron:"
+    echo -e "${turquesa} Macros especiales de cron:${borra_colores}"
     echo -e ""
-    echo -e "   @reboot     -> Ejecuta al iniciar el sistema"
-    echo -e "   @yearly     -> Una vez al año (equivalente a '0 0 1 1 *')"
-    echo -e "   @annually   -> Igual que @yearly"
-    echo -e "   @monthly    -> Una vez al mes (equivalente a '0 0 1 * *')"
-    echo -e "   @weekly     -> Una vez a la semana (equivalente a '0 0 * * 0')"
-    echo -e "   @daily      -> Una vez al día (equivalente a '0 0 * * *')"
-    echo -e "   @midnight   -> Igual que @daily"
-    echo -e "   @hourly     -> Una vez por hora (equivalente a '0 * * * *')"
+    echo -e "    @reboot     -> Ejecuta al iniciar el sistema"
+    echo -e "    @yearly     -> Una vez al año (equivalente a '0 0 1 1 *')"
+    echo -e "    @annually   -> Igual que @yearly"
+    echo -e "    @monthly    -> Una vez al mes (equivalente a '0 0 1 * *')"
+    echo -e "    @weekly     -> Una vez a la semana (equivalente a '0 0 * * 0')"
+    echo -e "    @daily      -> Una vez al día (equivalente a '0 0 * * *')"
+    echo -e "    @midnight   -> Igual que @daily"
+    echo -e "    @hourly     -> Una vez por hora (equivalente a '0 * * * *')"
     echo -e ""
-    echo -e "   Minuto          0–59, * Minuto dentro de la hora"
-    echo -e "   Hora            0–23, * Hora del día"
-    echo -e "   Día del mes     1–31, * Día del mes"
-    echo -e "   Mes             1–12, * Mes (1=enero)"
-    echo -e "   Día de semana   0–7 , * (0 y 7 = domingo)"
+    echo -e "${turquesa} Opciones de ejecucion programadas:${borra_colores}"
     echo -e ""
-    echo -e "   Ejemplo usando macros: @reboot /usr/bin/wakeonlan AA:BB:CC:DD:EE:FF"
-    echo -e "                          * * * * * /script.sh >> /var/log/script.log"
+    echo -e "    Minuto          0–59, * Minuto dentro de la hora"
+    echo -e "    Hora            0–23, * Hora del día"
+    echo -e "    Día del mes     1–31, * Día del mes"
+    echo -e "    Mes             1–12, * Mes (1=enero)"
+    echo -e "    Día de semana   0–7 , * (0 y 7 = domingo)"
+    echo -e ""
+    echo -e "${rosa}    Ejemplo usando macros: @reboot /usr/bin/wakeonlan AA:BB:CC:DD:EE:FF #ejecuta en cada reinicio.${borra_colores}"
     echo ""
-    read -p "Pulsa una tecla para continuar" p
+    read -p " Pulsa una tecla para continuar" p
 }
 
 # ================================
