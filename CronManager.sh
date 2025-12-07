@@ -492,7 +492,7 @@ borrar_tarea() {
         # Validar cada número
         for n in "${nums_array[@]}"; do
             if ! [[ "$n" =~ ^[0-9]+$ ]] || (( n < 1 || n > total )); then
-                echo "Número inválido: $n"
+                echo "Número inválido: $n"; sleep 5
                 return
             fi
         done
