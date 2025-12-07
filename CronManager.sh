@@ -389,7 +389,7 @@ crear_tarea() {
         echo -e "${verde} Tarea creada con macro.${borra_colores}"
         sleep 2
         return
-    fi ;;
+        ;;
 
     [nN])
     # ================================
