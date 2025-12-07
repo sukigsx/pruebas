@@ -470,8 +470,9 @@ crear_tarea() {
 
 borrar_tarea() {
     clear
+    menu_info
     echo ""
-    echo "Opción: Borrar tareas del usuario $(whoami)"
+    echo -e "${azul} Opción: Borrar tareas del usuario${borra_colores} $(whoami)"
     echo ""
 
     CRON_CONTENT=$(crontab -l 2>/dev/null | grep -v '^\s*$' | grep -v '^#' | sed 's/^/   /')
