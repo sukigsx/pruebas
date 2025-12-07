@@ -471,19 +471,21 @@ crear_tarea() {
 borrar_tarea() {
     clear
     menu_info
-    echo ""
     echo -e "${azul} Opción: Borrar tareas del usuario${borra_colores} $(whoami)"
     echo ""
 
     CRON_CONTENT=$(crontab -l 2>/dev/null | grep -v '^\s*$' | grep -v '^#' | sed 's/^/   /')
     if [[ -z "$CRON_CONTENT" ]]; then
-        echo "No hay tareas programadas en el crontab de $(whoami)"; sleep 3
+        echo -e "${rojo} No hay tareas programadas en el crontab de${borra_colores} $(whoami)"; sleep 2
     else
-        crontab -l 2>/dev/null > $CRON_TMP || { echo "No hay tareas."; return; }
+        crontab -l 2>/dev/null > $CRON_TMP || { echo -e "${rojo}No hay tareas.${borra_colores}"; return; }
         nl -ba $CRON_TMP
         echo ""
 
-        read -p "Números de las tareas a borrar (separados por espacios): " nums
+        echo -e "${azul}$(read -p " Números de las tareas a borrar (separados por espacios): (99 = Atras) nums)${borra_colores}"
+        if [ "$nums" = "99" ]; then
+            return
+        fi
 
         nums_array=($nums)
         total=$(wc -l < $CRON_TMP)
