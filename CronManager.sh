@@ -265,8 +265,9 @@ listar_cron() {
 
 ayuda_cron() {
     clear
+    menu_info
     echo
-    echo "Opcion: Ayuda de cron"
+    echo -e "${azul} Opcion: Ayuda de cron${borra_colores}"
     echo ""
     echo -e "Macros especiales de cron:"
     echo -e ""
@@ -504,12 +505,12 @@ borrar_tarea() {
 
         # Mostrar inválidos (pero no abortar)
         if (( ${#invalid_nums[@]} > 0 )); then
-            echo "Números inválidos ignorados: ${invalid_nums[*]}"; sleep 5
+            echo -e "${amarillo} Números inválidos ignorados:${borra_colores} ${invalid_nums[*]}"; sleep 2
         fi
 
         # Si no hay válidos, salir
         if (( ${#valid_nums[@]} == 0 )); then
-            echo "No hay números válidos para borrar."; sleep 5
+            echo -e "${amarillo} No hay números válidos para borrar.${borra_colores}"; sleep 2
             return
         fi
 
@@ -523,36 +524,10 @@ borrar_tarea() {
 
         crontab "$CRON_TMP"
         echo ""
-        echo "Tareas válidas eliminadas."; sleep 5
+        echo -e "${verde} Tareas válidas eliminadas.${borra_colores}"; sleep 2
     fi
 }
 
-
-
-#borrar_tarea() {
-#    clear
-#    echo ""
-#    echo "Opcion: Borrar una tarea del usuario $(whoami)"
-#    echo ""
-#
-#    CRON_CONTENT=$(crontab -l 2>/dev/null | grep -v '^\s*$' | grep -v '^#' | sed 's/^/   /')
-#    if [[ -z "$CRON_CONTENT" ]]; then
-#        echo "No hay tareas programadas en el crontab de $(whoami)"; sleep 3
-#    else
-#        crontab -l 2>/dev/null > $CRON_TMP || { echo "No hay tareas."; return; }
-#        nl -ba $CRON_TMP
-#        echo ""
-#        read -p "Número de la tarea a borrar: " num
-#
-#        total=$(wc -l < $CRON_TMP)
-#        [[ $num -ge 1 && $num -le $total ]] || { echo "Número inválido."; return; }
-#
-#        sed -i "${num}d" $CRON_TMP
-#        crontab $CRON_TMP
-#        echo ""
-#        echo "Tarea eliminada."; sleep 2
-#    fi
-#}
 
 # Bucle principal
 while true; do
