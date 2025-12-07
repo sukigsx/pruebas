@@ -457,7 +457,7 @@ crear_tarea() {
         echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
     done ;;
 
-    *)  echo -e "${rojo} Opción NO valida${borra_colores}"; sleep 2 ;;
+    *)  echo ""; echo -e "${rojo} Opción NO valida${borra_colores}"; sleep 2; return ;;
     esac
 
     # Añadir nueva tarea cron
