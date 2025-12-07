@@ -484,32 +484,46 @@ borrar_tarea() {
 
         read -p "Números de las tareas a borrar (separados por espacios): " nums
 
-        # Convertir a array
         nums_array=($nums)
-
         total=$(wc -l < $CRON_TMP)
 
-        # Validar cada número
+        valid_nums=()
+        invalid_nums=()
+
+        # Clasificar válidos e inválidos
         for n in "${nums_array[@]}"; do
-            if ! [[ "$n" =~ ^[0-9]+$ ]] || (( n < 1 || n > total )); then
-                echo "Número inválido: $n"; sleep 5
-                return
+            if [[ "$n" =~ ^[0-9]+$ ]] && (( n >= 1 && n <= total )); then
+                valid_nums+=("$n")
+            else
+                invalid_nums+=("$n")
             fi
         done
 
-        # Ordenar de mayor a menor
-        nums_sorted=($(printf "%s\n" "${nums_array[@]}" | sort -rn))
+        # Mostrar inválidos (pero no abortar)
+        if (( ${#invalid_nums[@]} > 0 )); then
+            echo "Números inválidos ignorados: ${invalid_nums[*]}"
+        fi
 
-        # Borrar líneas
-        for n in "${nums_sorted[@]}"; do
+        # Si no hay válidos, salir
+        if (( ${#valid_nums[@]} == 0 )); then
+            echo "No hay números válidos para borrar."
+            return
+        fi
+
+        # Ordenar válidos de mayor a menor
+        valid_nums_sorted=($(printf "%s\n" "${valid_nums[@]}" | sort -rn))
+
+        # Borrar líneas válidas
+        for n in "${valid_nums_sorted[@]}"; do
             sed -i "${n}d" "$CRON_TMP"
         done
 
         crontab "$CRON_TMP"
         echo ""
-        echo "Tareas eliminadas."; sleep 2
+        echo "Tareas válidas eliminadas."; sleep 2
     fi
 }
+
 
 
 #borrar_tarea() {
