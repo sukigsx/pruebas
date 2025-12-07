@@ -482,7 +482,7 @@ borrar_tarea() {
         nl -ba $CRON_TMP
         echo ""
 
-        echo -e "${azul}$(read -p " Números de las tareas a borrar (separados por espacios) (99 = Atras): " nums)${borra_colores}"
+        read -p "$(echo -e "${azul} Números de las tareas a borrar (separados por espacios) (99 = Atras): ${borra_colores}")" nums
         if [ "$nums" = "99" ]; then
             return
         fi
