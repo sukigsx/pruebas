@@ -501,12 +501,12 @@ borrar_tarea() {
 
         # Mostrar inválidos (pero no abortar)
         if (( ${#invalid_nums[@]} > 0 )); then
-            echo "Números inválidos ignorados: ${invalid_nums[*]}"
+            echo "Números inválidos ignorados: ${invalid_nums[*]}"; sleep 5
         fi
 
         # Si no hay válidos, salir
         if (( ${#valid_nums[@]} == 0 )); then
-            echo "No hay números válidos para borrar."
+            echo "No hay números válidos para borrar."; sleep 5
             return
         fi
 
@@ -520,7 +520,7 @@ borrar_tarea() {
 
         crontab "$CRON_TMP"
         echo ""
-        echo "Tareas válidas eliminadas."; sleep 2
+        echo "Tareas válidas eliminadas."; sleep 5
     fi
 }
 
