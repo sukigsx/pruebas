@@ -331,6 +331,7 @@ crear_tarea() {
         return
     fi
 
+    case "$usar_macro" in
     [sS])
         # Lista de macros válidas
         MACROS_VALIDAS=(
@@ -456,8 +457,8 @@ crear_tarea() {
         echo -e "${rojo} El comando no puede estar vacío.${borra_colores}"
     done ;;
 
-    *)  echo "Opción inválida" ;;
-    done
+    *)  echo -r "${rojo} Opción NO valida${borra_colores}"; sleep 2 ;;
+    esac
 
     # Añadir nueva tarea cron
     crontab -l 2>/dev/null > "$CRON_TMP"
