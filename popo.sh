@@ -219,7 +219,8 @@ elif command -v yum >/dev/null 2>&1; then
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
+    sudo pacman -S yay
+    instalar="yay -S --noconfirm"
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
