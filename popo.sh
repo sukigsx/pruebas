@@ -181,7 +181,7 @@ check_root() {
     echo -e "${amarillo} Este script necesita privilegios de root ingresa la contraseña.${borra_colores}"
 
     # Pedir contraseña para sudo
-    #echo -e "${rojo}"
+    echo -e ""
 
     # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
     if sudo -v; then
@@ -201,32 +201,39 @@ check_root() {
 
 #funcion de detectar sistema de paquetado para instalar
 instalar(){
-echo -e "Detectando sistema de paquetería..."
+echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
+echo ""
 
 if command -v apt >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)"
+    echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
 
 elif command -v dnf >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)"
-
+    echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 elif command -v yum >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: YUM (CentOS, RHEL antiguos)"
+    echo -e "${verde}Sistema de paquetería detectado: YUM (CentOS, RHEL antiguos)${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 
 elif command -v pacman >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)"
+    echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 
 
 elif command -v zypper >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: Zypper (openSUSE)"
+    echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 
 elif command -v apk >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: APK (Alpine Linux)"
+    echo -e "${verde}Sistema de paquetería detectado: APK (Alpine Linux)${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 
 elif command -v emerge >/dev/null 2>&1; then
-    echo "Sistema de paquetería detectado: Portage (Gentoo)"
+    echo -e "${verde}Sistema de paquetería detectado: Portage (Gentoo)${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 
 else
-    echo "No se pudo detectar un sistema de paquetería conocido."
+    echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
 fi
 read p
 }
