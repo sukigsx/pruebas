@@ -45,7 +45,6 @@ trap ctrl_c INT
 function ctrl_c()
 {
 clear
-echo -e "${borra_colores}"
 echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
 echo ""
 sleep 1
@@ -182,7 +181,7 @@ check_root() {
     echo -e "${amarillo} Este script necesita privilegios de root ingresa la contraseña.${borra_colores}"
 
     # Pedir contraseña para sudo
-    echo -e "${rojo}"
+    #echo -e "${rojo}"
 
     # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
     if sudo -v; then
