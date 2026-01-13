@@ -45,6 +45,7 @@ trap ctrl_c INT
 function ctrl_c()
 {
 clear
+echo ""
 echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
 echo ""
 sleep 1
@@ -112,7 +113,7 @@ software_necesario(){
 #   conexion a internet
 #   la paleta de colores
 #   software: which
-instalar
+paqueteria
 echo ""
 echo -e "${azul} Comprobando el software necesario.${borra_colores}"
 echo ""
@@ -128,7 +129,7 @@ for comando in "${!requeridos[@]}"; do
                 check_root
                 echo ""
                 echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
-                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}sudo apt install ${requeridos[$comando]}${amarillo})${borra_colores}"
+                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar ${requeridos[$comando]}${amarillo})${borra_colores}"
                 echo -e ""
                 echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
                 echo ""; read p
@@ -137,7 +138,7 @@ for comando in "${!requeridos[@]}"; do
             else
                 check_root
                 echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
-                sudo apt install ${requeridos[$comando]} -y &>/dev/null
+                $instalar ${requeridos[$comando]} -y &>/dev/null
                 let "contador=contador+1"
                 which $comando &>/dev/null
                 sino=$?
@@ -200,40 +201,40 @@ check_root() {
 }
 
 #funcion de detectar sistema de paquetado para instalar
-instalar(){
+paqueteria(){
 echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
 echo ""
 
 if command -v apt >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    instalar="sudo apt install"
 elif command -v dnf >/dev/null 2>&1; then
     echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 elif command -v yum >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: YUM (CentOS, RHEL antiguos)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 
 elif command -v apk >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: APK (Alpine Linux)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 
 elif command -v emerge >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: Portage (Gentoo)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 
 else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 3; ctrl_c
+    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 fi
 read p
 }
