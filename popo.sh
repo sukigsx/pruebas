@@ -45,7 +45,7 @@ trap ctrl_c INT
 function ctrl_c()
 {
 clear
-echo ""
+echo -e "${borra_colores}"
 echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
 echo ""
 sleep 1
