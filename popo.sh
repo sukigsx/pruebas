@@ -202,7 +202,7 @@ check_root() {
 
 #funcion de detectar sistema de paquetado para instalar
 instalar(){
-echo "Detectando sistema de paquetería..."
+echo -e "Detectando sistema de paquetería..."
 
 if command -v apt >/dev/null 2>&1; then
     echo "Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)"
