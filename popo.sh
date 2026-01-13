@@ -236,7 +236,7 @@ else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
     echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4; ctrl_c
 fi
-read p
+sleep 2
 }
 
 #logica de arranque
