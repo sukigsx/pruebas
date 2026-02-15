@@ -1,0 +1,2 @@
+en debian 13, comprobar los repositorios que esten cargados
+comrobar la terminal en uso
