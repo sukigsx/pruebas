@@ -122,7 +122,7 @@ echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
 #########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for comando in "${!requeridos[@]}"; do
-        which $comando &>/dev/null
+        command $comando &>/dev/null
         sino=$?
         contador=1
         while [ $sino -ne 0 ]; do
@@ -143,7 +143,7 @@ for comando in "${!requeridos[@]}"; do
                 echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
                 $instalar ${requeridos[$comando]} -y &>/dev/null
                 let "contador=contador+1"
-                which $comando &>/dev/null
+                command $comando &>/dev/null
                 sino=$?
             fi
         done
@@ -222,7 +222,6 @@ elif command -v yum >/dev/null 2>&1; then
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
-    sudo pacman -S which --noconfirm
     instalar="sudo pacman -S --noconfirm "
 
 elif command -v zypper >/dev/null 2>&1; then
