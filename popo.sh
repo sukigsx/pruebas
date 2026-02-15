@@ -183,8 +183,8 @@ check_root() {
     #clear
     #menu_info
   if [ "$EUID" -ne 0 ]; then
-    echo ""
-    echo -e "${amarillo} Se necesita privilegios de root ingresa la contraseña.${borra_colores}"
+    #echo ""
+    #echo -e "${amarillo} Se necesita privilegios de root ingresa la contraseña.${borra_colores}"
 
     # Pedir contraseña para sudo
     echo -e ""
