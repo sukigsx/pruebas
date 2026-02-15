@@ -178,8 +178,8 @@ fi
 
 # Función que comprueba si se ejecuta como root
 check_root() {
-    clear
-    menu_info
+    #clear
+    #menu_info
   if [ "$EUID" -ne 0 ]; then
 
     echo -e "${amarillo} Se necesita privilegios de root ingresa la contraseña.${borra_colores}"
