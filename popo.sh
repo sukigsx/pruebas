@@ -222,7 +222,7 @@ elif command -v yum >/dev/null 2>&1; then
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
-    sudo pacman -S which
+    sudo pacman -S which --noconfirm
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
