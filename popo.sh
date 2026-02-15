@@ -129,10 +129,9 @@ for comando in "${!requeridos[@]}"; do
         contador=1
         while [ $sino -ne 0 ]; do
             if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
-                #clear
-                #check_root
+                clear
                 menu_info
-                echo -e " ${amarillo}NOooooose puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
+                echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar${requeridos[$comando]}${amarillo})${borra_colores}"
                 echo -e ""
@@ -142,7 +141,7 @@ for comando in "${!requeridos[@]}"; do
                 exit 1
             else
                 echo -e "${amarillo} Se necesita instalar ${borra_colores}$comando${amarillo} para la ejecucion del script${borra_colores}"
-                check_root
+                #check_root
                 echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
                 $instalar ${requeridos[$comando]} -y &>/dev/null
                 let "contador=contador+1"
