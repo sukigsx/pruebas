@@ -26,7 +26,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
     declare -A requeridos
     requeridos=(
         [git]="git"
-        #[nano]="nano"
+        [nano]="nano"
         #[curl]="curl"
         #[vlc]="vlc"
         #[which]="which"
