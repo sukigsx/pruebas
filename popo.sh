@@ -28,7 +28,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [git]="git"
         [nano]="nano"
         [diff]="diff"
-        #[vlc]="vlc"
+        [popo]="popo"
         #[which]="which"
     )
 
