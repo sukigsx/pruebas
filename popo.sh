@@ -125,7 +125,7 @@ for comando in "${!requeridos[@]}"; do
         command $comando &>/dev/null
         sino=$?
         contador=1
-        while [ $sino -ne 0 ]; do
+        while [ $sino -ne 1 ]; do
             if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
                 clear
                 check_root
