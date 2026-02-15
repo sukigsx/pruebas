@@ -141,7 +141,7 @@ for comando in "${!requeridos[@]}"; do
                 exit 1
             else
                 echo -e "${amarillo} Se necesita instalar ${borra_colores}$comando${amarillo} para la ejecucion del script${borra_colores}"
-                #check_root
+                check_root
                 echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
                 $instalar ${requeridos[$comando]} -y &>/dev/null
                 let "contador=contador+1"
@@ -187,7 +187,7 @@ check_root() {
     #echo -e "${amarillo} Se necesita privilegios de root ingresa la contraseña.${borra_colores}"
 
     # Pedir contraseña para sudo
-    echo -e ""
+    #echo -e ""
 
     # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
     if sudo -v; then
