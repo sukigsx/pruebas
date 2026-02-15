@@ -135,10 +135,11 @@ for comando in "${!requeridos[@]}"; do
                 echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar${requeridos[$comando]}${amarillo})${borra_colores}"
                 echo -e ""
-                echo -e " Listado de todos los paquetes necesarios:"
+                echo -e "${azul} Listado de todos los paquetes necesarios:${borra_colores}"
                 for elemento in "${requeridos[@]}"; do
-                    echo "$elemento"
+                    echo -e "     $elemento"
                 done
+                echo ""
                 echo -e " ${rojo}No se puede ejecutar el script sin todo el software necesario.${borra_colores}"
                 echo ""
                 exit 1
