@@ -133,7 +133,7 @@ for comando in "${!requeridos[@]}"; do
                 #check_root
                 echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
-                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar ${requeridos[$comando]}${amarillo})${borra_colores}"
+                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar${requeridos[$comando]}${amarillo})${borra_colores}"
                 echo -e ""
                 echo -e " ${rojo}No se puede ejecutar el script sin el software necesario.${borra_colores}"
                 echo ""; read p
