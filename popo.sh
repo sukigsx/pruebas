@@ -122,10 +122,10 @@ echo ""
 #which git diff ping figlet xdotool wmctrl nano fzf
 #########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for comando in "${!requeridos[@]}"; do
-        command $comando #&>/dev/null
+        command -v $comando &>/dev/null
         sino=$?
         contador=1
-        while [ $sino -ne 1 ]; do
+        while [ $sino -ne 0 ]; do
             if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
                 clear
                 check_root
@@ -143,7 +143,7 @@ for comando in "${!requeridos[@]}"; do
                 echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
                 $instalar ${requeridos[$comando]} -y &>/dev/null
                 let "contador=contador+1"
-                command $comando #&>/dev/null
+                command -v $comando &>/dev/null
                 sino=$?
             fi
         done
