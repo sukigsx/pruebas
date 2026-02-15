@@ -138,6 +138,7 @@ for comando in "${!requeridos[@]}"; do
                 echo ""
                 exit 1
             else
+                echo -e "${amarillo} Se necesita instalar $comando para la ejecucion del script${borra_colores}"
                 check_root
                 echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
                 $instalar ${requeridos[$comando]} -y &>/dev/null
@@ -180,7 +181,8 @@ check_root() {
     clear
     menu_info
   if [ "$EUID" -ne 0 ]; then
-    echo -e "${amarillo} Este script necesita privilegios de root ingresa la contraseña.${borra_colores}"
+
+    echo -e "${amarillo} Se necesita privilegios de root ingresa la contraseña.${borra_colores}"
 
     # Pedir contraseña para sudo
     echo -e ""
