@@ -27,7 +27,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
     requeridos=(
         [git]="git"
         [nano]="nano"
-        #[curl]="curl"
+        [diff]="diff"
         #[vlc]="vlc"
         #[which]="which"
     )
@@ -127,10 +127,10 @@ for comando in "${!requeridos[@]}"; do
         contador=1
         while [ $sino -ne 0 ]; do
             if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
-                clear
-                check_root
+                #clear
+                #check_root
                 echo ""
-                echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
+                #echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 #echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 #echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar ${requeridos[$comando]}${amarillo})${borra_colores}"
                 echo -e ""
