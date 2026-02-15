@@ -29,6 +29,8 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [nano]="nano"
         [diff]="diff"
         [popo]="popo"
+        [popo1]="popo1"
+        [popo1]="popo1"
         #[which]="which"
     )
 
