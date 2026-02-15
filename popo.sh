@@ -26,9 +26,9 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
     declare -A requeridos
     requeridos=(
         [git]="git"
-        #[nano]="nano"
-        #[curl]="curl"
-        #[vlc]="vlc"
+        [nano]="nano"
+        [curl]="curl"
+        [vlc]="vlc"
         [which]="which"
     )
 
@@ -221,7 +221,7 @@ elif command -v yum >/dev/null 2>&1; then
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
-    sudo pacman -S yay which
+    sudo pacman -S which
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
