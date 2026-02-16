@@ -280,11 +280,11 @@ BASHRC_FILE="$HOME/.bashrc"
 if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/null; then
     while true; do
     echo ""
-    echo -e "${amarillo} Ya tienes instalado Ejecutar_scripts ${borra_colores}$(whoami)${amarillo}.${borra_colores}"
+    echo -e "${azul} Ya tienes instalado (Ejecutar_scripts) para el usuario${borra_colores}$(whoami)${amarillo}.${borra_colores}"
     echo ""
-    echo -e "  1. Desistalar. (${rojo}Cuidado se borrara el contenido de la carpeta scripts y toda la configuracion.${borra_colores})"
+    echo -e "  ${azul}1-${borra_colores} Desistalar. (${rojo}Cuidado se borrara el contenido de la carpeta scripts y toda la configuracion.${borra_colores})"
     echo ""
-    echo -e " 99. Salir."
+    echo -e " ${azul}99-${borra_colores} Salir."
     echo ""
     read -p " ¿ Que hacemos ?, seleccione una opción (1 o 99): " opcion
 
