@@ -284,7 +284,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
     clear
     menu_info
     echo ""
-    echo -e "${azul}- Menu de opciones -${borra_colores}"
+    echo -e "${azul} - Menu de opciones -${borra_colores}"
     echo ""
     echo -e "  ${azul}1.${borra_colores} Incluir uno o varios scripts."
     echo ""
@@ -294,7 +294,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
     echo ""
     echo -e "  ${azul}4.${borra_colores} Instalar scripts de sukigsx"
     echo ""
-    echo -e "  ${azul}5.${borra_colores} Opcion vacia, para posibles actualizaciones"
+    echo -e "  ${azul}5.${borra_colores} Ver los scripts wue tienes $(whoami)"
     echo ""
     echo -e " ${azul}10.${borra_colores} Desistalar. (${rojo}Cuidado se borrara el contenido de la carpeta scripts${borra_colores})"
     echo ""
@@ -468,7 +468,15 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
             done
             ;;
 
-        5)  #opcion vacia para posibles actualizaciones
+        5)  #ver los scripts
+            menu_info
+            echo ""
+            echo -e "${azul} Listado de los scripts actuales en /home/$(whoami)/scripts${borra_colores}"
+            echo ""
+            ls /home/$(whoami)/scripts
+            echo -e "${azul}"
+            read -p " Pulsa una tecla para continuar" pause
+            echo -e ${borra_colores}
             ;;
 
         10)  #desistalar
