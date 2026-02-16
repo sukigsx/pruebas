@@ -200,6 +200,7 @@ check_root() {
       # Reejecuta el script como root
       #exec sudo "$0" "$@"
     else
+      clear
       menu_info
       echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"
       echo ""
