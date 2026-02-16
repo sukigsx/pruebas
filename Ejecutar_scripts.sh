@@ -259,7 +259,7 @@ sleep 2
 
 #comprobar si se ejecuta en una terminal bash
 terminal_bash(){
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "$BASH_VERSIONnn" ]; then
     terminal_bash="SI"
     exit 0
 else
