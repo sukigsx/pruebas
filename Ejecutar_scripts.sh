@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #VARIABLES PRINCIPALES
 # con export son las variables necesarias para exportar al los siguientes script
@@ -277,6 +277,16 @@ sleep 2
 
 clear
 menu_info
+#comprobar si se ejecuta en una terminal bash
+if [ -n "$BASH_VERSION" ]; then
+    echo "Este script se está ejecutando en Bash."
+    echo "Versión: $BASH_VERSION"
+    exit 0
+else
+    echo "Este script NO se está ejecutando en Bash."
+    exit 1
+fi
+
 conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
@@ -315,4 +325,4 @@ fi
 
 clear
 menu_info
-echo "continuo ejecutando"
+
