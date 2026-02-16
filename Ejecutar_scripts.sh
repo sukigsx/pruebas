@@ -259,12 +259,15 @@ sleep 2
 
 #comprobar si se ejecuta en una terminal bash
 terminal_bash(){
-if [ -n "$BASH_VERSIONnn" ]; then
+if [ -n "$BASH_VERSION" ]; then
     terminal_bash="SI"
     exit 0
 else
-    echo "Este script NO se está ejecutando en Bash."
-    exit 1
+    echo -e "${amarillo} Este script NO se está ejecutando en una terminal de Bash.${borra_colores}"
+    echo -e "   Puede ocasionar problemas ya que solo esta pensado para bash."
+    echo -e "   No se procede con la instalacion ni la ejecucion."
+    echo ""
+    ctrl_c
 fi
 }
 
