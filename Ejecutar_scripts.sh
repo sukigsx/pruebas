@@ -12,6 +12,7 @@ export version="1.1"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
+paqueteria="No detectada"
 
 # VARIABLE QUE RECOJEN LAS RUTAS
 ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
@@ -68,6 +69,7 @@ echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version           
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e "                                           ${azul}   Sistema paqueteria =${borra_colores} $paqueteria"
 echo -e ""
 echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
 echo ""
@@ -238,6 +240,7 @@ elif command -v yum >/dev/null 2>&1; then
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
     instalar="sudo pacman -S --noconfirm "
+    paqueteria="pacman, sistema basado arch"
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
