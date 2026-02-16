@@ -277,7 +277,7 @@ comprobar_instalado(){
 FILE_CHECK="$HOME/.Ejecutar_scripts"
 BASHRC_FILE="$HOME/.bashrc"
 
-if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/null; then
+if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.config/Ejecutar_scripts.config" "$BASHRC_FILE" 2>/dev/null; then
     while true; do
     clear
     menu_info
@@ -313,28 +313,27 @@ if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/nu
 
         *)
             echo ""
-            echo -e "${rojo} Opción no válida. Por favor, seleccione 1 o 99.${borra_colores}"
+            echo -e "${amarillo} Opción no válida. Por favor, seleccione 1 o 99.${borra_colores}"
             sleep 3
             ;;
     esac
     done
 else
+    echo -e "${verde} Instalando:${borra_colores}"
+    echo ""
+
     #comprueba si existe la carpeta /home/usuario/.config y si no esta la crea
-    echo "INSTALAMOSSSSSSSSSSSSSSSSSSSSSSSSSSSS"; read p; exit
-    if [ -d /home/$(whoami)/.config ]
+    if [ -d /home/$(whoami)/scripts ]
     then
         echo ""
     else
         # Crear la carpeta .config si no existe
-        mkdir /home/$(whoami)/.config
+        echo -e " Creando carpeta (scripts) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; mkdir /home/$(whoami)/scripts; sleep 1
     fi
 
-    echo -e "${verde} Instalando:${borra_colores}"
-    echo ""
-    echo -e " Creando carpeta (scripts) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; mkdir /home/$(whoami)/scripts; sleep 1
-    echo -e " Creando fichero de configuracion (ejecutar_scripts.congig) en /home/$(whoami)/.config/ [${verde}ok${borra_colores}]."; cp ejecutar_scripts.config /home/$(whoami)/.config/ejecutar_scripts.config; sleep 1
-    echo -e " Creando entrada en (.bashrc) [${verde}ok${borra_colores}]."; echo "source /home/$(whoami)/.config/ejecutar_scripts.config" >> /home/$(whoami)/.bashrc; sleep 1
-    echo -e " Incluyendo este script a tu carpeta de scripts [${verde}ok${borra_colores}]."; cp ejecutar_scripts.sh /home/$(whoami)/scripts/; sleep 1
+    echo -e " Creando fichero de configuracion (Ejecutar_scripts.config) en /home/$(whoami)/.config/ [${verde}ok${borra_colores}]."; cp Ejecutar_scripts.config /home/$(whoami)/.config/Ejecutar_scripts.config; sleep 1
+    echo -e " Creando entrada en (.bashrc) [${verde}ok${borra_colores}]."; echo "source /home/$(whoami)/.config/Ejecutar_scripts.config" >> /home/$(whoami)/.bashrc; sleep 1
+    echo -e " Incluyendo este script a tu carpeta de scripts [${verde}ok${borra_colores}]."; cp Ejecutar_scripts.sh /home/$(whoami)/scripts/; sleep 1
     echo ""
     echo -e " Instalacion completada [${verde}ok${borra_colores}] ."
     echo ""
