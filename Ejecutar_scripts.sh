@@ -273,6 +273,76 @@ else
 fi
 }
 
+#comprobar si ya esta instalado.
+comprobar_instalado(){
+if [ -d "/home/$(whoami)/scripts" ] # || grep -q "source /home/$(whoami)/.config/ejecutar_scripts.config" "/home/$(whoami)/.bashrc"
+then
+    while true; do
+    echo ""
+    echo -e "${amarillo} Ya tienes instalado Ejecutar_scripts ${borra_colores}$(whoami)${amarillo}.${borra_colores}"
+    echo ""
+    echo -e "  1. Desistalar. (${rojo}Cuidado se borrara el contenido de la carpeta scripts y toda la configuracion.${borra_colores})"
+    echo ""
+    echo -e " 99. Salir."
+    echo ""
+    read -p " ¿ Que hacemos ?, seleccione una opción (1 o 99): " opcion
+
+    case $opcion in
+
+        1)  #desistalar
+            echo ""
+            echo -e "${verde} Desistalando:${borra_colores}"
+            echo ""
+            echo -e " Eliminado carpeta (scripts) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; rm -r /home/$(whoami)/scripts 2>/dev/null; sleep 1
+            echo -e " Eliminado fichero de configuracion (ejecutar_scripts.congig) en /home/$(whoami)/.config/ [${verde}ok${borra_colores}]."; rm /home/$(whoami)/.config/ejecutar_scripts.config 2>/dev/null; sleep 1
+            echo -e " Eliminada la entrada en (.bashrc) [${verde}ok${borra_colores}]."; sed -i "/source \/home\/$(whoami)\/.config\/ejecutar_scripts.config/d" /home/$(whoami)/.bashrc; sleep 1
+            echo ""
+            echo -e "${verde} Desistalacion completa.${borra_colores}"
+            echo ""
+            echo -e "${amarillo} Tienes que reiniciar la terminal para que surjan efecto los cambios.${borra_colores}"
+            echo ""
+            exit
+            ;;
+
+        99)  #Saliendo del programa.
+            ctrl_c
+            ;;
+
+        *)
+            echo ""
+            echo -e "${rojo}Opción no válida. Por favor, seleccione 1 o 99.·{borra_colores}"
+            sleep 3
+            ;;
+    esac
+done
+else
+    #comprueba si existe la carpeta /home/usuario/.config y si no esta la crea
+    echo "INSTALAMOSSSSSSSSSSSSSSSSSSSSSSSSSSSS"; exit
+    if [ -d /home/$(whoami)/.config ]
+    then
+        echo ""
+    else
+        # Crear la carpeta .config si no existe
+        mkdir /home/$(whoami)/.config
+    fi
+
+    echo -e "${verde} Instalando:${borra_colores}"
+    echo ""
+    echo -e " Creando carpeta (scripts) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; mkdir /home/$(whoami)/scripts; sleep 1
+    echo -e " Creando fichero de configuracion (ejecutar_scripts.congig) en /home/$(whoami)/.config/ [${verde}ok${borra_colores}]."; cp ejecutar_scripts.config /home/$(whoami)/.config/ejecutar_scripts.config; sleep 1
+    echo -e " Creando entrada en (.bashrc) [${verde}ok${borra_colores}]."; echo "source /home/$(whoami)/.config/ejecutar_scripts.config" >> /home/$(whoami)/.bashrc; sleep 1
+    echo -e " Incluyendo este script a tu carpeta de scripts [${verde}ok${borra_colores}]."; cp ejecutar_scripts.sh /home/$(whoami)/scripts/; sleep 1
+    echo ""
+    echo -e " Instalacion completada [${verde}ok${borra_colores}] ."
+    echo ""
+    echo -e "${amarillo} Tienes que reiniciar la terminal para que surjan efecto los cambios.${borra_colores}"
+    echo ""
+    exit
+fi
+}
+
+
+
 #logica de arranque
 #variables de resultado $conexion $software $actualizado
 #funciones actualizar_script, conexion, software_necesario
