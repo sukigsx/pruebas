@@ -261,7 +261,6 @@ sleep 2
 terminal_bash(){
 if [ -n "$BASH_VERSION" ]; then
     terminal_bash="SI"
-    exit 0
 else
     echo -e "${amarillo} Este script ${rojo}NO${amarillo} se está ejecutando en una terminal de Bash.${borra_colores}"
     echo -e "   Puede ocasionar problemas ya que solo esta pensado para bash."
