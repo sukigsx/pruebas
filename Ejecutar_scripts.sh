@@ -293,6 +293,7 @@ conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
     if [ $actualizado = "SI" ]; then
+        terminal_bash
         software_necesario
         if [ "$software" = "SI" ]; then
             export software="SI"
