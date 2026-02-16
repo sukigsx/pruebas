@@ -317,7 +317,7 @@ then
 done
 else
     #comprueba si existe la carpeta /home/usuario/.config y si no esta la crea
-    echo "INSTALAMOSSSSSSSSSSSSSSSSSSSSSSSSSSSS"; exit
+    echo "INSTALAMOSSSSSSSSSSSSSSSSSSSSSSSSSSSS"; read p; exit
     if [ -d /home/$(whoami)/.config ]
     then
         echo ""
