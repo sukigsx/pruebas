@@ -201,7 +201,12 @@ check_root() {
       #exec sudo "$0" "$@"
     else
       echo ""
-      echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"; sleep 3
+      echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"
+      echo ""
+      echo -e "${azul} Listado de todos los paquetes necesarios:${borra_colores}"
+      for elemento in "${requeridos[@]}"; do
+        echo -e "     $elemento"
+      done
       echo ""
       echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
      echo ""; exit
