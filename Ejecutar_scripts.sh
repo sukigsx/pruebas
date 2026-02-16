@@ -269,6 +269,7 @@ else
     echo ""
     echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
     echo ""
+    exit
 fi
 }
 
