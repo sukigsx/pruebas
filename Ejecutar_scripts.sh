@@ -404,5 +404,6 @@ fi
 
 clear
 menu_info
+echo "hola"
 comprobar_instalado
 
