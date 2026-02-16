@@ -263,9 +263,9 @@ if [ -n "$BASH_VERSIONnn" ]; then
     terminal_bash="SI"
     exit 0
 else
-    echo -e "${amarillo} Este script NO se está ejecutando en una terminal de Bash.${borra_colores}"
+    echo -e "${amarillo} Este script ${rojo}NO${amarillo} se está ejecutando en una terminal de Bash.${borra_colores}"
     echo -e "   Puede ocasionar problemas ya que solo esta pensado para bash."
-    echo -e "   No se procede con la instalacion ni la ejecucion."
+    echo -e "   ${rojo}No${borra_colores} se procede con la instalacion ni la ejecucion."
     echo ""
     echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
     echo ""
