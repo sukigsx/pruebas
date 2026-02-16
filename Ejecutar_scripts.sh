@@ -331,7 +331,7 @@ else
         echo -e " Creando carpeta (scripts) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; mkdir /home/$(whoami)/scripts; sleep 1
     fi
 
-    echo -e " Creando fichero de configuracion (Ejecutar_scripts.config) en /home/$(whoami)/.config/ [${verde}ok${borra_colores}]."; cp Ejecutar_scripts.config /home/$(whoami)/.Ejecutar_scripts.config; sleep 1
+    echo -e " Creando fichero de configuracion (Ejecutar_scripts.config) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; cp Ejecutar_scripts.config /home/$(whoami)/.Ejecutar_scripts.config; sleep 1
     echo -e " Creando entrada en (.bashrc) [${verde}ok${borra_colores}]."; echo "source /home/$(whoami)/.Ejecutar_scripts.config" >> /home/$(whoami)/.bashrc; sleep 1
     echo -e " Incluyendo este script a tu carpeta de scripts [${verde}ok${borra_colores}]."; cp Ejecutar_scripts.sh /home/$(whoami)/scripts/; sleep 1
     echo ""
