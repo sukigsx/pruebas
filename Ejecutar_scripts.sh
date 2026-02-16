@@ -313,7 +313,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/nu
 
         *)
             echo ""
-            echo -e "${rojo} Opción no válida. Por favor, seleccione 1 o 99.·{borra_colores}"
+            echo -e "${rojo} Opción no válida. Por favor, seleccione 1 o 99.${borra_colores}"
             sleep 3
             ;;
     esac
