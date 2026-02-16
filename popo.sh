@@ -103,7 +103,7 @@ actualizar_script(){
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
         echo ""
-        echo -e "${amarillo} El script se ha actualizado.${borra_colores} Es necesario cargarlo de nuevo."
+        echo -e "${verde}} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
         echo ""
         sleep 2
         exit
