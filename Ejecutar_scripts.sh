@@ -284,17 +284,194 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
     clear
     menu_info
     echo ""
-    echo -e "${azul} Ya tienes instalado (Ejecutar_scripts) para el usuario${borra_colores}$(whoami)${amarillo}.${borra_colores}"
+    echo -e "${azul}- Menu de opciones -${borra_colores}"
     echo ""
-    echo -e "  ${azul}1-${borra_colores} Desistalar. (${rojo}Cuidado se borrara el contenido de la carpeta scripts y toda la configuracion.${borra_colores})"
+    echo -e "  ${azul}1.${borra_colores} Incluir uno o varios scripts."
     echo ""
-    echo -e " ${azul}99-${borra_colores} Salir."
+    echo -e "  ${azul}2.${borra_colores} Quitar uno o varios scripts."
     echo ""
-    read -p " Seleccione una opción (1 o 99): " opcion
+    echo -e "  ${azul}3.${borra_colores} Guardar tus script."
+    echo ""
+    echo -e "  ${azul}4.${borra_colores} Instalar scripts de sukigsx"
+    echo ""
+    echo -e "  ${azul}5.${borra_colores} Opcion vacia, para posibles actualizaciones"
+    echo ""
+    echo -e " ${azul}10.${borra_colores} Desistalar. (${rojo}Cuidado se borrara el contenido de la carpeta scripts${borra_colores})"
+    echo ""
+    echo -e " ${azul}90.${borra_colores} Ayuda."
+    echo ""
+    echo -e " ${azul}99.${borra_colores} Salir."
+    echo ""
+    read -p " Seleccione una opción (1 - 99): " opcion
 
     case $opcion in
+        1)  # Define las opciones del menú
+            options=("" "- Scripts sencillos de un unico fichero sh" "- Aplicaciones mas complejas con varios ficheros y carpetas")
 
-        1)  #desistalar
+            # Utiliza fzf para mostrar el menú y obtener la selección del usuario
+            selected_option=$(printf '%s\n' "${options[@]}" | fzf --prompt="Incluir scripts. (esc = atras)" --header="Selecciona un de las opciones :" --reverse --no-info)
+
+            # Verifica la opción seleccionada y ejecuta el comando correspondiente
+            case $selected_option in
+                "- Scripts sencillos de un unico fichero sh")
+                    #incluir uno o varios scripts
+                    clear
+                    echo ""
+                    echo -e "${rosa} Incluir - Scripts${borra_colores}"
+                    # Buscar archivos .sh en el directorio HOME, excluyendo carpetas ocultas
+                    #files=$(find /home/$(whoami) -type f -name "*.sh" | grep -v '/\.')
+                    files=$(find "/home/$(whoami)/" -type f -name "*.sh" -not -path '*/\.*' -not -path "/home/$(whoami)/scripts/*" -not -path "/home/$(whoami)/ejecutar_scripts/*")
+                    # Usar fzf para la selección múltiple
+                    selected_files=$( echo "$files" | fzf --multi --height 80% --reverse --prompt="Selecciona scripts: Info: (tab = Marcar multiple) (Enter = Seleccionar) (Esc = Salir))" --header="Scripts encontrados en tu carpeta HOME de usuario :" --no-info)
+                    # Copiar los archivos seleccionados a /home/sukigsx/scripts
+                    if [ -n "$selected_files" ]; then
+                        echo "$selected_files" | xargs -I {} cp {} /home/$(whoami)/scripts/
+                        echo ""
+                        echo -e "${verde} Archivos copiados correctamente.${borra_colores}"; sleep 2
+                    else
+                        echo ""
+                        echo -e "${amarillo} Ningun archivo seleccionado.${borra_colores}"; sleep 2
+                    fi
+                    ;;
+
+                "- Aplicaciones mas complejas con varios ficheros y carpetas")
+                    # Utiliza fzf para seleccionar una carpeta o directorio
+                    selected_dir=$(find /home/$(whoami) -type f -name "*.sh" -exec dirname {} \; | sort -u | fzf --reverse --prompt="Incluir aplicacion en bash. (esc = atras)" --header="Seleciona la carpeta donde esta la aplicacion :" --no-info)
+
+                    # Verifica si se ha seleccionado una carpeta
+                    if [ -n "$selected_dir" ]; then
+                        # Copia el contenido de la carpeta seleccionada a /home/usuario/scripts
+                        cp -r "$selected_dir"/* /home/$(whoami)/scripts/
+                        echo ""
+                        echo -e "${verde} Contenido de la carpeta copiado exitosamente a /home/$(whoami)/scripts/${borra_colores}"; sleep 2
+                    else
+                        echo ""
+                        echo -e "${verde}No se seleccionó ninguna carpeta.${borra_colores}"; sleep 2
+                    fi
+                    ;;
+            *)
+                    echo "Opción no válida"
+                    ;;
+            esac
+            ;;
+
+        2)  # Utiliza fzf para seleccionar una carpeta o directorio
+            selected_dirs=$(find /home/$(whoami)/scripts -mindepth 1 -maxdepth 1 ! -name "ejecutar_scripts.sh" | fzf --reverse --prompt="Selecciona scripts y carpetas: Info: (tab = Marcar múltiples) (Enter = Seleccionar) (Esc = Salir)" --header="Selecciona lo que quieres borrar:" --no-info --multi)
+
+            for borrar in $selected_dirs; do
+                sudo rm -r $borrar
+                echo ""
+                echo -e "${verde}Carpeta/Fichero ${borra_colores}$borrar${verde} borrado exitosamente de /home/$(whoami)/scripts/${borra_colores}"; sleep 2
+            done
+            ;;
+
+
+        3)  #guardar tus scripts
+            clear
+            echo ""
+            echo -e "${rosa} Guardar - Scripts ${borra_colores}"
+            echo ""
+            read -p " Dime la ruta absoluta en donde guardar tus scripts -> " ruta_guardar
+            if [ -d $ruta_guardar ]
+            then
+                echo ""
+                # Buscar archivos .sh en el directorio HOME, excluyendo carpetas ocultas
+                files=$(find "/home/$(whoami)/scripts/" -type f -name "*.sh" ! -name "ejecutar_scripts.sh")
+                # Usar fzf para la selección múltiple
+                selected_files=$( echo "$files" | fzf --multi --height 80% --reverse --prompt="Selecciona scripts: Info: (tab = Marcar multiple) (Enter = Seleccionar) (Esc = Salir)" --no-info)
+                # Copiar los archivos seleccionados a /home/sukigsx/scripts
+                if [ -n "$selected_files" ]; then
+                    echo "$selected_files" | xargs -I {} cp 2>/dev/null {} $ruta_guardar
+                    echo ""
+                    echo -e "${verde} Archivos guardados correctamente en $ruta_guardar ${borra_colores}"; sleep 2
+                else
+                    echo ""
+                    echo -e "${amarillo} Ningun archivo seleccionado.${borra_colores}"; sleep 2
+                fi
+            else
+                echo ""
+                mkdir $ruta_guardar
+                echo -e "${amarillo} Creando carpeta de destino (${borra_colores}$ruta_guardar${amarillo})${verde} OK ${borra_colores}"
+                mkdir $ruta_guardar 2>/dev/null
+                echo ""
+                # Buscar archivos .sh en el directorio HOME, excluyendo carpetas ocultas
+                files=$(find "/home/$(whoami)/scripts/" -type f -name "*.sh" ! -name "ejecutar_scripts.sh")
+                # Usar fzf para la selección múltiple
+                selected_files=$( echo "$files" | fzf --multi --height 80% --reverse --prompt="Selecciona scripts: Info: (tab = Marcar multiple) (Enter = Seleccionar) (Esc = Salir)" --no-info)
+                # Copiar los archivos seleccionados a /home/sukigsx/scripts
+                if [ -n "$selected_files" ]; then
+                    echo "$selected_files" | xargs -I {} cp 2>/dev/null {} $ruta_guardar
+                    echo ""
+                    echo -e "${verde} Archivos guardados correctamente en $ruta_guardar ${borra_colores}"; sleep 2
+                else
+                    echo ""
+                    echo -e "${amarillo} Ningun archivo seleccionado.${borra_colores}"; sleep 2
+                fi
+            fi
+            ;;
+
+        4)
+            clear
+            echo ""
+            echo -e "${rosa} Scripts-sukigsx ${borra_colores}"
+            echo ""
+
+            # Obtener repositorios (excluyendo algunos)
+            repos=$(curl -s "https://api.github.com/users/sukigsx/repos" \
+            | jq -r '.[].name' \
+            | grep -vE 'sukigsx.github.io|ejecutar_scripts')
+
+            echo -e "${azul} Lista de repositorios de sukigsx.${borra_colores}"
+            echo ""
+
+            PS3="Selecciona un repositorio: "
+
+            select repo in $repos "Salir"; do
+
+            # Validar selección inválida
+            if [[ -z "$repo" ]]; then
+                echo ""
+                echo -e "${rojo} Opción inválida. Selecciona un número de la lista.${borra_colores}"
+                echo ""
+                continue
+            fi
+
+            case "$repo" in
+            "Salir")
+                echo "Saliendo..."
+                break
+                ;;
+            *)
+                echo ""
+                echo -e "${verde}Seleccionaste el repositorio:${borra_colores} $repo"
+                sleep 1
+
+                DEST="/home/$(whoami)/scripts/$repo"
+
+                # Clonar repositorio
+                if ! git clone "https://github.com/sukigsx/$repo.git" "$DEST" > /dev/null 2>&1; then
+                    echo -e "${rojo}Error al clonar el repositorio.${borra_colores}"
+                    continue
+                fi
+
+                # Copiar contenido
+                cp -r "$DEST/"* "/home/$(whoami)/scripts/"
+
+                # Eliminar repositorio clonado
+                rm -rf "$DEST" > /dev/null 2>&1
+
+                echo -e "${verde}Archivos del repositorio${borra_colores} $repo ${verde}han sido copiados a${borra_colores} /home/$(whoami)/scripts/${borra_colores}"
+                sleep 2
+                break
+                ;;
+            esac
+            done
+            ;;
+
+        5)  #opcion vacia para posibles actualizaciones
+            ;;
+
+        10)  #desistalar
             echo ""
             echo -e "${verde} Desistalando:${borra_colores}"
             echo ""
