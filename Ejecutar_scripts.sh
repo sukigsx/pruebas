@@ -274,10 +274,10 @@ fi
 
 #comprobar si ya esta instalado.
 comprobar_instalado(){
-FILE_CHECK="$HOME/.Ejecutar_scripts"
+FILE_CHECK="$HOME/.Ejecutar_scripts.config"
 BASHRC_FILE="$HOME/.bashrc"
 
-if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.config/Ejecutar_scripts.config" "$BASHRC_FILE" 2>/dev/null; then
+if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.config" "$BASHRC_FILE" 2>/dev/null; then
     while true; do
     clear
     menu_info
