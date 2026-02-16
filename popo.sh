@@ -135,7 +135,7 @@ for comando in "${!requeridos[@]}"; do
                 echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
                 echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar${requeridos[$comando]}${amarillo})${borra_colores}"
                 echo -e ""
-                echo -e "${azul} Listado de todos los paquetes necesarios:${borra_colores}"
+                echo -e "${azul} Listado de los paquetes necesarios para poder ejecutar el script:${borra_colores}"
                 for elemento in "${requeridos[@]}"; do
                     echo -e "     $elemento"
                 done
@@ -200,10 +200,10 @@ check_root() {
       # Reejecuta el script como root
       #exec sudo "$0" "$@"
     else
-      echo ""
+      menu_info
       echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"
       echo ""
-      echo -e "${azul} Listado de todos los paquetes necesarios:${borra_colores}"
+      echo -e "${azul} Listado de los paquetes necesarios para poder ejecutar el script:${borra_colores}"
       for elemento in "${requeridos[@]}"; do
         echo -e "     $elemento"
       done
