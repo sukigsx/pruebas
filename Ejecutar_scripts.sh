@@ -300,7 +300,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
             echo ""
             echo -e " Eliminado carpeta (scripts) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; rm -r /home/$(whoami)/scripts 2>/dev/null; sleep 1
             echo -e " Eliminado fichero de configuracion (Ejecutar_scripts.config) en /home/$(whoami)/ [${verde}ok${borra_colores}]."; rm /home/$(whoami)/.Ejecutar_scripts.config 2>/dev/null; sleep 1
-            echo -e " Eliminada la entrada en (.bashrc) [${verde}ok${borra_colores}]."; sed -i "\|^source $HOME/Ejecutar_scripts.config$|d" "$HOME/.bashrc"; sleep 1
+            echo -e " Eliminada la entrada en (.bashrc) [${verde}ok${borra_colores}]."; sed -i "\|^source $HOME/.Ejecutar_scripts.config$|d" "$HOME/.bashrc"; sleep 1
             echo ""
             echo -e "${verde} Desistalacion completa.${borra_colores}"
             echo ""
