@@ -29,7 +29,7 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [nano]="nano"
         [diff]="diff"
         [sudo]="sudo"
-        #[popo1]="popo1"
+        [popo1]="popo1"
         #[popo1]="popo1"
         #[which]="which"
     )
@@ -103,7 +103,7 @@ actualizar_script(){
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
         echo ""
-        echo -e "${verde}} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
+        echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
         echo ""
         sleep 2
         exit
