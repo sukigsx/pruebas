@@ -267,7 +267,8 @@ else
     echo -e "   Puede ocasionar problemas ya que solo esta pensado para bash."
     echo -e "   No se procede con la instalacion ni la ejecucion."
     echo ""
-    ctrl_c
+    echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+    echo ""
 fi
 }
 
