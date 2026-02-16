@@ -404,5 +404,5 @@ fi
 
 clear
 menu_info
-
+comprobar_instalado
 
