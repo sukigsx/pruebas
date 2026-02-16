@@ -278,24 +278,6 @@ FILE_CHECK="$HOME/.Ejecutar_scripts"
 BASHRC_FILE="$HOME/.bashrc"
 
 if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/null; then
-    echo "✔ Existen el fichero .Ejecutar_scripts y la línea en .bashrc"
-else
-    echo "✘ Falta el fichero o la línea en .bashrc"
-fi
-exit
-
-
-
-
-
-
-
-
-
-
-
-if [ -d "/home/$(whoami)/scripts" ] # || grep -q "source /home/$(whoami)/.config/ejecutar_scripts.config" "/home/$(whoami)/.bashrc"
-then
     while true; do
     echo ""
     echo -e "${amarillo} Ya tienes instalado Ejecutar_scripts ${borra_colores}$(whoami)${amarillo}.${borra_colores}"
@@ -333,7 +315,7 @@ then
             sleep 3
             ;;
     esac
-done
+    done
 else
     #comprueba si existe la carpeta /home/usuario/.config y si no esta la crea
     echo "INSTALAMOSSSSSSSSSSSSSSSSSSSSSSSSSSSS"; read p; exit
