@@ -284,7 +284,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
     clear
     menu_info
     echo ""
-    echo -e "${azul} - Menu de opciones -${borra_colores}"
+    echo -e "${azul} Menu de opciones del Ejecutar_scripts${borra_colores}"
     echo ""
     echo -e "  ${azul}1.${borra_colores} Incluir uno o varios scripts."
     echo ""
