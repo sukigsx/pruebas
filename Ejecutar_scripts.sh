@@ -256,6 +256,18 @@ fi
 sleep 2
 }
 
+
+#comprobar si se ejecuta en una terminal bash
+terminal_bash(){
+if [ -n "$BASH_VERSIONn" ]; then
+    terminal_bash="SI"
+    exit 0
+else
+    echo "Este script NO se está ejecutando en Bash."
+    exit 1
+fi
+}
+
 #logica de arranque
 #variables de resultado $conexion $software $actualizado
 #funciones actualizar_script, conexion, software_necesario
@@ -277,16 +289,6 @@ sleep 2
 
 clear
 menu_info
-#comprobar si se ejecuta en una terminal bash
-if [ -n "$BASH_VERSION" ]; then
-    echo "Este script se está ejecutando en Bash."
-    echo "Versión: $BASH_VERSION"
-    exit 0
-else
-    echo "Este script NO se está ejecutando en Bash."
-    exit 1
-fi
-
 conexion
 if [ $conexion = "SI" ]; then
     actualizar_script
@@ -301,6 +303,7 @@ if [ $conexion = "SI" ]; then
             echo ""
         fi
     else
+        terminal_bash
         software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
