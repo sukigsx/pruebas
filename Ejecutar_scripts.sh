@@ -274,6 +274,26 @@ fi
 
 #comprobar si ya esta instalado.
 comprobar_instalado(){
+FILE_CHECK="$HOME/.Ejecutar_scripts"
+BASHRC_FILE="$HOME/.bashrc"
+
+if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/null; then
+    echo "✔ Existen el fichero .Ejecutar_scripts y la línea en .bashrc"
+else
+    echo "✘ Falta el fichero o la línea en .bashrc"
+fi
+exit
+
+
+
+
+
+
+
+
+
+
+
 if [ -d "/home/$(whoami)/scripts" ] # || grep -q "source /home/$(whoami)/.config/ejecutar_scripts.config" "/home/$(whoami)/.bashrc"
 then
     while true; do
@@ -403,6 +423,5 @@ fi
 
 clear
 menu_info
-echo "hola"
 comprobar_instalado
 
