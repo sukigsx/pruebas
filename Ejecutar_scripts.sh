@@ -469,11 +469,12 @@ if [ -f "$FILE_CHECK" ] && grep -q "^source /home/$(whoami)/.Ejecutar_scripts.co
             ;;
 
         5)  #ver los scripts
+            clear
             menu_info
             echo ""
             echo -e "${azul} Listado de los scripts actuales en /home/$(whoami)/scripts${borra_colores}"
             echo ""
-            ls /home/$(whoami)/scripts
+            ls -1 /home/$(whoami)/scripts/*.sh 2>/dev/null | xargs -n 1 basename
             echo -e "${azul}"
             read -p " Pulsa una tecla para continuar" pause
             echo -e ${borra_colores}
