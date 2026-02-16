@@ -279,6 +279,8 @@ BASHRC_FILE="$HOME/.bashrc"
 
 if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/null; then
     while true; do
+    clear
+    menu_info
     echo ""
     echo -e "${azul} Ya tienes instalado (Ejecutar_scripts) para el usuario${borra_colores}$(whoami)${amarillo}.${borra_colores}"
     echo ""
@@ -286,7 +288,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/nu
     echo ""
     echo -e " ${azul}99-${borra_colores} Salir."
     echo ""
-    read -p " ¿ Que hacemos ?, seleccione una opción (1 o 99): " opcion
+    read -p " Seleccione una opción (1 o 99): " opcion
 
     case $opcion in
 
@@ -311,7 +313,7 @@ if [ -f "$FILE_CHECK" ] && grep -q "^#Ejecutar_scripts" "$BASHRC_FILE" 2>/dev/nu
 
         *)
             echo ""
-            echo -e "${rojo}Opción no válida. Por favor, seleccione 1 o 99.·{borra_colores}"
+            echo -e "${rojo} Opción no válida. Por favor, seleccione 1 o 99.·{borra_colores}"
             sleep 3
             ;;
     esac
