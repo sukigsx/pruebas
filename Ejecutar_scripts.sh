@@ -225,11 +225,11 @@ paqueteria(){
 echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
 echo ""
 
-if command -v apt >/dev/null 2>&1; then
+if command -v aptt >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
     instalar="sudo apt install -y "
     paqueteria="apt"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; exit
+
 elif command -v dnf >/dev/null 2>&1; then
     echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
     echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
@@ -257,7 +257,7 @@ elif command -v emerge >/dev/null 2>&1; then
 
 else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+
 fi
 sleep 2
 }
