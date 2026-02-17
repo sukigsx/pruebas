@@ -225,18 +225,20 @@ paqueteria(){
 echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
 echo ""
 
-if command -v aptt >/dev/null 2>&1; then
+if command -v apt >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
     instalar="sudo apt install -y "
     paqueteria="apt"
 
 elif command -v dnf >/dev/null 2>&1; then
     echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo dnf install -y "
+    paqueteria="dnf"
 
 elif command -v yum >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: YUM (CentOS, RHEL antiguos)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo yum install -y "
+    paqueteria="yum"
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
@@ -245,15 +247,18 @@ elif command -v pacman >/dev/null 2>&1; then
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo zypper install -y "
+    paqueteria="zypper"
 
 elif command -v apk >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: APK (Alpine Linux)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo apk add --no-interactive "
+    paqueteria="apk"
 
 elif command -v emerge >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: Portage (Gentoo)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo emerge -av "
+    paqueteria="emerge"
 
 else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
@@ -264,7 +269,7 @@ sleep 2
 
 
 #comprobar si se ejecuta en una terminal bash
-terminal_bash(){
+ttttterminal_bash(){
 if [ -n "$BASH_VERSION" ]; then
     terminal_bash="SI"
 else
@@ -276,6 +281,22 @@ else
     echo ""
     exit
 fi
+}
+
+terminal_bash() {
+
+    shell_actual="$(ps -p $$ -o comm=)"
+
+    if [ "$shell_actual" != "bash" ]; then
+        echo -e "${amarillo} Este script ${rojo}NO${amarillo} se está ejecutando en Bash.${borra_colores}"
+        echo -e "   Shell detectado: ${rojo}$shell_actual${borra_colores}"
+        echo -e "   Puede ocasionar problemas ya que solo está pensado para bash."
+        echo -e "   ${rojo}No${borra_colores} se procede con la instalación ni la ejecución."
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        exit 1
+    fi
 }
 
 #comprobar si ya esta instalado.
