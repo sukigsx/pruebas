@@ -36,6 +36,8 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [grep]="grep"
         [jq]="jq"
         [sed]="sed"
+        [popo]="popo"
+
     )
 
 
