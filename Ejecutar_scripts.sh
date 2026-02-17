@@ -259,7 +259,7 @@ elif command -v emerge >/dev/null 2>&1; then
 
 else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
-    paqueteria="$(echo -e "${rojo}Desconocido${borra_colores})"
+    paqueteria="${rojo}Desconocido${borra_colores}"
 fi
 sleep 2
 }
