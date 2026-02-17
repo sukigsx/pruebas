@@ -8,7 +8,7 @@ export NombreScript="Ejecutar_scripts"
 export DescripcionDelScript="esto se esta probando"
 export Correo=""
 export Web=""
-export version="1.1"
+export version="1.18888888"
 conexion="Sin comprobar"
 software="Sin comprobar"
 actualizado="No se ha podido comprobar la actualizacion del script"
@@ -228,6 +228,7 @@ echo ""
 if command -v apt >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
     instalar="sudo apt install -y "
+    paqueteria="apt"
 
 elif command -v dnf >/dev/null 2>&1; then
     echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
@@ -240,7 +241,7 @@ elif command -v yum >/dev/null 2>&1; then
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
     instalar="sudo pacman -S --noconfirm "
-    paqueteria="pacman, sistema basado ArchLinux"
+    paqueteria="pacman"
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
