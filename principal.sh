@@ -317,10 +317,10 @@ fi
 
 #logica de inicio
 clear
-##menu_info
+menu_info
 conexion
 if [ $conexion = "SI" ]; then
-    ##actualizar_script
+    comprobar_actualizaciones
     if [ $actualizado = "SI" ]; then
         terminal_bash
         software_necesario
@@ -338,7 +338,7 @@ if [ $conexion = "SI" ]; then
         if [ $software = "SI" ]; then
             export software="SI"
             export conexion="NO"
-            export actualizado="No se ha podido comprobar la actualizacion del script"
+            export actualizado="NOOOOO"
             #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
@@ -356,19 +356,8 @@ else
     fi
 fi
 
+menu_info
 
-clear
-menu_info
-if [ $actualizado="NO" ]; then
-    echo ""
-    read -p " Quieres actualizar? (s/n)" sino
-    if [ ! $sino = "s" ]; then
-        actualizar_script
-    fi
-fi
-clear
-menu_info
-read p
 
 
 
