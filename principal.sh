@@ -356,6 +356,8 @@ else
     fi
 fi
 
+sleep 1
+clear
 menu_info
 
 
