@@ -100,14 +100,275 @@ comprobar_actualizaciones(){
         rm -R /tmp/comprobar
     else
         #hay que actualizar, comprueba y actualiza
-        actualizado="Tienes una actualizacion"
+        actualizado="NO"
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
     fi
 }
 
-clear
+#funcion para actualizar el script
+actualizar_script(){
+    # actualizar el script
+    #para que esta funcion funcione necesita:
+    #   conexion a internet
+    #   la paleta de colores
+    #   software: git diff
+
+    git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
+
+    diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
+
+
+    if [ $? = 0 ]
+    then
+        #esta actualizado, solo lo comprueba
+        echo ""
+        echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
+        echo ""
+        chmod -R +w /tmp/comprobar
+        rm -R /tmp/comprobar
+        actualizado="SI"
+        sleep 2
+    else
+        #hay que actualizar, comprueba y actualiza
+        echo ""
+        echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
+        echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
+        sleep 3
+        cp -r /tmp/comprobar/* $ruta_ejecucion
+        chmod -R +w /tmp/comprobar
+        rm -R /tmp/comprobar
+        echo ""
+        echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
+        echo ""
+        sleep 2
+        exit
+    fi
+}
+
+#funcion para comprobar el software necesario
+software_necesario(){
+#funcion software necesario
+#para que funcione necesita:
+#   conexion a internet
+#   la paleta de colores
+#   software: which
+paqueteria
 echo ""
-comprobar_actualizaciones
+echo -e "${azul} Comprobando el software necesario.${borra_colores}"
+echo ""
+#which git diff ping figlet xdotool wmctrl nano fzf
+#########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
+for comando in "${!requeridos[@]}"; do
+        command -v $comando &>/dev/null
+        sino=$?
+        contador=1
+        while [ $sino -ne 0 ]; do
+            if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
+                clear
+                menu_info
+                echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
+                echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
+                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar${requeridos[$comando]}${amarillo})${borra_colores}"
+                echo -e ""
+                echo -e "${azul} Listado de los paquetes necesarios para poder ejecutar el script:${borra_colores}"
+                for elemento in "${requeridos[@]}"; do
+                    echo -e "     $elemento"
+                done
+                echo ""
+                echo -e " ${rojo}No se puede ejecutar el script sin todo el software necesario.${borra_colores}"
+                echo ""
+                exit 1
+            else
+                echo -e "${amarillo} Se necesita instalar ${borra_colores}$comando${amarillo} para la ejecucion del script${borra_colores}"
+                ### check_root
+                echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
+                $instalar ${requeridos[$comando]} &>/dev/null
+                let "contador=contador+1"
+                command -v $comando &>/dev/null
+                sino=$?
+            fi
+        done
+        echo -e " [${verde}ok${borra_colores}] $comando (${requeridos[$comando]})."
+    done
+
+    echo ""
+    echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
+    software="SI"
+    sleep 2
+}
+
+# Función que comprueba si se ejecuta como root
+check_root() {
+    #clear
+    #menu_info
+  if [ "$EUID" -ne 0 ]; then
+    #echo ""
+    #echo -e "${amarillo} Se necesita privilegios de root ingresa la contraseña.${borra_colores}"
+
+    # Pedir contraseña para sudo
+    #echo -e ""
+
+    # Validar contraseña mediante sudo -v (verifica sin ejecutar comando)
+    if sudo -v; then
+      echo ""
+      echo -e "${verde} Autenticación correcta. Ejecutando como root...${borra_colores}"; sleep 2
+      # Reejecuta el script como root
+      #exec sudo "$0" "$@"
+    else
+      clear
+      menu_info
+      echo -e "${rojo} Contraseña incorrecta o acceso denegado. Saliendo del script.${borra_colores}"
+      echo ""
+      echo -e "${azul} Listado de los paquetes necesarios para poder ejecutar el script:${borra_colores}"
+      for elemento in "${requeridos[@]}"; do
+        echo -e "     $elemento"
+      done
+      echo ""
+      echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+     echo ""; exit
+    fi
+  fi
+}
+
+#funcion de detectar sistema de paquetado para instalar
+paqueteria(){
+echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
+echo ""
+
+if command -v apt >/dev/null 2>&1; then
+    echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
+    instalar="sudo apt install -y "
+    paqueteria="apt"
+
+elif command -v dnf >/dev/null 2>&1; then
+    echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
+    instalar="sudo dnf install -y "
+    paqueteria="dnf"
+
+elif command -v yum >/dev/null 2>&1; then
+    echo -e "${verde}Sistema de paquetería detectado: YUM (CentOS, RHEL antiguos)${borra_colores}"
+    instalar="sudo yum install -y "
+    paqueteria="yum"
+
+elif command -v pacman >/dev/null 2>&1; then
+    echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
+    instalar="sudo pacman -S --noconfirm "
+    paqueteria="pacman"
+
+elif command -v zypper >/dev/null 2>&1; then
+    echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
+    instalar="sudo zypper install -y "
+    paqueteria="zypper"
+
+elif command -v apk >/dev/null 2>&1; then
+    echo -e "${verde}Sistema de paquetería detectado: APK (Alpine Linux)${borra_colores}"
+    instalar="sudo apk add --no-interactive "
+    paqueteria="apk"
+
+elif command -v emerge >/dev/null 2>&1; then
+    echo -e "${verde}Sistema de paquetería detectado: Portage (Gentoo)${borra_colores}"
+    instalar="sudo emerge -av "
+    paqueteria="emerge"
+
+else
+    echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
+    paqueteria="${rojo}Desconocido${borra_colores}"
+fi
+sleep 2
+}
+
+
+#comprobar si se ejecuta en una terminal bash
+terminal_bash() {
+
+    shell_actual="$(ps -p $$ -o comm=)"
+
+    if [ "$shell_actual" != "bash" ]; then
+        echo -e "${amarillo} Este script ${rojo}NO${amarillo} se está ejecutando en Bash.${borra_colores}"
+        echo -e "   Shell detectado: ${rojo}$shell_actual${borra_colores}"
+        echo -e "   Puede ocasionar problemas ya que solo está pensado para bash."
+        echo -e "   ${rojo}No${borra_colores} se procede con la instalación ni la ejecución."
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        exit 1
+    fi
+}
+
+conexion(){
+#funcion de comprobar conexion a internet
+#para que funciones necesita:
+#   conexion ainternet
+#   la paleta de colores
+#   software: ping
+
+if ping -c1 google.com &>/dev/null
+then
+    conexion="SI"
+    echo ""
+    echo -e " Conexion a internet = ${verde}SI${borra_colores}"
+else
+    conexion="NO"
+    echo ""
+    echo -e " Conexion a internet = ${rojo}NO${borra_colores}"
+fi
+}
+
+#logica de inicio
+clear
+##menu_info
+conexion
+if [ $conexion = "SI" ]; then
+    ##actualizar_script
+    if [ $actualizado = "SI" ]; then
+        terminal_bash
+        software_necesario
+        if [ "$software" = "SI" ]; then
+            export software="SI"
+            export conexion="SI"
+            export actualizado="SI"
+            #bash $ruta_ejecucion/ #PON LA RUTA
+        else
+            echo ""
+        fi
+    else
+        terminal_bash
+        software_necesario
+        if [ $software = "SI" ]; then
+            export software="SI"
+            export conexion="NO"
+            export actualizado="No se ha podido comprobar la actualizacion del script"
+            #bash $ruta_ejecucion/ #PON LA RUTA
+        else
+            echo ""
+        fi
+    fi
+else
+    software_necesario
+    if [ $software = "SI" ]; then
+        export software="SI"
+        export conexion="NO"
+        export actualizado="No se ha podido comprobar la actualizacion del script"
+        #bash $ruta_ejecucion/ #PON LA RUTA
+    else
+        echo ""
+    fi
+fi
+
+
+clear
+menu_info
+if [ $actualizado="NO" ]; then
+    echo ""
+    read -p " Quieres actualizar? (s/n)" sino
+    if [ ! $sino = "s" ]; then
+        actualizar_script
+    fi
+fi
+clear
 menu_info
 read p
+
+
+
