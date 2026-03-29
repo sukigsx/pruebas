@@ -100,8 +100,9 @@ comprobar_actualizaciones(){
         rm -R /tmp/comprobar
     else
         #hay que actualizar, comprueba y actualiza
-        read -p " Quieres actualizar" sino
-        if [ $sino = "s" ]; then
+        echo -e "${amarillo} Existe una actualizacion del script${borra_colores}"
+        read -p " Quieres actualizar ? (S/n): " sino
+        if [[ $sino == [sS] ]]; then
             actualizar_script
         else
             actualizado="NO"
