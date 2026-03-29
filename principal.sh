@@ -356,7 +356,7 @@ else
     fi
 fi
 
-sleep 1
+sleep 5
 clear
 menu_info
 
