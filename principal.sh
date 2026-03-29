@@ -27,18 +27,21 @@ nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se cl
 # Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
     declare -A requeridos
     requeridos=(
+        #requeridos para poder actualizar
         [git]="git"
-        [nano]="nano"
         [diff]="diff"
         [sudo]="sudo"
         [ping]="ping"
-        [fzf]="fzf"
-        [curl]="curl"
-        [grep]="grep"
-        [jq]="jq"
-        [sed]="sed"
         [xdg-user-dir]="xdg-user-dirs"
-        [wget]="wget"
+[nano]="nano"
+        #requeridos para el script en si
+        #[fzf]="fzf"
+        #[curl]="curl"
+        #[grep]="grep"
+        #[jq]="jq"
+        #[sed]="sed"
+        #[wget]="wget"
+        #[nano]="nano"
     )
 ###########################
 ## FUNCIONES PRINCIPALES ##
