@@ -135,7 +135,7 @@ actualizar_script(){
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
         actualizado="SI"
-        sleep 2
+        #sleep 2
     else
         #hay que actualizar, comprueba y actualiza
         echo ""
@@ -148,7 +148,7 @@ actualizar_script(){
         echo ""
         echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
         echo ""
-        sleep 2
+        #sleep 2
         exit
     fi
 }
