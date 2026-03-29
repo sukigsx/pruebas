@@ -123,34 +123,36 @@ actualizar_script(){
 
     git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
-    diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
+    #diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
 
 
-    if [ $? = 0 ]
-    then
-        #esta actualizado, solo lo comprueba
-        echo ""
-        echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
-        echo ""
-        chmod -R +w /tmp/comprobar
-        rm -R /tmp/comprobar
-        actualizado="SI"
-        #sleep 2
-    else
+    #if [ $? = 0 ]
+    #then
+    #    #esta actualizado, solo lo comprueba
+    #    echo ""
+    #    echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
+    #    echo ""
+    #    chmod -R +w /tmp/comprobar
+    #    rm -R /tmp/comprobar
+    #    actualizado="SI"
+    #    #sleep 2
+    #else
         #hay que actualizar, comprueba y actualiza
         echo ""
         echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
         echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
-        sleep 3
+        #sleep 3
         cp -r /tmp/comprobar/* $ruta_ejecucion
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
         echo ""
         echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
         echo ""
+        chmod -R +w /tmp/comprobar
+        rm -R /tmp/comprobar
         #sleep 2
         exit
-    fi
+    #fi
 }
 
 #funcion para comprobar el software necesario
