@@ -240,6 +240,7 @@ check_root() {
 
 #funcion de detectar sistema de paquetado para instalar
 paqueteria(){
+echo ""
 echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
 echo ""
 
