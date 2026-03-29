@@ -100,7 +100,12 @@ comprobar_actualizaciones(){
         rm -R /tmp/comprobar
     else
         #hay que actualizar, comprueba y actualiza
-        actualizado="NO"
+        read -p " Quieres actualizar" sino
+        if [ $sino = "s" ]; then
+            actualizar_script
+        else
+            actualizado="NO"
+        fi
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
     fi
