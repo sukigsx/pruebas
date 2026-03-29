@@ -1,25 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #VARIABLES PRINCIPALES
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="pruebas"
-export DescripcionDelScript="esto se esta probando"
-export Correo=""
-export Web=""
+export NombreScript="Ejecutar_scripts"
+export DescripcionDelScript="Control interactivo de tus scripts"
+export Correo="scripts@mbbsistemas.es"
+export Web="https://repositorio.mbbsistemas.es"
 export version="1.0"
 conexion="Sin comprobar"
 software="Sin comprobar"
-actualizado="No se ha podido comprobar la actualizacion del script"
+actualizado="Sin comprobar"
+paqueteria="No detectada"
 
 # VARIABLE QUE RECOJEN LAS RUTAS
 ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del script sin la / al final
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="popo.sh" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de github para actualizar el script
+NombreScriptActualizar="Ejecutar_scripts.sh" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="https://github.com/sukigsx/ejecutar_scripts.git" #contiene la direccion de github para actualizar el script
+nombre_carpeta_repositorio="ejecutar_scripts" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
 
 #VARIABLES DE SOFTWARE NECESARIO
 # Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
@@ -29,9 +31,14 @@ DireccionGithub="https://github.com/sukigsx/pruebas" #contiene la direccion de g
         [nano]="nano"
         [diff]="diff"
         [sudo]="sudo"
-        [popo1]="popo1"
-        #[popo1]="popo1"
-        #[which]="which"
+        [ping]="ping"
+        [fzf]="fzf"
+        [curl]="curl"
+        [grep]="grep"
+        [jq]="jq"
+        [sed]="sed"
+        [xdg-user-dir]="xdg-user-dirs"
+        [wget]="wget"
     )
 
 
@@ -65,8 +72,9 @@ echo -e "${rosa} / __| | | | |/ / |/ _\ / __\ \/ /  ${azul}   Version           
 echo -e "${rosa} \__ \ |_| |   <| | (_| \__ \>  <   ${azul}   Conexion Internet  =${borra_colores} $conexion"
 echo -e "${rosa} |___/\__,_|_|\_\_|\__, |___/_/\_\  ${azul}   Software necesario =${borra_colores} $software"
 echo -e "${rosa}                  |___/             ${azul}   Actualizado        =${borra_colores} $actualizado"
+echo -e "${rosa}                                    ${azul}   Sistema paqueteria =${borra_colores} $paqueteria"
 echo -e ""
-echo -e "${azul} Contacto:${borra_colores} (Correo $Correo) (Web $Web)${borra_colores}"
+echo -e "${azul} Contacto:${borra_colores} ( Correo${rosa} $Correo${borra_colores} ) ( Web${rosa} $Web${borra_colores} )${borra_colores}"
 echo ""
 }
 
@@ -223,37 +231,65 @@ echo ""
 if command -v apt >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: APT (Debian, Ubuntu, Mint, etc.)${borra_colores}"
     instalar="sudo apt install -y "
+    paqueteria="apt"
 
 elif command -v dnf >/dev/null 2>&1; then
     echo -e "${cerde} Sistema de paquetería detectado: DNF (Fedora, RHEL, Rocky, AlmaLinux)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo dnf install -y "
+    paqueteria="dnf"
 
 elif command -v yum >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: YUM (CentOS, RHEL antiguos)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo yum install -y "
+    paqueteria="yum"
 
 elif command -v pacman >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Pacman (Arch Linux, Manjaro)${borra_colores}"
     instalar="sudo pacman -S --noconfirm "
+    paqueteria="pacman"
 
 elif command -v zypper >/dev/null 2>&1; then
     echo -e "${verde} Sistema de paquetería detectado: Zypper (openSUSE)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo zypper install -y "
+    paqueteria="zypper"
 
 elif command -v apk >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: APK (Alpine Linux)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo apk add --no-interactive "
+    paqueteria="apk"
 
 elif command -v emerge >/dev/null 2>&1; then
     echo -e "${verde}Sistema de paquetería detectado: Portage (Gentoo)${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    instalar="sudo emerge -av "
+    paqueteria="emerge"
 
 else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
-    echo -e "${amarillo} Tu sistema NO esta soportado para este script ${borra_colores}"; sleep 4
+    paqueteria="${rojo}Desconocido${borra_colores}"
 fi
 sleep 2
 }
+
+
+#comprobar si se ejecuta en una terminal bash
+terminal_bash() {
+
+    shell_actual="$(ps -p $$ -o comm=)"
+
+    if [ "$shell_actual" != "bash" ]; then
+        echo -e "${amarillo} Este script ${rojo}NO${amarillo} se está ejecutando en Bash.${borra_colores}"
+        echo -e "   Shell detectado: ${rojo}$shell_actual${borra_colores}"
+        echo -e "   Puede ocasionar problemas ya que solo está pensado para bash."
+        echo -e "   ${rojo}No${borra_colores} se procede con la instalación ni la ejecución."
+        echo ""
+        echo -e "${azul} GRACIAS POR UTILIZAR MI SCRIPT${borra_colores}"
+        echo ""
+        exit 1
+    fi
+}
+
+
+
 
 #logica de arranque
 #variables de resultado $conexion $software $actualizado
@@ -273,13 +309,13 @@ sleep 2
 #        si=ejecuta, variables software="SI", conexion="NO", actualizado="No se ha podiso comprobar actualizacion de script"
 #        no=Ya sale solo desde la funcion
 
-
 clear
 menu_info
 conexion
 if [ $conexion = "SI" ]; then
-    actualizar_script
+    ##actualizar_script
     if [ $actualizado = "SI" ]; then
+        terminal_bash
         software_necesario
         if [ "$software" = "SI" ]; then
             export software="SI"
@@ -290,6 +326,7 @@ if [ $conexion = "SI" ]; then
             echo ""
         fi
     else
+        terminal_bash
         software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
@@ -312,6 +349,4 @@ else
     fi
 fi
 
-clear
-menu_info
-echo "continuo ejecutando"
+
