@@ -337,7 +337,7 @@ if [ $conexion = "SI" ]; then
         software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
-            export conexion="NO"
+            export conexion="SI"
             export actualizado="NOOOOO"
             #bash $ruta_ejecucion/ #PON LA RUTA
         else
