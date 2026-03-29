@@ -79,18 +79,11 @@ echo -e "${azul} Contacto:${borra_colores} ( Correo${rosa} $Correo${borra_colore
 echo ""
 }
 
-#comprobar si hay actualizaciones y que lo marque en el menu_info
+#comprobar si hay actualizaciones y que lo marque en el menu_info y tambien pregunta si quieres actualizar
 comprobar_actualizaciones(){
-    # actualizar el script
-    #para que esta funcion funcione necesita:
-    #   conexion a internet
-    #   la paleta de colores
-    #   software: git diff
 
     git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
-
     diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
-
 
     if [ $? = 0 ]
     then
@@ -115,42 +108,18 @@ comprobar_actualizaciones(){
 
 #funcion para actualizar el script
 actualizar_script(){
-    # actualizar el script
-    #para que esta funcion funcione necesita:
-    #   conexion a internet
-    #   la paleta de colores
-    #   software: git diff
-
     git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
-    #diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
-
-
-    #if [ $? = 0 ]
-    #then
-    #    #esta actualizado, solo lo comprueba
-    #    echo ""
-    #    echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
-    #    echo ""
-    #    chmod -R +w /tmp/comprobar
-    #    rm -R /tmp/comprobar
-    #    actualizado="SI"
-    #    #sleep 2
-    #else
-        #hay que actualizar, comprueba y actualiza
-        echo ""
-        echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
-        echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
-        #sleep 3
-        cp -r /tmp/comprobar/* $ruta_ejecucion
-        chmod -R +w /tmp/comprobar
-        rm -R /tmp/comprobar
-        echo ""
-        echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
-        echo ""
-        #sleep 2
-        exit
-    #fi
+    echo ""
+    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
+    echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
+    cp -r /tmp/comprobar/* $ruta_ejecucion
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+    echo ""
+    echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
+    echo ""
+    exit
 }
 
 #funcion para comprobar el software necesario
@@ -164,8 +133,6 @@ paqueteria
 echo ""
 echo -e "${azul} Comprobando el software necesario.${borra_colores}"
 echo ""
-#which git diff ping figlet xdotool wmctrl nano fzf
-#########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for comando in "${!requeridos[@]}"; do
         command -v $comando &>/dev/null
         sino=$?
@@ -202,7 +169,6 @@ for comando in "${!requeridos[@]}"; do
     echo ""
     echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
     software="SI"
-    #sleep 2
 }
 
 # Función que comprueba si se ejecuta como root
@@ -367,6 +333,7 @@ fi
 sleep 2
 clear
 menu_info
+echo "empieza el programa"
 
 
 
