@@ -310,7 +310,7 @@ conexion(){
 #   la paleta de colores
 #   software: ping
 
-if ping -c1 google.com &>/dev/null
+if ping -c1 -W1 8.8.8.8 &>/dev/null
 then
     conexion="SI"
     echo ""
