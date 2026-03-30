@@ -122,6 +122,7 @@ actualizar_script(){
     echo ""
     echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
     echo ""
+    sleep 2
     exit
 }
 
