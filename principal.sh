@@ -117,17 +117,17 @@ actualizar_script(){
     chmod -R +w /tmp/comprobar
     rm -R /tmp/comprobar
     echo ""
+    echo -e "${amarillo} Es necesario ejecutarlo de nuevo.${borra_colores}"
 
-    printf "Procesando... "
+    printf " Actualizando... "
     for i in {1..20}; do
         printf "#"
         sleep 0.1
     done
     printf " [ \e[32mOK\e[0m ]\n"
 
-    echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
     echo ""
-    sleep 2
+    sleep 1
     exit
 }
 
