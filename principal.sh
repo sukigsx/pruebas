@@ -113,9 +113,6 @@ comprobar_actualizaciones(){
 actualizar_script(){
     git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
-    echo ""
-    echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
-    echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
     cp -r /tmp/comprobar/* $ruta_ejecucion
     chmod -R +w /tmp/comprobar
     rm -R /tmp/comprobar
