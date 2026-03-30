@@ -33,7 +33,7 @@ nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se cl
         [sudo]="sudo"
         [ping]="ping"
         [xdg-user-dir]="xdg-user-dirs"
-[fzf]="fzf"
+[fzfff]="fzfff"
         #requeridos para el script en si
         #[fzf]="fzf"
         #[curl]="curl"
