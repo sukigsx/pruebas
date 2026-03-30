@@ -117,7 +117,7 @@ actualizar_script(){
     chmod -R +w /tmp/comprobar
     rm -R /tmp/comprobar
     echo ""
-    echo -e "${amarillo} Es necesario ejecutarlo de nuevo.${borra_colores}"
+    echo -e "${amarillo} Sera necesario ejecutarlo de nuevo.${borra_colores}"
 
     printf " Actualizando... "
     for i in {1..20}; do
