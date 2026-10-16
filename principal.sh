@@ -35,14 +35,10 @@ nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se cl
         [xdg-user-dir]="xdg-user-dirs"
 
         #requeridos para el script en si
-        #[fzf]="fzf"
-        #[curl]="curl"
-        #[grep]="grep"
-        #[jq]="jq"
-        #[sed]="sed"
-        #[wget]="wget"
-        #[nano]="nano"
-    )
+        [fzf]="fzf"
+        [setfacl]="acl"
+        )
+
 ###########################
 ## FUNCIONES PRINCIPALES ##
 ###########################
