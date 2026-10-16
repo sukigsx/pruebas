@@ -372,8 +372,8 @@ usuario=$(getent passwd | awk -F: '$7 ~ /\/(bash|sh|zsh)$/ {print $1}' | sort | 
 Selecciona el usuario que deseas gestionar:")
 
 if [ -z "$usuario" ]; then
-    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ningún usuario.${NC}"
     echo ""
+    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ningún usuario.${NC}"; sleep 4
     ctrl_c
     #exit 1
 fi
