@@ -4,8 +4,8 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="Ejecutar_scripts"
-export DescripcionDelScript="Control interactivo de tus scripts"
+export NombreScript="DescargarYT"
+export DescripcionDelScript="Descargar audio video y listas de reproduccion de Youtube"
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
 export version="1.0"
@@ -19,29 +19,30 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="Ejecutar_scripts.sh" #contiene el nombre del script para poder actualizar desde github
-DireccionGithub="https://github.com/sukigsx/ejecutar_scripts.git" #contiene la direccion de github para actualizar el script
-nombre_carpeta_repositorio="ejecutar_scripts" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
+NombreScriptActualizar="DescargarYT.sh" #contiene el nombre del script para poder actualizar desde github
+DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
+nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
 
 #VARIABLES DE SOFTWARE NECESARIO
 # Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
     declare -A requeridos
     requeridos=(
+        #requeridos para poder actualizar
         [git]="git"
-        [nano]="nano"
         [diff]="diff"
         [sudo]="sudo"
         [ping]="ping"
-        [fzf]="fzf"
-        [curl]="curl"
-        [grep]="grep"
-        [jq]="jq"
-        [sed]="sed"
         [xdg-user-dir]="xdg-user-dirs"
-        [wget]="wget"
-    )
 
+        #requeridos para el script en si
+        [fzf]="fzf"
+        [ffmpeg]="ffmpeg"
+        [yt-dlp]="yt-dlp"
+        )
 
+###########################
+## FUNCIONES PRINCIPALES ##
+###########################
 #colores
 rojo="\e[0;31m\033[1m" #rojo
 verde="\e[;32m\033[1m"
@@ -78,47 +79,56 @@ echo -e "${azul} Contacto:${borra_colores} ( Correo${rosa} $Correo${borra_colore
 echo ""
 }
 
-
-actualizar_script(){
-    # actualizar el script
-    #para que esta funcion funcione necesita:
-    #   conexion a internet
-    #   la paleta de colores
-    #   software: git diff
+#comprobar si hay actualizaciones y que lo marque en el menu_info y tambien pregunta si quieres actualizar
+comprobar_actualizaciones(){
 
     git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
-
     diff $ruta_ejecucion/$NombreScriptActualizar /tmp/comprobar/$NombreScriptActualizar >/dev/null 2>&1
-
 
     if [ $? = 0 ]
     then
         #esta actualizado, solo lo comprueba
-        echo ""
-        echo -e "${verde} El script${borra_colores} $0 ${verde}esta actualizado.${borra_colores}"
-        echo ""
+        actualizado="SI"
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
-        actualizado="SI"
-        sleep 2
     else
         #hay que actualizar, comprueba y actualiza
         echo ""
-        echo -e "${amarillo} EL script${borra_colores} $0 ${amarillo}NO esta actualizado.${borra_colores}"
-        echo -e "${verde} Se procede a su actualizacion automatica.${borra_colores}"
-        sleep 3
-        cp -r /tmp/comprobar/* $ruta_ejecucion
+        echo -e "${amarillo} Existe una actualizacion del script${borra_colores}"
+        read -p " Quieres actualizar ? (S/n): " sino
+        if [[ $sino == [sS] ]]; then
+            actualizar_script
+        else
+            actualizado="NO"
+        fi
         chmod -R +w /tmp/comprobar
         rm -R /tmp/comprobar
-        echo ""
-        echo -e "${verde} El script se ha actualizado.${amarillo} Es necesario cargarlo de nuevo.${borra_colores}"
-        echo ""
-        sleep 2
-        exit
     fi
 }
 
+#funcion para actualizar el script
+actualizar_script(){
+    git clone $DireccionGithub /tmp/comprobar >/dev/null 2>&1
 
+    cp -r /tmp/comprobar/* $ruta_ejecucion
+    chmod -R +w /tmp/comprobar
+    rm -R /tmp/comprobar
+    echo ""
+    echo -e "${amarillo} Sera necesario ejecutarlo de nuevo.${borra_colores}"
+
+    printf " Actualizando... "
+    for i in {1..20}; do
+        printf "#"
+        sleep 0.1
+    done
+    printf " [ \e[32mOK\e[0m ]\n"
+
+    echo ""
+    sleep 1
+    exit
+}
+
+#funcion para comprobar el software necesario
 software_necesario(){
 #funcion software necesario
 #para que funcione necesita:
@@ -129,8 +139,6 @@ paqueteria
 echo ""
 echo -e "${azul} Comprobando el software necesario.${borra_colores}"
 echo ""
-#which git diff ping figlet xdotool wmctrl nano fzf
-#########software="which git diff ping figlet nano gdebi curl konsole" #ponemos el foftware a instalar separado por espacion dentro de las comillas ( soft1 soft2 soft3 etc )
 for comando in "${!requeridos[@]}"; do
         command -v $comando &>/dev/null
         sino=$?
@@ -167,27 +175,6 @@ for comando in "${!requeridos[@]}"; do
     echo ""
     echo -e "${azul} Todo el software ${verde}OK${borra_colores}"
     software="SI"
-    sleep 2
-}
-
-
-conexion(){
-#funcion de comprobar conexion a internet
-#para que funciones necesita:
-#   conexion ainternet
-#   la paleta de colores
-#   software: ping
-
-if ping -c1 google.com &>/dev/null
-then
-    conexion="SI"
-    echo ""
-    echo -e " Conexion a internet = ${verde}SI${borra_colores}"
-else
-    conexion="NO"
-    echo ""
-    echo -e " Conexion a internet = ${rojo}NO${borra_colores}"
-fi
 }
 
 # Función que comprueba si se ejecuta como root
@@ -225,6 +212,7 @@ check_root() {
 
 #funcion de detectar sistema de paquetado para instalar
 paqueteria(){
+echo ""
 echo -e "${azul} Detectando sistema de paquetería...${borra_colores}"
 echo ""
 
@@ -267,7 +255,7 @@ else
     echo -e "${amarillo} No se pudo detectar un sistema de paquetería conocido.${borra_colores}"
     paqueteria="${rojo}Desconocido${borra_colores}"
 fi
-sleep 2
+#sleep 2
 }
 
 
@@ -288,32 +276,31 @@ terminal_bash() {
     fi
 }
 
+conexion(){
+#funcion de comprobar conexion a internet
+#para que funciones necesita:
+#   conexion ainternet
+#   la paleta de colores
+#   software: ping
 
+if ping -c1 -W1 8.8.8.8 &>/dev/null
+then
+    conexion="SI"
+    echo ""
+    echo -e " Conexion a internet = ${verde}SI${borra_colores}"
+else
+    conexion="NO"
+    echo ""
+    echo -e " Conexion a internet = ${rojo}NO${borra_colores}"
+fi
+}
 
-
-#logica de arranque
-#variables de resultado $conexion $software $actualizado
-#funciones actualizar_script, conexion, software_necesario
-
-#logica para ejecutar o no ejecutar
-#comprobado conexcion
-#    si=actualizar_script
-#        si=software_necesario
-#            si=ejecuta, poner variables a sii todo
-#            no=Ya sale el solo desde la funcion
-#        no=software_necesario
-#            si=ejecuta, variables software="SI", conexion="SI", actualizado="No se ha podiso comprobar actualizacion de script"
-#            no=Ya sale solo desde la funcion
-#
-#    no=software_necesario
-#        si=ejecuta, variables software="SI", conexion="NO", actualizado="No se ha podiso comprobar actualizacion de script"
-#        no=Ya sale solo desde la funcion
-
+#logica de inicio
 clear
 menu_info
 conexion
 if [ $conexion = "SI" ]; then
-    ##actualizar_script
+    comprobar_actualizaciones
     if [ $actualizado = "SI" ]; then
         terminal_bash
         software_necesario
@@ -330,8 +317,8 @@ if [ $conexion = "SI" ]; then
         software_necesario
         if [ $software = "SI" ]; then
             export software="SI"
-            export conexion="NO"
-            export actualizado="No se ha podido comprobar la actualizacion del script"
+            export conexion="SI"
+            export actualizado="NOOOOOoo"
             #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
@@ -349,4 +336,115 @@ else
     fi
 fi
 
+# EMPIEZA EL SCRIPT
+sleep 2
+clear
+menu_info
 
+# Verificar que las herramientas necesarias estén instaladas
+for cmd in yt-dlp fzf ffmpeg; do
+    if ! command -v $cmd &> /dev/null; then
+        echo "❌ Error: El comando '$cmd' no está instalado. Instálalo primero."
+        exit 1
+    fi
+done
+
+# Variable con la configuración visual perfecta para FZF
+FZF_ESTILO="--height=40% --layout=reverse --border --margin=1 --inline-info"
+
+echo "========================================"
+echo "    Diseñado por SUKIGSX                "
+echo "    DESCARGADOR DE YOUTUBE PRO (FZF)    "
+echo "========================================"
+
+# 1. Solicitar la URL al usuario
+echo -n "🔗 Introduce la URL de YouTube: "
+read -r URL
+
+if [ -z "$URL" ]; then
+    echo "❌ Error: La URL no puede estar vacía."
+    exit 1
+fi
+
+# 2. Detección automática de Lista de Reproducción
+OPCION_LISTA="--no-playlist"
+ES_LISTA=false
+
+if [[ "$URL" == *"list="* || "$URL" == *"playlist"* ]]; then
+    echo -e "\n[!] Se ha detectado una Lista de Reproducción."
+    
+    SELECCION_LISTA=$(echo -e "📦 Descargar la LISTA DE REPRODUCCIÓN COMPLETA\n🛑 Descargar ÚNICAMENTE EL VIDEO INDIVIDUAL" | fzf $FZF_ESTILO --header="» Selecciona qué deseas procesar:")
+    
+    if [ -z "$SELECCION_LISTA" ]; then
+        echo "❌ Operación cancelada."
+        exit 1
+    fi
+    
+    if [[ "$SELECCION_LISTA" == *"COMPLETA"* ]]; then
+        OPCION_LISTA="--yes-playlist"
+        ES_LISTA=true
+    fi
+fi
+
+# 3. Selección de Formato (Vídeo, Audio o Ambos)
+echo -e "\n"
+FORMATO=$(echo -e "🎥 Video (Máxima Calidad)\n🎵 Audio (MP3 320kbps)\n🎞 Ambos (Video Máximo + MP3 Separado)" | fzf $FZF_ESTILO --header="» Selecciona el formato de descarga:")
+
+if [ -z "$FORMATO" ]; then
+    echo "❌ Operación cancelada."
+    exit 1
+fi
+
+# 4. Selección de Carpeta de Destino
+echo -e "\n"
+OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd))\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
+
+if [ -z "$OPCION_CARPETA" ]; then
+    echo "❌ Operación cancelada."
+    exit 1
+fi
+
+if [[ "$OPCION_CARPETA" == *"Otra carpeta"* ]]; then
+    echo -n "📝 Introduce la ruta absoluta de la carpeta (ej: ~/Descargas/Musica): "
+    read -r RUTA_PERSONALIZADA
+    DESTINO="${RUTA_PERSONALIZADA/#\~/$HOME}"
+else
+    DESTINO=$(pwd)
+fi
+
+# Crear la carpeta de destino si no existe
+if [ ! -d "$DESTINO" ]; then
+    echo "📁 La carpeta no existe. Creándola en: $DESTINO"
+    mkdir -p "$DESTINO"
+fi
+
+cd "$DESTINO" || exit 1
+
+# 5. Definir la plantilla de nombres inteligente según si es lista o video individual
+if [ "$ES_LISTA" = true ]; then
+    PLANTILLA_NOMBRES="%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s"
+else
+    PLANTILLA_NOMBRES="%(title)s.%(ext)s"
+fi
+
+echo -e "\n🚀 Iniciando descarga con yt-dlp..."
+echo "----------------------------------------"
+
+# 6. Ejecución de descargas limpia sin duplicar internet
+if [[ "$FORMATO" == *"🎥 Video"* ]]; then
+    yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
+
+elif [[ "$FORMATO" == *"🎵 Audio"* ]]; then
+    yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
+
+elif [[ "$FORMATO" == *"🎞 Ambos"* ]]; then
+    echo "📥 Paso 1: Descargando el video en máxima calidad..."
+    yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
+    
+    echo -e "\n📥 Paso 2: Extrayendo el audio a MP3 desde el archivo local..."
+    # Este segundo comando extrae el audio directamente del archivo que acabamos de descargar localmente
+    yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
+fi
+
+echo "----------------------------------------"
+echo "✅ ¡Operación completada con éxito en: $DESTINO!"
