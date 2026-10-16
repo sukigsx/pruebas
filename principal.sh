@@ -342,7 +342,7 @@ fi
 # EMPIEZA EL SCRIPT
 sleep 2
 clear
-menu_info
+#menu_info
 
 # Configuración de colores para los mensajes del script y fzf
 VERDE='\033[0;32m'
@@ -367,7 +367,6 @@ if ! command -v fzf &> /dev/null || ! command -v setfacl &> /dev/null; then
 fi
 
 #echo -e "$CLEAR"
-menu_info
 # 1. SELECCIÓN DE USUARIO
 usuario=$(getent passwd | awk -F: '$7 ~ /\/(bash|sh|zsh)$/ {print $1}' | sort | \
     fzf --prompt=" 👥 USUARIO > " \
