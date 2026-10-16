@@ -350,6 +350,7 @@ echo -n "🔗 Introduce la URL de YouTube: "
 read -r URL
 
 if [ -z "$URL" ]; then
+    echo ""
     echo -e "${rojo}❌ Error: La URL no puede estar vacía.${borra_colores}"; sleep 3
     ctrl_c
     exit 1
@@ -365,6 +366,7 @@ if [[ "$URL" == *"list="* || "$URL" == *"playlist"* ]]; then
     SELECCION_LISTA=$(echo -e "📦 Descargar la LISTA DE REPRODUCCIÓN COMPLETA\n🛑 Descargar ÚNICAMENTE EL VIDEO INDIVIDUAL" | fzf $FZF_ESTILO --header="» Selecciona qué deseas procesar:")
 
     if [ -z "$SELECCION_LISTA" ]; then
+        echo ""
         echo -e "${amarillo}❌ Operación cancelada.${borra_colores}"; sleep 3
         ctrl_c
         exit 1
@@ -381,6 +383,7 @@ echo -e "\n"
 FORMATO=$(echo -e "🎥 Video (Máxima Calidad)\n🎵 Audio (MP3 320kbps)\n🎞 Ambos (Video Máximo + MP3 Separado)" | fzf $FZF_ESTILO --header="» Selecciona el formato de descarga:")
 
 if [ -z "$FORMATO" ]; then
+    echo ""
     echo -e "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 3
     ctrl_c
     exit 1
@@ -391,6 +394,7 @@ echo -e "\n"
 OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd)/DescargasYT)\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
 
 if [ -z "$OPCION_CARPETA" ]; then
+    echo ""
     echo "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 1
     ctrl_c
     exit 1
@@ -407,6 +411,7 @@ fi
 
 # Crear la carpeta de destino si no existe (sirve para DescargasYT o la personalizada)
 if [ ! -d "$DESTINO" ]; then
+    echo ""
     echo "📁 La carpeta no existe. Creándola en: $DESTINO"
     mkdir -p "$DESTINO"
 fi
@@ -420,6 +425,7 @@ else
     PLANTILLA_NOMBRES="%(title)s.%(ext)s"
 fi
 
+echo ""
 echo -e "\n🚀 Iniciando descarga con yt-dlp..."
 echo "----------------------------------------"
 echo ""
