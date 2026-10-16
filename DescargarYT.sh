@@ -342,28 +342,16 @@ clear
 menu_info
 #!/bin/bash
 
-# Verificar que las herramientas necesarias estén instaladas
-for cmd in yt-dlp fzf ffmpeg; do
-    if ! command -v $cmd &> /dev/null; then
-        echo "❌ Error: El comando '$cmd' no está instalado. Instálalo primero."
-        exit 1
-    fi
-done
-
 # Variable con la configuración visual perfecta para FZF
 FZF_ESTILO="--height=40% --layout=reverse --border --margin=1 --inline-info"
-
-echo "========================================"
-echo "    Diseñado por SUKIGSX                "
-echo "    DESCARGADOR DE YOUTUBE PRO (FZF)    "
-echo "========================================"
 
 # 1. Solicitar la URL al usuario
 echo -n "🔗 Introduce la URL de YouTube: "
 read -r URL
 
 if [ -z "$URL" ]; then
-    echo "❌ Error: La URL no puede estar vacía."
+    echo -e "${rojo}❌ Error: La URL no puede estar vacía.${borra_colores}"; sleep 3
+    ctrl_c
     exit 1
 fi
 
@@ -372,12 +360,13 @@ OPCION_LISTA="--no-playlist"
 ES_LISTA=false
 
 if [[ "$URL" == *"list="* || "$URL" == *"playlist"* ]]; then
-    echo -e "\n[!] Se ha detectado una Lista de Reproducción."
+    echo -e "\n${amarillo}[!]${borra_colores} Se ha detectado una Lista de Reproducción en la URL introducioda."
 
     SELECCION_LISTA=$(echo -e "📦 Descargar la LISTA DE REPRODUCCIÓN COMPLETA\n🛑 Descargar ÚNICAMENTE EL VIDEO INDIVIDUAL" | fzf $FZF_ESTILO --header="» Selecciona qué deseas procesar:")
 
     if [ -z "$SELECCION_LISTA" ]; then
-        echo "❌ Operación cancelada."
+        echo -e "${amarillo}❌ Operación cancelada.${borra_colores}"; sleep 3
+        ctrl_c
         exit 1
     fi
 
@@ -392,7 +381,8 @@ echo -e "\n"
 FORMATO=$(echo -e "🎥 Video (Máxima Calidad)\n🎵 Audio (MP3 320kbps)\n🎞 Ambos (Video Máximo + MP3 Separado)" | fzf $FZF_ESTILO --header="» Selecciona el formato de descarga:")
 
 if [ -z "$FORMATO" ]; then
-    echo "❌ Operación cancelada."
+    echo -e "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 3
+    ctrl_c
     exit 1
 fi
 
@@ -401,7 +391,8 @@ echo -e "\n"
 OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd)/DescargasYT)\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
 
 if [ -z "$OPCION_CARPETA" ]; then
-    echo "❌ Operación cancelada."
+    echo "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 1
+    ctrl_c
     exit 1
 fi
 
@@ -431,6 +422,7 @@ fi
 
 echo -e "\n🚀 Iniciando descarga con yt-dlp..."
 echo "----------------------------------------"
+echo ""
 
 # 6. Ejecución de descargas limpia sin duplicar internet
 if [[ "$FORMATO" == *"🎥 Video"* ]]; then
@@ -440,12 +432,15 @@ elif [[ "$FORMATO" == *"🎵 Audio"* ]]; then
     yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
 
 elif [[ "$FORMATO" == *"🎞 Ambos"* ]]; then
+    echo ""
     echo "📥 Paso 1: Descargando el video en máxima calidad..."
     yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
 
+    echo ""
     echo -e "\n📥 Paso 2: Extrayendo el audio a MP3 desde el archivo local..."
     yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
 fi
 
+echo ""
 echo "----------------------------------------"
-echo "✅ ¡Operación completada con éxito en: $DESTINO!"
+echo "✅ ¡Operación completada con éxito en: $DESTINO!"; sleep 3
