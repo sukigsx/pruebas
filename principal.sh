@@ -460,7 +460,8 @@ Filtra por nombre o estado (PERMITIDO / DENEGADO).
 [TAB] Marcar programas para modificar | [ENTER] Confirmar")
 
 if [ -z "$seleccion" ]; then
-    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ninguna aplicación.${NC}"
+    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ninguna aplicación.${NC}"; sleep 3
+    ctrl_c
     exit 1
 fi
 
@@ -488,7 +489,8 @@ case "$opcion" in
         msg="Quitado permiso de ejecución"
         ;;
     *)
-        echo -e "${ROJO}❌ Operación cancelada.${NC}"
+        echo -e "${ROJO}❌ Operación cancelada.${NC}"; sleep 3
+        ctrl_c
         exit 1
         ;;
 esac
