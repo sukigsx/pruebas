@@ -340,6 +340,7 @@ fi
 sleep 2
 clear
 menu_info
+#!/bin/bash
 
 # Verificar que las herramientas necesarias estén instaladas
 for cmd in yt-dlp fzf ffmpeg; do
@@ -372,14 +373,14 @@ ES_LISTA=false
 
 if [[ "$URL" == *"list="* || "$URL" == *"playlist"* ]]; then
     echo -e "\n[!] Se ha detectado una Lista de Reproducción."
-    
+
     SELECCION_LISTA=$(echo -e "📦 Descargar la LISTA DE REPRODUCCIÓN COMPLETA\n🛑 Descargar ÚNICAMENTE EL VIDEO INDIVIDUAL" | fzf $FZF_ESTILO --header="» Selecciona qué deseas procesar:")
-    
+
     if [ -z "$SELECCION_LISTA" ]; then
         echo "❌ Operación cancelada."
         exit 1
     fi
-    
+
     if [[ "$SELECCION_LISTA" == *"COMPLETA"* ]]; then
         OPCION_LISTA="--yes-playlist"
         ES_LISTA=true
@@ -395,9 +396,9 @@ if [ -z "$FORMATO" ]; then
     exit 1
 fi
 
-# 4. Selección de Carpeta de Destino
+# 4. Selección de Carpeta de Destino (Modificado)
 echo -e "\n"
-OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd))\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
+OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd)/DescargasYT)\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
 
 if [ -z "$OPCION_CARPETA" ]; then
     echo "❌ Operación cancelada."
@@ -409,10 +410,11 @@ if [[ "$OPCION_CARPETA" == *"Otra carpeta"* ]]; then
     read -r RUTA_PERSONALIZADA
     DESTINO="${RUTA_PERSONALIZADA/#\~/$HOME}"
 else
-    DESTINO=$(pwd)
+    # Si elige carpeta actual, añade la subcarpeta DescargasYT
+    DESTINO="$(pwd)/DescargasYT"
 fi
 
-# Crear la carpeta de destino si no existe
+# Crear la carpeta de destino si no existe (sirve para DescargasYT o la personalizada)
 if [ ! -d "$DESTINO" ]; then
     echo "📁 La carpeta no existe. Creándola en: $DESTINO"
     mkdir -p "$DESTINO"
@@ -440,9 +442,8 @@ elif [[ "$FORMATO" == *"🎵 Audio"* ]]; then
 elif [[ "$FORMATO" == *"🎞 Ambos"* ]]; then
     echo "📥 Paso 1: Descargando el video en máxima calidad..."
     yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
-    
+
     echo -e "\n📥 Paso 2: Extrayendo el audio a MP3 desde el archivo local..."
-    # Este segundo comando extrae el audio directamente del archivo que acabamos de descargar localmente
     yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
 fi
 
