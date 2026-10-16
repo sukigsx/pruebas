@@ -373,7 +373,9 @@ Selecciona el usuario que deseas gestionar:")
 
 if [ -z "$usuario" ]; then
     echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ningún usuario.${NC}"
-    exit 1
+    echo ""
+    ctrl_c
+    #exit 1
 fi
 
 echo -e "\n${AZUL}🔍 Analizando el sistema y auditando permisos en tiempo real para: ${VERDE}$usuario${NC}"
