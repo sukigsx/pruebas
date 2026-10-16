@@ -541,7 +541,7 @@ EOF"
     fi
 done
 
-echo -e "\n${VERDE}✨ Proceso completado con éxito.${NC}\n"
+echo -e "\n${VERDE}✨ Proceso completado con éxito.${NC}\n"; sleep 3
 
 
 
