@@ -373,7 +373,7 @@ Selecciona el usuario que deseas gestionar:")
 
 if [ -z "$usuario" ]; then
     echo ""
-    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ningún usuario.${NC}"; sleep 4
+    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ningún usuario.${NC}"; sleep 3
     ctrl_c
     #exit 1
 fi
