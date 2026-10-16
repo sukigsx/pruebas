@@ -344,14 +344,13 @@ sleep 2
 clear
 menu_info
 
-echo "me paro"; read p
 # Configuración de colores para los mensajes del script y fzf
 VERDE='\033[0;32m'
 AZUL='\033[0;34m'
 AMARILLO='\033[1;33m'
 ROJO='\033[0;31m'
 NC='\033[0m' # No Color
-CLEAR='\033[2J\033[H'
+#CLEAR='\033[2J\033[H'
 
 # Estilo profesional universal
 export FZF_DEFAULT_OPTS="
