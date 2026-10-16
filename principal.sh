@@ -344,7 +344,7 @@ sleep 2
 clear
 menu_info
 
-
+echo "me paro"; read p
 # Configuración de colores para los mensajes del script y fzf
 VERDE='\033[0;32m'
 AZUL='\033[0;34m'
@@ -367,7 +367,7 @@ if ! command -v fzf &> /dev/null || ! command -v setfacl &> /dev/null; then
     exit 1
 fi
 
-#echo -e "$CLEAR"
+echo -e "$CLEAR"
 
 # 1. SELECCIÓN DE USUARIO
 usuario=$(getent passwd | awk -F: '$7 ~ /\/(bash|sh|zsh)$/ {print $1}' | sort | \
