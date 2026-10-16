@@ -350,7 +350,7 @@ AZUL='\033[0;34m'
 AMARILLO='\033[1;33m'
 ROJO='\033[0;31m'
 NC='\033[0m' # No Color
-CLEARr='\033[2J\033[H'
+CLEAR='\033[2J\033[H'
 
 # Estilo profesional universal
 export FZF_DEFAULT_OPTS="
@@ -367,7 +367,7 @@ if ! command -v fzf &> /dev/null || ! command -v setfacl &> /dev/null; then
 fi
 
 #echo -e "$CLEAR"
-
+menu_info
 # 1. SELECCIÓN DE USUARIO
 usuario=$(getent passwd | awk -F: '$7 ~ /\/(bash|sh|zsh)$/ {print $1}' | sort | \
     fzf --prompt=" 👥 USUARIO > " \
