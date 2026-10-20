@@ -4,7 +4,7 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="DescargarYT"
+export NombreScript="pruebas"
 export DescripcionDelScript="Descargar audio video y listas de reproduccion de Youtube"
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
@@ -21,7 +21,7 @@ ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
 NombreScriptActualizar="DescargarYT.sh" #contiene el nombre del script para poder actualizar desde github
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
-nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
+nombre_carpeta_repositorio="DescargarYT.sh" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
 
 # VARIABLES DE SOFTWARE NECESARIO
 # Asociamos comandos con los paquetes correspondientes.
