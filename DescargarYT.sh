@@ -23,22 +23,29 @@ NombreScriptActualizar="DescargarYT.sh" #contiene el nombre del script para pode
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
 
-#VARIABLES DE SOFTWARE NECESARIO
-# Asociamos comandos con el paquete que los contiene [comando a comprobar]="paquete a instalar"
-    declare -A requeridos
-    requeridos=(
-        #requeridos para poder actualizar
-        [git]="git"
-        [diff]="diff"
-        [sudo]="sudo"
-        [ping]="ping"
-        [xdg-user-dir]="xdg-user-dirs"
+# VARIABLES DE SOFTWARE NECESARIO
+# Asociamos comandos con los paquetes correspondientes.
+# Formato si cambian: [comando]="paquete_debian / paquete_redhat / paquete_arch"
+# Formato si son iguales: [comando]="paquete_unico"
+declare -A requeridos
+requeridos=(
+    # Requeridos para poder actualizar
+    [git]="git"
+    [diff]="diff"
+    [sudo]="sudo"
+    [ping]="iputils-ping/iputils/iputils"
+    [curl]="curl"
+    [jq]="jq"
+    [nc]="netcat-openbsd/nc/gnu-netcat"
+    [sed]="sed"
+    [ssh-copy-id]="openssh-client/openssh-clients/openssh"
+    [ssh-keygen]="openssh-client/openssh-clients/openssh"
+    [xdg-user-dir]="xdg-user-dirs"
 
-        #requeridos para el script en si
-        [fzf]="fzf"
-        [ffmpeg]="ffmpeg"
-        [yt-dlp]="yt-dlp"
-        )
+    # Requeridos para el script en si
+    [fzf]="fzf"
+    [awk]="gawk/gawk/gawk"
+)
 
 ###########################
 ## FUNCIONES PRINCIPALES ##
@@ -340,113 +347,5 @@ fi
 sleep 2
 clear
 menu_info
-#!/bin/bash
 
-# Variable con la configuración visual perfecta para FZF
-FZF_ESTILO="--height=40% --layout=reverse --border --margin=1 --inline-info"
-
-# 1. Solicitar la URL al usuario
-echo -n "🔗 Introduce la URL de YouTube: "
-read -r URL
-
-if [ -z "$URL" ]; then
-    echo ""
-    echo -e "${rojo}❌ Error: La URL no puede estar vacía.${borra_colores}"; sleep 3
-    ctrl_c
-    exit 1
-fi
-
-# 2. Detección automática de Lista de Reproducción
-OPCION_LISTA="--no-playlist"
-ES_LISTA=false
-
-if [[ "$URL" == *"list="* || "$URL" == *"playlist"* ]]; then
-    echo -e "\n${amarillo}[!]${borra_colores} Se ha detectado una Lista de Reproducción en la URL introducioda."
-
-    SELECCION_LISTA=$(echo -e "📦 Descargar la LISTA DE REPRODUCCIÓN COMPLETA\n🛑 Descargar ÚNICAMENTE EL VIDEO INDIVIDUAL" | fzf $FZF_ESTILO --header="» Selecciona qué deseas procesar:")
-
-    if [ -z "$SELECCION_LISTA" ]; then
-        echo ""
-        echo -e "${amarillo}❌ Operación cancelada.${borra_colores}"; sleep 3
-        ctrl_c
-        exit 1
-    fi
-
-    if [[ "$SELECCION_LISTA" == *"COMPLETA"* ]]; then
-        OPCION_LISTA="--yes-playlist"
-        ES_LISTA=true
-    fi
-fi
-
-# 3. Selección de Formato (Vídeo, Audio o Ambos)
-echo -e "\n"
-FORMATO=$(echo -e "🎥 Video (Máxima Calidad)\n🎵 Audio (MP3 320kbps)\n🎞 Ambos (Video Máximo + MP3 Separado)" | fzf $FZF_ESTILO --header="» Selecciona el formato de descarga:")
-
-if [ -z "$FORMATO" ]; then
-    echo ""
-    echo -e "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 3
-    ctrl_c
-    exit 1
-fi
-
-# 4. Selección de Carpeta de Destino (Modificado)
-echo -e "\n"
-OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd)/DescargasYT)\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
-
-if [ -z "$OPCION_CARPETA" ]; then
-    echo ""
-    echo "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 1
-    ctrl_c
-    exit 1
-fi
-
-if [[ "$OPCION_CARPETA" == *"Otra carpeta"* ]]; then
-    echo -n "📝 Introduce la ruta absoluta de la carpeta (ej: ~/Descargas/Musica): "
-    read -r RUTA_PERSONALIZADA
-    DESTINO="${RUTA_PERSONALIZADA/#\~/$HOME}"
-else
-    # Si elige carpeta actual, añade la subcarpeta DescargasYT
-    DESTINO="$(pwd)/DescargasYT"
-fi
-
-# Crear la carpeta de destino si no existe (sirve para DescargasYT o la personalizada)
-if [ ! -d "$DESTINO" ]; then
-    echo ""
-    echo "📁 La carpeta no existe. Creándola en: $DESTINO"
-    mkdir -p "$DESTINO"
-fi
-
-cd "$DESTINO" || exit 1
-
-# 5. Definir la plantilla de nombres inteligente según si es lista o video individual
-if [ "$ES_LISTA" = true ]; then
-    PLANTILLA_NOMBRES="%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s"
-else
-    PLANTILLA_NOMBRES="%(title)s.%(ext)s"
-fi
-
-echo ""
-echo -e "\n🚀 Iniciando descarga con yt-dlp..."
-echo "----------------------------------------"
-echo ""
-
-# 6. Ejecución de descargas limpia sin duplicar internet
-if [[ "$FORMATO" == *"🎥 Video"* ]]; then
-    yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
-
-elif [[ "$FORMATO" == *"🎵 Audio"* ]]; then
-    yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
-
-elif [[ "$FORMATO" == *"🎞 Ambos"* ]]; then
-    echo ""
-    echo "📥 Paso 1: Descargando el video en máxima calidad..."
-    yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
-
-    echo ""
-    echo -e "\n📥 Paso 2: Extrayendo el audio a MP3 desde el archivo local..."
-    yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
-fi
-
-echo ""
-echo "----------------------------------------"
-echo "✅ ¡Operación completada con éxito en: $DESTINO!"; sleep 3
+echo "empieza lo gordo"
