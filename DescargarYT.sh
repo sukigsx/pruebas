@@ -4,8 +4,8 @@
 # con export son las variables necesarias para exportar al los siguientes script
 #variables para el menu_info
 
-export NombreScript="ppsskjhlkjhlkjh"
-export DescripcionDelScript="PRUEBA DE MEJORA"
+export NombreScript="DescargarYT"
+export DescripcionDelScript="Descargar audio video y listas de reproduccion de Youtube"
 export Correo="scripts@mbbsistemas.es"
 export Web="https://repositorio.mbbsistemas.es"
 export version="1.0"
@@ -19,7 +19,7 @@ ruta_ejecucion=$(dirname "$(readlink -f "$0")") #es la ruta de ejecucion del scr
 ruta_escritorio=$(xdg-user-dir DESKTOP) #es la ruta de tu escritorio sin la / al final
 
 # VARIABLES PARA LA ACTUALIZAION CON GITHUB
-NombreScriptActualizar="principal.sh" #contiene el nombre del script para poder actualizar desde github
+NombreScriptActualizar="DescargarYT.sh" #contiene el nombre del script para poder actualizar desde github
 DireccionGithub="https://github.com/sukigsx/pruebas.git" #contiene la direccion de github para actualizar el script
 nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se clona el repo para poder eliminarla
 
@@ -36,7 +36,8 @@ nombre_carpeta_repositorio="pruebas" #poner el nombre de la carpeta cuando se cl
 
         #requeridos para el script en si
         [fzf]="fzf"
-        [setfacl]="acl"
+        [ffmpeg]="ffmpeg"
+        [yt-dlp]="yt-dlp"
         )
 
 ###########################
@@ -317,7 +318,7 @@ if [ $conexion = "SI" ]; then
         if [ $software = "SI" ]; then
             export software="SI"
             export conexion="SI"
-            export actualizado="NOOOOO"
+            export actualizado="NOOOOOoo"
             #bash $ruta_ejecucion/ #PON LA RUTA
         else
             echo ""
@@ -338,210 +339,114 @@ fi
 # EMPIEZA EL SCRIPT
 sleep 2
 clear
-#menu_info
-
-# Configuración de colores para los mensajes del script y fzf
-VERDE='\033[0;32m'
-AZUL='\033[0;34m'
-AMARILLO='\033[1;33m'
-ROJO='\033[0;31m'
-NC='\033[0m' # No Color
-CLEAR='\033[2J\033[H'
-
-# Estilo profesional universal
-export FZF_DEFAULT_OPTS="
-  --color=bg+:#262626,bg:#1c1c1c,spinner:#5fafd7,hl:#5fafd7
-  --color=fg:#bcbcbc,header:#5fafd7,info:#af87d7,pointer:#5fafd7
-  --color=marker:#5fd787,fg+:#ffffff,prompt:#5fafd7,hl+:#5fafd7
-  --reverse
-"
-
-# Verificar dependencias básicas
-if ! command -v fzf &> /dev/null || ! command -v setfacl &> /dev/null; then
-    echo -e "${ROJO}❌ Error: Se requiere 'fzf' y 'acl' (setfacl) para ejecutar este script.${NC}"
-    exit 1
-fi
-
-#echo -e "$CLEAR"
-# 1. SELECCIÓN DE USUARIO
-usuario=$(getent passwd | awk -F: '$7 ~ /\/(bash|sh|zsh)$/ {print $1}' | sort | \
-    fzf --prompt=" 👥 USUARIO > " \
-        --header="==================================================
- GESTOR DE ACL: SELECCIÓN DE USUARIO
-==================================================
-Selecciona el usuario que deseas gestionar:")
-
-if [ -z "$usuario" ]; then
-    echo ""
-    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ningún usuario.${NC}"; sleep 3
-    ctrl_c
-    #exit 1
-fi
-
-echo -e "\n${AZUL}🔍 Analizando el sistema y auditando permisos en tiempo real para: ${VERDE}$usuario${NC}"
-
-# 2. RECOPILACIÓN Y AUDITORÍA EN TIEMPO REAL
-rutas_desktop=(
-    "/usr/share/applications"
-    "/usr/local/share/applications"
-    "$HOME/.local/share/applications"
-)
-
-lista_base_apps=""
-
-while IFS= read -r f_desktop; do
-    [ -z "$f_desktop" ] && continue
-    app_name=""
-    app_exec=""
-    while IFS= read -r linea || [ -n "$linea" ]; do
-        [[ "$linea" =~ ^"["[a-zA-Z[:space:]]+"]" && "$linea" != "[Desktop Entry]" ]] && break
-        if [[ "$linea" =~ ^Name= && -z "$app_name" ]]; then
-            app_name=$(echo "$linea" | cut -d'=' -f2- | sed 's/ *$//')
-        elif [[ "$linea" =~ ^Exec= && -z "$app_exec" ]]; then
-            app_exec=$(echo "$linea" | cut -d'=' -f2-)
-            app_exec=$(echo "$app_exec" | sed -E 's/ %[^ ]+//g' | sed 's/^"//;s/"$//' | awk '{print $1}')
-        fi
-    done < "$f_desktop"
-    if [ -n "$app_name" ] && [ -n "$app_exec" ]; then
-        lista_base_apps+="$app_name|$app_exec\n"
-    fi
-done < <(find "${rutas_desktop[@]}" -name "*.desktop" 2>/dev/null)
-
-lista_base_apps=$(echo -e "$lista_base_apps" | sort -u)
-
-lista_plana_auditada=""
-while IFS= read -r app; do
-    [ -z "$app" ] && continue
-    nombre_app=$(echo "$app" | cut -d'|' -f1)
-    comando=$(echo "$app" | cut -d'|' -f2)
-
-    if [[ "$comando" == /* ]]; then
-        fichero="$comando"
-    else
-        fichero=$(command -v "$comando")
-    fi
-
-    # Si es nuestro wrapper, auditamos basándonos en el binario real oculto trasero (.real)
-    fichero_test="$fichero"
-    [ -f "${fichero}.real" ] && fichero_test="${fichero}.real"
-
-    if [ -n "$fichero" ] && [ -f "$fichero_test" ]; then
-        if sudo -u "$usuario" test -x "$fichero_test" 2>/dev/null; then
-            lista_plana_auditada+="PERMITIDO@@@$nombre_app@@@$fichero\n"
-        else
-            lista_plana_auditada+="DENEGADO@@@$nombre_app@@@$fichero\n"
-        fi
-    fi
-done <<< "$lista_base_apps"
-
-lista_columnas=$(echo -e "$lista_plana_auditada" | column -t -s "@@@")
-
-lista_final_coloreada=""
-while IFS= read -r linea; do
-    [ -z "$linea" ] && continue
-    if [[ "$linea" == PERMITIDO* ]]; then
-        resto=${linea#PERMITIDO}
-        lista_final_coloreada+="$(printf "${VERDE}PERMITIDO${NC}%s\n" "$resto")\n"
-    elif [[ "$linea" == DENEGADO* ]]; then
-        resto=${linea#DENEGADO}
-        lista_final_coloreada+="$(printf "${ROJO}DENEGADO${NC}%s\n" "$resto")\n"
-    fi
-done <<< "$lista_columnas"
-
-# 3. INTERFAZ INTERACTIVA FZF
-seleccion=$(echo -e "$lista_final_coloreada" | \
-    fzf --ansi \
-        --multi \
-        --prompt=" 🎯 SELECTOR APLICACIONES > " \
-        --header="==================================================
- ESTADO ACTUAL DE PERMISOS PARA: ${VERDE}$usuario${NC}
-==================================================
-Filtra por nombre o estado (PERMITIDO / DENEGADO).
-[TAB] Marcar programas para modificar | [ENTER] Confirmar")
-
-if [ -z "$seleccion" ]; then
-    echo -e "${ROJO}❌ Operación cancelada: No se seleccionó ninguna aplicación.${NC}"
-    exit 1
-fi
-
-binarios_a_modificar=$(echo "$seleccion" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $NF}')
-
-# 4. MENÚ DE ACCIÓN
-echo -e "$CLEAR"
-opcion=$(printf "🟢 Otorgar permisos de ejecución (+x)\n🔴 Revocar permisos de ejecución (-x)" | \
-    fzf --prompt=" 🛠️ ACCIÓN > " \
-        --header="==================================================
- SELECCIONA LA ACCIÓN DE CAMBIO (ACL) PARA: ${VERDE}$usuario${NC}
-==================================================
-¿Qué directiva deseas aplicar a los elementos seleccionados?")
-
-case "$opcion" in
-    *"Otorgar"*)
-        accion_acl="u:$usuario:rx"
-        modo_bloqueo="falso"
-        msg="Añadido permiso de ejecución"
-        ;;
-    *"Revocar"*)
-        # Le quitamos el acceso al binario trasero
-        accion_acl="u:$usuario:r-"
-        modo_bloqueo="verdadero"
-        msg="Quitado permiso de ejecución"
-        ;;
-    *)
-        echo -e "${ROJO}❌ Operación cancelada.${NC}"
-        exit 1
-        ;;
-esac
-
-# 5. APLICACIÓN DE CAMBIOS CON WRAPPER DE MENSAJE PERSONALIZADO
-echo -e "\n${AZUL}🚀 Aplicando directivas y envoltorios de seguridad...${NC}\n"
-
-echo "$binarios_a_modificar" | while IFS= read -r fichero; do
-    if [ -n "$fichero" ] && [ -f "$fichero" ]; then
-
-        # DEFINICIÓN DE RUTAS (Fichero original vs Envoltorio)
-        if [ ! -f "${fichero}.real" ]; then
-            # Es la primera vez que tocamos este software: movemos el binario original a .real
-            sudo mv "$fichero" "${fichero}.real"
-        fi
-
-        binario_real="${fichero}.real"
-
-        # Aplicamos la ACL restrictiva o permisiva sobre el ejecutable real trasero
-        sudo setfacl -m "$accion_acl" "$binario_real"
-
-        # Volvemos a escribir/actualizar el script wrapper frontal en la ruta original
-        # Este script interceptará la llamada y comprobará el acceso del usuario en vivo
-        sudo bash -c "cat << 'EOF' > $fichero
+menu_info
 #!/bin/bash
-# Envoltorio de seguridad automático para control de ACL
-BINARIO_REAL=\"$binario_real\"
 
-if test -x \"\$BINARIO_REAL\"; then
-    # El usuario actual sí está permitido -> Se lanza el software pasándole sus argumentos originales (\$@)
-    exec \"\$BINARIO_REAL\" \"\$@\"
-else
-    # El usuario actual está bloqueado por el administrador -> Mensaje personalizado
-    echo -e \"\n\033[0;31m🚫 SOFTWARE BLOQUEADO: No tienes autorización para ejecutar este programa.\033[0m\n\"
+# Variable con la configuración visual perfecta para FZF
+FZF_ESTILO="--height=40% --layout=reverse --border --margin=1 --inline-info"
 
-    # Si el usuario está ejecutando desde el escritorio gráfico, lanzamos una alerta emergente limpia
-    if [ -n \"\$DISPLAY\" ] && command -v zenity &> /dev/null; then
-        zenity --error --title=\"Control de Accesos\" --text=\"🚫 SOFTWARE BLOQUEADO:\nNo tienes autorización para usar este programa.\" --timeout=15 2>/dev/null &
-    fi
-    exit 130
+# 1. Solicitar la URL al usuario
+echo -n "🔗 Introduce la URL de YouTube: "
+read -r URL
+
+if [ -z "$URL" ]; then
+    echo ""
+    echo -e "${rojo}❌ Error: La URL no puede estar vacía.${borra_colores}"; sleep 3
+    ctrl_c
+    exit 1
 fi
-EOF"
 
-        # Hacemos que el wrapper frontal sea ejecutable de forma global para que todo el mundo pueda llamarlo
-        sudo chmod 755 "$fichero"
+# 2. Detección automática de Lista de Reproducción
+OPCION_LISTA="--no-playlist"
+ES_LISTA=false
 
-        echo -e " [${VERDE}OK${NC}] $msg -> ${AZUL}$fichero${NC}"
+if [[ "$URL" == *"list="* || "$URL" == *"playlist"* ]]; then
+    echo -e "\n${amarillo}[!]${borra_colores} Se ha detectado una Lista de Reproducción en la URL introducioda."
+
+    SELECCION_LISTA=$(echo -e "📦 Descargar la LISTA DE REPRODUCCIÓN COMPLETA\n🛑 Descargar ÚNICAMENTE EL VIDEO INDIVIDUAL" | fzf $FZF_ESTILO --header="» Selecciona qué deseas procesar:")
+
+    if [ -z "$SELECCION_LISTA" ]; then
+        echo ""
+        echo -e "${amarillo}❌ Operación cancelada.${borra_colores}"; sleep 3
+        ctrl_c
+        exit 1
     fi
-done
 
-echo -e "\n${VERDE}✨ Proceso completado con éxito.${NC}\n"
+    if [[ "$SELECCION_LISTA" == *"COMPLETA"* ]]; then
+        OPCION_LISTA="--yes-playlist"
+        ES_LISTA=true
+    fi
+fi
 
+# 3. Selección de Formato (Vídeo, Audio o Ambos)
+echo -e "\n"
+FORMATO=$(echo -e "🎥 Video (Máxima Calidad)\n🎵 Audio (MP3 320kbps)\n🎞 Ambos (Video Máximo + MP3 Separado)" | fzf $FZF_ESTILO --header="» Selecciona el formato de descarga:")
 
+if [ -z "$FORMATO" ]; then
+    echo ""
+    echo -e "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 3
+    ctrl_c
+    exit 1
+fi
 
+# 4. Selección de Carpeta de Destino (Modificado)
+echo -e "\n"
+OPCION_CARPETA=$(echo -e "📍 Carpeta actual ($(pwd)/DescargasYT)\n📁 Otra carpeta personalizada" | fzf $FZF_ESTILO --header="» Selecciona dónde deseas guardar los archivos:")
 
+if [ -z "$OPCION_CARPETA" ]; then
+    echo ""
+    echo "${amarillo}❌ Operación cancelada.${amarillo}"; sleep 1
+    ctrl_c
+    exit 1
+fi
 
+if [[ "$OPCION_CARPETA" == *"Otra carpeta"* ]]; then
+    echo -n "📝 Introduce la ruta absoluta de la carpeta (ej: ~/Descargas/Musica): "
+    read -r RUTA_PERSONALIZADA
+    DESTINO="${RUTA_PERSONALIZADA/#\~/$HOME}"
+else
+    # Si elige carpeta actual, añade la subcarpeta DescargasYT
+    DESTINO="$(pwd)/DescargasYT"
+fi
+
+# Crear la carpeta de destino si no existe (sirve para DescargasYT o la personalizada)
+if [ ! -d "$DESTINO" ]; then
+    echo ""
+    echo "📁 La carpeta no existe. Creándola en: $DESTINO"
+    mkdir -p "$DESTINO"
+fi
+
+cd "$DESTINO" || exit 1
+
+# 5. Definir la plantilla de nombres inteligente según si es lista o video individual
+if [ "$ES_LISTA" = true ]; then
+    PLANTILLA_NOMBRES="%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s"
+else
+    PLANTILLA_NOMBRES="%(title)s.%(ext)s"
+fi
+
+echo ""
+echo -e "\n🚀 Iniciando descarga con yt-dlp..."
+echo "----------------------------------------"
+echo ""
+
+# 6. Ejecución de descargas limpia sin duplicar internet
+if [[ "$FORMATO" == *"🎥 Video"* ]]; then
+    yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
+
+elif [[ "$FORMATO" == *"🎵 Audio"* ]]; then
+    yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
+
+elif [[ "$FORMATO" == *"🎞 Ambos"* ]]; then
+    echo ""
+    echo "📥 Paso 1: Descargando el video en máxima calidad..."
+    yt-dlp $OPCION_LISTA -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "$PLANTILLA_NOMBRES" "$URL"
+
+    echo ""
+    echo -e "\n📥 Paso 2: Extrayendo el audio a MP3 desde el archivo local..."
+    yt-dlp $OPCION_LISTA -x --audio-format mp3 --audio-quality 0 -o "$PLANTILLA_NOMBRES" "$URL"
+fi
+
+echo ""
+echo "----------------------------------------"
+echo "✅ ¡Operación completada con éxito en: $DESTINO!"; sleep 3
