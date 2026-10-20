@@ -356,7 +356,7 @@ else
         echo ""
     fi
 fi
-
+read p
 # EMPIEZA EL SCRIPT
 sleep 2
 clear
