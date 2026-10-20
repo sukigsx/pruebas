@@ -135,48 +135,62 @@ actualizar_script(){
     exit
 }
 
-#funcion para comprobar el software necesario
+# Funcion para comprobar el software necesario
 software_necesario(){
-#funcion software necesario
-#para que funcione necesita:
-#   conexion a internet
-#   la paleta de colores
-#   software: which
-paqueteria
-echo ""
-echo -e "${azul} Comprobando el software necesario.${borra_colores}"
-echo ""
-for comando in "${!requeridos[@]}"; do
-        command -v $comando &>/dev/null
+    # Detectamos la paqueteria y establecemos el idx_distro antes de evaluar la matriz
+    paqueteria
+
+    echo ""
+    echo -e "${azul} Comprobando el software necesario.${borra_colores}"
+    echo ""
+
+    for comando in "${!requeridos[@]}"; do
+        # Evaluamos si el valor de la matriz contiene variantes por barra '/'
+        if [[ "${requeridos[$comando]}" == *"/"* ]]; then
+            paquete_real=$(echo "${requeridos[$comando]}" | cut -d'/' -f$idx_distro)
+        else
+            paquete_real="${requeridos[$comando]}"
+        fi
+
+        command -v "$comando" &>/dev/null
         sino=$?
         contador=1
         while [ $sino -ne 0 ]; do
             if [ $contador -ge 4 ] || [ "$conexion" = "no" ]; then
                 clear
                 menu_info
-                echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
-                echo -e " ${amarillo}NO se ha podido instalar ${rojo}${requeridos[$comando]}${amarillo}.${borra_colores}"
-                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar${requeridos[$comando]}${amarillo})${borra_colores}"
-                echo -e ""
+                echo -e " ${amarillo}NO se puede ejecutar el script sin los paquetes necesarios ${rojo}$paquete_real${amarillo}.${borra_colores}"
+                echo -e " ${amarillo}NO se ha podido instalar ${rojo}$paquete_real${amarillo}.${borra_colores}"
+                echo -e " ${amarillo}Inténtelo usted con: (${borra_colores}$instalar $paquete_real${amarillo})${borra_colores}"
+                echo ""
                 echo -e "${azul} Listado de los paquetes necesarios para poder ejecutar el script:${borra_colores}"
-                for elemento in "${requeridos[@]}"; do
-                    echo -e "     $elemento"
+
+                # Listar los nombres traducidos de los paquetes para comodidad del usuario
+                for cmd_lista in "${!requeridos[@]}"; do
+                    if [[ "${requeridos[$cmd_lista]}" == *"/"* ]]; then
+                        echo -e "     $(echo "${requeridos[$cmd_lista]}" | cut -d'/' -f$idx_distro)"
+                    else
+                        echo -e "     ${requeridos[$cmd_lista]}"
+                    fi
                 done
+
                 echo ""
                 echo -e " ${rojo}No se puede ejecutar el script sin todo el software necesario.${borra_colores}"
                 echo ""
                 exit 1
             else
                 echo -e "${amarillo} Se necesita instalar ${borra_colores}$comando${amarillo} para la ejecucion del script${borra_colores}"
-                ### check_root
-                echo " Instalando ${requeridos[$comando]}. Intento $contador/3."
-                $instalar ${requeridos[$comando]} &>/dev/null
+                echo " Instalando $paquete_real. Intento $contador/3."
+
+                # Ejecución de la instalación silenciosa
+                $instalar "$paquete_real" &>/dev/null
+
                 let "contador=contador+1"
-                command -v $comando &>/dev/null
+                command -v "$comando" &>/dev/null
                 sino=$?
             fi
         done
-        echo -e " [${verde}ok${borra_colores}] $comando (${requeridos[$comando]})."
+        echo -e " [${verde}ok${borra_colores}] $comando ($paquete_real)."
     done
 
     echo ""
