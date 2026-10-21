@@ -30,21 +30,15 @@ nombre_carpeta_repositorio="plpl" #poner el nombre de la carpeta cuando se clona
 declare -A requeridos
 requeridos=(
     # Requeridos para poder actualizar
-    [git]="git"
-    [diff]="diff"
-    [sudo]="sudo"
-    [ping]="iputils-ping/iputils/iputils"
-    [curl]="curl"
-    [jq]="jq"
-    [nc]="netcat-openbsd/nc/openbsd-netcat"
-    [sed]="sed"
-    [ssh-copy-id]="openssh-client/openssh-clients/openssh"
-    [ssh-keygen]="openssh-client/openssh-clients/openssh"
-    [xdg-user-dir]="xdg-user-dirs"
+        [git]="git/git/git"
+        [diff]="diffutils/diffutils/diffutils"
+        [sudo]="sudo/sudo/sudo"
+        [ping]="iputils-ping/iputils/iputils/"
+        [xdg-user-dir]="xdg-user-dirs/xdg-user-dirs/xdg-user-dirs"
 
     # Requeridos para el script en si
-    [fzf]="fzf"
-    [awk]="gawk/gawk/gawk"
+    #[fzf]="fzf"
+    #[awk]="gawk/gawk/gawk"
 )
 ###########################
 ## FUNCIONES PRINCIPALES ##
