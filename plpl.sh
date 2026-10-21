@@ -343,6 +343,7 @@ sleep 2
 clear
 menu_info
 echo "empieza el programa"
+read p
 
 
 
